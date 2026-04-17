@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,600;1,700;1,800;1,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 5%;
+    --foreground: 40 30% 88%;
+
+    --brand-red: 0 80% 50%;
+    --brand-orange: 30 95% 50%;
+    --brand-yellow: 50 95% 55%;
+    --brand-green: 140 65% 40%;
+    --brand-blue: 215 75% 50%;
+
+    --card: 0 0% 9%;
+    --card-foreground: 45 20% 90%;
+
+    --popover: 0 0% 9%;
+    --popover-foreground: 45 20% 90%;
+
+    --primary: 30 95% 50%;
+    --primary-foreground: 0 0% 5%;
+
+    --secondary: 0 80% 50%;
+    --secondary-foreground: 45 20% 95%;
+
+    --muted: 0 0% 14%;
+    --muted-foreground: 0 0% 50%;
+
+    --accent: 215 75% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 30 95% 50%;
+
+    --radius: 0px;
+
+    --retro-purple: 270 60% 50%;
+    --retro-teal: 175 70% 45%;
+
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 45 20% 90%;
+    --sidebar-primary: 30 95% 50%;
+    --sidebar-primary-foreground: 0 0% 5%;
+    --sidebar-accent: 0 0% 14%;
+    --sidebar-accent-foreground: 45 20% 90%;
+    --sidebar-border: 0 0% 18%;
+    --sidebar-ring: 30 95% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: hsl(30 95% 50% / 0.3);
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+* {
+  cursor: none !important;
+}
