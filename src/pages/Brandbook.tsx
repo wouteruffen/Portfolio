@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import Navbar from "@/components/Navbar";
+import NavbarV2 from "@/components/v2/NavbarV2";
 import CursorEffects from "@/components/CursorEffects";
 
 const BRAND_COLORS = [
@@ -74,7 +74,7 @@ const Brandbook = () => {
     <>
       <CursorEffects />
       <div className="min-h-screen bg-background text-foreground">
-        <Navbar />
+        <NavbarV2 />
 
         {/* ═══ HERO — Cream/retro poster style ═══ */}
         <section className="relative min-h-screen flex flex-col justify-center items-center px-6 md:px-16 lg:px-24" style={{ background: CREAM_BG, ...GRID_BG }}>

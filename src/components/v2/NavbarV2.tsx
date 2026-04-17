@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Menu, X, ArrowUpRight } from "lucide-react";
-import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const NAV_ITEMS = [
@@ -162,24 +161,6 @@ const NavbarV2 = () => {
                   </motion.div>
                 ))}
               </div>
-
-              {/* V1 link */}
-              <motion.div
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                transition={{ duration: 0.4, delay: 0.15 + NAV_ITEMS.length * 0.08 }}
-                className="mt-4"
-              >
-                <Link
-                  to="/"
-                  onClick={() => setMenuOpen(false)}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 border border-white/20 text-white/60 text-sm font-display font-bold tracking-[0.15em] uppercase hover:bg-white/10 hover:text-white transition-colors"
-                >
-                  V1
-                  <ArrowUpRight size={14} />
-                </Link>
-              </motion.div>
 
               {/* Bottom section: email + socials */}
               <motion.div

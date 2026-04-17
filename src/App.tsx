@@ -4,7 +4,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
-import Index2 from "./pages/Index2.tsx";
 import ProjectWebdesign from "./pages/ProjectWebdesign.tsx";
 import ProjectBranding from "./pages/ProjectBranding.tsx";
 import ProjectProduct from "./pages/ProjectProduct.tsx";
@@ -22,7 +21,6 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/v2" element={<Index2 />} />
           <Route path="/webdesign" element={<ProjectWebdesign />} />
           <Route path="/merkidentiteit" element={<ProjectBranding />} />
           <Route path="/digitale-producten" element={<ProjectProduct />} />

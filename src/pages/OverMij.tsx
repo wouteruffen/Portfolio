@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import Navbar from "@/components/Navbar";
+import NavbarV2 from "@/components/v2/NavbarV2";
 import CursorEffects from "@/components/CursorEffects";
 import aboutPortrait from "@/assets/about-portrait.jpg";
 
@@ -24,7 +24,7 @@ const OverMijPage = () => {
     <>
       <CursorEffects />
       <div className="min-h-screen bg-background text-foreground">
-        <Navbar />
+        <NavbarV2 />
 
         {/* Hero */}
         <section className="relative min-h-[60vh] flex items-end overflow-hidden">
