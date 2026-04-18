@@ -56,7 +56,7 @@ const NavbarV2 = () => {
           <div className="hidden md:flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[hsl(140,70%,45%)] animate-pulse" />
             <div className="flex flex-col">
-              <span className="text-white text-sm font-body font-medium tracking-wide">
+              <span className="text-white text-base font-body font-medium tracking-wide">
                 Beschikbaar voor project
               </span>
               <span className="text-white/50 text-xs font-body uppercase tracking-[0.15em]">
@@ -67,7 +67,7 @@ const NavbarV2 = () => {
 
           {/* Time + timezone */}
           <div className="hidden md:flex flex-col items-center">
-            <span className="text-white text-sm font-body font-medium tabular-nums">
+            <span className="text-white text-base font-body font-medium tabular-nums">
               {currentTime}
             </span>
             <span className="text-white/50 text-xs font-body">
@@ -78,26 +78,24 @@ const NavbarV2 = () => {
           {/* CTA */}
           <a
             href="#contact"
-            className="px-6 py-3 border border-white/80 text-white text-sm font-display font-bold tracking-[0.15em] uppercase hover:bg-white hover:text-black transition-colors"
+            className="px-7 py-3 rounded-full border border-white/40 bg-white/10 text-white/75 text-base font-display font-bold tracking-[0.15em] uppercase hover:bg-white/22 hover:border-white/65 hover:text-white hover:scale-[1.03] transition-all duration-300"
           >
             Plan Gesprek
           </a>
 
           {/* Hamburger */}
           <button
-            className="flex items-center gap-2 text-white z-50 relative"
+            className="flex items-center justify-center w-12 h-12 rounded-full border border-white/40 bg-white/10 text-white/75 z-50 relative hover:bg-white/22 hover:border-white/65 hover:text-white hover:scale-[1.05] transition-all duration-300"
             onClick={() => setMenuOpen(!menuOpen)}
           >
             <AnimatePresence mode="wait">
               {menuOpen ? (
-                <motion.div key="close" className="flex items-center gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
-                  <span className="w-2 h-2 bg-[hsl(10,85%,50%)]" />
-                  <span className="text-xs font-body font-medium tracking-[0.15em] uppercase">Menu</span>
-                  <X size={20} />
+                <motion.div key="close" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+                  <X size={18} />
                 </motion.div>
               ) : (
                 <motion.div key="menu" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
-                  <Menu size={22} />
+                  <Menu size={18} />
                 </motion.div>
               )}
             </AnimatePresence>

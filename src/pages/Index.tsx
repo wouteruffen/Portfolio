@@ -34,11 +34,34 @@ const Index = () => {
         className="min-h-screen snap-y snap-mandatory overflow-y-auto h-screen"
         style={{ background: DARK_BG }}
       >
-        <NavbarV2 />
+        {/* Top gradient — improves navbar text contrast over image backgrounds */}
+      <div
+        className="fixed top-0 left-0 w-full pointer-events-none z-40"
+        style={{
+          height: "160px",
+          background: "linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0))",
+        }}
+      />
+      <NavbarV2 />
         <HeroV2 scrollContainerRef={scrollRef} />
         <AboutV2 />
         <ProjectsV2 />
         <ContactV2 />
+        <section
+          className="relative min-h-screen snap-start overflow-hidden"
+          style={{ backgroundColor: "hsl(0, 0%, 8%)" }}
+        >
+          <div
+            className="absolute inset-0 pointer-events-none opacity-[0.03]"
+            style={{
+              backgroundImage: `
+                linear-gradient(hsl(0 0% 100%) 1px, transparent 1px),
+                linear-gradient(90deg, hsl(0 0% 100%) 1px, transparent 1px)
+              `,
+              backgroundSize: "60px 60px",
+            }}
+          />
+        </section>
         <footer
           className="py-6 px-6 md:px-16 lg:px-24 snap-start"
           style={{ background: DARK_BG }}

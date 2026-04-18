@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import NavbarV2 from "@/components/v2/NavbarV2";
 import CursorEffects from "@/components/CursorEffects";
@@ -76,8 +76,18 @@ const ProjectBranding = () => {
             <p className="text-2xl md:text-4xl font-display font-extrabold mb-8">
               Tijd voor een <span className="text-secondary">sterk merk</span>?
             </p>
-            <Link to="/#contact" className="inline-block bg-primary text-primary-foreground px-8 py-4 font-display font-bold text-sm tracking-widest uppercase hover:bg-accent hover:text-accent-foreground transition-colors">
+            <Link
+              to="/#contact"
+              className="group inline-flex items-center gap-3 px-8 py-4 font-display font-bold text-base tracking-widest uppercase border border-[hsl(350,58%,36%)] bg-[hsl(350,58%,36%)] hover:bg-transparent transition-all duration-300"
+              style={{ color: "transparent", WebkitTextStroke: "1.5px rgba(255,255,255,0.88)" }}
+            >
               Start Project
+              <span
+                className="transition-transform duration-300 group-hover:translate-x-1.5"
+                style={{ color: "hsl(350,58%,36%)" }}
+              >
+                <ArrowRight size={14} />
+              </span>
             </Link>
           </motion.div>
         </section>
