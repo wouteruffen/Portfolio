@@ -59,6 +59,7 @@ const ScrollLogo = ({ scrollContainerRef }: ScrollLogoProps) => {
       style={{
         top: "80px",
         left: "96px",
+        right: "16px",
         transformOrigin: "top left",
         transform: `scale(${scale})`,
       }}
@@ -68,27 +69,34 @@ const ScrollLogo = ({ scrollContainerRef }: ScrollLogoProps) => {
           initial={{ y: "110%" }}
           animate={{ y: 0 }}
           transition={{ duration: 1, delay: 0.4, ease: [0.33, 1, 0.68, 1] }}
-          className="text-[22vw] md:text-[16vw] lg:text-[13vw] leading-[0.9] tracking-[-0.02em] text-white uppercase"
+          className="text-[18vw] md:text-[14vw] lg:text-[12vw] leading-[0.9] tracking-[-0.02em] text-white uppercase"
           style={{ fontFamily: "'Anton', sans-serif" }}
         >
           Bit &
         </motion.h1>
       </div>
-      <div className="overflow-hidden">
+      {/* paddingBottom gives the overflow-hidden wrapper room to show the lowered ® */}
+      <div className="overflow-hidden" style={{ paddingBottom: "5vw" }}>
         <motion.h1
           initial={{ y: "110%" }}
           animate={{ y: 0 }}
           transition={{ duration: 1, delay: 0.55, ease: [0.33, 1, 0.68, 1] }}
-          className="text-[22vw] md:text-[16vw] lg:text-[13vw] leading-[0.9] tracking-[-0.02em] text-white uppercase"
+          className="text-[18vw] md:text-[14vw] lg:text-[12vw] leading-[0.9] tracking-[-0.02em] text-white uppercase"
           style={{ fontFamily: "'Anton', sans-serif" }}
         >
           Beeld
-          <sup
-            className="text-[3vw] md:text-[2vw] lg:text-[1.5vw] align-super ml-1"
-            style={{ opacity: supOpacity }}
+          <span
+            className="text-[3vw] md:text-[2vw] lg:text-[1.5vw] text-white ml-[0.1em]"
+            style={{
+              display: "inline-block",
+              verticalAlign: "-0.5em",
+              opacity: supOpacity,
+              lineHeight: 1,
+              fontFamily: "'Anton', sans-serif",
+            }}
           >
             ®
-          </sup>
+          </span>
         </motion.h1>
       </div>
     </motion.div>
