@@ -203,19 +203,22 @@ const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
               <motion.div
                 key={i}
                 aria-label={skill.name}
-                className="w-14 h-14 flex items-center justify-center rounded-2xl flex-shrink-0 text-white/35"
+                className="w-14 h-14 flex items-center justify-center flex-shrink-0 text-white/50"
                 style={{
-                  borderWidth: "1px",
+                  borderWidth: "1.5px",
                   borderStyle: "solid",
-                  borderColor: "rgba(255,255,255,0.18)",
-                  backgroundColor: "rgba(0,0,0,0.32)",
+                  borderColor: "rgba(255,255,255,0.35)",
+                  backgroundColor: "rgba(0,0,0,0.35)",
+                  borderRadius: "12px",
+                  backdropFilter: "blur(6px)",
+                  WebkitBackdropFilter: "blur(6px)",
                 }}
                 whileHover={{
-                  scale: 1.08,
-                  borderColor: "rgba(255,255,255,0.42)",
-                  backgroundColor: "rgba(0,0,0,0.52)",
+                  scale: 1.05,
+                  borderColor: "rgba(255,255,255,0.7)",
+                  backgroundColor: "rgba(0,0,0,0.2)",
                 }}
-                transition={{ duration: 0.18, ease: "easeOut" }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
               >
                 {skill.svg}
               </motion.div>
