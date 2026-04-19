@@ -53,8 +53,18 @@ const NavbarV2 = () => {
       >
         <div className="flex items-center gap-6 md:gap-8">
           {/* Available for project */}
-          <div className="hidden md:flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[hsl(140,70%,45%)] animate-pulse" />
+          <div className="hidden md:flex items-center gap-4">
+            <span
+              className="rounded-full flex-shrink-0"
+              style={{
+                width: "10px",
+                height: "10px",
+                marginRight: "2px",
+                backgroundColor: "#22c55e",
+                boxShadow: "0 0 6px rgba(34,197,94,0.6), 0 0 12px rgba(34,197,94,0.4)",
+                animation: "statusPulse 1.8s ease-in-out infinite",
+              }}
+            />
             <div className="flex flex-col">
               <span className="text-white text-base font-body font-medium tracking-wide">
                 Beschikbaar voor project
