@@ -42,7 +42,7 @@ const Index = () => {
           background: "linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0))",
         }}
       />
-      <NavbarV2 />
+      <NavbarV2 scrollContainerRef={scrollRef} />
         <HeroV2 scrollContainerRef={scrollRef} />
         <AboutV2 scrollContainerRef={scrollRef} />
         <ProjectsV2 />

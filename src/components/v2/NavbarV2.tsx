@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -15,9 +15,22 @@ const SOCIALS = [
   { label: "Behance", href: "#" },
 ];
 
-const NavbarV2 = () => {
+interface NavbarV2Props {
+  scrollContainerRef?: React.RefObject<HTMLDivElement>;
+}
+
+const NavbarV2 = ({ scrollContainerRef }: NavbarV2Props) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState("");
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const container = scrollContainerRef?.current;
+    if (!container) return;
+    const onScroll = () => setScrolled(container.scrollTop > 80);
+    container.addEventListener("scroll", onScroll, { passive: true });
+    return () => container.removeEventListener("scroll", onScroll);
+  }, [scrollContainerRef]);
 
   useEffect(() => {
     const updateTime = () => {
@@ -46,10 +59,19 @@ const NavbarV2 = () => {
   return (
     <>
       <motion.nav
-        initial={{ opacity: 0 }}
-        animate={{ opacity: menuOpen ? 0 : 1, pointerEvents: menuOpen ? "none" : "auto" }}
-        transition={{ duration: 0.25, ease: "easeInOut" }}
-        className="fixed top-0 left-0 right-0 z-[60] px-6 md:px-16 lg:px-24 py-5 flex items-center justify-end"
+        initial={{ opacity: 0, paddingTop: "20px", paddingBottom: "20px" }}
+        animate={{
+          opacity: menuOpen ? 0 : 1,
+          pointerEvents: menuOpen ? "none" : "auto",
+          paddingTop: scrolled ? "10px" : "20px",
+          paddingBottom: scrolled ? "10px" : "20px",
+        }}
+        transition={{
+          opacity: { duration: 0.25, ease: "easeInOut" },
+          paddingTop: { duration: 0.45, ease: [0.33, 1, 0.68, 1] },
+          paddingBottom: { duration: 0.45, ease: [0.33, 1, 0.68, 1] },
+        }}
+        className="fixed top-0 left-0 right-0 z-[60] px-6 md:px-16 lg:px-24 flex items-center justify-end"
       >
         <div className="flex items-center gap-6 md:gap-8">
           {/* Available for project */}

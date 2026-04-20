@@ -35,15 +35,25 @@ const AboutV2 = ({ scrollContainerRef }: AboutV2Props) => {
     container: scrollContainerRef as React.RefObject<HTMLElement>,
     offset: ["start end", "start start"],
   });
-  const revealY       = useTransform(revealProgress, [0, 1],   [100, 0]);
-  const revealOpacity = useTransform(revealProgress, [0, 0.3], [0, 1]);
+  const revealY     = useTransform(revealProgress, [0, 1], [60, 0]);
+  const revealScale = useTransform(revealProgress, [0, 1], [0.97, 1]);
 
   return (
     <motion.section
       ref={sectionRef}
       id="over-ons"
       className="relative flex flex-col snap-start overflow-hidden"
-      style={{ backgroundColor: DARK_BG, y: revealY, opacity: revealOpacity, minHeight: "100vh" }}
+      style={{
+        backgroundColor: DARK_BG,
+        y: revealY,
+        scale: revealScale,
+        height: "100vh",
+        scrollMarginTop: "96px",
+        zIndex: 10,
+        borderRadius: "20px 20px 0 0",
+        boxShadow: "0 -24px 60px rgba(0,0,0,0.55)",
+        transformOrigin: "center bottom",
+      }}
     >
       {/* Grid texture */}
       <div
@@ -59,7 +69,7 @@ const AboutV2 = ({ scrollContainerRef }: AboutV2Props) => {
 
       {/* ── MARQUEE TITLE ─────────────────────────────────────────── */}
       <div
-        className="relative overflow-hidden pt-20 md:pt-28"
+        className="relative overflow-hidden pt-16 md:pt-20"
         style={{
           maskImage: "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
           WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
@@ -77,7 +87,7 @@ const AboutV2 = ({ scrollContainerRef }: AboutV2Props) => {
                   key={i}
                   className="flex items-baseline font-display font-extrabold uppercase tracking-tighter leading-none select-none"
                   style={{
-                    fontSize: "clamp(2.8rem, 6vw, 6rem)",
+                    fontSize: "clamp(2rem, 4.5vw, 4rem)",
                     color: "hsl(0 0% 92%)",
                     letterSpacing: "-0.01em",
                   }}
@@ -107,20 +117,21 @@ const AboutV2 = ({ scrollContainerRef }: AboutV2Props) => {
       <div className="relative z-10 flex-1 flex flex-col w-full px-6 md:px-16 lg:px-24 max-w-[1400px] mx-auto">
 
         {/* Portrait + text side by side */}
-        <div className="grid grid-cols-1 md:grid-cols-[1.25fr_1fr] gap-10 md:gap-16 pt-12 md:pt-14 pb-12 md:pb-16 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-[1.25fr_1fr] gap-10 md:gap-16 pt-6 md:pt-8 pb-6 md:pb-8 items-stretch">
 
           {/* Portrait — dominant, large */}
           <motion.div
-            className="order-1"
+            className="order-1 h-full"
             style={{ y: imageY }}
           >
             <motion.div
+              className="h-full"
               initial={{ opacity: 0, x: -32, scale: 0.96 }}
               whileInView={{ opacity: 1, x: 0, scale: 1 }}
               transition={{ duration: 0.85, delay: 0.08, ease: EASE }}
               viewport={{ once: false, amount: 0.08 }}
             >
-              <div className="aspect-[3/4] overflow-hidden rounded-2xl">
+              <div className="h-full overflow-hidden rounded-2xl">
                 <img
                   src={aboutPortrait}
                   alt="Portret van Wouter"
@@ -143,7 +154,7 @@ const AboutV2 = ({ scrollContainerRef }: AboutV2Props) => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.1, ease: EASE }}
               viewport={VP}
-              className="flex items-center gap-3 mb-7"
+              className="flex items-center gap-3 mb-4"
             >
               <div className="w-6 h-px" style={{ backgroundColor: ACCENT }} />
               <span
@@ -160,7 +171,7 @@ const AboutV2 = ({ scrollContainerRef }: AboutV2Props) => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.18, ease: EASE }}
               viewport={VP}
-              className="font-display font-extrabold text-white leading-[0.9] tracking-tight mb-8"
+              className="font-display font-extrabold text-white leading-[0.9] tracking-tight mb-5"
               style={{ fontSize: "clamp(3rem, 5.5vw, 5rem)" }}
             >
               Hi, I'm
@@ -174,7 +185,7 @@ const AboutV2 = ({ scrollContainerRef }: AboutV2Props) => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.28, ease: EASE }}
               viewport={VP}
-              className="space-y-4 mb-9"
+              className="space-y-3 mb-6"
             >
               <p className="font-body text-lg leading-relaxed text-white/60">
                 Ik ontwerp en ontwikkel digitale ervaringen die niet alleen goed ogen, maar ook werken.
@@ -210,7 +221,7 @@ const AboutV2 = ({ scrollContainerRef }: AboutV2Props) => {
 
         {/* ── META ROW ────────────────────────────────────────────── */}
         <div
-          className="mt-auto py-10 md:py-14"
+          className="mt-auto py-4 md:py-6"
           style={{ borderTop: "1px solid hsl(0 0% 100% / 0.08)" }}
         >
           <motion.div
@@ -237,14 +248,14 @@ const AboutV2 = ({ scrollContainerRef }: AboutV2Props) => {
 
       {/* ── BOTTOM MARQUEE ────────────────────────────────────────── */}
       <div
-        className="overflow-hidden py-5 md:py-7"
+        className="overflow-hidden py-3 md:py-4"
         style={{
           borderTop:    "1px solid hsl(0 0% 100% / 0.08)",
           borderBottom: "1px solid hsl(0 0% 100% / 0.08)",
         }}
       >
         <motion.div
-          className="flex items-center gap-14 text-xl md:text-2xl whitespace-nowrap font-display font-extrabold tracking-widest"
+          className="flex items-center gap-14 text-base md:text-lg whitespace-nowrap font-display font-extrabold tracking-widest"
           style={{ color: "hsl(0 0% 100% / 0.18)" }}
           animate={{ x: ["0%", "-50%"] }}
           transition={{ x: { duration: 35, repeat: Infinity, ease: "linear" } }}

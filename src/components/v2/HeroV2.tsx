@@ -135,10 +135,10 @@ const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
   const bgY = useTransform(heroScroll, [0, 1], [0, -80]);
   const bgScale = useTransform(heroScroll, [0, 1], [1, 0.96]);
   const darkOverlayOpacity = useTransform(heroScroll, [0, 0.65], [0, 0.88]);
-  const contentOpacity = useTransform(heroScroll, [0, 0.5], [1, 0]);
+  const contentOpacity = useTransform(heroScroll, [0, 0.35], [1, 0]);
 
   return (
-    <section ref={sectionRef} style={{ minHeight: "200vh" }} className="relative">
+    <section ref={sectionRef} style={{ minHeight: "200vh", zIndex: 1 }} className="relative">
       <div className="sticky top-0 h-screen overflow-hidden">
 
       <motion.div
