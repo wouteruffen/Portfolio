@@ -48,6 +48,7 @@ const AboutV2 = ({ scrollContainerRef }: AboutV2Props) => {
         y: revealY,
         scale: revealScale,
         height: "100vh",
+        marginTop: "-100vh",
         scrollMarginTop: "96px",
         zIndex: 10,
         borderRadius: "20px 20px 0 0",
