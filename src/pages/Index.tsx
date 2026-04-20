@@ -31,7 +31,7 @@ const Index = () => {
       <ScrollLogo scrollContainerRef={scrollRef} />
       <div
         ref={scrollRef}
-        className="min-h-screen snap-y snap-mandatory overflow-y-auto h-screen"
+        className="overflow-y-auto h-screen"
         style={{ background: DARK_BG }}
       >
         {/* Top gradient — improves navbar text contrast over image backgrounds */}
@@ -44,7 +44,7 @@ const Index = () => {
       />
       <NavbarV2 />
         <HeroV2 scrollContainerRef={scrollRef} />
-        <AboutV2 />
+        <AboutV2 scrollContainerRef={scrollRef} />
         <ProjectsV2 />
         <ContactV2 />
         <section

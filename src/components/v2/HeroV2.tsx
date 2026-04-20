@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import heroPortrait from "@/assets/hero-portrait.jpg";
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 
 interface HeroV2Props {
   scrollContainerRef?: React.RefObject<HTMLDivElement>;
@@ -11,7 +11,7 @@ const SKILLS = [
   {
     name: "React",
     svg: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-6 h-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-8 h-8">
         <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none" />
         <ellipse cx="12" cy="12" rx="10" ry="3.6" />
         <ellipse cx="12" cy="12" rx="10" ry="3.6" transform="rotate(60 12 12)" />
@@ -22,7 +22,7 @@ const SKILLS = [
   {
     name: "Vite",
     svg: (
-      <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
         <path d="M12.5 2.5L5 15h5.5l-1 6.5L20 9h-6z" />
       </svg>
     ),
@@ -30,7 +30,7 @@ const SKILLS = [
   {
     name: "JavaScript",
     svg: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-6 h-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-8 h-8">
         <rect x="3" y="3" width="18" height="18" rx="2.5" />
         <path d="M14 9v5.5a2.5 2.5 0 0 1-5 0M9 9v8" strokeLinecap="round" />
       </svg>
@@ -39,7 +39,7 @@ const SKILLS = [
   {
     name: "TypeScript",
     svg: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-6 h-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-8 h-8">
         <rect x="3" y="3" width="18" height="18" rx="2.5" />
         <path d="M8 12h8M12 9v8" strokeLinecap="round" />
       </svg>
@@ -48,7 +48,7 @@ const SKILLS = [
   {
     name: "HTML",
     svg: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-6 h-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-8 h-8">
         <path d="M4 4l1.4 15L12 21l6.6-2L21 4H4z" strokeLinejoin="round" />
         <path d="M8 9h8M8.8 14h6.5l-.5 3.5-3 .8-3-.8-.2-1.5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
@@ -57,7 +57,7 @@ const SKILLS = [
   {
     name: "CSS",
     svg: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-6 h-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-8 h-8">
         <path d="M4 4l1.4 15L12 21l6.6-2L21 4H4z" strokeLinejoin="round" />
         <path d="M8 9h8l-.6 4H9l.3 2.5 2.7.8 2.7-.8.2-1.5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
@@ -66,7 +66,7 @@ const SKILLS = [
   {
     name: "Figma",
     svg: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-6 h-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-8 h-8">
         <path d="M9 3h4.5a3 3 0 0 1 0 6H9V3z" />
         <path d="M9 9h3a3 3 0 1 1 0 6H9V9z" />
         <path d="M9 15v-3a3 3 0 1 0 0 6V15z" />
@@ -77,7 +77,7 @@ const SKILLS = [
   {
     name: "Git",
     svg: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-6 h-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-8 h-8">
         <circle cx="7" cy="18" r="2" />
         <circle cx="7" cy="6" r="2" />
         <circle cx="17" cy="10" r="2" />
@@ -88,7 +88,7 @@ const SKILLS = [
   {
     name: "Firebase",
     svg: (
-      <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
         <path d="M6 20.5L9 8l4 6 3.5-10L20 20.5H6z" fillOpacity="0.5" />
         <path d="M6 20.5l5.5-13 2.5 4L16.5 5 20 20.5H6z" />
       </svg>
@@ -97,7 +97,7 @@ const SKILLS = [
   {
     name: "Framer",
     svg: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-6 h-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-8 h-8">
         <path d="M5 4h14v8H5V4zM5 12h7l7 9H5v-9z" strokeLinejoin="round" />
       </svg>
     ),
@@ -105,7 +105,7 @@ const SKILLS = [
   {
     name: "Photoshop",
     svg: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-6 h-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-8 h-8">
         <rect x="3" y="3" width="18" height="18" rx="3" />
         <path d="M8 16V8h3.5a3 3 0 0 1 0 5.5H8" strokeLinecap="round" />
       </svg>
@@ -114,7 +114,7 @@ const SKILLS = [
   {
     name: "After Effects",
     svg: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-6 h-6">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" className="w-8 h-8">
         <rect x="3" y="3" width="18" height="18" rx="3" />
         <path d="M7 16l2.5-8 2.5 8M8.2 13.5h3.6M17 8v8" strokeLinecap="round" />
       </svg>
@@ -123,51 +123,50 @@ const SKILLS = [
 ];
 
 const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
-  const [darkOverlay, setDarkOverlay] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [hoveredSkillIndex, setHoveredSkillIndex] = useState<number | null>(null);
 
-  useEffect(() => {
-    const container = scrollContainerRef?.current;
-    if (!container) return;
+  const { scrollYProgress: heroScroll } = useScroll({
+    target: sectionRef,
+    container: scrollContainerRef as React.RefObject<HTMLElement>,
+    offset: ["start start", "end start"],
+  });
 
-    const handleScroll = () => {
-      const scrollTop = container.scrollTop;
-      const windowHeight = window.innerHeight;
-      const p = Math.min(scrollTop / (windowHeight * 0.6), 1);
-      setDarkOverlay(p);
-    };
-
-    container.addEventListener("scroll", handleScroll, { passive: true });
-    return () => container.removeEventListener("scroll", handleScroll);
-  }, [scrollContainerRef]);
+  const bgY = useTransform(heroScroll, [0, 1], [0, -80]);
+  const bgScale = useTransform(heroScroll, [0, 1], [1, 0.96]);
+  const darkOverlayOpacity = useTransform(heroScroll, [0, 0.65], [0, 0.88]);
+  const contentOpacity = useTransform(heroScroll, [0, 0.5], [1, 0]);
 
   return (
-    <section className="h-screen relative overflow-hidden snap-start">
-      {/* Full-screen background photo */}
+    <section ref={sectionRef} style={{ minHeight: "200vh" }} className="relative">
+      <div className="sticky top-0 h-screen overflow-hidden">
+
       <motion.div
         initial={{ scale: 1.1 }}
         animate={{ scale: 1 }}
         transition={{ duration: 1.8, ease: [0.33, 1, 0.68, 1] }}
         className="absolute inset-0"
       >
-        <img
-          src={heroPortrait}
-          alt="Creative portrait"
-          className="w-full h-full object-cover"
-          width={960}
-          height={1200}
-        />
+        <motion.div
+          style={{ y: bgY, scale: bgScale, height: "110%", top: "-5%", width: "100%", position: "absolute" }}
+        >
+          <img
+            src={heroPortrait}
+            alt="Creative portrait"
+            className="w-full h-full object-cover"
+            width={960}
+            height={1200}
+          />
+        </motion.div>
       </motion.div>
 
-      {/* Base dark gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
 
-      {/* Scroll-based darkening overlay */}
-      <div
-        className="absolute inset-0 bg-black transition-none"
-        style={{ opacity: darkOverlay * 0.85 }}
+      <motion.div
+        className="absolute inset-0 bg-black"
+        style={{ opacity: darkOverlayOpacity }}
       />
 
-      {/* Grid overlay */}
       <div
         className="absolute inset-0 opacity-[0.07]"
         style={{
@@ -179,51 +178,126 @@ const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
         }}
       />
 
+      <motion.div className="absolute inset-0" style={{ opacity: contentOpacity }}>
+
       {/* Right-side vertical icon marquee */}
-      {/* Vertical icon marquee — inset-y-0 + flex justify-center = true vertical centre */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1, delay: 1.4 }}
-        className="absolute inset-y-0 right-6 md:right-12 lg:right-16 z-10 flex flex-col items-center justify-center pointer-events-none"
+        className="absolute inset-y-0 z-10 flex flex-col items-center justify-center pointer-events-none"
+        style={{ right: "3vw" }}
       >
+        {/*
+          Outer div is 300px wide so the maskImage coordinate space covers the
+          label area. Icons are right-aligned inside so their visual position is
+          unchanged (right edge still 12px from the column's right edge = 3vw
+          from the viewport). The label lives in the ~200px left space — fully
+          within the mask area and fully within inner div's overflow:hidden box,
+          so nothing clips it.
+
+          Each icon and its label share ONE motion wrapper. whileHover scale
+          applied to the wrapper moves icon + label as a single unit with zero
+          lag — CSS transform inheritance is instantaneous, no rAF needed.
+        */}
         <div
-          className="overflow-hidden w-16 h-[46vh] pointer-events-auto"
           style={{
-            maskImage: "linear-gradient(to bottom, transparent 0%, black 16%, black 84%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 16%, black 84%, transparent 100%)",
+            height: "50vh",
+            width: "300px",
+            maskImage: "linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
+            overflow: "visible",
           }}
         >
-          <motion.div
-            animate={{ y: ["-50%", "0%"] }}
-            transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
-            className="flex flex-col gap-5"
+          <div
+            className="pointer-events-auto"
+            style={{
+              overflow: "hidden",
+              height: "100%",
+              width: "100%",
+              paddingLeft: "12px",
+              paddingRight: "12px",
+              boxSizing: "border-box",
+            }}
           >
-            {[...SKILLS, ...SKILLS].map((skill, i) => (
-              <motion.div
-                key={i}
-                aria-label={skill.name}
-                className="w-14 h-14 flex items-center justify-center flex-shrink-0 text-white/50"
-                style={{
-                  borderWidth: "1.5px",
-                  borderStyle: "solid",
-                  borderColor: "rgba(255,255,255,0.35)",
-                  backgroundColor: "rgba(0,0,0,0.35)",
-                  borderRadius: "12px",
-                  backdropFilter: "blur(6px)",
-                  WebkitBackdropFilter: "blur(6px)",
-                }}
-                whileHover={{
-                  scale: 1.05,
-                  borderColor: "rgba(255,255,255,0.7)",
-                  backgroundColor: "rgba(0,0,0,0.2)",
-                }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-              >
-                {skill.svg}
-              </motion.div>
-            ))}
-          </motion.div>
+            <motion.div
+              animate={{ y: ["-50%", "0%"] }}
+              transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+              className="flex flex-col items-end gap-7"
+            >
+              {[...SKILLS, ...SKILLS].map((skill, i) => {
+                const hovered = hoveredSkillIndex === i;
+                return (
+                  <motion.div
+                    key={i}
+                    style={{ position: "relative" }}
+                    onMouseEnter={() => setHoveredSkillIndex(i)}
+                    onMouseLeave={() => setHoveredSkillIndex(null)}
+                    animate={{ scale: hovered ? 1.08 : 1 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                  >
+                    {/* Skill icon button */}
+                    <div
+                      aria-label={skill.name}
+                      className="w-16 h-16 flex items-center justify-center flex-shrink-0 text-white/65"
+                      style={{
+                        borderWidth: "1.5px",
+                        borderStyle: "solid",
+                        borderColor: hovered ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.3)",
+                        backgroundColor: hovered ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.4)",
+                        borderRadius: "14px",
+                        backdropFilter: "blur(8px)",
+                        WebkitBackdropFilter: "blur(8px)",
+                        boxShadow: hovered ? "0 0 8px rgba(255,255,255,0.25)" : "none",
+                        transition: "border-color 0.2s ease-out, background-color 0.2s ease-out, box-shadow 0.2s ease-out",
+                      }}
+                    >
+                      {skill.svg}
+                    </div>
+
+                    {/*
+                      Label is position:absolute inside the same motion wrapper.
+                      It shares the wrapper's transform, so when scale: 1.08 fires
+                      the label moves with the icon at exactly the same time —
+                      no polling, no rAF, no lag.
+                      top:0 bottom:0 + alignItems:center handles vertical centering
+                      without a transform, so Framer Motion's x-slide animation
+                      doesn't conflict with any translateY.
+                    */}
+                    <AnimatePresence>
+                      {hovered && (
+                        <motion.span
+                          key="label"
+                          initial={{ opacity: 0, x: 12 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: 12 }}
+                          transition={{ duration: 0.32, ease: [0.25, 1, 0.5, 1] }}
+                          style={{
+                            position: "absolute",
+                            right: "calc(100% + 14px)",
+                            top: 0,
+                            bottom: 0,
+                            display: "flex",
+                            alignItems: "center",
+                            pointerEvents: "none",
+                            whiteSpace: "nowrap",
+                            fontSize: "13px",
+                            letterSpacing: "0.08em",
+                            textTransform: "uppercase",
+                            color: "rgba(255,255,255,0.85)",
+                            fontFamily: "Inter, sans-serif",
+                            fontWeight: 600,
+                          }}
+                        >
+                          {skill.name}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+          </div>
         </div>
       </motion.div>
 
@@ -254,7 +328,6 @@ const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
           <span className="hidden md:inline">#04 Creative Direction</span>
         </div>
 
-        {/* START PROJECT button */}
         <a
           href="#contact"
           className="group inline-flex items-center gap-4 px-16 py-5 rounded-full border-[3px] border-[#E03535] bg-[#E03535]/10 text-[#E03535] font-display font-bold text-2xl tracking-widest uppercase transition-all duration-300 hover:bg-[#E03535] hover:text-black hover:border-[#E03535]"
@@ -265,6 +338,9 @@ const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
           </span>
         </a>
       </motion.div>
+
+      </motion.div>
+      </div>
     </section>
   );
 };

@@ -47,8 +47,8 @@ const NavbarV2 = () => {
     <>
       <motion.nav
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 1.4 }}
+        animate={{ opacity: menuOpen ? 0 : 1, pointerEvents: menuOpen ? "none" : "auto" }}
+        transition={{ duration: 0.25, ease: "easeInOut" }}
         className="fixed top-0 left-0 right-0 z-[60] px-6 md:px-16 lg:px-24 py-5 flex items-center justify-end"
       >
         <div className="flex items-center gap-6 md:gap-8">
@@ -123,7 +123,7 @@ const NavbarV2 = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="fixed inset-0 z-30 bg-black/60"
+              className="fixed inset-0 z-[65] bg-black/60"
               onClick={() => setMenuOpen(false)}
             />
 
@@ -133,7 +133,7 @@ const NavbarV2 = () => {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ duration: 0.5, ease: [0.33, 1, 0.68, 1] }}
-              className="fixed top-0 right-0 bottom-0 z-40 w-full md:w-[380px] bg-[hsl(0,0%,6%)] flex flex-col"
+              className="fixed top-0 right-0 bottom-0 z-[70] w-full md:w-[460px] bg-[hsl(0,0%,6%)] flex flex-col"
             >
               {/* Close button area */}
               <div className="flex items-center justify-between px-8 py-5">
