@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+// @ts-ignore
+import "@fontsource/anton";
 
 const NAV_ITEMS = [
   { label: "Home", href: "#", active: true },
@@ -17,9 +19,11 @@ const SOCIALS = [
 
 interface NavbarV2Props {
   scrollContainerRef?: React.RefObject<HTMLDivElement>;
+  /** True only after About has fully snapped into place — drives the solid background. */
+  isAboutActive?: boolean;
 }
 
-const NavbarV2 = ({ scrollContainerRef }: NavbarV2Props) => {
+const NavbarV2 = ({ scrollContainerRef, isAboutActive = false }: NavbarV2Props) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState("");
   const [scrolled, setScrolled] = useState(false);
@@ -27,7 +31,9 @@ const NavbarV2 = ({ scrollContainerRef }: NavbarV2Props) => {
   useEffect(() => {
     const container = scrollContainerRef?.current;
     if (!container) return;
-    const onScroll = () => setScrolled(container.scrollTop > 80);
+    const onScroll = () => {
+      setScrolled(container.scrollTop > 80);
+    };
     container.addEventListener("scroll", onScroll, { passive: true });
     return () => container.removeEventListener("scroll", onScroll);
   }, [scrollContainerRef]);
@@ -64,15 +70,51 @@ const NavbarV2 = ({ scrollContainerRef }: NavbarV2Props) => {
           opacity: menuOpen ? 0 : 1,
           pointerEvents: menuOpen ? "none" : "auto",
           paddingTop: scrolled ? "10px" : "20px",
-          paddingBottom: scrolled ? "10px" : "20px",
+          // Expand bottom padding when About is active so the solid bar
+          // reaches 80px tall (10 + 48px content + 22), fully enclosing the logo.
+          paddingBottom: isAboutActive ? "22px" : (scrolled ? "10px" : "20px"),
+          backgroundColor: isAboutActive ? "hsl(0, 0%, 6%)" : "rgba(0,0,0,0)",
+          borderBottom: isAboutActive ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(255,255,255,0)",
         }}
         transition={{
           opacity: { duration: 0.25, ease: "easeInOut" },
           paddingTop: { duration: 0.45, ease: [0.33, 1, 0.68, 1] },
           paddingBottom: { duration: 0.45, ease: [0.33, 1, 0.68, 1] },
+          backgroundColor: { duration: 0.5, ease: "easeInOut" },
+          borderBottom: { duration: 0.5, ease: "easeInOut" },
         }}
         className="fixed top-0 left-0 right-0 z-[60] px-6 md:px-16 lg:px-24 flex items-center justify-end"
       >
+        {/* Logo — absolutely positioned left, only visible when About is active */}
+        <AnimatePresence>
+          {isAboutActive && (
+            <motion.a
+              href="#"
+              initial={{ opacity: 0, x: -12 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -12 }}
+              transition={{ duration: 0.35, ease: [0.33, 1, 0.68, 1] }}
+              className="absolute left-6 md:left-16 lg:left-24 text-white uppercase leading-[0.9] select-none"
+              style={{ fontFamily: "'Anton', sans-serif", letterSpacing: "-0.02em" }}
+            >
+              <div style={{ fontSize: "clamp(1.3rem, 2vw, 1.8rem)" }}>Bit &amp;</div>
+              <div style={{ fontSize: "clamp(1.3rem, 2vw, 1.8rem)" }}>
+                Beeld
+                <span
+                  style={{
+                    fontSize: "clamp(0.35rem, 0.55vw, 0.5rem)",
+                    verticalAlign: "super",
+                    marginLeft: "0.1em",
+                    fontFamily: "'Anton', sans-serif",
+                  }}
+                >
+                  ®
+                </span>
+              </div>
+            </motion.a>
+          )}
+        </AnimatePresence>
+
         <div className="flex items-center gap-6 md:gap-8">
           {/* Available for project */}
           <div className="hidden md:flex items-center gap-4">

@@ -36,8 +36,8 @@ const ScrollLogo = ({ scrollContainerRef }: ScrollLogoProps) => {
       initial={{ opacity: 0, scale: 1, y: 0 }}
       animate={{
         opacity: 1,
-        scale: isSmall ? 0.11 : 1,
-        y: isSmall ? -52 : 0,
+        scale: isSmall ? 0.10 : 1,
+        y: isSmall ? -62 : 0,
       }}
       transition={
         isSmall

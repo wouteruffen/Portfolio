@@ -17,6 +17,7 @@ const DARK_BG = "hsl(0, 0%, 8%)";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [aboutActive, setAboutActive] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -42,10 +43,10 @@ const Index = () => {
           background: "linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0))",
         }}
       />
-      <NavbarV2 scrollContainerRef={scrollRef} />
+      <NavbarV2 scrollContainerRef={scrollRef} isAboutActive={aboutActive} />
         <HeroV2 scrollContainerRef={scrollRef} />
-        <AboutV2 scrollContainerRef={scrollRef} />
-        <ProjectsV2 />
+        <AboutV2 scrollContainerRef={scrollRef} onSnap={setAboutActive} />
+        <ProjectsV2 scrollContainerRef={scrollRef} />
         <ContactV2 />
         <section
           className="relative min-h-screen snap-start overflow-hidden"

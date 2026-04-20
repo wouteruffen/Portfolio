@@ -1,9 +1,10 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import aboutPortrait from "@/assets/about-portrait.jpg";
 import React from "react";
+import { smoothScrollTo } from "@/lib/smoothScroll";
 
 const DARK_BG = "hsl(0, 0%, 8%)";
 const ACCENT  = "hsl(350, 58%, 46%)";
@@ -19,43 +20,81 @@ const META = [
 
 interface AboutV2Props {
   scrollContainerRef?: React.RefObject<HTMLDivElement>;
+  /** Called with true when About snaps into place; false when scrolled back past the reset threshold. */
+  onSnap?: (active: boolean) => void;
 }
 
-const AboutV2 = ({ scrollContainerRef }: AboutV2Props) => {
+const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
+  // outerRef: the tall scroll-tracked wrapper. Tracking this (not the sticky
+  // inner) gives accurate revealProgress even when the section is pinned.
+  const outerRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
+  const hasSnapped = useRef(false);
 
+  // Portrait parallax uses the outer wrapper so sticky doesn't distort values.
   const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
+    target: outerRef,
+    container: scrollContainerRef as React.RefObject<HTMLElement>,
+    offset: ["start end", "end end"],
   });
   const imageY = useTransform(scrollYProgress, [0, 1], [40, -40]);
 
   const { scrollYProgress: revealProgress } = useScroll({
-    target: sectionRef,
+    target: outerRef,
     container: scrollContainerRef as React.RefObject<HTMLElement>,
     offset: ["start end", "start start"],
   });
-  const revealY     = useTransform(revealProgress, [0, 1], [60, 0]);
-  const revealScale = useTransform(revealProgress, [0, 1], [0.97, 1]);
+  const revealY = useTransform(
+    revealProgress,
+    [0, 0.40, 0.60, 0.65, 1],
+    [100, 55, 8, 0, 0],
+  );
+  const revealRadius = useTransform(
+    revealProgress,
+    [0, 0.60, 0.65, 1],
+    ["20px 20px 0px 0px", "20px 20px 0px 0px", "0px 0px 0px 0px", "0px 0px 0px 0px"],
+  );
+
+  useMotionValueEvent(revealProgress, "change", (latest) => {
+    if (latest >= 0.65 && !hasSnapped.current) {
+      hasSnapped.current = true;
+      // Notify parent that About is now the active snapped section.
+      onSnap?.(true);
+      const container = scrollContainerRef?.current;
+      const outer = outerRef.current;
+      if (container && outer) {
+        const targetY = outer.getBoundingClientRect().top + container.scrollTop;
+        smoothScrollTo(container, targetY);
+      }
+    }
+    if (latest < 0.25) {
+      hasSnapped.current = false;
+      // Notify parent that the user has scrolled back to the Hero.
+      onSnap?.(false);
+    }
+  });
 
   return (
-    <motion.section
-      ref={sectionRef}
-      id="over-ons"
-      className="relative flex flex-col snap-start overflow-hidden"
-      style={{
-        backgroundColor: DARK_BG,
-        y: revealY,
-        scale: revealScale,
-        height: "100vh",
-        marginTop: "-100vh",
-        scrollMarginTop: "96px",
-        zIndex: 10,
-        borderRadius: "20px 20px 0 0",
-        boxShadow: "0 -24px 60px rgba(0,0,0,0.55)",
-        transformOrigin: "center bottom",
-      }}
+    // 200vh outer wrapper keeps the sticky inner section pinned at the top
+    // while Projects slides up — mirrors exactly how Hero stays under About.
+    <div
+      ref={outerRef}
+      style={{ height: "200vh", marginTop: "-100vh", position: "relative", zIndex: 42 }}
     >
+      <motion.section
+        ref={sectionRef}
+        id="over-ons"
+        className="relative flex flex-col overflow-hidden"
+        style={{
+          backgroundColor: DARK_BG,
+          y: revealY,
+          borderRadius: revealRadius,
+          height: "100vh",
+          position: "sticky",
+          top: 0,
+          boxShadow: "0 -24px 60px rgba(0,0,0,0.55)",
+        }}
+      >
       {/* Grid texture */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.03]"
@@ -69,17 +108,25 @@ const AboutV2 = ({ scrollContainerRef }: AboutV2Props) => {
       />
 
       {/* ── MARQUEE TITLE ─────────────────────────────────────────── */}
+      {/* marginTop pushes the inverted band below the navbar so it never overlaps.
+          The light background starts here, not behind the navbar. */}
       <div
-        className="relative overflow-hidden pt-16 md:pt-20"
+        className="overflow-hidden"
         style={{
-          maskImage: "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
-          WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
+          marginTop: "80px",
+          backgroundColor: "hsl(0, 0%, 95%)",
+          paddingTop: "14px",
+          paddingBottom: "14px",
         }}
       >
         <motion.div
           className="flex items-baseline whitespace-nowrap w-max"
           animate={{ x: ["0%", "-50%"] }}
           transition={{ duration: 38, repeat: Infinity, ease: "linear" }}
+          style={{
+            maskImage: "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
+          }}
         >
           {[0, 1].map((half) => (
             <span key={half} className="flex items-baseline">
@@ -89,7 +136,7 @@ const AboutV2 = ({ scrollContainerRef }: AboutV2Props) => {
                   className="flex items-baseline font-display font-extrabold uppercase tracking-tighter leading-none select-none"
                   style={{
                     fontSize: "clamp(2rem, 4.5vw, 4rem)",
-                    color: "hsl(0 0% 92%)",
+                    color: "hsl(0 0% 8%)",
                     letterSpacing: "-0.01em",
                   }}
                 >
@@ -118,7 +165,7 @@ const AboutV2 = ({ scrollContainerRef }: AboutV2Props) => {
       <div className="relative z-10 flex-1 flex flex-col w-full px-6 md:px-16 lg:px-24 max-w-[1400px] mx-auto">
 
         {/* Portrait + text side by side */}
-        <div className="grid grid-cols-1 md:grid-cols-[1.25fr_1fr] gap-10 md:gap-16 pt-6 md:pt-8 pb-6 md:pb-8 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-[1.25fr_1fr] gap-10 md:gap-16 pt-10 md:pt-14 pb-6 md:pb-8 items-stretch">
 
           {/* Portrait — dominant, large */}
           <motion.div
@@ -274,6 +321,7 @@ const AboutV2 = ({ scrollContainerRef }: AboutV2Props) => {
         </motion.div>
       </div>
     </motion.section>
+    </div>
   );
 };
 
