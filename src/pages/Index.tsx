@@ -47,7 +47,7 @@ const Index = () => {
         <HeroV2 scrollContainerRef={scrollRef} />
         <AboutV2 scrollContainerRef={scrollRef} onSnap={setAboutActive} />
         <ProjectsV2 scrollContainerRef={scrollRef} />
-        <ContactV2 />
+        <ContactV2 scrollContainerRef={scrollRef} />
         <section
           className="relative min-h-screen snap-start overflow-hidden"
           style={{ backgroundColor: "hsl(0, 0%, 8%)" }}

@@ -11,6 +11,66 @@ const ACCENT  = "#FF4A2A";
 const EASE    = [0.22, 1, 0.36, 1] as const;
 const VP      = { once: false, amount: 0.1 } as const;
 
+const SKILLS = [
+  {
+    label: "Figma",
+    icon: (
+      <svg viewBox="0 0 24 36" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <rect x="2" y="2"  width="10" height="14" rx="5" opacity="0.7" />
+        <rect x="12" y="2" width="10" height="14" rx="5" opacity="0.5" />
+        <rect x="2" y="16" width="10" height="14" rx="5" opacity="0.5" />
+        <circle cx="17" cy="23" r="5" opacity="1" />
+        <rect x="2" y="30" width="10" height="6"  rx="5" opacity="0.35" />
+      </svg>
+    ),
+  },
+  {
+    label: "HTML",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.5 0l2 22.6L12 24l8.5-1.4L22.5 0H1.5zm16.4 6.9H7l.3 3.2h10.3l-.9 10.2L12 21.5l-4.7-1.2-.3-3.9h3.1l.2 2 1.7.5 1.7-.5.2-2.5H7.3L6.5 6.9h11l-.6 3.4z" />
+      </svg>
+    ),
+  },
+  {
+    label: "CSS",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.5 0l2 22.6L12 24l8.5-1.4L22.5 0H1.5zm14.1 16.9l-.4 4.3-3.2.9-3.2-.9-.2-2.7H11l.1 1.4 1.1.3 1.1-.3.1-1.6H7.9l-.9-9.5h10l-.3 3.2H9.9l.2 2h7.2l-.7 3.9z" />
+      </svg>
+    ),
+  },
+  {
+    label: "JavaScript",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="24" height="24" rx="2" opacity="0.15" />
+        <path d="M2 2h20v20H2V2zm11.3 14.5c.3.5.6.9 1.3.9.5 0 .9-.3.9-.7 0-.5-.4-.7-1-.9l-.4-.2c-1-.4-1.6-1-1.6-2.1 0-1.1.8-1.9 2.1-1.9.9 0 1.6.3 2.1 1.1l-1.1.7c-.3-.5-.5-.6-.9-.6-.4 0-.7.3-.7.6 0 .4.3.6.8.8l.4.2c1.1.5 1.8 1 1.8 2.2 0 1.3-1 2.1-2.4 2.1-1.3 0-2.2-.6-2.6-1.5l1.3-.7zm-5.4.2c.2.4.4.7.9.7.4 0 .7-.2.7-.8V9.8h1.5v6.8c0 1.4-.8 2-2 2-1.1 0-1.7-.6-2-1.3l.9-.6z" />
+      </svg>
+    ),
+  },
+  {
+    label: "React",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.1" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="12" cy="12" rx="10" ry="4.5" />
+        <ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(60 12 12)" />
+        <ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(120 12 12)" />
+        <circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
+    label: "TypeScript",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="24" height="24" rx="2" opacity="0.15" />
+        <path d="M2 2h20v20H2V2zm11 9.5h-3V10H18v1.5h-3V18h-2v-6.5zm-5.5 5.1c.3.5.8.8 1.4.8.5 0 .9-.2.9-.6 0-.5-.5-.6-1.2-.9l-.3-.1c-1-.4-1.6-.9-1.6-2 0-1 .8-1.8 2.1-1.8.9 0 1.6.3 2.1 1l-1 .7c-.2-.4-.5-.6-.9-.6-.4 0-.6.2-.6.5 0 .4.3.5.8.7l.3.1c1.2.5 1.8 1 1.8 2.1 0 1.2-.9 2-2.4 2-1.2 0-2.1-.6-2.5-1.4l1.1-.5z" />
+      </svg>
+    ),
+  },
+];
+
 const META = [
   { label: "Locatie",  value: "Amsterdam, NL"     },
   { label: "Focus",    value: "Web Design & Dev"   },
@@ -256,55 +316,32 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
 
       </div>
 
-      {/* ── BOTTOM MARQUEE (red) ──────────────────────────────────── */}
+      {/* ── SKILLS / ICONS ROW ───────────────────────────────────── */}
       <div
-        className="overflow-hidden"
-        style={{
-          backgroundColor: "#FF4A2A",
-          paddingTop: "14px",
-          paddingBottom: "14px",
-          borderTop: "2px solid #000",
-          borderBottom: "2px solid #000",
-        }}
+        className="w-full px-6 md:px-16 lg:px-24 max-w-[1400px] mx-auto pb-6 md:pb-8"
+        style={{ borderTop: "1px solid hsl(0 0% 100% / 0.08)", paddingTop: "20px" }}
       >
         <motion.div
-          className="flex items-baseline whitespace-nowrap w-max"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ duration: 38, repeat: Infinity, ease: "linear" }}
-          style={{
-            maskImage: "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
-          }}
+          className="flex items-center justify-center gap-8 md:gap-12 flex-wrap"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.15, ease: EASE }}
+          viewport={VP}
         >
-          {[0, 1].map((half) => (
-            <span key={half} className="flex items-baseline">
-              {Array.from({ length: 6 }, (_, i) => (
-                <span
-                  key={i}
-                  className="flex items-baseline font-display font-extrabold uppercase tracking-tighter leading-none select-none"
-                  style={{
-                    fontSize: "clamp(2rem, 4.5vw, 4rem)",
-                    color: "#000000",
-                    letterSpacing: "-0.01em",
-                  }}
-                >
-                  OVER MIJ
-                  <span
-                    className="mx-6 md:mx-10 flex-shrink-0"
-                    style={{
-                      display: "inline-block",
-                      width: "6px",
-                      height: "6px",
-                      backgroundColor: "#000",
-                      transform: "rotate(45deg)",
-                      verticalAlign: "middle",
-                      marginBottom: "2px",
-                    }}
-                    aria-hidden
-                  />
-                </span>
-              ))}
-            </span>
+          {SKILLS.map((skill) => (
+            <div
+              key={skill.label}
+              className="group flex flex-col items-center gap-2 cursor-default"
+            >
+              <div
+                className="w-8 h-8 text-white/35 transition-all duration-300 group-hover:text-white/80 group-hover:scale-110"
+              >
+                {skill.icon}
+              </div>
+              <span className="text-[9px] tracking-[0.3em] font-body uppercase text-white/20 transition-colors duration-300 group-hover:text-white/50">
+                {skill.label}
+              </span>
+            </div>
           ))}
         </motion.div>
       </div>
