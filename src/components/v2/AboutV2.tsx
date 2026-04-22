@@ -7,7 +7,7 @@ import React from "react";
 import { smoothScrollTo } from "@/lib/smoothScroll";
 
 const DARK_BG = "hsl(0, 0%, 8%)";
-const ACCENT  = "hsl(350, 58%, 46%)";
+const ACCENT  = "#FF4A2A";
 const EASE    = [0.22, 1, 0.36, 1] as const;
 const VP      = { once: false, amount: 0.1 } as const;
 
@@ -107,65 +107,25 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
         }}
       />
 
-      {/* ── MARQUEE TITLE ─────────────────────────────────────────── */}
-      {/* marginTop pushes the inverted band below the navbar so it never overlaps.
-          The light background starts here, not behind the navbar. */}
-      <div
-        className="overflow-hidden"
-        style={{
-          marginTop: "80px",
-          backgroundColor: "hsl(0, 0%, 95%)",
-          paddingTop: "14px",
-          paddingBottom: "14px",
-        }}
-      >
-        <motion.div
-          className="flex items-baseline whitespace-nowrap w-max"
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{ duration: 38, repeat: Infinity, ease: "linear" }}
-          style={{
-            maskImage: "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
-            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
-          }}
+      {/* ── STATIC TITLE ──────────────────────────────────────────── */}
+      <div className="w-full text-center px-6 md:px-16 lg:px-24" style={{ marginTop: "92px" }}>
+        <motion.h2
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="font-display font-extrabold text-white/80 uppercase leading-[0.9] tracking-[-0.02em] text-[14vw] md:text-[10vw] lg:text-[8vw]"
         >
-          {[0, 1].map((half) => (
-            <span key={half} className="flex items-baseline">
-              {Array.from({ length: 6 }, (_, i) => (
-                <span
-                  key={i}
-                  className="flex items-baseline font-display font-extrabold uppercase tracking-tighter leading-none select-none"
-                  style={{
-                    fontSize: "clamp(2rem, 4.5vw, 4rem)",
-                    color: "hsl(0 0% 8%)",
-                    letterSpacing: "-0.01em",
-                  }}
-                >
-                  OVER MIJ
-                  <span
-                    className="mx-6 md:mx-10 flex-shrink-0"
-                    style={{
-                      display: "inline-block",
-                      width: "6px",
-                      height: "6px",
-                      backgroundColor: ACCENT,
-                      transform: "rotate(45deg)",
-                      verticalAlign: "middle",
-                      marginBottom: "2px",
-                    }}
-                    aria-hidden
-                  />
-                </span>
-              ))}
-            </span>
-          ))}
-        </motion.div>
+          OVER MIJ
+        </motion.h2>
       </div>
 
       {/* ── MAIN CONTENT: portrait left-offset + text ─────────────── */}
       <div className="relative z-10 flex-1 flex flex-col w-full px-6 md:px-16 lg:px-24 max-w-[1400px] mx-auto">
 
-        {/* Portrait + text side by side */}
-        <div className="grid grid-cols-1 md:grid-cols-[1.25fr_1fr] gap-10 md:gap-16 pt-10 md:pt-14 pb-6 md:pb-8 items-stretch">
+        {/* Portrait + text — centered in remaining space */}
+        <div className="flex-1 flex flex-col justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-[1.25fr_1fr] gap-10 md:gap-16 py-8 md:py-10 items-stretch">
 
           {/* Portrait — dominant, large */}
           <motion.div
@@ -267,9 +227,11 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
           </div>
         </div>
 
+        </div>{/* end centering wrapper */}
+
         {/* ── META ROW ────────────────────────────────────────────── */}
         <div
-          className="mt-auto py-4 md:py-6"
+          className="py-4 md:py-6"
           style={{ borderTop: "1px solid hsl(0 0% 100% / 0.08)" }}
         >
           <motion.div
@@ -294,28 +256,54 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
 
       </div>
 
-      {/* ── BOTTOM MARQUEE ────────────────────────────────────────── */}
+      {/* ── BOTTOM MARQUEE (red) ──────────────────────────────────── */}
       <div
-        className="overflow-hidden py-3 md:py-4"
+        className="overflow-hidden"
         style={{
-          borderTop:    "1px solid hsl(0 0% 100% / 0.08)",
-          borderBottom: "1px solid hsl(0 0% 100% / 0.08)",
+          backgroundColor: "#FF4A2A",
+          paddingTop: "14px",
+          paddingBottom: "14px",
+          borderTop: "2px solid #000",
+          borderBottom: "2px solid #000",
         }}
       >
         <motion.div
-          className="flex items-center gap-14 text-base md:text-lg whitespace-nowrap font-display font-extrabold tracking-widest"
-          style={{ color: "hsl(0 0% 100% / 0.18)" }}
+          className="flex items-baseline whitespace-nowrap w-max"
           animate={{ x: ["0%", "-50%"] }}
-          transition={{ x: { duration: 35, repeat: Infinity, ease: "linear" } }}
+          transition={{ duration: 38, repeat: Infinity, ease: "linear" }}
+          style={{
+            maskImage: "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%)",
+          }}
         >
-          {Array.from({ length: 10 }, (_, i) => (
-            <span key={i} className="flex items-center gap-14 shrink-0 select-none">
-              HI, I'M WOUTER
-              <span className="w-2 h-2 rotate-45 inline-block flex-shrink-0" style={{ backgroundColor: ACCENT }} />
-              CREATIVE DEVELOPER
-              <span className="w-2 h-2 rotate-45 inline-block flex-shrink-0" style={{ backgroundColor: ACCENT }} />
-              DESIGN & DEVELOPMENT
-              <span className="w-2 h-2 rotate-45 inline-block flex-shrink-0" style={{ backgroundColor: ACCENT }} />
+          {[0, 1].map((half) => (
+            <span key={half} className="flex items-baseline">
+              {Array.from({ length: 6 }, (_, i) => (
+                <span
+                  key={i}
+                  className="flex items-baseline font-display font-extrabold uppercase tracking-tighter leading-none select-none"
+                  style={{
+                    fontSize: "clamp(2rem, 4.5vw, 4rem)",
+                    color: "#000000",
+                    letterSpacing: "-0.01em",
+                  }}
+                >
+                  OVER MIJ
+                  <span
+                    className="mx-6 md:mx-10 flex-shrink-0"
+                    style={{
+                      display: "inline-block",
+                      width: "6px",
+                      height: "6px",
+                      backgroundColor: "#000",
+                      transform: "rotate(45deg)",
+                      verticalAlign: "middle",
+                      marginBottom: "2px",
+                    }}
+                    aria-hidden
+                  />
+                </span>
+              ))}
             </span>
           ))}
         </motion.div>
