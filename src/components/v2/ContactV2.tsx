@@ -90,7 +90,7 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
             transition={{ duration: 0.8, ease: EASE }}
             className="flex items-start gap-2"
           >
-            <h2 className="text-[14vw] md:text-[10vw] lg:text-[8vw] leading-[0.9] tracking-[-0.02em] text-foreground/80 uppercase text-center font-display font-extrabold">
+            <h2 className="text-[12vw] md:text-[8.5vw] lg:text-[6.5vw] leading-[0.9] tracking-[-0.02em] text-foreground/80 uppercase text-center font-display font-extrabold">
               Contact
             </h2>
             <span className="text-foreground/40 text-xs md:text-sm font-body mt-2 md:mt-4">(Mail)</span>

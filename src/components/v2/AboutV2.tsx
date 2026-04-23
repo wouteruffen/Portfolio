@@ -174,7 +174,7 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="font-display font-extrabold text-white/80 uppercase leading-[0.9] tracking-[-0.02em] text-[14vw] md:text-[10vw] lg:text-[8vw]"
+          className="font-display font-extrabold text-white/80 uppercase leading-[0.9] tracking-[-0.02em] text-[12vw] md:text-[8.5vw] lg:text-[6.5vw]"
         >
           OVER MIJ
         </motion.h2>
