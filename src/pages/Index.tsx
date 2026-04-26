@@ -10,6 +10,7 @@ import HeroV2 from "@/components/v2/HeroV2";
 import AboutV2 from "@/components/v2/AboutV2";
 import ProjectsV2 from "@/components/v2/ProjectsV2";
 import ContactV2 from "@/components/v2/ContactV2";
+import FooterV2 from "@/components/v2/FooterV2";
 import LoadingScreen from "@/components/LoadingScreen";
 import ScrollLogo from "@/components/v2/ScrollLogo";
 
@@ -48,32 +49,7 @@ const Index = () => {
         <AboutV2 scrollContainerRef={scrollRef} onSnap={setAboutActive} />
         <ProjectsV2 scrollContainerRef={scrollRef} />
         <ContactV2 scrollContainerRef={scrollRef} />
-        <section
-          className="relative min-h-screen snap-start overflow-hidden"
-          style={{ backgroundColor: "hsl(0, 0%, 8%)" }}
-        >
-          <div
-            className="absolute inset-0 pointer-events-none opacity-[0.03]"
-            style={{
-              backgroundImage: `
-                linear-gradient(hsl(0 0% 100%) 1px, transparent 1px),
-                linear-gradient(90deg, hsl(0 0% 100%) 1px, transparent 1px)
-              `,
-              backgroundSize: "60px 60px",
-            }}
-          />
-        </section>
-        <footer
-          className="py-6 px-6 md:px-16 lg:px-24 snap-start"
-          style={{ background: DARK_BG }}
-        >
-          <div className="h-px bg-foreground/10 mb-4" />
-          <div className="flex items-center justify-between">
-            <p className="text-foreground/30 text-sm font-body">
-              © 2026 Studio Bit & Beeld. Alle rechten voorbehouden.
-            </p>
-          </div>
-        </footer>
+        <FooterV2 scrollContainerRef={scrollRef} />
       </div>
     </>
   );
