@@ -168,13 +168,13 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
       />
 
       {/* ── STATIC TITLE ──────────────────────────────────────────── */}
-      <div className="w-full text-center px-6 md:px-16 lg:px-24" style={{ marginTop: "92px" }}>
+      <div className="w-full text-center px-6 md:px-16 lg:px-24" style={{ paddingTop: "100px" }}>
         <motion.h2
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="font-display font-extrabold text-white/80 uppercase leading-[0.9] tracking-[-0.02em] text-[12vw] md:text-[8.5vw] lg:text-[6.5vw]"
+          className="font-display font-extrabold text-white/80 uppercase leading-[0.9] tracking-[-0.02em] text-[10vw] md:text-[7vw] lg:text-[5.5vw]"
         >
           OVER MIJ
         </motion.h2>

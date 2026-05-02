@@ -1,9 +1,8 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { useRef } from "react";
 import React from "react";
 import { Instagram, Linkedin, Github, Mail } from "lucide-react";
 
-// hsl(14 95% 52%) — vivid orange-red between --secondary (red) and --primary (orange)
 const FOOTER_BG = "hsl(14, 95%, 52%)";
 
 const SOCIALS = [
@@ -15,24 +14,34 @@ const SOCIALS = [
 
 interface FooterV2Props {
   scrollContainerRef?: React.RefObject<HTMLDivElement>;
+  // When provided, footer runs in "fixed" mode: position:fixed at viewport
+  // bottom, y driven from "100%" (hidden below) to "0%" (fully visible).
+  // This keeps the footer visible even after the Contact sticky pin exits.
+  revealProgress?: MotionValue<number>;
 }
 
-const FooterV2 = ({ scrollContainerRef }: FooterV2Props) => {
+const FooterV2 = ({ scrollContainerRef, revealProgress }: FooterV2Props) => {
   const footerRef = useRef<HTMLElement>(null);
 
+  // Standalone scroll tracking — used only when revealProgress is absent.
   const { scrollYProgress } = useScroll({
     target: footerRef,
     container: scrollContainerRef as React.RefObject<HTMLElement>,
-    // End at "start 0.7": animation completes when footer's top is at 70 % of the
-    // viewport — which is reached BEFORE the page hits max scroll. At that point
-    // scrollYProgress > 1, Framer Motion clamps it to 1, and y/opacity lock at
-    // their final values. This avoids the boundary-measurement bug where Framer
-    // Motion fires one last event with a near-zero value at the scroll limit.
     offset: ["start end", "start 0.7"],
   });
 
-  const y       = useTransform(scrollYProgress, [0, 1], [80, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  // Always call both transforms (React hooks must not be conditional).
+  // standalone: subtle 80 → 0 slide driven by own scroll position
+  const standaloneY       = useTransform(scrollYProgress, [0, 1], [80, 0]);
+  const standaloneOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+  // fixed mode: y from footer's full height below viewport → 0 (at bottom)
+  const fixedY       = useTransform(revealProgress ?? scrollYProgress, [0, 1], ["100%", "0%"]);
+  const fixedOpacity = useTransform(revealProgress ?? scrollYProgress, [0, 0.25], [0, 1]);
+
+  const isFixed = !!revealProgress;
+  const y       = isFixed ? fixedY       : standaloneY;
+  const opacity = isFixed ? fixedOpacity : standaloneOpacity;
 
   return (
     <motion.footer
@@ -41,8 +50,14 @@ const FooterV2 = ({ scrollContainerRef }: FooterV2Props) => {
         y,
         opacity,
         backgroundColor: FOOTER_BG,
-        zIndex: 47,
-        position: "relative",
+        // Fixed mode: pinned to viewport bottom, immune to sticky/scroll changes.
+        // The scroll container (overflow-y:auto) has no transform/filter, so
+        // position:fixed correctly references the viewport even from inside it.
+        position: isFixed ? "fixed" : "relative",
+        bottom:   isFixed ? 0 : undefined,
+        left:     isFixed ? 0 : undefined,
+        right:    isFixed ? 0 : undefined,
+        zIndex:   isFixed ? 48 : 47,
         boxShadow: "0 -24px 60px rgba(0,0,0,0.55)",
       }}
       className="px-6 md:px-16 lg:px-24 pt-10 pb-8 min-h-[32vh] flex flex-col justify-between overflow-hidden"

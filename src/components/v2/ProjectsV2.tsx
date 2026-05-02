@@ -172,10 +172,10 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
         {/* ── Sticky title ──────────────────────────────────────────────── */}
         <div
           className="relative z-10 w-full text-center px-6 md:px-16 lg:px-24 flex-shrink-0"
-          style={{ paddingTop: "88px", paddingBottom: "20px" }}
+          style={{ paddingTop: "100px", paddingBottom: "20px" }}
         >
-          <h2 className="text-[11vw] md:text-[7.5vw] lg:text-[6vw] leading-[0.9] tracking-[-0.02em] text-white/80 uppercase font-display font-extrabold">
-            Wat wij doen
+          <h2 className="text-[10vw] md:text-[7vw] lg:text-[5.5vw] leading-[0.9] tracking-[-0.02em] text-white/80 uppercase font-display font-extrabold">
+            WAT IK DOE
           </h2>
         </div>
 

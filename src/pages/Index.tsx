@@ -10,7 +10,6 @@ import HeroV2 from "@/components/v2/HeroV2";
 import AboutV2 from "@/components/v2/AboutV2";
 import ProjectsV2 from "@/components/v2/ProjectsV2";
 import ContactV2 from "@/components/v2/ContactV2";
-import FooterV2 from "@/components/v2/FooterV2";
 import LoadingScreen from "@/components/LoadingScreen";
 import ScrollLogo from "@/components/v2/ScrollLogo";
 
@@ -49,7 +48,6 @@ const Index = () => {
         <AboutV2 scrollContainerRef={scrollRef} onSnap={setAboutActive} />
         <ProjectsV2 scrollContainerRef={scrollRef} />
         <ContactV2 scrollContainerRef={scrollRef} />
-        <FooterV2 scrollContainerRef={scrollRef} />
       </div>
     </>
   );
