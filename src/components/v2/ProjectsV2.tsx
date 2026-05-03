@@ -1,42 +1,56 @@
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent, useSpring, easeInOut } from "framer-motion";
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import projectWeb from "@/assets/project-web.jpg";
 import projectBrand from "@/assets/project-brand.jpg";
 import projectProduct from "@/assets/project-product.jpg";
+import projectCampagne from "@/assets/hero-branding.jpg";
 import React from "react";
 import { smoothScrollTo } from "@/lib/smoothScroll";
 // @ts-ignore
 import "@fontsource/anton";
 
 const DARK_BG   = "hsl(0, 0%, 8%)";
-// Each card is 54 vh tall.
-// Panel area ≈ 85 vh → active card (0–54 vh) + next card peek (54–85 vh, 57 % visible).
-// Total visible at any moment: ~1.57 cards.
+const ACCENT    = "#FF4A2A";
 const CARD_H_VH = 54;
 
 const projects = [
   {
     title: "Webdesign & Development",
-    description: "Moderne, snelle websites die converteren. Van concept tot lancering.",
-    tools: ["React", "HTML / CSS", "Figma", "CMS Integratie"],
+    description:
+      "Moderne, snelle websites die niet alleen mooi zijn maar ook converteren en resultaat opleveren. Van strategie en design tot volledige front-end implementatie met de nieuwste technologieën.",
+    highlight: "Performance-first",
+    tools: ["React", "TypeScript", "Figma", "CMS"],
     image: projectWeb,
     href: "/webdesign",
   },
   {
     title: "Merkidentiteit",
-    description: "Visuele identiteiten die blijven hangen. Logo's, huisstijlen en brandbooks.",
-    tools: ["Figma", "Illustrator", "Branding", "Brand Guidelines"],
+    description:
+      "Visuele identiteiten die herkenbaar blijven en een krachtig verhaal vertellen. Van logo-ontwerp en kleurpalet tot complete huisstijl en uitgebreid brandbook.",
+    highlight: "Van concept tot brandbook",
+    tools: ["Figma", "Illustrator", "Branding", "Strategie"],
     image: projectBrand,
     href: "/merkidentiteit",
   },
   {
     title: "Digitale Producten",
-    description: "Apps en platformen die complexe problemen simpel maken.",
+    description:
+      "Apps en platformen die complexe processen vereenvoudigen. Gebruiksvriendelijk, schaalbaar en gebouwd voor de lange termijn — van wireframe tot werkend product.",
+    highlight: "End-to-end",
     tools: ["React", "TypeScript", "UI/UX", "Prototyping"],
     image: projectProduct,
     href: "/digitale-producten",
+  },
+  {
+    title: "Campagne Design",
+    description:
+      "Opvallende visuele campagnes die aandacht trekken en een boodschap scherp overbrengen. Print, social media en digitale uitingen — consistent en op maat gemaakt.",
+    highlight: "Art Direction",
+    tools: ["Photoshop", "Illustrator", "Art Direction", "Campagne"],
+    image: projectCampagne,
+    href: "/merkidentiteit",
   },
 ];
 
@@ -48,7 +62,6 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
   const outerRef   = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const hasSnapped = useRef(false);
-  // Only React state kept: the progress-indicator dot, updated at 2 thresholds total.
   const [progressIndex, setProgressIndex] = useState(0);
 
   // ── Section reveal (unchanged) ────────────────────────────────────────────
@@ -81,67 +94,88 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
   });
 
   // ── Scroll progress that drives all card motion ────────────────────────────
-  // 0 = outer top at viewport top (right after section snap)
-  // 1 = outer bottom at viewport top (500 vh later)
   const { scrollYProgress: contentProgress } = useScroll({
     target: outerRef,
     container: scrollContainerRef as React.RefObject<HTMLElement>,
     offset: ["start start", "end start"],
   });
 
-  // Lightweight UI update — two threshold crossings, not per-frame state change.
+  // Raw progress drives the UI counter only — stays pixel-accurate, no lag.
   useMotionValueEvent(contentProgress, "change", (v) => {
-    const idx = v < 0.2 ? 0 : v < 0.4 ? 1 : 2;
+    const idx = v < 0.2 ? 0 : v < 0.4 ? 1 : v < 0.6 ? 2 : 3;
     setProgressIndex(prev => (prev === idx ? prev : idx));
   });
 
-  // ── Y positions — phase 1 only (entrance from below, locks at 0) ─────────────
+  // Spring-smoothed progress for all card motion.
+  const smoothProgress = useSpring(contentProgress, {
+    stiffness: 200,
+    damping: 45,
+    mass: 0.8,
+  });
+
+  // ── Y positions — entrance from below, locks at 0 ────────────────────────
   //
-  // Each card rises from below into its presentation position (y = 0) and then
-  // STOPS. y never goes negative. The horizontal exit (phase 2) is a separate
-  // transform that only starts after y has fully settled at 0.
-  // This prevents any diagonal motion: the two phases never overlap.
-  //
-  // Card 0: already at y = 0 on mount — no vertical travel needed.
-  // Card 1: 54 vh → 0 during progress 0–0.20, then locked at 0.
-  // Card 2: 108 vh → 54 vh (peek slot) → 0 during progress 0–0.40, locked at 0.
-  //         The two-step path keeps card 2 peeking while card 1 is active.
-  const c1YRaw = useTransform(contentProgress, [0,    0.20, 1], [CARD_H_VH,       0, 0]);
-  const c2YRaw = useTransform(contentProgress, [0, 0.20, 0.40, 1], [2*CARD_H_VH, CARD_H_VH, 0, 0]);
+  // Card i enters while the previous card is still settling.
+  // The "staircase" motion: all cards behind the active one shift up
+  // one slot each time a new card enters.
+  const c1YRaw = useTransform(
+    smoothProgress,
+    [0,    0.20, 1],
+    [CARD_H_VH,       0, 0],
+    { ease: easeInOut },
+  );
+  const c2YRaw = useTransform(
+    smoothProgress,
+    [0, 0.20, 0.40, 1],
+    [2*CARD_H_VH, CARD_H_VH, 0, 0],
+    { ease: easeInOut },
+  );
+  const c3YRaw = useTransform(
+    smoothProgress,
+    [0, 0.20, 0.40, 0.60, 1],
+    [3*CARD_H_VH, 2*CARD_H_VH, CARD_H_VH, 0, 0],
+    { ease: easeInOut },
+  );
   const c1Y = useTransform(c1YRaw, v => `${v}vh`);
   const c2Y = useTransform(c2YRaw, v => `${v}vh`);
-  // Card 0 y is always "0px" — applied as a static style value, not a MotionValue.
+  const c3Y = useTransform(c3YRaw, v => `${v}vh`);
 
-  // ── X exits — phase 2 only, starts strictly after y has reached 0 ──────────
+  // ── X exits — eased slide-out, starts strictly after y has settled ────────
   //
-  // Card 0: y reaches 0 at mount. Settle 0–0.06 (30 vh), exit 0.06–0.25.
-  // Card 1: y reaches 0 at progress 0.20. Settle 0.20–0.26 (30 vh), exit 0.26–0.44.
-  // Card 2: no horizontal exit (last card, held during dwell).
-  //
-  // The exit ranges begin at or after the y completion point, guaranteeing
-  // that y = 0 is locked before any x movement starts.
-  const c0X = useTransform(contentProgress, [0.06, 0.25], ["0%", "-110%"]);
-  const c1X = useTransform(contentProgress, [0.26, 0.44], ["0%", "-110%"]);
+  // Pattern: card i exits [i*0.20 + 0.06, i*0.20 + 0.25]
+  // Card 3 is the last — it never exits.
+  const c0X = useTransform(smoothProgress, [0.06, 0.25], ["0%", "-110%"], { ease: easeInOut });
+  const c1X = useTransform(smoothProgress, [0.26, 0.44], ["0%", "-110%"], { ease: easeInOut });
+  const c2X = useTransform(smoothProgress, [0.46, 0.64], ["0%", "-110%"], { ease: easeInOut });
 
-  // ── Opacity ───────────────────────────────────────────────────────────────
-  // Peeking/waiting cards are dimmed to signal "coming next".
-  // Opacity milestones are aligned with the y completion points.
-  const c0Opacity = useTransform(contentProgress, [0,    0.08, 0.28], [1,    1,    0.1]);
-  const c1Opacity = useTransform(contentProgress, [0,    0.20, 0.36, 0.48], [0.62, 1,    1,   0.1]);
-  const c2Opacity = useTransform(contentProgress, [0, 0.20, 0.40, 1], [0.45, 0.62, 1, 1]);
+  // ── Opacity — extended ranges for softer crossfades ─────────────────────
+  const c0Opacity = useTransform(smoothProgress, [0,    0.08, 0.30], [1,    1,    0]);
+  const c1Opacity = useTransform(smoothProgress, [0,    0.20, 0.38, 0.50], [0.62, 1,    1,   0]);
+  const c2Opacity = useTransform(smoothProgress, [0, 0.20, 0.40, 0.54, 0.70], [0.45, 0.62, 1, 1, 0]);
+  const c3Opacity = useTransform(smoothProgress, [0, 0.20, 0.40, 0.60, 1], [0.30, 0.45, 0.62, 1, 1]);
 
-  // ── Image focus — scale + blur relax as each card reaches y = 0 ──────────
-  const c1ImgScale = useTransform(contentProgress, [0,    0.20], [0.96, 1]);
-  const c2ImgScale = useTransform(contentProgress, [0.20, 0.40], [0.96, 1]);
-  const c1BlurRaw  = useTransform(contentProgress, [0,    0.20], [3,    0]);
-  const c2BlurRaw  = useTransform(contentProgress, [0.20, 0.40], [3,    0]);
+  // ── Image focus — scale + blur ease as each card arrives ─────────────────
+  const c1ImgScale = useTransform(smoothProgress, [0,    0.20], [0.96, 1], { ease: easeInOut });
+  const c2ImgScale = useTransform(smoothProgress, [0.20, 0.40], [0.96, 1], { ease: easeInOut });
+  const c3ImgScale = useTransform(smoothProgress, [0.40, 0.60], [0.96, 1], { ease: easeInOut });
+  const c1BlurRaw  = useTransform(smoothProgress, [0,    0.20], [3,    0], { ease: easeInOut });
+  const c2BlurRaw  = useTransform(smoothProgress, [0.20, 0.40], [3,    0], { ease: easeInOut });
+  const c3BlurRaw  = useTransform(smoothProgress, [0.40, 0.60], [3,    0], { ease: easeInOut });
   const c1Filter   = useTransform(c1BlurRaw, v => `blur(${v}px)`);
   const c2Filter   = useTransform(c2BlurRaw, v => `blur(${v}px)`);
+  const c3Filter   = useTransform(c3BlurRaw, v => `blur(${v}px)`);
+
+  const yFor      = (i: number) => [undefined, c1Y, c2Y, c3Y][i] ?? "0px";
+  const xFor      = (i: number) => [c0X, c1X, c2X, undefined][i] ?? "0%";
+  const opFor     = (i: number) => [c0Opacity, c1Opacity, c2Opacity, c3Opacity][i];
+  const scaleFor  = (i: number) => [1, c1ImgScale, c2ImgScale, c3ImgScale][i];
+  const filterFor = (i: number) => ["blur(0px)", c1Filter, c2Filter, c3Filter][i];
 
   return (
+    // 4 cards: 650 vh gives each card ~130 vh of action + generous dwell on last card
     <div
       ref={outerRef}
-      style={{ height: "500vh", marginTop: "-100vh", position: "relative", zIndex: 44 }}
+      style={{ height: "650vh", marginTop: "-100vh", position: "relative", zIndex: 44 }}
     >
       <motion.section
         ref={sectionRef}
@@ -190,18 +224,19 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
               className="absolute inset-x-0 top-0 flex items-center px-6 md:px-16 lg:px-24"
               style={{
                 height:  `${CARD_H_VH}vh`,
-                y:       i === 0 ? "0px" : i === 1 ? c1Y : c2Y,
-                x:       i === 0 ? c0X : i === 1 ? c1X : "0%",
-                opacity: i === 0 ? c0Opacity : i === 1 ? c1Opacity : c2Opacity,
+                y:       yFor(i),
+                x:       xFor(i),
+                opacity: opFor(i),
               }}
             >
               <div className="grid md:grid-cols-2 gap-6 md:gap-14 items-center w-full max-w-6xl mx-auto">
 
-                {/* Text block */}
+                {/* ── Text block ──────────────────────────────────────── */}
                 <div>
-                  <div className="flex items-center gap-4 mb-4">
+                  {/* Index row */}
+                  <div className="flex items-center gap-4 mb-3">
                     <span
-                      className="text-[10px] tracking-[0.45em] font-body uppercase"
+                      className="text-[10px] tracking-[0.45em] font-body uppercase font-medium"
                       style={{ color: "hsl(0 0% 100% / 0.22)" }}
                     >
                       0{i + 1}
@@ -212,6 +247,18 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
                     />
                   </div>
 
+                  {/* Highlight label — same pattern as AboutV2 "Introduction" */}
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-5 h-px" style={{ backgroundColor: ACCENT }} />
+                    <span
+                      className="text-[10px] tracking-[0.4em] font-body font-medium uppercase"
+                      style={{ color: ACCENT }}
+                    >
+                      {proj.highlight}
+                    </span>
+                  </div>
+
+                  {/* Title */}
                   <h3
                     className="font-display font-extrabold text-white uppercase leading-[0.88] tracking-tight mb-3"
                     style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)" }}
@@ -219,61 +266,87 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
                     {proj.title}
                   </h3>
 
-                  <p className="font-body text-white/55 text-sm leading-relaxed mb-4 max-w-[38ch]">
+                  {/* Description */}
+                  <p className="font-body text-white/65 text-sm leading-relaxed mb-4 max-w-[42ch]">
                     {proj.description}
                   </p>
 
-                  <p
-                    className="font-body uppercase mb-5"
-                    style={{
-                      fontSize: "10px",
-                      letterSpacing: "0.3em",
-                      color: "hsl(0 0% 100% / 0.28)",
-                    }}
-                  >
-                    {proj.tools.join("  ·  ")}
-                  </p>
+                  {/* Tool chips */}
+                  <div className="flex flex-wrap gap-1.5 mb-5">
+                    {proj.tools.map(tool => (
+                      <span
+                        key={tool}
+                        className="font-body text-[9px] uppercase tracking-[0.18em] px-2.5 py-1 rounded-full"
+                        style={{
+                          color: "hsl(0 0% 100% / 0.42)",
+                          backgroundColor: "hsl(0 0% 100% / 0.05)",
+                          border: "1px solid hsl(0 0% 100% / 0.10)",
+                        }}
+                      >
+                        {tool}
+                      </span>
+                    ))}
+                  </div>
 
+                  {/* CTA button */}
                   <Link
                     to={proj.href}
-                    className="group inline-flex items-center gap-3 font-display font-bold text-xs tracking-[0.22em] uppercase transition-all duration-300"
-                    style={{ color: "hsl(0 0% 100% / 0.55)" }}
+                    className="group inline-flex items-center gap-3 font-display font-bold text-xs tracking-[0.18em] uppercase px-6 py-3 transition-opacity duration-300 hover:opacity-80"
+                    style={{
+                      backgroundColor: ACCENT,
+                      color: "white",
+                    }}
                   >
-                    <span className="group-hover:text-white transition-colors duration-300">
-                      Bekijk werk
-                    </span>
+                    Bekijk werk
                     <ArrowRight
                       size={12}
-                      className="transition-transform duration-300 group-hover:translate-x-1.5 group-hover:text-white"
+                      className="transition-transform duration-300 group-hover:translate-x-1.5"
                     />
                   </Link>
                 </div>
 
-                {/* Image — wrapped in a relative container so the depth layer
-                    sits behind the image without being clipped by overflow:hidden */}
+                {/* ── Image block ─────────────────────────────────────── */}
                 <div className="relative">
-                  {/* Depth layer: a dark offset panel that peeks out from behind
-                      the image, creating a subtle raised/floating appearance */}
+                  {/* Depth shadow layer */}
                   <div
                     className="absolute inset-0 rounded-sm bg-black/55"
                     style={{ transform: "translate(7px, 7px)", zIndex: 0 }}
                   />
+
                   <motion.div
                     style={{
-                      scale:    i === 0 ? 1 : i === 1 ? c1ImgScale : c2ImgScale,
-                      filter:   i === 0 ? "blur(0px)" : i === 1 ? c1Filter : c2Filter,
+                      scale:    scaleFor(i),
+                      filter:   filterFor(i),
                       position: "relative",
                       zIndex:   1,
                     }}
-                    className="aspect-[16/10] md:aspect-[4/3] overflow-hidden rounded-sm"
+                    className="group aspect-[16/10] md:aspect-[4/3] overflow-hidden rounded-sm"
                   >
                     <img
                       src={proj.image}
                       alt={proj.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
                       loading="lazy"
                       width={800}
                       height={600}
+                    />
+                    {/* Gradient overlay — depth, darkens bottom edge */}
+                    <div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background:
+                          "linear-gradient(to top, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.10) 45%, transparent 70%)",
+                        zIndex: 2,
+                      }}
+                    />
+                    {/* Vignette */}
+                    <div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{
+                        background:
+                          "radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.30) 100%)",
+                        zIndex: 3,
+                      }}
                     />
                   </motion.div>
                 </div>
@@ -297,7 +370,7 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
                   width: i === progressIndex ? "28px" : "14px",
                   backgroundColor:
                     i === progressIndex
-                      ? "hsl(0 0% 100% / 0.5)"
+                      ? ACCENT
                       : "hsl(0 0% 100% / 0.15)",
                 }}
               />
