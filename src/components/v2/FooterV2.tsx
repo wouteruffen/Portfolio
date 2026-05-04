@@ -2,6 +2,8 @@ import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { useRef } from "react";
 import React from "react";
 import { Instagram, Linkedin, Github, Mail } from "lucide-react";
+// @ts-ignore
+import "@fontsource/anton";
 
 const FOOTER_BG = "hsl(14, 95%, 52%)";
 
@@ -65,13 +67,29 @@ const FooterV2 = ({ scrollContainerRef, revealProgress }: FooterV2Props) => {
       {/* ── Main row ─────────────────────────────────────────────────────── */}
       <div className="flex items-start justify-between gap-8 flex-1">
 
-        {/* Left — wordmark anchored to bottom */}
-        <div className="flex items-end flex-1 self-end">
+        {/* Left — wordmark anchored to bottom, styled to match hero Anton logo */}
+        <div className="flex flex-col items-start self-end select-none">
           <span
-            className="font-display font-black text-black uppercase leading-none select-none"
-            style={{ fontSize: "clamp(2.2rem, 5vw, 4.5rem)", letterSpacing: "-0.025em" }}
+            className="uppercase text-black leading-none"
+            style={{
+              fontFamily: "'Anton', sans-serif",
+              fontSize: "clamp(2rem, 4.5vw, 4rem)",
+              letterSpacing: "-0.02em",
+              lineHeight: 0.9,
+            }}
           >
-            BIT & BEELD
+            Bit &
+          </span>
+          <span
+            className="uppercase text-black leading-none"
+            style={{
+              fontFamily: "'Anton', sans-serif",
+              fontSize: "clamp(2rem, 4.5vw, 4rem)",
+              letterSpacing: "-0.02em",
+              lineHeight: 0.9,
+            }}
+          >
+            Beeld
           </span>
         </div>
 

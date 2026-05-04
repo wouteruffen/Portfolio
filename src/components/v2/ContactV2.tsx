@@ -4,7 +4,7 @@ import React from "react";
 import { smoothScrollTo } from "@/lib/smoothScroll";
 import FooterV2 from "./FooterV2";
 
-const DARK_BG = "hsl(0, 0%, 8%)";
+const DARK_BG = "hsl(0, 0%, 5%)";
 const EASE    = [0.22, 1, 0.36, 1] as const;
 const VP      = { once: true } as const;
 
@@ -63,6 +63,9 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
   // Footer reaches y:0 at contentProgress 0.45 (~90vh of scroll after snap),
   // which is just before the sticky true-dwell ends at 0.5 (~100vh).
   const footerReveal = useTransform(contentProgress, [0, 0.45], [0, 1]);
+
+  // Nudge contact content upward as the footer slides in — title stays fixed.
+  const contentCardY = useTransform(contentProgress, [0, 0.45], [0, -60]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -140,7 +143,10 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
             </div>
 
             {/* ── Content ──────────────────────────────────────────────── */}
-            <div className="relative z-10 flex-1 flex items-center px-6 md:px-16 lg:px-24 pb-8 overflow-hidden">
+            <motion.div
+              className="relative z-10 flex-1 flex items-center px-6 md:px-16 lg:px-24 pb-8 overflow-hidden"
+              style={{ y: contentCardY }}
+            >
               <div className="max-w-7xl mx-auto w-full">
                 <div className="grid md:grid-cols-2 gap-12 md:gap-16">
 
@@ -155,18 +161,18 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                       Klaar om iets
                       <span className="text-secondary"> moois</span> te bouwen?
                     </p>
-                    <div className="mt-6 h-px w-48 bg-foreground/20" />
+                    <div className="mt-6 h-px w-48 bg-secondary/35" />
                     <div className="flex flex-col gap-4 text-sm text-foreground/50 font-body mt-6">
                       <div>
-                        <div className="font-semibold mb-1 uppercase text-xs tracking-widest text-foreground/70">Email</div>
+                        <div className="font-semibold mb-1 uppercase text-xs tracking-widest text-secondary/70">Email</div>
                         hello@studiobitbeeld.nl
                       </div>
                       <div>
-                        <div className="font-semibold mb-1 uppercase text-xs tracking-widest text-foreground/70">Telefoon</div>
+                        <div className="font-semibold mb-1 uppercase text-xs tracking-widest text-secondary/70">Telefoon</div>
                         +31 (0)6 1234 5678
                       </div>
                       <div>
-                        <div className="font-semibold mb-1 uppercase text-xs tracking-widest text-foreground/70">Locatie</div>
+                        <div className="font-semibold mb-1 uppercase text-xs tracking-widest text-secondary/70">Locatie</div>
                         Amsterdam, NL
                       </div>
                     </div>
@@ -233,7 +239,7 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
 
                 </div>
               </div>
-            </div>
+            </motion.div>
           </motion.section>
         </div>
       </div>
