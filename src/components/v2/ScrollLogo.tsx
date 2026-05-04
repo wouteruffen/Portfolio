@@ -20,16 +20,19 @@ const ScrollLogo = ({ scrollContainerRef }: ScrollLogoProps) => {
 
     const handleScroll = () => {
       const scrollTop = container.scrollTop;
-      if (!isSmall && scrollTop > SHRINK_THRESHOLD) {
-        setIsSmall(true);
-      } else if (isSmall && scrollTop < GROW_THRESHOLD) {
-        setIsSmall(false);
-      }
+      // Functional update reads the latest state without needing it as a dep,
+      // avoiding listener re-registration (and the brief gap it caused) on every
+      // isSmall state change.
+      setIsSmall(prev => {
+        if (!prev && scrollTop > SHRINK_THRESHOLD) return true;
+        if (prev && scrollTop < GROW_THRESHOLD) return false;
+        return prev;
+      });
     };
 
     container.addEventListener("scroll", handleScroll, { passive: true });
     return () => container.removeEventListener("scroll", handleScroll);
-  }, [scrollContainerRef, isSmall]);
+  }, [scrollContainerRef]);
 
   return (
     <motion.div

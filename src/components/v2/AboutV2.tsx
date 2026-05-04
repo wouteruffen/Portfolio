@@ -4,9 +4,8 @@ import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import aboutPortrait from "@/assets/about-portrait.jpg";
 import React from "react";
-import { smoothScrollTo } from "@/lib/smoothScroll";
 
-const DARK_BG = "hsl(0, 0%, 8%)";
+const DARK_BG = "hsl(0, 0%, 5%)";
 const ACCENT  = "#FF4A2A";
 const EASE    = [0.22, 1, 0.36, 1] as const;
 const VP      = { once: false, amount: 0.1 } as const;
@@ -118,18 +117,10 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
   useMotionValueEvent(revealProgress, "change", (latest) => {
     if (latest >= 0.65 && !hasSnapped.current) {
       hasSnapped.current = true;
-      // Notify parent that About is now the active snapped section.
       onSnap?.(true);
-      const container = scrollContainerRef?.current;
-      const outer = outerRef.current;
-      if (container && outer) {
-        const targetY = outer.getBoundingClientRect().top + container.scrollTop;
-        smoothScrollTo(container, targetY);
-      }
     }
     if (latest < 0.25) {
       hasSnapped.current = false;
-      // Notify parent that the user has scrolled back to the Hero.
       onSnap?.(false);
     }
   });

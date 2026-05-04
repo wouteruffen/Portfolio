@@ -4,6 +4,7 @@ import "@fontsource/syne/800.css";
 import "@fontsource/inter/400.css";
 import "@fontsource/inter/500.css";
 import { useState, useEffect, useRef } from "react";
+import { useSmoothScroll } from "@/lib/useSmoothScroll";
 import NavbarV2 from "@/components/v2/NavbarV2";
 import CursorEffects from "@/components/CursorEffects";
 import HeroV2 from "@/components/v2/HeroV2";
@@ -13,16 +14,25 @@ import ContactV2 from "@/components/v2/ContactV2";
 import LoadingScreen from "@/components/LoadingScreen";
 import ScrollLogo from "@/components/v2/ScrollLogo";
 
-const DARK_BG = "hsl(0, 0%, 8%)";
+const DARK_BG = "hsl(0, 0%, 5%)";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [aboutActive, setAboutActive] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  useSmoothScroll(scrollRef);
+
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 2200);
-    return () => clearTimeout(timer);
+    let cancelled = false;
+    const minWait = new Promise<void>(resolve => setTimeout(resolve, 2200));
+    // Wait for both the minimum display time AND all @font-face fonts to render.
+    // On cold cache, fonts load after the JS bundle; without this wait, font
+    // layout shifts mid-scroll corrupt useScroll measurements and cause jitter.
+    Promise.all([minWait, document.fonts.ready]).then(() => {
+      if (!cancelled) setIsLoading(false);
+    });
+    return () => { cancelled = true; };
   }, []);
 
   return (

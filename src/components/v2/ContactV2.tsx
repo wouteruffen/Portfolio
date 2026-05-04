@@ -1,7 +1,6 @@
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useRef } from "react";
 import React from "react";
-import { smoothScrollTo } from "@/lib/smoothScroll";
 import FooterV2 from "./FooterV2";
 
 const DARK_BG = "hsl(0, 0%, 5%)";
@@ -16,7 +15,6 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const outerRef   = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
-  const hasSnapped = useRef(false);
 
   // ── Entrance progress: outer top moves from viewport bottom → viewport top ──
   const { scrollYProgress: revealProgress } = useScroll({
@@ -35,19 +33,6 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
     [0, 0.60, 0.65, 1],
     ["20px 20px 0px 0px", "20px 20px 0px 0px", "0px 0px 0px 0px", "0px 0px 0px 0px"],
   );
-
-  useMotionValueEvent(revealProgress, "change", (latest) => {
-    if (latest >= 0.65 && !hasSnapped.current) {
-      hasSnapped.current = true;
-      const container = scrollContainerRef?.current;
-      const outer     = outerRef.current;
-      if (container && outer) {
-        const targetY = outer.getBoundingClientRect().top + container.scrollTop;
-        smoothScrollTo(container, targetY);
-      }
-    }
-    if (latest < 0.25) hasSnapped.current = false;
-  });
 
   // ── Dwell progress: 0 at snap, 1 when outer fully scrolled past ─────────────
   // With a 200vh outer and 100vh sticky pin, the true "pinned" dwell is 100vh.

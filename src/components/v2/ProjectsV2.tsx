@@ -7,13 +7,12 @@ import projectBrand from "@/assets/project-brand.jpg";
 import projectProduct from "@/assets/project-product.jpg";
 import projectCampagne from "@/assets/hero-branding.jpg";
 import React from "react";
-import { smoothScrollTo } from "@/lib/smoothScroll";
 // @ts-ignore
 import "@fontsource/anton";
 
-const DARK_BG   = "hsl(0, 0%, 8%)";
+const DARK_BG   = "hsl(0, 0%, 5%)";
 const ACCENT    = "#FF4A2A";
-const CARD_H_VH = 54;
+const CARD_H_VH = 46;
 
 const projects = [
   {
@@ -61,7 +60,6 @@ interface ProjectsV2Props {
 const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
   const outerRef   = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
-  const hasSnapped = useRef(false);
   const [progressIndex, setProgressIndex] = useState(0);
 
   // ── Section reveal (unchanged) ────────────────────────────────────────────
@@ -80,19 +78,6 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
     [0, 0.60, 0.65, 1],
     ["20px 20px 0px 0px", "20px 20px 0px 0px", "0px 0px 0px 0px", "0px 0px 0px 0px"],
   );
-  useMotionValueEvent(revealProgress, "change", (latest) => {
-    if (latest >= 0.65 && !hasSnapped.current) {
-      hasSnapped.current = true;
-      const container = scrollContainerRef?.current;
-      const outer     = outerRef.current;
-      if (container && outer) {
-        const targetY = outer.getBoundingClientRect().top + container.scrollTop;
-        smoothScrollTo(container, targetY);
-      }
-    }
-    if (latest < 0.25) hasSnapped.current = false;
-  });
-
   // ── Scroll progress that drives all card motion ────────────────────────────
   const { scrollYProgress: contentProgress } = useScroll({
     target: outerRef,
