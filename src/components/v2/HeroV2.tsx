@@ -330,10 +330,10 @@ const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
 
         <a
           href="#contact"
-          className="group inline-flex items-center gap-4 px-16 py-5 rounded-full border-[3px] border-[#E03535] bg-[#E03535]/10 text-[#E03535] font-display font-bold text-2xl tracking-widest uppercase transition-all duration-300 hover:bg-[#E03535] hover:text-black hover:border-[#E03535]"
+          className="group inline-flex items-center gap-4 px-16 py-5 rounded-full border-[3px] border-[#FF4A2A] bg-[#FF4A2A]/10 text-[#FF4A2A] font-display font-bold text-2xl tracking-widest uppercase transition-all duration-300 hover:bg-[#FF4A2A] hover:text-black hover:border-[#FF4A2A]"
         >
           Start Project
-          <span className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 text-[#E03535] group-hover:text-black">
+          <span className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 text-[#FF4A2A] group-hover:text-black">
             <ArrowUpRight size={26} strokeWidth={2.5} />
           </span>
         </a>

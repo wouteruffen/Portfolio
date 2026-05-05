@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-// @ts-ignore
-import "@fontsource/anton";
+import { Link } from "react-router-dom";
 
 const NAV_ITEMS = [
   { label: "Home", href: "#", active: true },
   { label: "Projecten", href: "#projecten" },
   { label: "Over Mij", href: "#over-ons" },
+  { label: "Brandbook", href: "/brandbook" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -118,7 +118,7 @@ const NavbarV2 = ({ scrollContainerRef, isAboutActive = false }: NavbarV2Props) 
           {/* CTA */}
           <a
             href="#contact"
-            className="px-7 py-3 rounded-full border border-white/40 bg-white/10 text-white/75 text-base font-display font-bold tracking-[0.15em] uppercase hover:bg-white/22 hover:border-white/65 hover:text-white hover:scale-[1.03] transition-all duration-300"
+            className="px-7 py-3 rounded-full border border-[#FF4A2A]/50 bg-[#FF4A2A]/10 text-[#FF4A2A] text-base font-display font-bold tracking-[0.15em] uppercase hover:bg-[#FF4A2A] hover:border-[#FF4A2A] hover:text-black hover:scale-[1.03] transition-all duration-300"
           >
             Plan Gesprek
           </a>
@@ -178,26 +178,36 @@ const NavbarV2 = ({ scrollContainerRef, isAboutActive = false }: NavbarV2Props) 
 
               {/* Nav links */}
               <div className="flex-1 flex flex-col justify-center px-8">
-                {NAV_ITEMS.map((item, i) => (
-                  <motion.div
-                    key={item.label}
-                    initial={{ opacity: 0, x: 40 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 20 }}
-                    transition={{ duration: 0.4, delay: 0.15 + i * 0.08 }}
-                  >
-                    <a
-                      href={item.href}
-                      onClick={() => setMenuOpen(false)}
-                      className="group flex items-center gap-2 py-5 border-b border-white/10"
-                    >
+                {NAV_ITEMS.map((item, i) => {
+                  const inner = (
+                    <>
                       <span className="text-white font-display font-extrabold text-3xl md:text-4xl uppercase tracking-wide hover:text-white/70 transition-colors">
                         {item.label}
                       </span>
                       {item.active && <span className="w-2 h-2 bg-[hsl(10,85%,50%)] mt-1" />}
-                    </a>
-                  </motion.div>
-                ))}
+                    </>
+                  );
+                  const linkClass = "group flex items-center gap-2 py-5 border-b border-white/10";
+                  return (
+                    <motion.div
+                      key={item.label}
+                      initial={{ opacity: 0, x: 40 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
+                      transition={{ duration: 0.4, delay: 0.15 + i * 0.08 }}
+                    >
+                      {item.href.startsWith("/") ? (
+                        <Link to={item.href} onClick={() => setMenuOpen(false)} className={linkClass}>
+                          {inner}
+                        </Link>
+                      ) : (
+                        <a href={item.href} onClick={() => setMenuOpen(false)} className={linkClass}>
+                          {inner}
+                        </a>
+                      )}
+                    </motion.div>
+                  );
+                })}
               </div>
 
               {/* Bottom section: email + socials */}

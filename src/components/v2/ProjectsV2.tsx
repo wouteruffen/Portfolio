@@ -7,8 +7,6 @@ import projectBrand from "@/assets/project-brand.jpg";
 import projectProduct from "@/assets/project-product.jpg";
 import projectCampagne from "@/assets/hero-branding.jpg";
 import React from "react";
-// @ts-ignore
-import "@fontsource/anton";
 
 const DARK_BG   = "hsl(0, 0%, 5%)";
 const ACCENT    = "#FF4A2A";

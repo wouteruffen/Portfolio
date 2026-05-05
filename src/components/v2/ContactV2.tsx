@@ -216,7 +216,7 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                     </div>
                     <button
                       type="submit"
-                      className="bg-foreground text-background px-8 py-3.5 font-display font-bold text-sm tracking-widest uppercase hover:bg-secondary hover:text-foreground transition-colors mt-2"
+                      className="bg-[#FF4A2A] text-black px-8 py-3.5 font-body font-medium text-sm tracking-widest uppercase hover:opacity-90 transition-opacity mt-2"
                     >
                       Verstuur Bericht
                     </button>
