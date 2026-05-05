@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         display: ["Syne", "sans-serif"],
         body: ["Inter", "sans-serif"],
+        logo: ["Anton", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
