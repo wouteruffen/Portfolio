@@ -4,618 +4,724 @@ import { Link } from "react-router-dom";
 import NavbarV2 from "@/components/v2/NavbarV2";
 import CursorEffects from "@/components/CursorEffects";
 
-const ACCENT = "#FF4A2A";
-const DARK_BG = "#0D0D0D";
-const OFFWHITE_BG = "hsl(42, 22%, 91%)";
+/* ─── Tokens ─────────────────────────────────────────────────────────────── */
+const DARK     = "#0B0B0B";
+const LIGHT    = "#F4F1EB";
+const OFF_WHITE = "#F5F5F5";
+const MUTED    = "#A0A0A0";
+const ACCENT   = "#FF4A2A";
 
-const PALETTE = [
-  { name: "Accent",     hex: "#FF4A2A", hsl: "hsl(16, 100%, 57%)" },
-  { name: "Deep Black", hex: "#0D0D0D", hsl: "hsl(0, 0%, 5%)" },
-  { name: "Off-White",  hex: "#E8E1D4", hsl: "hsl(42, 22%, 91%)" },
-  { name: "Dark Grey",  hex: "#2E2E2E", hsl: "hsl(0, 0%, 18%)" },
-  { name: "Mid Grey",   hex: "#8C8C8C", hsl: "hsl(0, 0%, 55%)" },
-];
-
-const fadeUp = {
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.55 },
-};
-
-const LIGHT_GRID = {
+const DARK_GRID: React.CSSProperties = {
   backgroundImage: `
-    linear-gradient(hsl(0 0% 0% / 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, hsl(0 0% 0% / 0.05) 1px, transparent 1px)
-  `,
-  backgroundSize: "48px 48px",
-};
-
-const DARK_GRID = {
-  backgroundImage: `
-    linear-gradient(hsl(0 0% 100% / 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, hsl(0 0% 100% / 0.035) 1px, transparent 1px)
+    linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)
   `,
   backgroundSize: "60px 60px",
 };
 
-const AccentBar = ({ height = "h-px", className = "" }: { height?: string; className?: string }) => (
-  <div className={`${height} ${className}`} style={{ background: ACCENT }} />
+const LIGHT_GRID: React.CSSProperties = {
+  backgroundImage: `
+    linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px)
+  `,
+  backgroundSize: "60px 60px",
+};
+
+/* ─── Cover nav list ─────────────────────────────────────────────────────── */
+const NAV_ITEMS = [
+  "LOGO & MONOGRAM",
+  "COLOR SYSTEM",
+  "TYPOGRAPHY",
+  "GRID & LAYOUT",
+  "UI ELEMENTS",
+  "DARK MODE",
+  "LIGHT MODE",
+  "VOICE & TONE",
+  "DO'S & DON'TS",
+  "COLOPHON",
+];
+
+/* ─── Color palette for section 03 ──────────────────────────────────────── */
+const PALETTE = [
+  { name: "Accent Red",   hex: "#FF4A2A", bg: "#FF4A2A", lightText: false },
+  { name: "Warm Orange",  hex: "#FF7A4A", bg: "#FF7A4A", lightText: false },
+  { name: "Muted Yellow", hex: "#E8C87A", bg: "#E8C87A", lightText: true  },
+  { name: "Soft Green",   hex: "#7AB87A", bg: "#7AB87A", lightText: true  },
+  { name: "Dark Grey",    hex: "#2A2A2A", bg: "#2A2A2A", lightText: false },
+];
+
+/* ─── Shared animation ───────────────────────────────────────────────────── */
+const fadeUp = {
+  initial:     { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0  },
+  viewport:    { once: true },
+  transition:  { duration: 0.6 },
+};
+
+/* ─── Reusable pieces ────────────────────────────────────────────────────── */
+const Rule = ({ light = false }: { light?: boolean }) => (
+  <div
+    className="w-full"
+    style={{ height: "1px", background: light ? "rgba(0,0,0,0.09)" : "rgba(255,255,255,0.07)" }}
+  />
 );
 
-const SectionLabel = ({ n, dark = false }: { n: string; dark?: boolean }) => (
-  <div className="flex items-center gap-4 mb-4">
-    <span className={`text-[10px] tracking-[0.4em] font-body uppercase font-bold ${dark ? "text-white/30" : "text-[hsl(0,0%,40%)]"}`}>{n}</span>
-    <div className={`flex-1 h-px ${dark ? "bg-white/10" : "bg-[hsl(0,0%,75%)]"}`} />
+const SectionTag = ({ n, label, light = false }: { n: string; label: string; light?: boolean }) => (
+  <div className="mb-5">
+    <p
+      className="font-body mb-2"
+      style={{ fontSize: "10px", letterSpacing: "0.28em", color: light ? "#999999" : "#444444" }}
+    >
+      {n} — {label}
+    </p>
+    <Rule light={light} />
   </div>
 );
 
-const BrandLogoWhite = ({ size = "text-5xl md:text-7xl" }: { size?: string }) => (
-  <div className="flex flex-col items-start leading-[0.9]">
-    <span className={`${size} font-display font-extrabold italic text-white`}>Studio</span>
-    <span className={`${size} font-display font-extrabold italic text-white`}>
-      Bit & Beeld<span style={{ color: ACCENT }}>.</span>
-    </span>
-  </div>
-);
+/* ═══════════════════════════════════════════════════════════════════════════ */
 
-const BrandLogoDark = ({ size = "text-5xl md:text-7xl" }: { size?: string }) => (
-  <div className="flex flex-col items-start leading-[0.9]">
-    <span className={`${size} font-display font-extrabold italic text-[hsl(0,0%,10%)]`}>Studio</span>
-    <span className={`${size} font-display font-extrabold italic text-[hsl(0,0%,10%)]`}>
-      Bit & Beeld<span style={{ color: ACCENT }}>.</span>
-    </span>
-  </div>
-);
+const Brandbook = () => (
+  <>
+    <CursorEffects />
+    <div style={{ background: DARK }}>
+      <NavbarV2 />
 
-const BrandLogoInline = ({ size = "text-lg", dark = false }: { size?: string; dark?: boolean }) => (
-  <span className={`${size} font-display font-extrabold italic ${dark ? "text-[hsl(0,0%,10%)]" : "text-white"}`}>
-    Studio Bit & Beeld<span style={{ color: ACCENT }}>.</span>
-  </span>
-);
+      {/* ════════════════════════════════════════
+          01 — COVER
+      ════════════════════════════════════════ */}
+      <section
+        className="h-screen flex flex-col px-8 md:px-16 lg:px-24 pt-24 pb-10 overflow-hidden"
+        style={{ background: DARK, ...DARK_GRID }}
+      >
+        <div className="max-w-7xl w-full mx-auto h-full flex flex-col">
 
-const Brandbook = () => {
-  return (
-    <>
-      <CursorEffects />
-      <div className="min-h-screen bg-background text-foreground">
-        <NavbarV2 />
+          {/* Top bar */}
+          <div className="flex items-center justify-between mb-6 flex-shrink-0">
+            <div className="flex items-center gap-3">
+              <Link
+                to="/"
+                className="inline-flex items-center gap-1.5 font-body transition-colors"
+                style={{ fontSize: "10px", color: "#555555", letterSpacing: "0.08em" }}
+                onMouseEnter={e => (e.currentTarget.style.color = OFF_WHITE)}
+                onMouseLeave={e => (e.currentTarget.style.color = "#555555")}
+              >
+                <ArrowLeft size={10} /> Back
+              </Link>
+              <span style={{ color: "#333333", fontSize: "10px" }}>·</span>
+              <span className="font-body" style={{ fontSize: "10px", color: MUTED, letterSpacing: "0.1em" }}>
+                Vol. 1 — The Brandbook
+              </span>
+            </div>
+          </div>
 
-        {/* ═══ HERO — DARK ═══ */}
-        <section
-          className="relative min-h-screen flex flex-col justify-center items-start px-6 md:px-16 lg:px-24"
-          style={{ background: DARK_BG, ...DARK_GRID }}
-        >
+          {/* Title row */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="absolute top-32 left-6 md:left-16 lg:left-24 z-10"
-          >
-            <Link
-              to="/"
-              className="inline-flex items-center gap-2 text-[10px] text-white/35 hover:text-white/70 transition-colors font-body tracking-[0.2em] uppercase"
-            >
-              <ArrowLeft size={12} /> Terug naar home
-            </Link>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-6xl w-full"
+            transition={{ duration: 0.75 }}
+            className="flex items-start justify-between mb-6 flex-shrink-0"
           >
-            <p className="text-[10px] text-white/25 font-body tracking-[0.45em] uppercase mb-6">
-              Studio Bit & Beeld
-            </p>
             <h1
-              className="font-logo leading-[0.85] text-white uppercase"
-              style={{ fontSize: "clamp(5rem, 18vw, 17rem)" }}
+              className="font-display font-extrabold uppercase leading-[0.87]"
+              style={{ fontSize: "clamp(4rem, 10vw, 12rem)", color: OFF_WHITE, letterSpacing: "-0.025em" }}
             >
               BRAND<br />BOOK<span style={{ color: ACCENT }}>.</span>
             </h1>
-            <motion.div
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 1, delay: 0.5 }}
-              className="origin-left mt-8 w-full max-w-sm"
-            >
-              <AccentBar height="h-px" />
-            </motion.div>
-            <p className="mt-5 text-white/25 font-body text-xs tracking-[0.3em] uppercase">
-              Brand Guidelines — 2026
-            </p>
+
+            {/* Metadata block — right-aligned beside title */}
+            <div className="text-right mt-2 flex-shrink-0 space-y-1">
+              {["Studio Bit & Beeld", "Groningen, NL", "2026"].map((line) => (
+                <p key={line} className="font-body" style={{ fontSize: "11px", color: "#4A4A4A" }}>
+                  {line}
+                </p>
+              ))}
+            </div>
           </motion.div>
 
+          {/* Divider */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.9, delay: 0.3 }}
+            className="origin-left mb-6 flex-shrink-0"
+          >
+            <Rule />
+          </motion.div>
+
+          {/* Navigation list — 2 columns, fills remaining height */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1.2 }}
-            className="absolute bottom-12 left-6 md:left-16 lg:left-24 right-6 md:right-16 lg:right-24 flex justify-between text-[10px] text-white/18 font-body tracking-[0.22em] uppercase"
+            transition={{ duration: 0.6, delay: 0.55 }}
+            className="flex-1 grid grid-cols-2 gap-x-12 content-start min-h-0"
           >
-            <span>Nederland</span>
-            <span>bitenbeeld.nl</span>
-            <span>v2.0</span>
-          </motion.div>
-        </section>
-
-        {/* ═══ 01 — LOGO — LIGHT ═══ */}
-        <section className="px-6 md:px-16 lg:px-24 py-32" style={{ background: OFFWHITE_BG, ...LIGHT_GRID }}>
-          <motion.div {...fadeUp} className="max-w-6xl mx-auto">
-            <SectionLabel n="01" />
-            <h2 className="text-5xl md:text-7xl font-display font-extrabold mb-20 text-[hsl(0,0%,10%)] uppercase tracking-tight">
-              Logo
-            </h2>
-
-            <div
-              className="p-16 md:p-28 flex flex-col items-center justify-center mb-1 border border-[hsl(0,0%,20%)]"
-              style={{ background: DARK_BG }}
-            >
-              <BrandLogoWhite size="text-5xl md:text-7xl" />
-              <div className="mt-8 w-3/5">
-                <AccentBar height="h-px" />
+            {NAV_ITEMS.map((item, i) => (
+              <div
+                key={item}
+                className="group flex items-center gap-4 py-3 cursor-default transition-colors"
+                style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+              >
+                <span
+                  className="font-body tabular-nums flex-shrink-0"
+                  style={{ fontSize: "10px", color: "#333333", letterSpacing: "0.05em" }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span
+                  className="font-display font-bold uppercase transition-colors group-hover:text-[#FF4A2A]"
+                  style={{ fontSize: "clamp(13px, 1.4vw, 19px)", color: OFF_WHITE, letterSpacing: "0.015em" }}
+                >
+                  {item}
+                </span>
               </div>
+            ))}
+          </motion.div>
+
+        </div>
+      </section>
+
+      {/* ════════════════════════════════════════
+          02 — LOGO & MONOGRAM
+      ════════════════════════════════════════ */}
+      <section
+        className="h-screen flex flex-col px-8 md:px-16 lg:px-24 pt-24 pb-10 overflow-hidden"
+        style={{ background: DARK, ...DARK_GRID }}
+      >
+        <motion.div {...fadeUp} className="max-w-7xl w-full mx-auto h-full flex flex-col">
+
+          <SectionTag n="02" label="LOGO & MONOGRAM" />
+
+          {/* Main content row */}
+          <div className="flex-1 grid grid-cols-3 gap-3 min-h-0">
+
+            {/* Primary — light square */}
+            <div
+              className="col-span-2 flex flex-col items-center justify-center"
+              style={{ background: "#EDEBE7" }}
+            >
+              <span
+                className="font-logo uppercase text-black leading-none tracking-tight"
+                style={{ fontSize: "clamp(2.2rem, 5.5vw, 7rem)" }}
+              >
+                BIT & BEELD
+              </span>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-0.5 mb-16">
+            {/* Right — dark + accent variants */}
+            <div className="flex flex-col gap-3 min-h-0">
               <div
-                className="p-10 flex flex-col items-center justify-center aspect-[4/3] border border-[hsl(0,0%,20%)]"
-                style={{ background: DARK_BG }}
+                className="flex-1 flex flex-col items-center justify-center"
+                style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.05)" }}
               >
-                <p className="text-[9px] tracking-[0.3em] text-white/25 font-body uppercase mb-6">Dark</p>
-                <BrandLogoInline size="text-sm" />
-                <div className="mt-3 w-[70%]"><AccentBar height="h-px" /></div>
+                <p className="font-body mb-3" style={{ fontSize: "9px", color: "#444444", letterSpacing: "0.3em" }}>DARK</p>
+                <span
+                  className="font-logo uppercase leading-none"
+                  style={{ fontSize: "clamp(0.9rem, 1.8vw, 1.8rem)", color: OFF_WHITE }}
+                >
+                  BIT & BEELD
+                </span>
               </div>
               <div
-                className="p-10 flex flex-col items-center justify-center aspect-[4/3] border border-[hsl(0,0%,80%)]"
-                style={{ background: OFFWHITE_BG }}
+                className="flex-1 flex flex-col items-center justify-center"
+                style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.05)" }}
               >
-                <p className="text-[9px] tracking-[0.3em] text-[hsl(0,0%,55%)] font-body uppercase mb-6">Light</p>
-                <BrandLogoInline size="text-sm" dark />
-                <div className="mt-3 w-[70%]"><AccentBar height="h-px" /></div>
-              </div>
-              <div
-                className="p-10 flex flex-col items-center justify-center aspect-[4/3] border border-[hsl(0,0%,20%)]"
-                style={{ background: DARK_BG }}
-              >
-                <p className="text-[9px] tracking-[0.3em] text-white/25 font-body uppercase mb-6">Compact</p>
-                <span className="text-2xl font-display font-extrabold italic text-white">
-                  B&B<span style={{ color: ACCENT }}>.</span>
+                <p className="font-body mb-3" style={{ fontSize: "9px", color: "#444444", letterSpacing: "0.3em" }}>ACCENT</p>
+                <span
+                  className="font-logo uppercase leading-none"
+                  style={{ fontSize: "clamp(0.9rem, 1.8vw, 1.8rem)", color: ACCENT }}
+                >
+                  BIT & BEELD
                 </span>
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-16">
-              <div>
-                <AccentBar height="h-px" className="mb-5" />
-                <p className="text-[10px] tracking-[0.25em] text-[hsl(0,0%,40%)] font-body uppercase mb-3">Woordmerk</p>
-                <p className="text-sm text-[hsl(0,0%,45%)] font-body leading-relaxed">
-                  Het logo is een clean woordmerk in italic extra-bold Syne. De gekleurde punt is het enige kleurelement — accent spaarzaam en intentioneel toegepast.
-                </p>
-              </div>
-              <div>
-                <AccentBar height="h-px" className="mb-5" />
-                <p className="text-[10px] tracking-[0.25em] text-[hsl(0,0%,40%)] font-body uppercase mb-3">Accentlijn</p>
-                <p className="text-sm text-[hsl(0,0%,45%)] font-body leading-relaxed">
-                  De accentlijn is één kleur — #FF4A2A. Altijd horizontaal, nooit decoratief. Geen meerdere kleuren, geen degradé.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </section>
+          </div>
 
-        {/* ═══ DARK STATEMENT — TWO STATES ═══ */}
-        <section
-          className="relative px-6 md:px-16 lg:px-24 py-44 overflow-hidden"
-          style={{ background: DARK_BG, ...DARK_GRID }}
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="max-w-6xl mx-auto"
+          {/* Descriptions */}
+          <div className="mt-4 grid grid-cols-3 gap-3 flex-shrink-0">
+            {[
+              { label: "PRIMARY",  body: "Light background — default application. Anton, uppercase, full wordmark." },
+              { label: "DARK",     body: "Off-white on near-black. Same weight, same spacing. Use in dark contexts." },
+              { label: "ACCENT",   body: "#FF4A2A variant — reserved for special moments only. Never as default." },
+            ].map(({ label, body }) => (
+              <div key={label}>
+                <Rule />
+                <p className="font-body mt-3 mb-1" style={{ fontSize: "9px", color: "#555555", letterSpacing: "0.22em" }}>{label}</p>
+                <p className="font-body leading-relaxed" style={{ fontSize: "11px", color: "#444444" }}>{body}</p>
+              </div>
+            ))}
+          </div>
+
+        </motion.div>
+      </section>
+
+      {/* ════════════════════════════════════════
+          03 — COLOR SYSTEM
+      ════════════════════════════════════════ */}
+      <section
+        className="h-screen flex flex-col px-8 md:px-16 lg:px-24 pt-24 pb-10 overflow-hidden"
+        style={{ background: DARK, ...DARK_GRID }}
+      >
+        <motion.div {...fadeUp} className="max-w-7xl w-full mx-auto h-full flex flex-col">
+
+          <SectionTag n="03" label="COLOR SYSTEM" />
+
+          {/* Statement headline */}
+          <h2
+            className="font-display font-extrabold uppercase leading-[0.88] mb-8 flex-shrink-0"
+            style={{ fontSize: "clamp(2.2rem, 6.5vw, 8rem)", color: OFF_WHITE, letterSpacing: "-0.025em" }}
           >
-            <h2
-              className="font-logo text-white uppercase leading-[0.85]"
-              style={{ fontSize: "clamp(3.5rem, 10vw, 10rem)" }}
-            >
-              TWO STATES<span style={{ color: ACCENT }}>.</span><br />
-              <span className="text-white/20">ONE SIGNAL.</span>
-            </h2>
-            <div className="mt-14 grid md:grid-cols-2 gap-12 max-w-2xl">
-              <div>
-                <AccentBar height="h-px" className="mb-4" />
-                <p className="text-white/45 font-body text-sm leading-relaxed">
-                  Donker en licht. Beide zijn thuis voor het merk. Eén consistent systeem in twee contexten.
-                </p>
-              </div>
-              <div>
-                <AccentBar height="h-px" className="mb-4" />
-                <p className="text-white/45 font-body text-sm leading-relaxed">
-                  Het accent (#FF4A2A) is het enige vaste signaal — aanwezig in beide states, altijd intentioneel.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </section>
+            TWO STATES.<br />ONE SIGNAL.
+          </h2>
 
-        {/* ═══ 02 — KLEURPALET — LIGHT ═══ */}
-        <section className="px-6 md:px-16 lg:px-24 py-32" style={{ background: OFFWHITE_BG, ...LIGHT_GRID }}>
-          <motion.div {...fadeUp} className="max-w-6xl mx-auto">
-            <SectionLabel n="02" />
-            <h2 className="text-5xl md:text-7xl font-display font-extrabold mb-20 text-[hsl(0,0%,10%)] uppercase tracking-tight">
-              Kleurpalet
-            </h2>
-
-            <div className="grid grid-cols-5 gap-2 mb-14">
-              {PALETTE.map((color, i) => (
-                <motion.div
-                  key={i}
-                  className="aspect-[2/3] relative border border-[hsl(0,0%,80%)]"
-                  style={{ background: color.hsl }}
-                  whileHover={{ y: -6 }}
-                  transition={{ duration: 0.2 }}
+          {/* Color swatches */}
+          <div className="flex-1 grid grid-cols-5 gap-2 min-h-0">
+            {PALETTE.map(({ name, hex, bg, lightText }) => (
+              <div
+                key={name}
+                className="flex flex-col justify-end p-4"
+                style={{ background: bg }}
+              >
+                <p
+                  className="font-body font-medium"
+                  style={{ fontSize: "10px", color: lightText ? "#222222" : OFF_WHITE, letterSpacing: "0.07em" }}
                 >
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <p className={`text-[10px] font-body font-bold tracking-[0.1em] uppercase ${i === 2 ? "text-[hsl(0,0%,25%)]" : "text-white/90"}`}>
-                      {color.name}
-                    </p>
-                    <p className={`text-[9px] font-body mt-0.5 ${i === 2 ? "text-[hsl(0,0%,45%)]" : "text-white/55"}`}>
-                      {color.hex}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-0 border border-[hsl(0,0%,78%)] bg-white">
-              {[
-                {
-                  label: "Primair accent",
-                  body: "#FF4A2A — het enige kleuraccent. Spaarzaam toegepast op punten, lijnen en interactie-elementen.",
-                },
-                {
-                  label: "Neutraal systeem",
-                  body: "Donker zwart en warm off-white als basis. Geen extra kleuraccenten buiten het systeem.",
-                },
-                {
-                  label: "Grijsschaal",
-                  body: "Dark grey en mid grey voor structuur, dividers en ondersteunende UI-elementen.",
-                },
-              ].map(({ label, body }) => (
-                <div key={label} className="p-8 border-r border-[hsl(0,0%,88%)] last:border-r-0">
-                  <AccentBar height="h-px" className="mb-5" />
-                  <p className="text-[10px] tracking-[0.25em] text-[hsl(0,0%,40%)] font-body uppercase mb-3">{label}</p>
-                  <p className="text-sm text-[hsl(0,0%,35%)] font-body leading-relaxed">{body}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </section>
-
-        {/* ═══ 03 — TYPOGRAFIE — LIGHT ═══ */}
-        <section className="px-6 md:px-16 lg:px-24 py-32" style={{ background: OFFWHITE_BG, ...LIGHT_GRID }}>
-          <motion.div {...fadeUp} className="max-w-6xl mx-auto">
-            <SectionLabel n="03" />
-            <h2 className="text-5xl md:text-7xl font-display font-extrabold mb-20 text-[hsl(0,0%,10%)] uppercase tracking-tight">
-              Typografie
-            </h2>
-
-            <div className="grid md:grid-cols-3 gap-2 mb-16">
-              <div className="bg-white border border-[hsl(0,0%,78%)] p-8">
-                <AccentBar height="h-px" className="mb-6" />
-                <p className="text-[9px] text-[hsl(0,0%,50%)] font-body tracking-[0.3em] uppercase mb-4">Impact — Anton</p>
-                <p className="font-logo text-8xl leading-none mb-4 text-[hsl(0,0%,10%)]">Aa</p>
-                <p className="font-logo text-xl tracking-wide text-[hsl(0,0%,10%)]">ABCDEFGHIJ</p>
-                <p className="font-logo text-lg text-[hsl(0,0%,55%)] mt-1">KLMNOPQRST</p>
-                <div className="mt-5 pt-4 border-t border-[hsl(0,0%,90%)]">
-                  <p className="font-logo text-[10px] text-[hsl(0,0%,40%)] tracking-wide">
-                    Logo · Impacttitels · Hero
-                  </p>
-                </div>
+                  {name}
+                </p>
+                <p
+                  className="font-body mt-0.5"
+                  style={{ fontSize: "9px", color: lightText ? "#555555" : "rgba(255,255,255,0.5)" }}
+                >
+                  {hex}
+                </p>
               </div>
+            ))}
+          </div>
 
-              <div className="bg-white border border-[hsl(0,0%,78%)] p-8">
-                <AccentBar height="h-px" className="mb-6" />
-                <p className="text-[9px] text-[hsl(0,0%,50%)] font-body tracking-[0.3em] uppercase mb-4">Headlines — Syne</p>
-                <p className="font-display font-extrabold text-8xl leading-none mb-4 text-[hsl(0,0%,10%)]">Aa</p>
-                <p className="font-display font-extrabold text-xl text-[hsl(0,0%,10%)]">ABCDEFGHIJ</p>
-                <p className="font-display font-bold text-lg text-[hsl(0,0%,55%)] mt-1">klmnopqrst</p>
-                <div className="mt-5 pt-4 border-t border-[hsl(0,0%,90%)] space-y-0.5">
-                  <p className="font-display font-extrabold text-[10px] text-[hsl(0,0%,10%)]">Extra Bold 800</p>
-                  <p className="font-display font-bold text-[10px] text-[hsl(0,0%,55%)]">Bold 700</p>
-                </div>
+          {/* Gradient strip */}
+          <div
+            className="mt-2"
+            style={{
+              height: "4px",
+              background: "linear-gradient(to right, #FF4A2A, #FF7A4A, #E8C87A, #7AB87A, #2A2A2A)",
+            }}
+          />
+
+          {/* Notes */}
+          <div className="mt-4 grid grid-cols-2 gap-8 flex-shrink-0">
+            {[
+              {
+                label: "PRIMARY SIGNAL",
+                body: "#FF4A2A — the only color accent. Used sparingly across both light and dark states.",
+              },
+              {
+                label: "NEUTRAL SYSTEM",
+                body: "#0B0B0B and #F4F1EB as structural base. No additional color accents outside this system.",
+              },
+            ].map(({ label, body }) => (
+              <div key={label}>
+                <Rule />
+                <p className="font-body mt-3 mb-1" style={{ fontSize: "9px", color: "#555555", letterSpacing: "0.22em" }}>{label}</p>
+                <p className="font-body leading-relaxed" style={{ fontSize: "11px", color: "#444444" }}>{body}</p>
               </div>
+            ))}
+          </div>
 
-              <div className="bg-white border border-[hsl(0,0%,78%)] p-8">
-                <AccentBar height="h-px" className="mb-6" />
-                <p className="text-[9px] text-[hsl(0,0%,50%)] font-body tracking-[0.3em] uppercase mb-4">Body — Inter</p>
-                <p className="font-body text-8xl leading-none mb-4 text-[hsl(0,0%,10%)]">Aa</p>
-                <p className="font-body font-medium text-xl text-[hsl(0,0%,10%)]">ABCDEFGHIJ</p>
-                <p className="font-body text-lg text-[hsl(0,0%,55%)] mt-1">klmnopqrst</p>
-                <div className="mt-5 pt-4 border-t border-[hsl(0,0%,90%)] space-y-0.5">
-                  <p className="font-body font-medium text-[10px] text-[hsl(0,0%,10%)]">Medium 500</p>
-                  <p className="font-body text-[10px] text-[hsl(0,0%,55%)]">Regular 400</p>
-                </div>
-              </div>
-            </div>
+        </motion.div>
+      </section>
 
-            <div className="border border-[hsl(0,0%,78%)] bg-white overflow-hidden">
-              <div className="px-6 py-3 border-b border-[hsl(0,0%,88%)]">
-                <span className="text-[9px] tracking-[0.4em] text-[hsl(0,0%,50%)] font-body uppercase">Typehiërarchie</span>
-              </div>
-              {[
-                { size: "text-5xl",  label: "Display", font: "font-logo",                      text: "STUDIO B&B" },
-                { size: "text-4xl",  label: "H1",      font: "font-display font-extrabold",    text: "Heading One" },
-                { size: "text-2xl",  label: "H2",      font: "font-display font-bold",         text: "Heading Two" },
-                { size: "text-lg",   label: "H3",      font: "font-display font-bold",         text: "Heading Three" },
-                { size: "text-sm",   label: "Body",    font: "font-body",                      text: "Body text voor paragrafen en UI-elementen." },
-                { size: "text-xs",   label: "Label",   font: "font-body tracking-[0.2em]",     text: "LABEL / CAPTION" },
-              ].map((item) => (
-                <div key={item.label} className="flex items-center border-b border-[hsl(0,0%,92%)] last:border-b-0">
-                  <div className="w-1 self-stretch flex-shrink-0" style={{ background: ACCENT }} />
-                  <div className="flex items-baseline gap-6 py-4 px-6 flex-1 min-w-0">
-                    <span className="text-[9px] tracking-[0.2em] text-[hsl(0,0%,55%)] font-body w-14 flex-shrink-0 uppercase">
-                      {item.label}
-                    </span>
-                    <span className={`${item.font} text-[hsl(0,0%,10%)] ${item.size} truncate`}>{item.text}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </section>
+      {/* ════════════════════════════════════════
+          04 — TYPOGRAPHY
+      ════════════════════════════════════════ */}
+      <section
+        className="h-screen flex flex-col px-8 md:px-16 lg:px-24 pt-24 pb-10 overflow-hidden"
+        style={{ background: DARK, ...DARK_GRID }}
+      >
+        <motion.div {...fadeUp} className="max-w-7xl w-full mx-auto h-full flex flex-col">
 
-        {/* ═══ DARK STATEMENT — BUILT FOR THE BLACK CANVAS ═══ */}
-        <section
-          className="relative px-6 md:px-16 lg:px-24 py-44 overflow-hidden"
-          style={{ background: DARK_BG, ...DARK_GRID }}
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="max-w-6xl mx-auto"
+          <SectionTag n="04" label="TYPOGRAPHY" />
+
+          <h2
+            className="font-display font-bold mb-6 flex-shrink-0"
+            style={{ fontSize: "clamp(1.4rem, 3.2vw, 4rem)", color: OFF_WHITE, letterSpacing: "-0.01em" }}
           >
-            <h2
-              className="font-logo text-white uppercase leading-[0.85]"
-              style={{ fontSize: "clamp(2.5rem, 7.5vw, 8rem)" }}
+            Three fonts. One clear voice.
+          </h2>
+
+          {/* Font cards */}
+          <div className="flex-1 grid grid-cols-3 gap-2 min-h-0">
+
+            {/* Anton */}
+            <div
+              className="flex flex-col p-6"
+              style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.05)" }}
             >
-              BUILT FOR<br />THE BLACK<br /><span style={{ color: ACCENT }}>CANVAS.</span>
-            </h2>
+              <Rule />
+              <p className="font-body mt-4 mb-0.5" style={{ fontSize: "9px", color: "#555555", letterSpacing: "0.3em" }}>DISPLAY / LOGO</p>
+              <p className="font-body mb-5" style={{ fontSize: "10px", color: "#333333" }}>Anton</p>
+              <span
+                className="font-logo uppercase text-[#F5F5F5] leading-none mt-auto"
+                style={{ fontSize: "clamp(1.8rem, 3.2vw, 4.5rem)" }}
+              >
+                BIT &<br />BEELD
+              </span>
+              <p className="font-body mt-4 leading-relaxed" style={{ fontSize: "11px", color: "#444444" }}>
+                Used exclusively for the wordmark and maximum-impact display moments.
+              </p>
+            </div>
 
-            <div className="mt-14 grid md:grid-cols-2 gap-12 max-w-2xl">
+            {/* Syne */}
+            <div
+              className="flex flex-col p-6"
+              style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.05)" }}
+            >
+              <Rule />
+              <p className="font-body mt-4 mb-0.5" style={{ fontSize: "9px", color: "#555555", letterSpacing: "0.3em" }}>HEADINGS</p>
+              <p className="font-body mb-5" style={{ fontSize: "10px", color: "#333333" }}>Syne</p>
+              <span
+                className="font-display font-extrabold text-[#F5F5F5] leading-tight mt-auto"
+                style={{ fontSize: "clamp(1.4rem, 2.4vw, 3.2rem)" }}
+              >
+                Design<br />that works.
+              </span>
+              <p className="font-body mt-4 leading-relaxed" style={{ fontSize: "11px", color: "#444444" }}>
+                All titles and section headers. ExtraBold 800 for impact, Bold 700 for sub-hierarchy.
+              </p>
+            </div>
+
+            {/* Inter */}
+            <div
+              className="flex flex-col p-6"
+              style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.05)" }}
+            >
+              <Rule />
+              <p className="font-body mt-4 mb-0.5" style={{ fontSize: "9px", color: "#555555", letterSpacing: "0.3em" }}>BODY / UI</p>
+              <p className="font-body mb-5" style={{ fontSize: "10px", color: "#333333" }}>Inter</p>
+              <span
+                className="font-body text-[#F5F5F5] leading-relaxed mt-auto"
+                style={{ fontSize: "clamp(0.85rem, 1.15vw, 1.25rem)" }}
+              >
+                Clear, functional text<br />for every context<br />and every scale.
+              </span>
+              <p className="font-body mt-4 leading-relaxed" style={{ fontSize: "11px", color: "#444444" }}>
+                Paragraphs, labels, captions, UI copy. Regular 400 and Medium 500.
+              </p>
+            </div>
+
+          </div>
+
+        </motion.div>
+      </section>
+
+      {/* ════════════════════════════════════════
+          05 — DARK MODE
+      ════════════════════════════════════════ */}
+      <section
+        className="h-screen flex flex-col px-8 md:px-16 lg:px-24 pt-24 pb-10 overflow-hidden"
+        style={{ background: DARK, ...DARK_GRID }}
+      >
+        <motion.div {...fadeUp} className="max-w-7xl w-full mx-auto h-full flex flex-col">
+
+          <SectionTag n="05" label="DARK MODE" />
+
+          <h2
+            className="font-display font-extrabold uppercase leading-[0.87] mb-8 flex-shrink-0"
+            style={{ fontSize: "clamp(2rem, 5.5vw, 7.5rem)", color: OFF_WHITE, letterSpacing: "-0.025em" }}
+          >
+            BUILT FOR THE<br />BLACK CANVAS.
+          </h2>
+
+          <div className="flex-1 grid grid-cols-2 gap-6 min-h-0">
+
+            {/* Left — copy + CTA */}
+            <div className="flex flex-col justify-between">
+              <p className="font-body leading-relaxed" style={{ fontSize: "13px", color: "#555555" }}>
+                The primary canvas is dark. Strong contrast, intentional. Off-white on near-black
+                gives character without noise. The accent is the only fixed signal — present in both
+                states, always purposeful.
+              </p>
               <div>
-                <AccentBar height="h-px" className="mb-4" />
-                <p className="text-white/45 font-body text-sm leading-relaxed">
-                  Het primaire canvas is donker. Sterk contrast, intentioneel. Wit lettertype op zwart geeft karakter zonder ruis.
-                </p>
-              </div>
-              <div>
-                <AccentBar height="h-px" className="mb-4" />
-                <p className="text-white/45 font-body text-sm leading-relaxed">
-                  Het lichte systeem is het complement — gebruikt voor uitleg, richtlijnen en documentatie, niet als standaard.
+                <button
+                  className="font-body font-medium uppercase"
+                  style={{
+                    background: ACCENT,
+                    color: "#000000",
+                    padding: "14px 36px",
+                    fontSize: "10px",
+                    letterSpacing: "0.2em",
+                  }}
+                >
+                  START PROJECT
+                </button>
+                <p className="font-body mt-3" style={{ fontSize: "11px", color: "#333333" }}>
+                  Accent on black — maximum contrast, one signal.
                 </p>
               </div>
             </div>
 
-            <div className="mt-20 pt-16 border-t border-white/[0.07] flex items-end justify-between flex-wrap gap-6">
-              <BrandLogoWhite size="text-4xl md:text-5xl" />
-              <AccentBar height="h-px" className="w-24 md:w-48 self-end" />
-            </div>
-          </motion.div>
-        </section>
-
-        {/* ═══ 04 — GRID & LAYOUT — LIGHT ═══ */}
-        <section className="px-6 md:px-16 lg:px-24 py-32" style={{ background: OFFWHITE_BG, ...LIGHT_GRID }}>
-          <motion.div {...fadeUp} className="max-w-6xl mx-auto">
-            <SectionLabel n="04" />
-            <h2 className="text-5xl md:text-7xl font-display font-extrabold mb-20 text-[hsl(0,0%,10%)] uppercase tracking-tight">
-              Grid & Lay-out
-            </h2>
-
-            <div className="grid md:grid-cols-2 gap-20 mb-20">
-              <div>
-                <AccentBar height="h-px" className="mb-5" />
-                <p className="text-[10px] tracking-[0.25em] text-[hsl(0,0%,40%)] font-body uppercase mb-4">Spacing systeem</p>
-                <p className="text-sm text-[hsl(0,0%,45%)] font-body leading-relaxed mb-8">
-                  Ruimte is een stijlmiddel. Gebruik ruime marges en consistente paddings. Witruimte definieert de compositie — kleur vult nooit de lege ruimte.
-                </p>
-                <div className="space-y-3 bg-white border border-[hsl(0,0%,78%)] p-6">
-                  {[
-                    { label: "XS", val: "8px" },
-                    { label: "S",  val: "16px" },
-                    { label: "M",  val: "32px" },
-                    { label: "L",  val: "64px" },
-                    { label: "XL", val: "128px" },
-                  ].map(({ label, val }) => (
-                    <div key={label} className="flex items-center gap-4">
-                      <span className="text-[10px] text-[hsl(0,0%,50%)] font-body w-5 flex-shrink-0">{label}</span>
-                      <div className="h-px flex-1 bg-[hsl(0,0%,82%)]" />
-                      <span className="text-[10px] text-[hsl(0,0%,50%)] font-body">{val}</span>
-                    </div>
+            {/* Right — UI mockup */}
+            <div
+              className="flex flex-col p-6 gap-5"
+              style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}
+            >
+              {/* Mock nav */}
+              <div
+                className="flex items-center justify-between pb-4 flex-shrink-0"
+                style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+              >
+                <span className="font-logo uppercase" style={{ fontSize: "12px", color: OFF_WHITE }}>
+                  BIT & BEELD
+                </span>
+                <div className="flex gap-5">
+                  {["Work", "About", "Contact"].map((item) => (
+                    <span key={item} className="font-body" style={{ fontSize: "10px", color: "#404040", letterSpacing: "0.1em" }}>
+                      {item}
+                    </span>
                   ))}
                 </div>
               </div>
 
-              <div>
-                <AccentBar height="h-px" className="mb-5" />
-                <p className="text-[10px] tracking-[0.25em] text-[hsl(0,0%,40%)] font-body uppercase mb-4">Kolommen</p>
-                <p className="text-sm text-[hsl(0,0%,45%)] font-body leading-relaxed mb-8">
-                  12-kolom grid op desktop. 4 kolommen op tablet. 1 kolom op mobiel. Marges zijn altijd proportioneel aan de breedte.
+              {/* Mock content */}
+              <div className="flex-1 flex flex-col justify-center">
+                <p className="font-body mb-2" style={{ fontSize: "9px", color: "#3A3A3A", letterSpacing: "0.3em" }}>
+                  WEBDESIGN — 2026
                 </p>
-                <div className="bg-white border border-[hsl(0,0%,78%)] p-6">
-                  <div className="grid grid-cols-12 gap-1 mb-2">
-                    {Array.from({ length: 12 }).map((_, i) => (
-                      <div
-                        key={i}
-                        className="h-8 border border-[hsl(0,0%,82%)]"
-                        style={{ background: i < 4 ? `${ACCENT}20` : "transparent" }}
-                      />
-                    ))}
-                  </div>
-                  <p className="text-[9px] text-[hsl(0,0%,55%)] font-body tracking-[0.2em] uppercase">4 / 12 kolommen actief</p>
-                </div>
+                <h3
+                  className="font-display font-extrabold leading-tight mb-3"
+                  style={{ fontSize: "clamp(1rem, 2vw, 2rem)", color: OFF_WHITE }}
+                >
+                  Project Naam
+                </h3>
+                <p className="font-body" style={{ fontSize: "11px", color: "#3A3A3A" }}>
+                  Short project description. Goal, context, outcome.
+                </p>
+              </div>
+
+              <span className="font-body flex-shrink-0" style={{ fontSize: "10px", color: "#3A3A3A", letterSpacing: "0.15em" }}>
+                VIEW PROJECT <span style={{ color: ACCENT }}>→</span>
+              </span>
+            </div>
+
+          </div>
+
+        </motion.div>
+      </section>
+
+      {/* ════════════════════════════════════════
+          06 — LIGHT MODE
+      ════════════════════════════════════════ */}
+      <section
+        className="h-screen flex flex-col px-8 md:px-16 lg:px-24 pt-24 pb-10 overflow-hidden"
+        style={{ background: LIGHT, ...LIGHT_GRID }}
+      >
+        <motion.div {...fadeUp} className="max-w-7xl w-full mx-auto h-full flex flex-col">
+
+          <SectionTag n="06" label="LIGHT MODE" light />
+
+          <h2
+            className="font-display font-extrabold uppercase leading-[0.87] mb-8 flex-shrink-0"
+            style={{ fontSize: "clamp(2rem, 5.5vw, 7.5rem)", color: "#111111", letterSpacing: "-0.025em" }}
+          >
+            SET ON<br />WARM PAPER.
+          </h2>
+
+          <div className="flex-1 grid grid-cols-2 gap-6 min-h-0">
+
+            {/* Left — copy + CTA */}
+            <div className="flex flex-col justify-between">
+              <p className="font-body leading-relaxed" style={{ fontSize: "13px", color: "#888888" }}>
+                The light system is the complement — documentation, guidelines, editorial contexts.
+                Warm off-white, never cold white. The same type hierarchy, the same accent, the same
+                intentional spacing.
+              </p>
+              <div>
+                <button
+                  className="font-body font-medium uppercase"
+                  style={{
+                    background: "#111111",
+                    color: LIGHT,
+                    padding: "14px 36px",
+                    fontSize: "10px",
+                    letterSpacing: "0.2em",
+                  }}
+                >
+                  START PROJECT
+                </button>
+                <p className="font-body mt-3" style={{ fontSize: "11px", color: "#BBBBBB" }}>
+                  Dark on warm paper — same hierarchy, inverse state.
+                </p>
               </div>
             </div>
 
+            {/* Right — UI mockup */}
+            <div
+              className="flex flex-col p-6 gap-5"
+              style={{ background: "#FFFFFF", border: "1px solid rgba(0,0,0,0.08)" }}
+            >
+              <div
+                className="flex items-center justify-between pb-4 flex-shrink-0"
+                style={{ borderBottom: "1px solid rgba(0,0,0,0.07)" }}
+              >
+                <span className="font-logo uppercase" style={{ fontSize: "12px", color: "#111111" }}>
+                  BIT & BEELD
+                </span>
+                <div className="flex gap-5">
+                  {["Work", "About", "Contact"].map((item) => (
+                    <span key={item} className="font-body" style={{ fontSize: "10px", color: "#BBBBBB", letterSpacing: "0.1em" }}>
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex-1 flex flex-col justify-center">
+                <p className="font-body mb-2" style={{ fontSize: "9px", color: "#CCCCCC", letterSpacing: "0.3em" }}>
+                  BRANDING — 2026
+                </p>
+                <h3
+                  className="font-display font-extrabold leading-tight mb-3"
+                  style={{ fontSize: "clamp(1rem, 2vw, 2rem)", color: "#111111" }}
+                >
+                  Project Naam
+                </h3>
+                <p className="font-body" style={{ fontSize: "11px", color: "#AAAAAA" }}>
+                  Short project description. Goal, context, outcome.
+                </p>
+              </div>
+
+              <span className="font-body flex-shrink-0" style={{ fontSize: "10px", color: "#AAAAAA", letterSpacing: "0.15em" }}>
+                VIEW PROJECT <span style={{ color: ACCENT }}>→</span>
+              </span>
+            </div>
+
+          </div>
+
+        </motion.div>
+      </section>
+
+      {/* ════════════════════════════════════════
+          07 — VOICE & PRINCIPLES
+      ════════════════════════════════════════ */}
+      <section
+        className="h-screen flex flex-col px-8 md:px-16 lg:px-24 pt-24 pb-10 overflow-hidden"
+        style={{ background: DARK, ...DARK_GRID }}
+      >
+        <motion.div {...fadeUp} className="max-w-7xl w-full mx-auto h-full flex flex-col">
+
+          <SectionTag n="07" label="VOICE & TONE" />
+
+          <div className="flex-1 flex flex-col justify-between min-h-0">
+
+            {/* Statement */}
             <div>
-              <AccentBar height="h-px" className="mb-5" />
-              <p className="text-[10px] tracking-[0.25em] text-[hsl(0,0%,40%)] font-body uppercase mb-6">Dividers</p>
-              <div className="bg-white border border-[hsl(0,0%,78%)] p-8 grid md:grid-cols-3 gap-8">
+              <h2
+                className="font-display font-bold uppercase leading-none mb-3"
+                style={{ fontSize: "clamp(3rem, 9vw, 13rem)", color: OFF_WHITE, letterSpacing: "-0.03em" }}
+              >
+                CONSIDERED
+              </h2>
+              <p
+                className="font-body"
+                style={{ fontSize: "clamp(12px, 1.4vw, 17px)", color: MUTED, letterSpacing: "0.05em" }}
+              >
+                Precise, generous, clear.
+              </p>
+            </div>
+
+            {/* 2 × 2 values grid */}
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { word: "DIRECT",    desc: "No filler words. Every sentence carries weight." },
+                { word: "CRAFTED",   desc: "Attention to detail in every element, always." },
+                { word: "CONFIDENT", desc: "Assured tone. No hedging. Clear decisions." },
+                { word: "WARM",      desc: "Human, not corporate. Present, not distant." },
+              ].map(({ word, desc }) => (
+                <div
+                  key={word}
+                  className="p-6"
+                  style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.05)" }}
+                >
+                  <Rule />
+                  <h3
+                    className="font-display font-bold uppercase mt-4 mb-2"
+                    style={{ fontSize: "clamp(0.9rem, 1.8vw, 1.8rem)", color: OFF_WHITE, letterSpacing: "-0.01em" }}
+                  >
+                    {word}
+                  </h3>
+                  <p className="font-body leading-relaxed" style={{ fontSize: "11px", color: "#444444" }}>
+                    {desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+          </div>
+
+        </motion.div>
+      </section>
+
+      {/* ════════════════════════════════════════
+          08 — FOOTER
+      ════════════════════════════════════════ */}
+      <section
+        className="h-screen flex flex-col px-8 md:px-16 lg:px-24 pt-24 pb-10 overflow-hidden"
+        style={{ background: DARK, ...DARK_GRID }}
+      >
+        <motion.div {...fadeUp} className="max-w-7xl w-full mx-auto h-full flex flex-col">
+
+          <Rule />
+
+          <div className="flex-1 flex flex-col justify-between pt-8 min-h-0">
+
+            {/* Title + contact */}
+            <div className="flex items-start justify-between">
+              <h2
+                className="font-display font-extrabold uppercase leading-[0.87]"
+                style={{ fontSize: "clamp(2.2rem, 6vw, 8.5rem)", color: OFF_WHITE, letterSpacing: "-0.025em" }}
+              >
+                DESIGN<br />DAT WERKT<span style={{ color: ACCENT }}>.</span>
+              </h2>
+
+              {/* Contact details */}
+              <div className="text-right space-y-4 mt-1">
                 {[
-                  { label: "Accent", style: { background: ACCENT } },
-                  { label: "Light",  style: { background: "hsl(0,0%,80%)" } },
-                  { label: "Dark",   style: { background: "hsl(0,0%,18%)" } },
-                ].map(({ label, style }) => (
+                  { label: "STUDIO",  value: "Studio Bit & Beeld" },
+                  { label: "LOCATIE", value: "Groningen, Nederland" },
+                  { label: "WEB",     value: "bitenbeeld.nl" },
+                  { label: "MAIL",    value: "hello@bitenbeeld.nl" },
+                ].map(({ label, value }) => (
                   <div key={label}>
-                    <p className="text-[9px] text-[hsl(0,0%,55%)] font-body tracking-[0.2em] uppercase mb-3">{label}</p>
-                    <div className="h-px w-full" style={style} />
+                    <p className="font-body" style={{ fontSize: "9px", color: "#333333", letterSpacing: "0.28em" }}>
+                      {label}
+                    </p>
+                    <p className="font-body" style={{ fontSize: "13px", color: OFF_WHITE }}>
+                      {value}
+                    </p>
                   </div>
                 ))}
               </div>
             </div>
-          </motion.div>
-        </section>
 
-        {/* ═══ 05 — UI ELEMENTEN — LIGHT ═══ */}
-        <section className="px-6 md:px-16 lg:px-24 py-32" style={{ background: OFFWHITE_BG, ...LIGHT_GRID }}>
-          <motion.div {...fadeUp} className="max-w-6xl mx-auto">
-            <SectionLabel n="05" />
-            <h2 className="text-5xl md:text-7xl font-display font-extrabold mb-20 text-[hsl(0,0%,10%)] uppercase tracking-tight">
-              UI Elementen
-            </h2>
-
-            <div className="grid md:grid-cols-2 gap-16 mb-16">
-              <div>
-                <AccentBar height="h-px" className="mb-5" />
-                <p className="text-[10px] tracking-[0.25em] text-[hsl(0,0%,40%)] font-body uppercase mb-6">Knoppen</p>
-                <div className="space-y-4">
-                  <div className="flex flex-wrap gap-3 items-center">
-                    <button
-                      className="px-7 py-3 font-body font-medium text-[10px] tracking-[0.2em] uppercase text-white"
-                      style={{ background: DARK_BG }}
-                    >
-                      Primair
-                    </button>
-                    <button
-                      className="px-7 py-3 font-body font-medium text-[10px] tracking-[0.2em] uppercase text-white"
-                      style={{ background: ACCENT }}
-                    >
-                      Accent
-                    </button>
-                    <button className="px-7 py-3 font-body font-medium text-[10px] tracking-[0.2em] uppercase text-[hsl(0,0%,10%)] border border-[hsl(0,0%,20%)]">
-                      Outline
-                    </button>
-                  </div>
-                  <div className="flex flex-wrap gap-4 items-center">
-                    <button className="px-5 py-2 font-body text-[10px] tracking-[0.15em] uppercase text-[hsl(0,0%,50%)] border border-[hsl(0,0%,78%)]">
-                      Ghost
-                    </button>
-                    <button className="font-body text-[10px] tracking-[0.15em] uppercase text-[hsl(0,0%,20%)] underline underline-offset-4">
-                      Link
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <AccentBar height="h-px" className="mb-5" />
-                <p className="text-[10px] tracking-[0.25em] text-[hsl(0,0%,40%)] font-body uppercase mb-6">Tags & Labels</p>
-                <div className="flex flex-wrap gap-3">
-                  {["Webdesign", "UI/UX", "Branding", "TypeScript", "React"].map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-3 py-1 text-[10px] font-body tracking-[0.15em] uppercase border border-[hsl(0,0%,22%)] text-[hsl(0,0%,22%)]"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                  <span
-                    className="px-3 py-1 text-[10px] font-body tracking-[0.15em] uppercase text-white"
-                    style={{ background: ACCENT }}
-                  >
-                    Nieuw
-                  </span>
-                </div>
-              </div>
-            </div>
-
+            {/* Legal / bottom bar */}
             <div>
-              <AccentBar height="h-px" className="mb-5" />
-              <p className="text-[10px] tracking-[0.25em] text-[hsl(0,0%,40%)] font-body uppercase mb-6">Projectkaart</p>
-              <div className="grid md:grid-cols-2 gap-2">
-                <div className="border border-[hsl(0,0%,20%)] p-8" style={{ background: DARK_BG }}>
-                  <AccentBar height="h-px" className="mb-6" />
-                  <p className="text-[9px] tracking-[0.3em] text-white/30 font-body uppercase mb-4">Webdesign · 2026</p>
-                  <h4 className="font-display font-extrabold text-xl text-white mb-3">Projectnaam</h4>
-                  <p className="text-sm text-white/40 font-body leading-relaxed mb-6">
-                    Korte beschrijving van het project in twee regels. Doel, context, resultaat.
-                  </p>
-                  <span className="text-[10px] font-body tracking-[0.2em] uppercase text-white/35 flex items-center gap-1.5">
-                    Bekijk project <span style={{ color: ACCENT }}>→</span>
-                  </span>
-                </div>
-                <div className="border border-[hsl(0,0%,78%)] p-8 bg-white">
-                  <AccentBar height="h-px" className="mb-6" />
-                  <p className="text-[9px] tracking-[0.3em] text-[hsl(0,0%,55%)] font-body uppercase mb-4">Branding · 2026</p>
-                  <h4 className="font-display font-extrabold text-xl text-[hsl(0,0%,10%)] mb-3">Projectnaam</h4>
-                  <p className="text-sm text-[hsl(0,0%,45%)] font-body leading-relaxed mb-6">
-                    Korte beschrijving van het project in twee regels. Doel, context, resultaat.
-                  </p>
-                  <span className="text-[10px] font-body tracking-[0.2em] uppercase text-[hsl(0,0%,50%)] flex items-center gap-1.5">
-                    Bekijk project <span style={{ color: ACCENT }}>→</span>
-                  </span>
-                </div>
+              <Rule />
+              <div className="flex items-center justify-between mt-4">
+                <p className="font-body" style={{ fontSize: "10px", color: "#2E2E2E", letterSpacing: "0.08em" }}>
+                  © 2026 Studio Bit & Beeld — Brand Guidelines v2.0
+                </p>
+                <p className="font-body" style={{ fontSize: "10px", color: "#2E2E2E" }}>
+                  Nederland
+                </p>
               </div>
             </div>
-          </motion.div>
-        </section>
 
-        {/* ═══ CTA — DARK ═══ */}
-        <section
-          className="px-6 md:px-16 lg:px-24 py-44"
-          style={{ background: DARK_BG, ...DARK_GRID }}
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="max-w-6xl mx-auto"
-          >
-            <p className="text-[10px] text-white/20 font-body tracking-[0.45em] uppercase mb-6">Klaar?</p>
-            <h2
-              className="font-logo text-white uppercase leading-[0.85] mb-10"
-              style={{ fontSize: "clamp(3rem, 8vw, 8rem)" }}
-            >
-              SAMEN<br />BOUWEN<span style={{ color: ACCENT }}>.</span>
-            </h2>
-            <AccentBar height="h-px" className="w-40 mb-10" />
-            <Link
-              to="/#contact"
-              className="inline-block px-10 py-4 font-body font-medium text-[10px] tracking-[0.25em] uppercase transition-opacity hover:opacity-70 text-[hsl(0,0%,10%)] bg-white"
-            >
-              Start Project
-            </Link>
-          </motion.div>
-        </section>
-
-        <footer className="py-6 px-6 md:px-16 lg:px-24" style={{ background: DARK_BG }}>
-          <AccentBar height="h-px" className="mb-6" />
-          <div className="flex items-center justify-between">
-            <p className="text-white/25 text-[10px] font-body tracking-[0.18em] uppercase">
-              © 2026 Studio Bit & Beeld
-            </p>
-            <div className="w-5 h-px" style={{ background: ACCENT }} />
           </div>
-        </footer>
-      </div>
-    </>
-  );
-};
+
+        </motion.div>
+      </section>
+
+    </div>
+  </>
+);
 
 export default Brandbook;
