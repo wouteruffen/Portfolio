@@ -118,7 +118,7 @@ const NavbarV2 = ({ scrollContainerRef, isAboutActive = false }: NavbarV2Props) 
           {/* CTA */}
           <a
             href="#contact"
-            className="px-7 py-3 rounded-full border border-[#FF4A2A]/50 bg-[#FF4A2A]/10 text-[#FF4A2A] text-base font-display font-bold tracking-[0.15em] uppercase hover:bg-[#FF4A2A] hover:border-[#FF4A2A] hover:text-black hover:scale-[1.03] transition-all duration-300"
+            className="px-7 py-3 rounded-full border border-white/40 bg-white/10 text-white/75 text-base font-display font-bold tracking-[0.15em] uppercase hover:bg-white/22 hover:border-white/65 hover:text-white hover:scale-[1.03] transition-all duration-300"
           >
             Plan Gesprek
           </a>
