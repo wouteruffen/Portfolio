@@ -46,7 +46,7 @@ const SectionTag = ({ n, label, light = false }: { n: string; label: string; lig
     <div className="flex items-baseline gap-4 mb-4">
       <span
         className="font-body tabular-nums flex-shrink-0"
-        style={{ fontSize: "11px", letterSpacing: "0.25em", color: light ? "#999999" : "#555555" }}
+        style={{ fontSize: "13px", letterSpacing: "0.28em", color: light ? "#999999" : "#555555" }}
       >
         {n}
       </span>
@@ -92,7 +92,7 @@ const Slide = ({ index, scrollY, vh, children, bg = DARK }: SlideProps) => {
         y: index === 0 ? 0 : y,
       }}
     >
-      <div className="h-full flex flex-col px-8 md:px-16 lg:px-24 pt-24 pb-10 overflow-hidden">
+      <div className="h-full flex flex-col px-8 md:px-16 lg:px-24 pt-36 pb-10 overflow-hidden">
         <div className="max-w-7xl w-full mx-auto h-full flex flex-col">
           {children}
         </div>
@@ -124,6 +124,7 @@ const TOTAL_SECTIONS = 12;
 const Brandbook = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [vh, setVh] = useState(() => window.innerHeight);
+  const [navBottom, setNavBottom] = useState(88);
 
   useSmoothScroll(scrollRef);
 
@@ -133,9 +134,18 @@ const Brandbook = () => {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  useEffect(() => {
+    const nav = document.querySelector("nav") as HTMLElement | null;
+    if (!nav) return;
+    const update = () => setNavBottom(Math.round(nav.getBoundingClientRect().bottom));
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(nav);
+    return () => ro.disconnect();
+  }, []);
+
   const { scrollY } = useScroll({ container: scrollRef });
 
-  /* Smooth programmatic scroll to a given section index */
   const scrollToSection = useCallback((index: number) => {
     const container = scrollRef.current;
     if (!container) return;
@@ -144,14 +154,12 @@ const Brandbook = () => {
     if (Math.abs(target - start) < 2) return;
     const duration = 950;
     const startTime = performance.now();
-
     const animate = (now: number) => {
       const t = Math.min((now - startTime) / duration, 1);
       const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
       container.scrollTop = start + (target - start) * eased;
       if (t < 1) requestAnimationFrame(animate);
     };
-
     requestAnimationFrame(animate);
   }, [vh]);
 
@@ -159,8 +167,21 @@ const Brandbook = () => {
     <>
       <CursorEffects />
       <NavbarV2 />
+      {/* Brandbook-only divider */}
+      <div
+        style={{
+          position: "fixed",
+          top: `${navBottom}px`,
+          left: 0,
+          right: 0,
+          height: "1px",
+          background: "rgba(255,255,255,0.13)",
+          zIndex: 61,
+          pointerEvents: "none",
+        }}
+      />
 
-      {/* Scroll container — hidden scrollbar, full viewport */}
+      {/* Scroll container */}
       <div
         ref={scrollRef}
         style={{
@@ -171,39 +192,35 @@ const Brandbook = () => {
         } as React.CSSProperties}
         className="[&::-webkit-scrollbar]:hidden"
       >
-        {/* Scroll track — 12 × 100 vh of scrollable space */}
+        {/* Scroll track — 12 × 100vh */}
         <div style={{ height: `${TOTAL_SECTIONS * 100}vh`, position: "relative" }}>
 
-          {/* Sticky layer — pinned to viewport throughout */}
+          {/* Sticky layer */}
           <div style={{ position: "sticky", top: 0, height: "100vh", overflow: "hidden" }}>
 
             {/* ── 01 COVER ─────────────────────────────────────────────── */}
             <Slide index={0} scrollY={scrollY} vh={vh}>
-
-              {/* Top bar */}
-              <div className="flex items-center gap-3 flex-shrink-0">
+              <div className="flex items-center gap-4 flex-shrink-0">
                 <Link
                   to="/"
-                  className="inline-flex items-center gap-1.5 font-body transition-colors"
-                  style={{ fontSize: "10px", color: "#777777", letterSpacing: "0.08em" }}
+                  className="inline-flex items-center gap-2 font-body transition-colors"
+                  style={{ fontSize: "12px", color: "#777777", letterSpacing: "0.08em" }}
                   onMouseEnter={e => (e.currentTarget.style.color = OFF_WHITE)}
                   onMouseLeave={e => (e.currentTarget.style.color = "#777777")}
                 >
-                  <ArrowLeft size={10} /> Back
+                  <ArrowLeft size={12} /> Back
                 </Link>
-                <span style={{ color: "#555555", fontSize: "10px" }}>·</span>
-                <span className="font-body" style={{ fontSize: "10px", color: "#CCCCCC", letterSpacing: "0.1em" }}>
+                <span style={{ color: "#444444", fontSize: "12px" }}>·</span>
+                <span className="font-body" style={{ fontSize: "12px", color: "#CCCCCC", letterSpacing: "0.12em" }}>
                   Vol. 1 — The Brandbook
                 </span>
               </div>
 
-              {/* Vertically centered title */}
               <div className="flex-1 flex flex-col justify-center">
                 <motion.div
                   initial={{ opacity: 0, y: 28 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.75 }}
-                  className="flex items-start justify-between"
                 >
                   <h1
                     className="font-display font-extrabold uppercase leading-[0.87]"
@@ -211,78 +228,81 @@ const Brandbook = () => {
                   >
                     BRAND<br />BOOK<span style={{ color: ACCENT }}>.</span>
                   </h1>
-                  <div className="text-right flex-shrink-0 space-y-1.5 mt-2">
-                    {["Studio Bit & Beeld", "Groningen, NL", "2026"].map((line) => (
-                      <p key={line} className="font-body" style={{ fontSize: "11px", color: "#AAAAAA" }}>{line}</p>
-                    ))}
-                  </div>
                 </motion.div>
               </div>
 
-              {/* Bottom — rule + description + scroll cue */}
+              <motion.div
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 1, delay: 0.35 }}
+                className="origin-left flex-shrink-0 mb-8"
+              >
+                <Rule />
+              </motion.div>
+
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.6, delay: 0.55 }}
-                className="flex-shrink-0"
+                transition={{ duration: 0.6, delay: 0.6 }}
+                className="flex items-end justify-between flex-shrink-0"
               >
-                <motion.div
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ duration: 0.9, delay: 0.3 }}
-                  className="origin-left mb-6"
-                >
-                  <Rule />
-                </motion.div>
-                <div className="flex items-end justify-between">
-                  <p className="font-body" style={{ fontSize: "13px", color: "#777777", maxWidth: "420px", lineHeight: 1.65 }}>
-                    A complete visual identity system for Studio Bit & Beeld — defining how the brand
-                    looks, speaks, and behaves across every touchpoint.
-                  </p>
-                  <p
-                    className="font-body flex-shrink-0"
-                    style={{ fontSize: "9px", color: "#666666", letterSpacing: "0.35em" }}
-                  >
-                    SCROLL TO EXPLORE
-                  </p>
+                <div className="flex items-start gap-10 md:gap-14">
+                  {[
+                    { label: "STUDIO",   value: "Bit & Beeld" },
+                    { label: "ISSUED",   value: "May 2026" },
+                    { label: "PAGES",    value: "10" },
+                    { label: "LOCATION", value: "Amsterdam, NL" },
+                    { label: "AUTHOR",   value: "Studio Bit & Beeld" },
+                  ].map(({ label, value }) => (
+                    <div key={label}>
+                      <p className="font-body" style={{ fontSize: "10px", color: "#444444", letterSpacing: "0.25em", marginBottom: "7px" }}>
+                        {label}
+                      </p>
+                      <p className="font-body" style={{ fontSize: "14px", color: "#AAAAAA" }}>{value}</p>
+                    </div>
+                  ))}
                 </div>
+                <p className="font-body flex-shrink-0" style={{ fontSize: "10px", color: "#444444", letterSpacing: "0.35em" }}>
+                  SCROLL TO EXPLORE
+                </p>
               </motion.div>
             </Slide>
 
             {/* ── 02 INHOUDSOPGAVE ─────────────────────────────────────── */}
             <Slide index={1} scrollY={scrollY} vh={vh}>
               <SectionTag n="02" label="INHOUDSOPGAVE" />
-
-              <div className="flex-1 grid grid-cols-2 gap-x-20 content-start min-h-0">
-                {TOC_CHAPTERS.map(({ n, label }, index) => (
-                  <motion.div
-                    key={n}
-                    className="group flex items-center gap-6 cursor-pointer relative"
-                    style={{ borderBottom: "1px solid rgba(255,255,255,0.07)", paddingTop: "20px", paddingBottom: "20px" }}
-                    whileHover={{ x: 10 }}
-                    transition={{ duration: 0.22, ease: [0.33, 1, 0.68, 1] }}
-                    onClick={() => scrollToSection(index)}
-                  >
-                    <span
-                      className="font-body tabular-nums flex-shrink-0 transition-colors duration-200 group-hover:text-[#FF4A2A]"
-                      style={{ fontSize: "11px", color: "#555555", letterSpacing: "0.1em" }}
+              <div className="flex-1 flex items-center min-h-0">
+                <div className="w-full grid grid-cols-2 gap-x-20">
+                  {TOC_CHAPTERS.map(({ n, label }, index) => (
+                    <motion.div
+                      key={n}
+                      className="group flex items-center gap-6 cursor-pointer relative"
+                      style={{ borderBottom: "1px solid rgba(255,255,255,0.07)", paddingTop: "20px", paddingBottom: "20px" }}
+                      whileHover={{ x: 10 }}
+                      transition={{ duration: 0.22, ease: [0.33, 1, 0.68, 1] }}
+                      onClick={() => scrollToSection(index)}
                     >
-                      {n}
-                    </span>
-                    <span
-                      className="font-display font-bold uppercase transition-colors duration-200 group-hover:text-[#FF4A2A]"
-                      style={{ fontSize: "clamp(18px, 2vw, 28px)", color: OFF_WHITE, letterSpacing: "0.01em" }}
-                    >
-                      {label}
-                    </span>
-                    <span
-                      className="ml-auto font-body flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                      style={{ fontSize: "14px", color: ACCENT }}
-                    >
-                      →
-                    </span>
-                  </motion.div>
-                ))}
+                      <span
+                        className="font-body tabular-nums flex-shrink-0 transition-colors duration-200 group-hover:text-[#FF4A2A]"
+                        style={{ fontSize: "13px", color: "#555555", letterSpacing: "0.12em" }}
+                      >
+                        {n}
+                      </span>
+                      <span
+                        className="font-display font-bold uppercase transition-colors duration-200 group-hover:text-[#FF4A2A]"
+                        style={{ fontSize: "clamp(18px, 2vw, 28px)", color: OFF_WHITE, letterSpacing: "0.01em" }}
+                      >
+                        {label}
+                      </span>
+                      <span
+                        className="ml-auto font-body flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                        style={{ fontSize: "14px", color: ACCENT }}
+                      >
+                        →
+                      </span>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
             </Slide>
 
@@ -290,7 +310,7 @@ const Brandbook = () => {
             <Slide index={2} scrollY={scrollY} vh={vh}>
               <SectionTag n="03" label="LOGO & MONOGRAM" />
 
-              <div className="flex-1 grid grid-cols-3 gap-3 min-h-0">
+              <div className="grid grid-cols-3 gap-3 flex-shrink-0" style={{ height: "52vh" }}>
                 <div
                   className="col-span-2 flex flex-col items-center justify-center"
                   style={{ background: "#EDEBE7" }}
@@ -302,8 +322,7 @@ const Brandbook = () => {
                     BIT & BEELD
                   </span>
                 </div>
-
-                <div className="flex flex-col gap-3 min-h-0">
+                <div className="flex flex-col gap-3">
                   <div
                     className="flex-1 flex flex-col items-center justify-center"
                     style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}
@@ -345,13 +364,13 @@ const Brandbook = () => {
               <SectionTag n="04" label="COLOR SYSTEM" />
 
               <h2
-                className="font-display font-extrabold uppercase leading-[0.88] mb-8 flex-shrink-0"
+                className="font-display font-extrabold uppercase leading-[0.88] mb-6 flex-shrink-0"
                 style={{ fontSize: "clamp(1.6rem, 4.5vw, 6rem)", color: OFF_WHITE, letterSpacing: "-0.025em", opacity: 0.6 }}
               >
                 TWO STATES.<br />ONE SIGNAL.
               </h2>
 
-              <div className="flex-1 grid grid-cols-5 gap-2 min-h-0">
+              <div className="grid grid-cols-5 gap-2 flex-shrink-0" style={{ height: "36vh" }}>
                 {PALETTE.map(({ name, hex, bg, lightText }) => (
                   <div key={name} className="flex flex-col justify-end p-4" style={{ background: bg }}>
                     <p
@@ -372,7 +391,7 @@ const Brandbook = () => {
                 style={{ height: "4px", background: "linear-gradient(to right, #FF4A2A, #FF7A4A, #E8C87A, #7AB87A, #2A2A2A)" }}
               />
 
-              <div className="mt-4 grid grid-cols-2 gap-8 flex-shrink-0">
+              <div className="mt-5 grid grid-cols-2 gap-8 flex-shrink-0">
                 {[
                   { label: "PRIMARY SIGNAL", body: "#FF4A2A — the only color accent. Used sparingly across both light and dark states." },
                   { label: "NEUTRAL SYSTEM", body: "#0B0B0B and #F4F1EB as structural base. No additional color accents outside this system." },
@@ -397,8 +416,7 @@ const Brandbook = () => {
                 Three fonts. One clear voice.
               </h2>
 
-              <div className="flex-1 grid grid-cols-3 gap-2 min-h-0">
-                {/* Anton */}
+              <div className="grid grid-cols-3 gap-2 flex-shrink-0" style={{ height: "52vh" }}>
                 <div className="flex flex-col p-6" style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}>
                   <Rule />
                   <p className="font-body mt-4 mb-0.5" style={{ fontSize: "9px", color: "#777777", letterSpacing: "0.3em" }}>DISPLAY / LOGO</p>
@@ -410,8 +428,6 @@ const Brandbook = () => {
                     Used exclusively for the wordmark and maximum-impact display moments.
                   </p>
                 </div>
-
-                {/* Syne */}
                 <div className="flex flex-col p-6" style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}>
                   <Rule />
                   <p className="font-body mt-4 mb-0.5" style={{ fontSize: "9px", color: "#777777", letterSpacing: "0.3em" }}>HEADINGS</p>
@@ -423,8 +439,6 @@ const Brandbook = () => {
                     All titles and section headers. ExtraBold 800 for impact, Bold 700 for sub-hierarchy.
                   </p>
                 </div>
-
-                {/* Inter */}
                 <div className="flex flex-col p-6" style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}>
                   <Rule />
                   <p className="font-body mt-4 mb-0.5" style={{ fontSize: "9px", color: "#777777", letterSpacing: "0.3em" }}>BODY / UI</p>
@@ -444,23 +458,20 @@ const Brandbook = () => {
               <SectionTag n="06" label="GRID & LAYOUT" />
 
               <h2
-                className="font-display font-extrabold uppercase leading-[0.87] mb-8 flex-shrink-0"
+                className="font-display font-extrabold uppercase leading-[0.87] mb-6 flex-shrink-0"
                 style={{ fontSize: "clamp(1.6rem, 4vw, 5.5rem)", color: OFF_WHITE, letterSpacing: "-0.025em", opacity: 0.6 }}
               >
                 STRUCTURE<br />CREATES<br />FREEDOM.
               </h2>
 
-              <div className="flex-1 flex gap-6 min-h-0">
-                {/* 12-column grid visualisation — clean, no fills */}
+              <div className="flex gap-6 flex-shrink-0" style={{ height: "42vh" }}>
                 <div className="flex-1 relative" style={{ border: "1px solid rgba(255,255,255,0.06)", background: "#0D0D0D" }}>
                   <div className="absolute inset-0 grid grid-cols-12">
                     {Array.from({ length: 12 }).map((_, i) => (
                       <div
                         key={i}
                         className="h-full"
-                        style={{
-                          borderLeft: i === 0 ? "none" : "1px solid rgba(255,255,255,0.05)",
-                        }}
+                        style={{ borderLeft: i === 0 ? "none" : "1px solid rgba(255,255,255,0.05)" }}
                       />
                     ))}
                   </div>
@@ -468,8 +479,6 @@ const Brandbook = () => {
                     <p className="font-body" style={{ fontSize: "9px", color: "#555555", letterSpacing: "0.25em" }}>12 COLUMN GRID</p>
                   </div>
                 </div>
-
-                {/* Spacing scale */}
                 <div className="w-56 flex-shrink-0 flex flex-col gap-3 pt-1">
                   <Rule />
                   <p className="font-body mb-2" style={{ fontSize: "9px", color: "#777777", letterSpacing: "0.22em" }}>SPACING SCALE</p>
@@ -502,8 +511,7 @@ const Brandbook = () => {
                 Components built with intent.
               </h2>
 
-              <div className="flex-1 grid grid-cols-3 gap-3 min-h-0">
-                {/* Buttons */}
+              <div className="grid grid-cols-3 gap-3 flex-shrink-0" style={{ height: "50vh" }}>
                 <div className="flex flex-col p-6 gap-4" style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}>
                   <Rule />
                   <p className="font-body" style={{ fontSize: "9px", color: "#777777", letterSpacing: "0.3em" }}>BUTTONS</p>
@@ -528,8 +536,6 @@ const Brandbook = () => {
                     </button>
                   </div>
                 </div>
-
-                {/* Tags */}
                 <div className="flex flex-col p-6 gap-4" style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}>
                   <Rule />
                   <p className="font-body" style={{ fontSize: "9px", color: "#777777", letterSpacing: "0.3em" }}>TAGS & LABELS</p>
@@ -551,8 +557,6 @@ const Brandbook = () => {
                     </span>
                   </div>
                 </div>
-
-                {/* Form fields */}
                 <div className="flex flex-col p-6 gap-4" style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}>
                   <Rule />
                   <p className="font-body" style={{ fontSize: "9px", color: "#777777", letterSpacing: "0.3em" }}>FORM FIELDS</p>
@@ -579,13 +583,13 @@ const Brandbook = () => {
               <SectionTag n="08" label="DARK MODE" />
 
               <h2
-                className="font-display font-extrabold uppercase leading-[0.87] mb-8 flex-shrink-0"
+                className="font-display font-extrabold uppercase leading-[0.87] mb-6 flex-shrink-0"
                 style={{ fontSize: "clamp(1.6rem, 4vw, 5.5rem)", color: OFF_WHITE, letterSpacing: "-0.025em", opacity: 0.6 }}
               >
                 BUILT FOR THE<br />BLACK CANVAS.
               </h2>
 
-              <div className="flex-1 grid grid-cols-2 gap-6 min-h-0">
+              <div className="grid grid-cols-2 gap-6 flex-shrink-0" style={{ height: "44vh" }}>
                 <div className="flex flex-col justify-between">
                   <p className="font-body leading-relaxed" style={{ fontSize: "13px", color: "#777777" }}>
                     The primary canvas is dark. Strong contrast, intentional. Off-white on near-black
@@ -604,7 +608,6 @@ const Brandbook = () => {
                     </p>
                   </div>
                 </div>
-
                 <div className="flex flex-col p-6 gap-5" style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}>
                   <div className="flex items-center justify-between pb-4 flex-shrink-0" style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
                     <span className="font-logo uppercase" style={{ fontSize: "12px", color: OFF_WHITE }}>BIT & BEELD</span>
@@ -633,13 +636,13 @@ const Brandbook = () => {
               <SectionTag n="09" label="LIGHT MODE" light />
 
               <h2
-                className="font-display font-extrabold uppercase leading-[0.87] mb-8 flex-shrink-0"
+                className="font-display font-extrabold uppercase leading-[0.87] mb-6 flex-shrink-0"
                 style={{ fontSize: "clamp(1.6rem, 4vw, 5.5rem)", color: "#111111", letterSpacing: "-0.025em", opacity: 0.5 }}
               >
                 SET ON<br />WARM PAPER.
               </h2>
 
-              <div className="flex-1 grid grid-cols-2 gap-6 min-h-0">
+              <div className="grid grid-cols-2 gap-6 flex-shrink-0" style={{ height: "44vh" }}>
                 <div className="flex flex-col justify-between">
                   <p className="font-body leading-relaxed" style={{ fontSize: "13px", color: "#777777" }}>
                     The light system is the complement — documentation, guidelines, editorial contexts.
@@ -658,7 +661,6 @@ const Brandbook = () => {
                     </p>
                   </div>
                 </div>
-
                 <div className="flex flex-col p-6 gap-5" style={{ background: "#FFFFFF", border: "1px solid rgba(0,0,0,0.08)" }}>
                   <div className="flex items-center justify-between pb-4 flex-shrink-0" style={{ borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
                     <span className="font-logo uppercase" style={{ fontSize: "12px", color: "#111111" }}>BIT & BEELD</span>
@@ -686,38 +688,34 @@ const Brandbook = () => {
             <Slide index={9} scrollY={scrollY} vh={vh}>
               <SectionTag n="10" label="VOICE & TONE" />
 
-              <div className="flex-1 flex flex-col justify-between min-h-0">
-                <div>
-                  <h2
-                    className="font-display font-bold uppercase leading-none mb-3"
-                    style={{ fontSize: "clamp(3rem, 9vw, 13rem)", color: OFF_WHITE, letterSpacing: "-0.03em" }}
-                  >
-                    CONSIDERED
-                  </h2>
-                  <p className="font-body" style={{ fontSize: "clamp(12px, 1.4vw, 17px)", color: "#888888", letterSpacing: "0.05em" }}>
-                    Precise, generous, clear.
-                  </p>
-                </div>
+              <h2
+                className="font-display font-bold uppercase leading-none mb-3 flex-shrink-0"
+                style={{ fontSize: "clamp(3rem, 9vw, 13rem)", color: OFF_WHITE, letterSpacing: "-0.03em" }}
+              >
+                CONSIDERED
+              </h2>
+              <p className="font-body mb-6 flex-shrink-0" style={{ fontSize: "clamp(12px, 1.4vw, 17px)", color: "#888888", letterSpacing: "0.05em" }}>
+                Precise, generous, clear.
+              </p>
 
-                <div className="grid grid-cols-2 gap-2">
-                  {[
-                    { word: "DIRECT",    desc: "No filler words. Every sentence carries weight." },
-                    { word: "CRAFTED",   desc: "Attention to detail in every element, always." },
-                    { word: "CONFIDENT", desc: "Assured tone. No hedging. Clear decisions." },
-                    { word: "WARM",      desc: "Human, not corporate. Present, not distant." },
-                  ].map(({ word, desc }) => (
-                    <div key={word} className="p-6" style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}>
-                      <Rule />
-                      <h3
-                        className="font-display font-bold uppercase mt-4 mb-2"
-                        style={{ fontSize: "clamp(0.9rem, 1.8vw, 1.8rem)", color: OFF_WHITE, letterSpacing: "-0.01em" }}
-                      >
-                        {word}
-                      </h3>
-                      <p className="font-body leading-relaxed" style={{ fontSize: "11px", color: "#666666" }}>{desc}</p>
-                    </div>
-                  ))}
-                </div>
+              <div className="grid grid-cols-2 gap-2 flex-shrink-0">
+                {[
+                  { word: "DIRECT",    desc: "No filler words. Every sentence carries weight." },
+                  { word: "CRAFTED",   desc: "Attention to detail in every element, always." },
+                  { word: "CONFIDENT", desc: "Assured tone. No hedging. Clear decisions." },
+                  { word: "WARM",      desc: "Human, not corporate. Present, not distant." },
+                ].map(({ word, desc }) => (
+                  <div key={word} className="p-6" style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}>
+                    <Rule />
+                    <h3
+                      className="font-display font-bold uppercase mt-4 mb-2"
+                      style={{ fontSize: "clamp(0.9rem, 1.8vw, 1.8rem)", color: OFF_WHITE, letterSpacing: "-0.01em" }}
+                    >
+                      {word}
+                    </h3>
+                    <p className="font-body leading-relaxed" style={{ fontSize: "11px", color: "#666666" }}>{desc}</p>
+                  </div>
+                ))}
               </div>
             </Slide>
 
@@ -726,14 +724,13 @@ const Brandbook = () => {
               <SectionTag n="11" label="DO'S & DON'TS" />
 
               <h2
-                className="font-display font-extrabold uppercase leading-[0.87] mb-8 flex-shrink-0"
+                className="font-display font-extrabold uppercase leading-[0.87] mb-6 flex-shrink-0"
                 style={{ fontSize: "clamp(1.4rem, 3.5vw, 4.5rem)", color: OFF_WHITE, letterSpacing: "-0.025em", opacity: 0.6 }}
               >
                 RULES OF<br />THE SYSTEM.
               </h2>
 
-              <div className="flex-1 grid grid-cols-2 gap-6 min-h-0">
-                {/* Do's */}
+              <div className="grid grid-cols-2 gap-6 flex-shrink-0">
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-3 mb-3">
                     <span className="font-body" style={{ fontSize: "10px", color: "#5DB870", letterSpacing: "0.25em" }}>DO</span>
@@ -753,8 +750,6 @@ const Brandbook = () => {
                     </div>
                   ))}
                 </div>
-
-                {/* Don'ts */}
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-3 mb-3">
                     <span className="font-body" style={{ fontSize: "10px", color: ACCENT, letterSpacing: "0.25em" }}>DON'T</span>
@@ -781,38 +776,35 @@ const Brandbook = () => {
             <Slide index={11} scrollY={scrollY} vh={vh}>
               <SectionTag n="12" label="COLOPHON" />
 
-              <div className="flex-1 flex flex-col justify-between pt-4 min-h-0">
-                <div className="flex items-start justify-between">
-                  <h2
-                    className="font-display font-extrabold uppercase leading-[0.87]"
-                    style={{ fontSize: "clamp(2.2rem, 6vw, 8.5rem)", color: OFF_WHITE, letterSpacing: "-0.025em" }}
-                  >
-                    DESIGN<br />DAT WERKT<span style={{ color: ACCENT }}>.</span>
-                  </h2>
-
-                  <div className="text-right space-y-4 mt-1">
-                    {[
-                      { label: "STUDIO",  value: "Studio Bit & Beeld" },
-                      { label: "LOCATIE", value: "Groningen, Nederland" },
-                      { label: "WEB",     value: "bitenbeeld.nl" },
-                      { label: "MAIL",    value: "hello@bitenbeeld.nl" },
-                    ].map(({ label, value }) => (
-                      <div key={label}>
-                        <p className="font-body" style={{ fontSize: "9px", color: "#666666", letterSpacing: "0.28em" }}>{label}</p>
-                        <p className="font-body" style={{ fontSize: "13px", color: OFF_WHITE }}>{value}</p>
-                      </div>
-                    ))}
-                  </div>
+              <div className="flex items-start justify-between flex-shrink-0 mt-2">
+                <h2
+                  className="font-display font-extrabold uppercase leading-[0.87]"
+                  style={{ fontSize: "clamp(2.2rem, 6vw, 8.5rem)", color: OFF_WHITE, letterSpacing: "-0.025em" }}
+                >
+                  DESIGN<br />DAT WERKT<span style={{ color: ACCENT }}>.</span>
+                </h2>
+                <div className="text-right space-y-4 mt-1">
+                  {[
+                    { label: "STUDIO",  value: "Studio Bit & Beeld" },
+                    { label: "LOCATIE", value: "Groningen, Nederland" },
+                    { label: "WEB",     value: "bitenbeeld.nl" },
+                    { label: "MAIL",    value: "hello@bitenbeeld.nl" },
+                  ].map(({ label, value }) => (
+                    <div key={label}>
+                      <p className="font-body" style={{ fontSize: "9px", color: "#666666", letterSpacing: "0.28em" }}>{label}</p>
+                      <p className="font-body" style={{ fontSize: "13px", color: OFF_WHITE }}>{value}</p>
+                    </div>
+                  ))}
                 </div>
+              </div>
 
-                <div>
-                  <Rule />
-                  <div className="flex items-center justify-between mt-4">
-                    <p className="font-body" style={{ fontSize: "10px", color: "#555555", letterSpacing: "0.08em" }}>
-                      © 2026 Studio Bit & Beeld — Brand Guidelines v2.0
-                    </p>
-                    <p className="font-body" style={{ fontSize: "10px", color: "#555555" }}>Nederland</p>
-                  </div>
+              <div className="mt-auto flex-shrink-0">
+                <Rule />
+                <div className="flex items-center justify-between mt-4">
+                  <p className="font-body" style={{ fontSize: "10px", color: "#555555", letterSpacing: "0.08em" }}>
+                    © 2026 Studio Bit & Beeld — Brand Guidelines v2.0
+                  </p>
+                  <p className="font-body" style={{ fontSize: "10px", color: "#555555" }}>Nederland</p>
                 </div>
               </div>
             </Slide>
