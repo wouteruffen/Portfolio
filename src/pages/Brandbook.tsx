@@ -33,6 +33,9 @@ const editorialEase = (t: number): number => {
   return n < 0.5 ? 4 * n * n * n : 1 - Math.pow(-2 * n + 2, 3) / 2;
 };
 
+/* ─── Light section indices (0-based) ───────────────────────────────────── */
+const LIGHT_SECTIONS = new Set([2, 5, 8, 10]); // 03 Logo, 06 Grid, 09 Light Mode, 11 Do's & Don'ts
+
 /* ─── Reusable primitives ────────────────────────────────────────────────── */
 const Rule = ({ light = false }: { light?: boolean }) => (
   <div
@@ -125,8 +128,10 @@ const Brandbook = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [vh, setVh] = useState(() => window.innerHeight);
   const [navBottom, setNavBottom] = useState(88);
+  const [isLightSection, setIsLightSection] = useState(false);
+  const vhRef = useRef(vh);
 
-  useSmoothScroll(scrollRef);
+  const { scrollTo } = useSmoothScroll(scrollRef);
 
   useEffect(() => {
     const onResize = () => setVh(window.innerHeight);
@@ -134,6 +139,10 @@ const Brandbook = () => {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  /* Keep vhRef in sync so scroll callbacks always see the latest viewport height */
+  useEffect(() => { vhRef.current = vh; }, [vh]);
+
+  /* Measure the actual bottom edge of NavbarV2 for the divider */
   useEffect(() => {
     const nav = document.querySelector("nav") as HTMLElement | null;
     if (!nav) return;
@@ -144,30 +153,51 @@ const Brandbook = () => {
     return () => ro.disconnect();
   }, []);
 
+  /*
+   * Inject a Brandbook-only <style> that inverts the fixed navbar on light sections.
+   * filter: invert(1) — makes white→black and vice versa.
+   * hue-rotate(180deg) — cancels the hue-shift so hued colors (green dot, etc.) stay correct.
+   * The style tag is removed when Brandbook unmounts, leaving the navbar untouched elsewhere.
+   */
+  useEffect(() => {
+    const style = document.createElement("style");
+    style.id = "brandbook-nav-inversion";
+    style.textContent = [
+      "nav { transition: filter 0.45s ease; }",
+      "html.brandbook-light nav { filter: invert(1) hue-rotate(180deg); }",
+    ].join("\n");
+    document.head.appendChild(style);
+    return () => {
+      style.remove();
+      document.documentElement.classList.remove("brandbook-light");
+    };
+  }, []);
+
+  /* Toggle html class to drive the nav filter */
+  useEffect(() => {
+    document.documentElement.classList.toggle("brandbook-light", isLightSection);
+  }, [isLightSection]);
+
   const { scrollY } = useScroll({ container: scrollRef });
 
+  /* Detect which section is snapped and whether it's a light section */
+  useEffect(() => {
+    const unsubscribe = scrollY.on("change", (latest) => {
+      const current = Math.round(latest / vhRef.current);
+      setIsLightSection(LIGHT_SECTIONS.has(current));
+    });
+    return unsubscribe;
+  }, [scrollY]);
+
   const scrollToSection = useCallback((index: number) => {
-    const container = scrollRef.current;
-    if (!container) return;
-    const target = index * vh;
-    const start = container.scrollTop;
-    if (Math.abs(target - start) < 2) return;
-    const duration = 950;
-    const startTime = performance.now();
-    const animate = (now: number) => {
-      const t = Math.min((now - startTime) / duration, 1);
-      const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      container.scrollTop = start + (target - start) * eased;
-      if (t < 1) requestAnimationFrame(animate);
-    };
-    requestAnimationFrame(animate);
-  }, [vh]);
+    scrollTo(index * vh);
+  }, [scrollTo, vh]);
 
   return (
     <>
       <CursorEffects />
-      <NavbarV2 />
-      {/* Brandbook-only divider */}
+      <NavbarV2 showLogo />
+      {/* Brandbook-only divider — color inverts with the section background */}
       <div
         style={{
           position: "fixed",
@@ -175,7 +205,8 @@ const Brandbook = () => {
           left: 0,
           right: 0,
           height: "1px",
-          background: "rgba(255,255,255,0.13)",
+          background: isLightSection ? "rgba(0,0,0,0.18)" : "rgba(255,255,255,0.13)",
+          transition: "background 0.45s ease",
           zIndex: 61,
           pointerEvents: "none",
         }}
@@ -307,19 +338,19 @@ const Brandbook = () => {
             </Slide>
 
             {/* ── 03 LOGO & MONOGRAM ───────────────────────────────────── */}
-            <Slide index={2} scrollY={scrollY} vh={vh}>
-              <SectionTag n="03" label="LOGO & MONOGRAM" />
+            <Slide index={2} scrollY={scrollY} vh={vh} bg={LIGHT}>
+              <SectionTag n="03" label="LOGO & MONOGRAM" light />
 
               <div className="grid grid-cols-3 gap-3 flex-shrink-0" style={{ height: "52vh" }}>
                 <div
                   className="col-span-2 flex flex-col items-center justify-center"
-                  style={{ background: "#EDEBE7" }}
+                  style={{ background: "#EDEBE7", border: "1px solid rgba(0,0,0,0.06)" }}
                 >
                   <span
-                    className="font-logo uppercase text-black leading-none tracking-tight"
+                    className="font-logo uppercase text-black leading-none tracking-tight text-center"
                     style={{ fontSize: "clamp(2.2rem, 5.5vw, 7rem)" }}
                   >
-                    BIT & BEELD
+                    BIT &<br />BEELD
                   </span>
                 </div>
                 <div className="flex flex-col gap-3">
@@ -328,8 +359,8 @@ const Brandbook = () => {
                     style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}
                   >
                     <p className="font-body mb-3" style={{ fontSize: "9px", color: "#666666", letterSpacing: "0.3em" }}>DARK</p>
-                    <span className="font-logo uppercase leading-none" style={{ fontSize: "clamp(0.9rem, 1.8vw, 1.8rem)", color: OFF_WHITE }}>
-                      BIT & BEELD
+                    <span className="font-logo uppercase leading-none text-center" style={{ fontSize: "clamp(0.9rem, 1.8vw, 1.8rem)", color: OFF_WHITE }}>
+                      BIT &<br />BEELD
                     </span>
                   </div>
                   <div
@@ -337,8 +368,8 @@ const Brandbook = () => {
                     style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}
                   >
                     <p className="font-body mb-3" style={{ fontSize: "9px", color: "#666666", letterSpacing: "0.3em" }}>ACCENT</p>
-                    <span className="font-logo uppercase leading-none" style={{ fontSize: "clamp(0.9rem, 1.8vw, 1.8rem)", color: ACCENT }}>
-                      BIT & BEELD
+                    <span className="font-logo uppercase leading-none text-center" style={{ fontSize: "clamp(0.9rem, 1.8vw, 1.8rem)", color: ACCENT }}>
+                      BIT &<br />BEELD
                     </span>
                   </div>
                 </div>
@@ -351,9 +382,9 @@ const Brandbook = () => {
                   { label: "ACCENT",   body: "#FF4A2A variant — reserved for special moments only. Never as default." },
                 ].map(({ label, body }) => (
                   <div key={label}>
-                    <Rule />
-                    <p className="font-body mt-3 mb-1" style={{ fontSize: "9px", color: "#777777", letterSpacing: "0.22em" }}>{label}</p>
-                    <p className="font-body leading-relaxed" style={{ fontSize: "11px", color: "#666666" }}>{body}</p>
+                    <Rule light />
+                    <p className="font-body mt-3 mb-1" style={{ fontSize: "9px", color: "#999999", letterSpacing: "0.22em" }}>{label}</p>
+                    <p className="font-body leading-relaxed" style={{ fontSize: "11px", color: "#777777" }}>{body}</p>
                   </div>
                 ))}
               </div>
@@ -454,18 +485,18 @@ const Brandbook = () => {
             </Slide>
 
             {/* ── 06 GRID & LAYOUT ─────────────────────────────────────── */}
-            <Slide index={5} scrollY={scrollY} vh={vh}>
-              <SectionTag n="06" label="GRID & LAYOUT" />
+            <Slide index={5} scrollY={scrollY} vh={vh} bg={LIGHT}>
+              <SectionTag n="06" label="GRID & LAYOUT" light />
 
               <h2
                 className="font-display font-extrabold uppercase leading-[0.87] mb-6 flex-shrink-0"
-                style={{ fontSize: "clamp(1.6rem, 4vw, 5.5rem)", color: OFF_WHITE, letterSpacing: "-0.025em", opacity: 0.6 }}
+                style={{ fontSize: "clamp(1.6rem, 4vw, 5.5rem)", color: "#1A1A1A", letterSpacing: "-0.025em", opacity: 0.5 }}
               >
                 STRUCTURE<br />CREATES<br />FREEDOM.
               </h2>
 
               <div className="flex gap-6 flex-shrink-0" style={{ height: "42vh" }}>
-                <div className="flex-1 relative" style={{ border: "1px solid rgba(255,255,255,0.06)", background: "#0D0D0D" }}>
+                <div className="flex-1 relative" style={{ border: "1px solid rgba(0,0,0,0.08)", background: "#0D0D0D" }}>
                   <div className="absolute inset-0 grid grid-cols-12">
                     {Array.from({ length: 12 }).map((_, i) => (
                       <div
@@ -480,8 +511,8 @@ const Brandbook = () => {
                   </div>
                 </div>
                 <div className="w-56 flex-shrink-0 flex flex-col gap-3 pt-1">
-                  <Rule />
-                  <p className="font-body mb-2" style={{ fontSize: "9px", color: "#777777", letterSpacing: "0.22em" }}>SPACING SCALE</p>
+                  <Rule light />
+                  <p className="font-body mb-2" style={{ fontSize: "9px", color: "#999999", letterSpacing: "0.22em" }}>SPACING SCALE</p>
                   {[
                     { label: "4px",  size: 4  },
                     { label: "8px",  size: 8  },
@@ -493,7 +524,7 @@ const Brandbook = () => {
                   ].map(({ label, size }) => (
                     <div key={label} className="flex items-center gap-3">
                       <div style={{ width: `${size}px`, height: "1px", background: ACCENT, flexShrink: 0 }} />
-                      <span className="font-body" style={{ fontSize: "10px", color: "#666666" }}>{label}</span>
+                      <span className="font-body" style={{ fontSize: "10px", color: "#777777" }}>{label}</span>
                     </div>
                   ))}
                 </div>
@@ -720,12 +751,12 @@ const Brandbook = () => {
             </Slide>
 
             {/* ── 11 DO'S & DON'TS ─────────────────────────────────────── */}
-            <Slide index={10} scrollY={scrollY} vh={vh}>
-              <SectionTag n="11" label="DO'S & DON'TS" />
+            <Slide index={10} scrollY={scrollY} vh={vh} bg={LIGHT}>
+              <SectionTag n="11" label="DO'S & DON'TS" light />
 
               <h2
                 className="font-display font-extrabold uppercase leading-[0.87] mb-6 flex-shrink-0"
-                style={{ fontSize: "clamp(1.4rem, 3.5vw, 4.5rem)", color: OFF_WHITE, letterSpacing: "-0.025em", opacity: 0.6 }}
+                style={{ fontSize: "clamp(1.4rem, 3.5vw, 4.5rem)", color: "#1A1A1A", letterSpacing: "-0.025em", opacity: 0.5 }}
               >
                 RULES OF<br />THE SYSTEM.
               </h2>
@@ -734,7 +765,7 @@ const Brandbook = () => {
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-3 mb-3">
                     <span className="font-body" style={{ fontSize: "10px", color: "#5DB870", letterSpacing: "0.25em" }}>DO</span>
-                    <div className="flex-1 h-px" style={{ background: "rgba(93,184,112,0.2)" }} />
+                    <div className="flex-1 h-px" style={{ background: "rgba(93,184,112,0.3)" }} />
                   </div>
                   {[
                     "Use Anton exclusively for the wordmark",
@@ -744,16 +775,16 @@ const Brandbook = () => {
                     "Apply the 12-column grid at every breakpoint",
                     "Use #F4F1EB (warm off-white) in light mode",
                   ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-3 py-2.5" style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                    <div key={i} className="flex items-start gap-3 py-2.5" style={{ borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
                       <span style={{ color: "#5DB870", fontSize: "12px", flexShrink: 0, lineHeight: 1.5 }}>+</span>
-                      <span className="font-body" style={{ fontSize: "11px", color: "#777777", lineHeight: 1.6 }}>{item}</span>
+                      <span className="font-body" style={{ fontSize: "11px", color: "#555555", lineHeight: 1.6 }}>{item}</span>
                     </div>
                   ))}
                 </div>
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-3 mb-3">
                     <span className="font-body" style={{ fontSize: "10px", color: ACCENT, letterSpacing: "0.25em" }}>DON'T</span>
-                    <div className="flex-1 h-px" style={{ background: "rgba(255,74,42,0.2)" }} />
+                    <div className="flex-1 h-px" style={{ background: "rgba(255,74,42,0.25)" }} />
                   </div>
                   {[
                     "Use Anton for body copy or UI labels",
@@ -763,9 +794,9 @@ const Brandbook = () => {
                     "Mix display fonts with Inter at body sizes",
                     "Place the logo on busy photographic backgrounds",
                   ].map((item, i) => (
-                    <div key={i} className="flex items-start gap-3 py-2.5" style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                    <div key={i} className="flex items-start gap-3 py-2.5" style={{ borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
                       <span style={{ color: ACCENT, fontSize: "12px", flexShrink: 0, lineHeight: 1.5 }}>—</span>
-                      <span className="font-body" style={{ fontSize: "11px", color: "#777777", lineHeight: 1.6 }}>{item}</span>
+                      <span className="font-body" style={{ fontSize: "11px", color: "#555555", lineHeight: 1.6 }}>{item}</span>
                     </div>
                   ))}
                 </div>

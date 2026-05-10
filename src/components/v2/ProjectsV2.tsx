@@ -123,18 +123,44 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
   const c2Y = useTransform(c2YRaw, v => `${v}vh`);
   const c3Y = useTransform(c3YRaw, v => `${v}vh`);
 
-  // ── X exits — eased slide-out, starts strictly after y has settled ────────
+  // ── X exits — numeric first so opacity can couple to position ───────────
   //
-  // Pattern: card i exits [i*0.20 + 0.06, i*0.20 + 0.25]
-  // Card 3 is the last — it never exits.
-  const c0X = useTransform(smoothProgress, [0.06, 0.25], ["0%", "-110%"], { ease: easeInOut });
-  const c1X = useTransform(smoothProgress, [0.26, 0.44], ["0%", "-110%"], { ease: easeInOut });
-  const c2X = useTransform(smoothProgress, [0.46, 0.64], ["0%", "-110%"], { ease: easeInOut });
+  // Pattern: card i exits [i*0.20 + 0.06, i*0.20 + 0.25]. Card 3 never exits.
+  const c0XNum = useTransform(smoothProgress, [0.06, 0.25], [0, -110], { ease: easeInOut });
+  const c1XNum = useTransform(smoothProgress, [0.26, 0.44], [0, -110], { ease: easeInOut });
+  const c2XNum = useTransform(smoothProgress, [0.46, 0.64], [0, -110], { ease: easeInOut });
+  const c0X = useTransform(c0XNum, v => `${v}%`);
+  const c1X = useTransform(c1XNum, v => `${v}%`);
+  const c2X = useTransform(c2XNum, v => `${v}%`);
 
-  // ── Opacity — extended ranges for softer crossfades ─────────────────────
-  const c0Opacity = useTransform(smoothProgress, [0,    0.08, 0.30], [1,    1,    0]);
-  const c1Opacity = useTransform(smoothProgress, [0,    0.20, 0.38, 0.50], [0.62, 1,    1,   0]);
-  const c2Opacity = useTransform(smoothProgress, [0, 0.20, 0.40, 0.54, 0.70], [0.45, 0.62, 1, 1, 0]);
+  // ── Opacity: stack depth dimming + exit fade coupled to X position ───────
+  //
+  // Exit cards (0–2): opacity is derived from their X value so the fade is
+  // scroll-linked — the farther the card slides off screen, the lower the
+  // opacity. Linear mapping (0 → 1, −110 → 0) gives an honest position tie;
+  // the easeInOut already baked into XNum makes it feel premium without
+  // needing an extra easing layer.
+  //
+  // Background cards (1–3): the progress-based ramp before the exit window
+  // preserves the stack depth effect as each card rises to the active slot.
+  const c0Opacity = useTransform(c0XNum, [0, -110], [1, 0]);
+  const c1Opacity = useTransform(
+    [smoothProgress, c1XNum] as const,
+    ([p, x]: number[]) => {
+      if (p < 0.20) return 0.62 + (p / 0.20) * 0.38; // stack ramp  0.62 → 1
+      if (p < 0.26) return 1;                           // active, before exit
+      return Math.max(0, 1 + x / 110);                 // position-linked fade
+    },
+  );
+  const c2Opacity = useTransform(
+    [smoothProgress, c2XNum] as const,
+    ([p, x]: number[]) => {
+      if (p < 0.20) return 0.45 + (p / 0.20) * 0.17;           // 0.45 → 0.62
+      if (p < 0.40) return 0.62 + ((p - 0.20) / 0.20) * 0.38;  // 0.62 → 1
+      if (p < 0.46) return 1;                                     // active, before exit
+      return Math.max(0, 1 + x / 110);                           // position-linked fade
+    },
+  );
   const c3Opacity = useTransform(smoothProgress, [0, 0.20, 0.40, 0.60, 1], [0.30, 0.45, 0.62, 1, 1]);
 
   // ── Image focus — scale + blur ease as each card arrives ─────────────────

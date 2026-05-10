@@ -1,61 +1,74 @@
-import { useEffect, RefObject } from "react";
+import { useEffect, useRef, RefObject, useCallback } from "react";
 
-// Controls how quickly scrollTop chases the target each frame.
-// 0.10 → smooth, premium feel without feeling floaty or disconnected.
 const LERP = 0.10;
 
 /**
  * Intercepts wheel events on a scroll container and animates scrollTop
  * toward the accumulated target using linear interpolation.
- * This gives every scroll interaction a smooth, premium eased feel while
- * keeping the animation strictly tied to user input (no inertia overshoot).
+ *
+ * Returns a `scrollTo(target)` function that shares the same RAF loop and
+ * targetY ref, so programmatic navigation never fights the wheel handler.
  */
 export function useSmoothScroll(containerRef: RefObject<HTMLDivElement>) {
+  const targetYRef = useRef(0);
+  const rafRef = useRef<number | null>(null);
+
+  const startTick = useCallback(() => {
+    if (rafRef.current !== null) return;
+    const container = containerRef.current;
+    if (!container) return;
+
+    const tick = () => {
+      const current = container.scrollTop;
+      const distance = targetYRef.current - current;
+      if (Math.abs(distance) < 0.5) {
+        container.scrollTop = targetYRef.current;
+        rafRef.current = null;
+        return;
+      }
+      container.scrollTop = current + distance * LERP;
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+  }, [containerRef]);
+
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    let targetY = container.scrollTop;
-    let rafId: number | null = null;
+    targetYRef.current = container.scrollTop;
 
-    // Normalize wheel delta across deltaMode variants
     const normalizeDelta = (e: WheelEvent): number => {
-      if (e.deltaMode === 1) return e.deltaY * 40;           // lines → pixels
-      if (e.deltaMode === 2) return e.deltaY * container.clientHeight; // pages → pixels
+      if (e.deltaMode === 1) return e.deltaY * 40;
+      if (e.deltaMode === 2) return e.deltaY * container.clientHeight;
       return e.deltaY;
-    };
-
-    const tick = () => {
-      const current = container.scrollTop;
-      const distance = targetY - current;
-
-      if (Math.abs(distance) < 0.5) {
-        container.scrollTop = targetY;
-        rafId = null;
-        return;
-      }
-
-      container.scrollTop = current + distance * LERP;
-      rafId = requestAnimationFrame(tick);
     };
 
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
       const max = container.scrollHeight - container.clientHeight;
-      targetY = Math.max(0, Math.min(max, targetY + normalizeDelta(e)));
-      if (rafId === null) {
-        rafId = requestAnimationFrame(tick);
-      }
+      targetYRef.current = Math.max(0, Math.min(max, targetYRef.current + normalizeDelta(e)));
+      startTick();
     };
 
     container.addEventListener("wheel", onWheel, { passive: false });
 
     return () => {
       container.removeEventListener("wheel", onWheel);
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId);
-        rafId = null;
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
       }
     };
-  }, [containerRef]);
+  }, [containerRef, startTick]);
+
+  const scrollTo = useCallback((target: number) => {
+    const container = containerRef.current;
+    if (!container) return;
+    const max = container.scrollHeight - container.clientHeight;
+    targetYRef.current = Math.max(0, Math.min(max, target));
+    startTick();
+  }, [containerRef, startTick]);
+
+  return { scrollTo };
 }
