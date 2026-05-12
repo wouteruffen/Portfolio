@@ -100,10 +100,76 @@ const Tag = ({ children, accent = false }: { children: React.ReactNode; accent?:
   </span>
 );
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   THUNDER @font-face declarations — only injected when TypoLab is mounted.
+   Paths resolve from /public. To revert: delete §10 + remove `thunder` from
+   tailwind.config.ts and this THUNDER_CSS constant.
+   ───────────────────────────────────────────────────────────────────────────── */
+const THUNDER_CSS = `
+@font-face {
+  font-family: 'ThunderHC';
+  src: url('/fonts/Web-TT/Thunder-LightHC.woff2') format('woff2'),
+       url('/fonts/Web-TT/Thunder-LightHC.woff') format('woff'),
+       url('/fonts/Web-TT/Thunder-LightHC.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ThunderHC';
+  src: url('/fonts/Web-TT/Thunder-HC.woff2') format('woff2'),
+       url('/fonts/Web-TT/Thunder-HC.woff') format('woff'),
+       url('/fonts/Web-TT/Thunder-HC.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ThunderHC';
+  src: url('/fonts/Web-TT/Thunder-BoldHC.woff2') format('woff2'),
+       url('/fonts/Web-TT/Thunder-BoldHC.woff') format('woff'),
+       url('/fonts/Web-TT/Thunder-BoldHC.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ThunderHC';
+  src: url('/fonts/Web-TT/Thunder-ExtraBoldHC.woff2') format('woff2'),
+       url('/fonts/Web-TT/Thunder-ExtraBoldHC.woff') format('woff'),
+       url('/fonts/Web-TT/Thunder-ExtraBoldHC.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ThunderHC';
+  src: url('/fonts/Web-TT/Thunder-BlackHC.woff2') format('woff2'),
+       url('/fonts/Web-TT/Thunder-BlackHC.woff') format('woff'),
+       url('/fonts/Web-TT/Thunder-BlackHC.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ThunderLC';
+  src: url('/fonts/Web-TT/Thunder-BlackLC.woff2') format('woff2'),
+       url('/fonts/Web-TT/Thunder-BlackLC.woff') format('woff'),
+       url('/fonts/Web-TT/Thunder-BlackLC.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+`;
+
 /* ═══════════════════════════════════════════════════════════════════════════ */
 
 const TypoLab = () => (
   <div style={{ background: T.bg, minHeight: "100vh", color: T.white }}>
+
+    {/* Thunder @font-face — scoped to this route; removed when TypoLab unmounts */}
+    {/* eslint-disable-next-line react/no-danger */}
+    <style dangerouslySetInnerHTML={{ __html: THUNDER_CSS }} />
 
     {/* ── Fixed header bar ──────────────────────────────────────────────────── */}
     <header
@@ -1280,6 +1346,275 @@ const TypoLab = () => (
               </p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ═══ §10 THUNDER TYPEFACE TEST ══════════════════════════════════════════ */}
+      <section>
+        <SectionHeader n="10" title="Thunder HC — Typeface Test (not applied globally)" />
+
+        {/* Info strip */}
+        <div
+          className="mb-6 flex flex-wrap items-center gap-4 justify-between p-5"
+          style={{ background: T.surface2, border: `1px solid ${T.borderD}` }}
+        >
+          <div className="flex flex-wrap gap-3">
+            <Tag accent>Test only — not global</Tag>
+            <Tag>ThunderHC · @font-face in TypoLab only</Tag>
+            <Tag>9 weights · HC = High Condensed · LC = Less Condensed</Tag>
+          </div>
+          <p className="font-body" style={{ fontSize: "0.75rem", color: T.dim, lineHeight: 1.5 }}>
+            To revert: delete §10 from TypoLab.tsx · remove <code style={{ color: T.white }}>thunder</code> from tailwind.config.ts · delete THUNDER_CSS
+          </p>
+        </div>
+
+        <div className="space-y-3">
+
+          {/* ── Anton vs Thunder Black HC ── */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+            <div className="p-10 flex flex-col" style={{ background: "#0B0B0B", border: `1px solid ${T.borderD}` }}>
+              <div className="flex flex-wrap gap-3 mb-10">
+                <Tag>Anton</Tag>
+                <Tag>weight 400 · only weight available</Tag>
+                <span className="font-body inline-block" style={{ fontSize: "0.625rem", letterSpacing: "0.2em", textTransform: "uppercase", color: T.green, border: `1px solid ${T.green}`, padding: "3px 8px" }}>
+                  CURRENT
+                </span>
+              </div>
+              <p className="font-logo uppercase leading-none" style={{ fontSize: "clamp(3rem, 8vw, 8rem)", letterSpacing: "-0.01em", color: T.white }}>
+                BIT &amp;<br />BEELD
+              </p>
+              <p className="font-body mt-6" style={{ fontSize: "0.75rem", color: T.dim, lineHeight: 1.5 }}>
+                Wide letterforms. Distinctive retrograde condensed serif. Single weight.
+              </p>
+            </div>
+
+            <div className="p-10 flex flex-col" style={{ background: "#0E0E0E", border: "1px solid rgba(255,74,42,0.3)" }}>
+              <div className="flex flex-wrap gap-3 mb-10">
+                <Tag>ThunderHC</Tag>
+                <Tag>weight 900 · Black</Tag>
+                <Tag accent>TEST</Tag>
+              </div>
+              <p className="font-thunder font-black uppercase leading-none" style={{ fontSize: "clamp(3rem, 8vw, 8rem)", letterSpacing: "-0.01em", color: T.white }}>
+                BIT &amp;<br />BEELD
+              </p>
+              <p className="font-body mt-6" style={{ fontSize: "0.75rem", color: T.dim, lineHeight: 1.5 }}>
+                Geometric. Sharp horizontals. Tight counters. Extreme condensing. Multiple weights.
+              </p>
+            </div>
+
+          </div>
+
+          {/* Thunder ExtraBold HC — secondary wordmark option */}
+          <div className="p-8" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
+            <div className="flex flex-wrap gap-3 mb-6">
+              <Tag>ThunderHC</Tag>
+              <Tag>weight 800 · ExtraBold</Tag>
+              <Tag>lighter than Black — more airy</Tag>
+            </div>
+            <p className="font-thunder font-extrabold uppercase leading-none" style={{ fontSize: "clamp(3rem, 8vw, 8rem)", letterSpacing: "-0.01em", color: T.white }}>
+              BIT &amp;<br />BEELD
+            </p>
+          </div>
+
+          {/* ── All registered weights ── */}
+          <div className="p-8" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
+            <p className="font-body mb-8" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase" }}>
+              ThunderHC — Registered weight range
+            </p>
+            <div className="space-y-0">
+              {[
+                { label: "300 · Light",     weight: 300 },
+                { label: "400 · Regular",   weight: 400 },
+                { label: "700 · Bold",      weight: 700 },
+                { label: "800 · ExtraBold", weight: 800 },
+                { label: "900 · Black",     weight: 900 },
+              ].map(({ label, weight }) => (
+                <div
+                  key={label}
+                  className="flex items-baseline gap-6"
+                  style={{ borderBottom: `1px solid ${T.borderD}`, paddingTop: "14px", paddingBottom: "14px" }}
+                >
+                  <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.2em", textTransform: "uppercase", minWidth: "130px", flexShrink: 0 }}>
+                    {label}
+                  </span>
+                  <span style={{ fontFamily: '"ThunderHC", sans-serif', fontWeight: weight, fontSize: "clamp(1.5rem, 4vw, 3.5rem)", color: T.white, lineHeight: 1, textTransform: "uppercase" }}>
+                    DESIGN DAT WERKT
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ── HC vs LC ── */}
+          <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-10" style={{ background: T.surface2, border: `1px solid ${T.borderD}` }}>
+            <div>
+              <p className="font-body mb-6" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase" }}>
+                HC — High Condensed (very tall, narrow)
+              </p>
+              <p style={{ fontFamily: '"ThunderHC", sans-serif', fontWeight: 900, fontSize: "clamp(3rem, 7vw, 7rem)", color: T.white, lineHeight: 1, textTransform: "uppercase", letterSpacing: "-0.01em" }}>
+                BIT &amp;<br />BEELD
+              </p>
+              <p className="font-body mt-4" style={{ fontSize: "0.75rem", color: T.dim, lineHeight: 1.5 }}>
+                Extreme condensing. Strong vertical rhythm. Ideal for stacked wordmarks.
+              </p>
+            </div>
+            <div>
+              <p className="font-body mb-6" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase" }}>
+                LC — Less Condensed (wider, more balanced)
+              </p>
+              <p style={{ fontFamily: '"ThunderLC", sans-serif', fontWeight: 900, fontSize: "clamp(3rem, 7vw, 7rem)", color: T.white, lineHeight: 1, textTransform: "uppercase", letterSpacing: "-0.01em" }}>
+                BIT &amp;<br />BEELD
+              </p>
+              <p className="font-body mt-4" style={{ fontSize: "0.75rem", color: T.dim, lineHeight: 1.5 }}>
+                Less extreme. Closer to standard condensed proportions. Reads more comfortably at body sizes.
+              </p>
+            </div>
+          </div>
+
+          {/* ── 6 typographic roles ── */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+
+            <div className="p-6 flex flex-col gap-4" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
+              <Tag>Logo / wordmark</Tag>
+              <p className="font-thunder font-black uppercase leading-none" style={{ fontSize: "2rem", color: T.white }}>
+                BIT &amp; BEELD
+              </p>
+              <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim }}>Thunder Black HC · 2rem</p>
+            </div>
+
+            <div className="p-6 flex flex-col gap-4" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
+              <Tag>Hero display</Tag>
+              <p className="font-thunder font-black uppercase leading-none" style={{ fontSize: "clamp(1.5rem, 4vw, 3.5rem)", color: T.white, letterSpacing: "-0.01em" }}>
+                DESIGN<br />DAT WERKT.
+              </p>
+              <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim }}>Thunder Black HC · clamp hero</p>
+            </div>
+
+            <div className="p-6 flex flex-col gap-4" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
+              <Tag>Section title</Tag>
+              <p className="font-thunder font-extrabold uppercase leading-none" style={{ fontSize: "clamp(1.2rem, 2.5vw, 2rem)", color: T.white }}>
+                WEBDESIGN &amp;<br />DEVELOPMENT
+              </p>
+              <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim }}>Thunder ExtraBold HC · clamp section</p>
+            </div>
+
+            <div className="p-6 flex flex-col gap-4" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
+              <Tag>Accent word</Tag>
+              <p className="font-thunder font-black uppercase leading-none" style={{ fontSize: "3rem", color: T.accent }}>
+                FEATURED
+              </p>
+              <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim }}>Thunder Black HC · 3rem · accent color</p>
+            </div>
+
+            <div className="p-6 flex flex-col gap-4" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
+              <Tag>Button text</Tag>
+              <div className="space-y-3">
+                <button className="font-thunder font-bold uppercase block w-full" style={{ background: T.accent, color: "#000", padding: "12px 24px", fontSize: "1rem", letterSpacing: "0.06em" }}>
+                  Plan Gesprek
+                </button>
+                <button className="font-thunder font-bold uppercase block w-full" style={{ background: "transparent", color: T.white, border: "1px solid rgba(255,255,255,0.25)", padding: "12px 24px", fontSize: "1rem", letterSpacing: "0.06em" }}>
+                  Bekijk Werk
+                </button>
+              </div>
+              <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim }}>Thunder Bold HC · 1rem — compare with Syne Bold</p>
+            </div>
+
+            <div className="p-6 flex flex-col gap-4" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
+              <Tag>Small label</Tag>
+              <div className="flex flex-wrap gap-2">
+                {["WEBDESIGN", "BRANDING", "2026"].map(t => (
+                  <span
+                    key={t}
+                    style={{ fontFamily: '"ThunderHC", sans-serif', fontWeight: 400, fontSize: "0.875rem", color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: "0.2em", border: `1px solid ${T.borderD}`, padding: "3px 10px" }}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+              <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim }}>Thunder Regular HC · 0.875rem — heavier optically than Inter at same size</p>
+            </div>
+
+          </div>
+
+          {/* ── Editorial system comparison ── */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+
+            {/* Current: Anton + Syne + Inter */}
+            <div className="p-8 flex flex-col" style={{ background: "#0B0B0B", border: `1px solid ${T.borderD}` }}>
+              <div className="flex gap-2 mb-8">
+                <span className="font-body inline-block" style={{ fontSize: "0.625rem", letterSpacing: "0.2em", textTransform: "uppercase", color: T.green, border: `1px solid ${T.green}`, padding: "3px 8px" }}>
+                  Current system
+                </span>
+              </div>
+              <div style={{ height: "1px", background: T.borderD, marginBottom: "16px" }} />
+              <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "16px", display: "block" }}>
+                01 — WEBDESIGN
+              </span>
+              <p className="font-logo uppercase leading-none mb-4" style={{ fontSize: "clamp(1.8rem, 4vw, 3.5rem)", color: T.white }}>
+                BIT &amp;<br />BEELD
+              </p>
+              <h3 className="font-display font-extrabold uppercase leading-none mb-4" style={{ fontSize: "clamp(1rem, 2vw, 1.75rem)", color: T.white, letterSpacing: "-0.02em" }}>
+                DESIGN DAT<br />WERKT.
+              </h3>
+              <p className="font-body mb-6" style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.65 }}>
+                Moderne, snelle websites die niet alleen mooi zijn maar ook converteren.
+              </p>
+              <span className="font-body mt-auto" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.2em", textTransform: "uppercase" }}>
+                Anton + Syne + Inter
+              </span>
+            </div>
+
+            {/* Test A: Thunder + Syne + Inter */}
+            <div className="p-8 flex flex-col" style={{ background: "#0E0E0E", border: "1px solid rgba(255,74,42,0.2)" }}>
+              <div className="flex gap-2 mb-8">
+                <Tag accent>Test A</Tag>
+                <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim, alignSelf: "center" }}>Thunder replaces Anton</span>
+              </div>
+              <div style={{ height: "1px", background: T.borderD, marginBottom: "16px" }} />
+              <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "16px", display: "block" }}>
+                01 — WEBDESIGN
+              </span>
+              <p className="font-thunder font-black uppercase leading-none mb-4" style={{ fontSize: "clamp(1.8rem, 4vw, 3.5rem)", color: T.white }}>
+                BIT &amp;<br />BEELD
+              </p>
+              <h3 className="font-display font-extrabold uppercase leading-none mb-4" style={{ fontSize: "clamp(1rem, 2vw, 1.75rem)", color: T.white, letterSpacing: "-0.02em" }}>
+                DESIGN DAT<br />WERKT.
+              </h3>
+              <p className="font-body mb-6" style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.65 }}>
+                Moderne, snelle websites die niet alleen mooi zijn maar ook converteren.
+              </p>
+              <span className="font-body mt-auto" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.2em", textTransform: "uppercase" }}>
+                Thunder HC + Syne + Inter
+              </span>
+            </div>
+
+            {/* Test B: Thunder + Inter (no Syne) */}
+            <div className="p-8 flex flex-col" style={{ background: "#0E0E0E", border: "1px solid rgba(255,74,42,0.2)" }}>
+              <div className="flex gap-2 mb-8">
+                <Tag accent>Test B</Tag>
+                <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim, alignSelf: "center" }}>Thunder replaces Anton + Syne</span>
+              </div>
+              <div style={{ height: "1px", background: T.borderD, marginBottom: "16px" }} />
+              <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "16px", display: "block" }}>
+                01 — WEBDESIGN
+              </span>
+              <p className="font-thunder font-black uppercase leading-none mb-4" style={{ fontSize: "clamp(1.8rem, 4vw, 3.5rem)", color: T.white }}>
+                BIT &amp;<br />BEELD
+              </p>
+              <h3 className="font-thunder font-extrabold uppercase leading-none mb-4" style={{ fontSize: "clamp(1rem, 2vw, 1.75rem)", color: T.white, letterSpacing: "-0.02em" }}>
+                DESIGN DAT<br />WERKT.
+              </h3>
+              <p className="font-body mb-6" style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.65 }}>
+                Moderne, snelle websites die niet alleen mooi zijn maar ook converteren.
+              </p>
+              <span className="font-body mt-auto" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.2em", textTransform: "uppercase" }}>
+                Thunder HC + Inter (Syne removed)
+              </span>
+            </div>
+
+          </div>
+
         </div>
       </section>
 

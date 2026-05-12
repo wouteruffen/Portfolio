@@ -17,6 +17,7 @@ export default {
         display: ["Syne", "sans-serif"],
         body: ["Inter", "sans-serif"],
         logo: ["Anton", "sans-serif"],
+        thunder: ['"ThunderHC"', "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
