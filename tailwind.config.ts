@@ -18,6 +18,8 @@ export default {
         body: ["Inter", "sans-serif"],
         logo: ["Anton", "sans-serif"],
         thunder: ['"ThunderHC"', "sans-serif"],
+        antonio: ['"Antonio"', "sans-serif"],
+        outfit: ['"Outfit"', "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",

@@ -7,7 +7,13 @@
       "Bash(grep -v \"^$\")",
       "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\woute\\\\Portfolio\" -Recurse -Directory)",
       "Bash(Select-Object -First 20)",
-      "Bash(Format-Table FullName)"
+      "Bash(Format-Table FullName)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\woute\\\\Portfolio\\\\public\\\\fonts\" -Recurse | Where-Object { $_.Name -match \"Antonia|Oswald|antonia|oswald\" })",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\woute\\\\Portfolio\\\\public\" -Recurse | Where-Object { $_.Name -match \"Antonia|antonia\" })",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\woute\\\\Portfolio\\\\src\\\\assets\" -Recurse -ErrorAction SilentlyContinue | Where-Object { $_.Name -match \"Antonia|antonia|Oswald|oswald\" })",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\woute\\\\Portfolio\\\\public\" -Recurse | Select-Object FullName | Where-Object { $_.FullName -notmatch \"Thunder\" })",
+      "Bash(del *)",
+      "Bash(git checkout *)"
     ]
   }
 }

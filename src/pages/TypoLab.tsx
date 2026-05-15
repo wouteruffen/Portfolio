@@ -15,7 +15,7 @@ import { ArrowLeft } from "lucide-react";
             applying changes globally to the portfolio.
    ───────────────────────────────────────────────────────────────────────────── */
 
-/* ── Local design tokens (proposals — not yet applied globally) ────────────── */
+/* ── Local design tokens ───────────────────────────────────────────────────── */
 const T = {
   bg:       "#0A0A0A",
   surface:  "#111111",
@@ -30,32 +30,16 @@ const T = {
   borderL:  "rgba(0,0,0,0.09)",
 };
 
-/* ── Proposed type scale ───────────────────────────────────────────────────── */
+/* ── Type scale L1–L8 (finalized) ─────────────────────────────────────────── */
 const SCALE = [
-  { token: "2XS",  rem: "0.625rem", px: 10,
-    preview: "Tags · chips · section numbers · metadata keys" },
-  { token: "XS",   rem: "0.75rem",  px: 12,
-    preview: "Captions · form labels · nav secondary · timestamps" },
-  { token: "SM",   rem: "0.875rem", px: 14,
-    preview: "Secondary body text, descriptions, and tool chip labels." },
-  { token: "BASE", rem: "1rem",     px: 16,
-    preview: "Primary body text — comfortable and clear for long reads." },
-  { token: "LG",   rem: "1.125rem", px: 18,
-    preview: "Large body paragraphs and introductory text blocks." },
-  { token: "XL",   rem: "1.25rem",  px: 20,
-    preview: "Prominent UI text, featured annotations and pull quotes." },
-  { token: "2XL",  rem: "1.5rem",   px: 24,
-    preview: "Small headings, card titles and contact information." },
-  { token: "3XL",  rem: "1.875rem", px: 30,
-    preview: "Section subheadings, featured quotes and key statements." },
-  { token: "4XL",  rem: "2.25rem",  px: 36,
-    preview: "Section headings and major block titles across the site." },
-  { token: "5XL",  rem: "3rem",     px: 48,
-    preview: "Large editorial titles and hero supporting text." },
-  { token: "6XL",  rem: "3.75rem",  px: 60,
-    preview: "Hero headings — primary page titles." },
-  { token: "7XL",  rem: "4.5rem",   px: 72,
-    preview: "Display — maximum impact moments only." },
+  { token: "L1", font: "Anton",   weight: 400, size: "clamp(2.5rem,6vw,5rem)",        tracking: "–0.02em", lh: "1.0",  role: "Logo · display · identity",              preview: "BIT & BEELD" },
+  { token: "L2", font: "Anton",   weight: 400, size: "clamp(1.75rem,4vw,3.25rem)",    tracking: "–0.02em", lh: "1.0",  role: "Section titles — OVER MIJ · WAT IK DOE", preview: "OVER MIJ" },
+  { token: "L3", font: "Antonio", weight: 600, size: "clamp(1.375rem,2.5vw,2.25rem)", tracking: "0.01em",  lh: "1.0",  role: "Section subheadings",                     preview: "Webdesign & Development" },
+  { token: "L4", font: "Antonio", weight: 400, size: "clamp(1.125rem,2vw,1.75rem)",   tracking: "0.01em",  lh: "1.05", role: "Editorial headings · card titles",          preview: "Moderne, snelle websites" },
+  { token: "L5", font: "Antonio", weight: 300, size: "clamp(1rem,1.5vw,1.25rem)",     tracking: "0.02em",  lh: "1.1",  role: "Supporting text · kicker labels",           preview: "Performance-first digital studio" },
+  { token: "L6", font: "Inter",   weight: 500, size: "0.9375rem",                     tracking: "0",       lh: "1.6",  role: "Body emphasis · intro paragraph",           preview: "Websites die converteren en resultaat opleveren." },
+  { token: "L7", font: "Inter",   weight: 400, size: "0.9375rem",                     tracking: "0",       lh: "1.7",  role: "Body text · descriptions · paragraphs",     preview: "Moderne, snelle websites die niet alleen mooi zijn maar ook converteren." },
+  { token: "L8", font: "Inter",   weight: 400, size: "0.625rem",                      tracking: "0.25em",  lh: "1.5",  role: "Labels · metadata · UI tags (uppercase)",   preview: "WEBDESIGN · BRANDING · 2026" },
 ];
 
 /* ── Reusable section header ───────────────────────────────────────────────── */
@@ -64,14 +48,15 @@ const SectionHeader = ({ n, title, light = false }: { n: string; title: string; 
     <div className="flex items-baseline gap-5 mb-4">
       <span
         className="font-body tabular-nums flex-shrink-0"
-        style={{ fontSize: "0.75rem", letterSpacing: "0.3em", color: light ? T.dim : T.dim }}
+        style={{ fontSize: "0.75rem", letterSpacing: "0.3em", color: T.dim }}
       >
         {n}
       </span>
       <span
-        className="font-display font-extrabold uppercase"
+        className="font-antonio uppercase"
         style={{
           fontSize: "clamp(1rem, 2vw, 1.5rem)",
+          fontWeight: 600,
           letterSpacing: "0.04em",
           color: light ? "#1A1A1A" : T.white,
         }}
@@ -101,62 +86,16 @@ const Tag = ({ children, accent = false }: { children: React.ReactNode; accent?:
 );
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   THUNDER @font-face declarations — only injected when TypoLab is mounted.
-   Paths resolve from /public. To revert: delete §10 + remove `thunder` from
-   tailwind.config.ts and this THUNDER_CSS constant.
+   Antonio @font-face declaration — only injected when TypoLab is mounted.
+   Paths resolve from /public. Variable font covers the full weight range.
+   To revert: delete §10 + remove `antonio` from tailwind.config.ts
+   and delete ANTONIO_CSS.
    ───────────────────────────────────────────────────────────────────────────── */
-const THUNDER_CSS = `
+const ANTONIO_CSS = `
 @font-face {
-  font-family: 'ThunderHC';
-  src: url('/fonts/Web-TT/Thunder-LightHC.woff2') format('woff2'),
-       url('/fonts/Web-TT/Thunder-LightHC.woff') format('woff'),
-       url('/fonts/Web-TT/Thunder-LightHC.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'ThunderHC';
-  src: url('/fonts/Web-TT/Thunder-HC.woff2') format('woff2'),
-       url('/fonts/Web-TT/Thunder-HC.woff') format('woff'),
-       url('/fonts/Web-TT/Thunder-HC.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'ThunderHC';
-  src: url('/fonts/Web-TT/Thunder-BoldHC.woff2') format('woff2'),
-       url('/fonts/Web-TT/Thunder-BoldHC.woff') format('woff'),
-       url('/fonts/Web-TT/Thunder-BoldHC.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'ThunderHC';
-  src: url('/fonts/Web-TT/Thunder-ExtraBoldHC.woff2') format('woff2'),
-       url('/fonts/Web-TT/Thunder-ExtraBoldHC.woff') format('woff'),
-       url('/fonts/Web-TT/Thunder-ExtraBoldHC.ttf') format('truetype');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'ThunderHC';
-  src: url('/fonts/Web-TT/Thunder-BlackHC.woff2') format('woff2'),
-       url('/fonts/Web-TT/Thunder-BlackHC.woff') format('woff'),
-       url('/fonts/Web-TT/Thunder-BlackHC.ttf') format('truetype');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'ThunderLC';
-  src: url('/fonts/Web-TT/Thunder-BlackLC.woff2') format('woff2'),
-       url('/fonts/Web-TT/Thunder-BlackLC.woff') format('woff'),
-       url('/fonts/Web-TT/Thunder-BlackLC.ttf') format('truetype');
-  font-weight: 900;
+  font-family: 'Antonio';
+  src: url('/fonts/Antonio/Antonio-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 700;
   font-style: normal;
   font-display: swap;
 }
@@ -167,9 +106,9 @@ const THUNDER_CSS = `
 const TypoLab = () => (
   <div style={{ background: T.bg, minHeight: "100vh", color: T.white }}>
 
-    {/* Thunder @font-face — scoped to this route; removed when TypoLab unmounts */}
+    {/* Antonio @font-face — scoped to this route; removed when TypoLab unmounts */}
     {/* eslint-disable-next-line react/no-danger */}
-    <style dangerouslySetInnerHTML={{ __html: THUNDER_CSS }} />
+    <style dangerouslySetInnerHTML={{ __html: ANTONIO_CSS }} />
 
     {/* ── Fixed header bar ──────────────────────────────────────────────────── */}
     <header
@@ -212,321 +151,196 @@ const TypoLab = () => (
     {/* ── Hero band ────────────────────────────────────────────────────────── */}
     <div
       className="flex flex-col justify-end px-6 md:px-12 lg:px-24"
-      style={{ paddingTop: "52px", paddingBottom: "48px", borderBottom: `1px solid ${T.borderD}` }}
+      style={{ paddingTop: "52px", paddingBottom: "120px", borderBottom: `1px solid ${T.borderD}` }}
     >
-      <div style={{ paddingTop: "80px" }}>
-        <Tag>Typography System · v0.1 Draft</Tag>
+      <div style={{ paddingTop: "200px" }}>
+        <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "40px" }}>
+          Typography System · Internal
+        </p>
         <h1
-          className="font-logo uppercase leading-none mt-6"
+          className="font-logo uppercase leading-none"
           style={{ fontSize: "clamp(3.5rem, 10vw, 9rem)", letterSpacing: "-0.02em", color: T.white }}
         >
           TYPO<br />LAB<span style={{ color: T.accent }}>.</span>
         </h1>
         <p
-          className="font-body mt-6 max-w-xl"
-          style={{ fontSize: "1rem", color: T.muted, lineHeight: 1.7 }}
+          className="font-antonio"
+          style={{ fontSize: "clamp(1rem, 1.5vw, 1.25rem)", fontWeight: 300, letterSpacing: "0.03em", color: T.muted, lineHeight: 1.2, marginTop: "40px", maxWidth: "36ch" }}
         >
-          A controlled environment for testing and refining the typography system
-          before applying changes globally. Not part of the public portfolio.
+          Anton · Antonio · Inter — a controlled environment to refine the system before global rollout.
         </p>
-        <div className="flex flex-wrap gap-3 mt-8">
-          {["Anton — Identity", "Syne — Structure", "Inter — Readability"].map(t => (
-            <Tag key={t}>{t}</Tag>
-          ))}
-        </div>
       </div>
     </div>
 
     {/* ── Main content ─────────────────────────────────────────────────────── */}
-    <main className="px-6 md:px-12 lg:px-24 py-24 space-y-32 max-w-screen-2xl mx-auto">
+    <main className="px-6 md:px-12 lg:px-24 py-24 space-y-48 max-w-screen-2xl mx-auto">
 
       {/* ═══ §01 FONT OVERVIEW ════════════════════════════════════════════════ */}
       <section>
         <SectionHeader n="01" title="Font Overview" />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div style={{ background: "#F4F1EB" }}>
+          <div className="grid grid-cols-1 md:grid-cols-3">
 
-          {/* Anton */}
-          <div
-            className="flex flex-col p-8"
-            style={{ background: T.surface, border: `1px solid ${T.borderD}` }}
-          >
-            <div className="flex items-center justify-between mb-6">
-              <span className="font-body" style={{ fontSize: "0.625rem", letterSpacing: "0.3em", color: T.dim, textTransform: "uppercase" }}>
-                Identity / Impact
-              </span>
-              <Tag accent>Logo</Tag>
-            </div>
-
-            <div style={{ height: "1px", background: T.borderD, marginBottom: "32px" }} />
-
-            <span
-              className="font-logo uppercase leading-none"
-              style={{ fontSize: "clamp(2.5rem, 5vw, 5rem)", color: T.white, letterSpacing: "-0.01em" }}
-            >
-              Anton
-            </span>
-
-            <div style={{ height: "1px", background: T.borderD, marginTop: "32px", marginBottom: "24px" }} />
-
-            <div className="space-y-3">
-              <div>
-                <span className="font-body" style={{ fontSize: "0.625rem", letterSpacing: "0.25em", color: T.dim, textTransform: "uppercase" }}>
-                  Available weight
-                </span>
-                <p className="font-logo uppercase mt-1" style={{ fontSize: "1.5rem", color: T.white }}>
-                  400 — Regular
+            <div style={{ padding: "56px 40px", borderRight: "1px solid rgba(0,0,0,0.08)" }}>
+              <p className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "56px" }}>
+                01 — Identity · Impact
+              </p>
+              <p className="font-logo uppercase leading-none" style={{ fontSize: "clamp(2.5rem, 5vw, 5rem)", color: "#111", letterSpacing: "-0.02em" }}>
+                Anton
+              </p>
+              <div style={{ marginTop: "48px" }}>
+                <p className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "8px" }}>
+                  Weight 400 — single
                 </p>
-              </div>
-              <div style={{ height: "1px", background: T.borderD }} />
-              <div>
-                <span className="font-body" style={{ fontSize: "0.625rem", letterSpacing: "0.25em", color: T.dim, textTransform: "uppercase" }}>
-                  Usage
-                </span>
-                <p className="font-body mt-1" style={{ fontSize: "0.875rem", color: T.muted, lineHeight: 1.6 }}>
-                  Logo wordmark only. Hero display moments. Brandbook cover. Never for body or UI.
-                </p>
-              </div>
-              <div style={{ height: "1px", background: T.borderD }} />
-              <div>
-                <span className="font-body" style={{ fontSize: "0.625rem", letterSpacing: "0.25em", color: T.dim, textTransform: "uppercase" }}>
-                  Example
-                </span>
-                <p className="font-logo uppercase mt-2" style={{ fontSize: "1.25rem", color: T.white, letterSpacing: "0.01em" }}>
-                  BIT &<br />BEELD
+                <p className="font-body" style={{ fontSize: "0.875rem", color: "#666", lineHeight: 1.65 }}>
+                  Logo wordmark. Major section titles. Display impact moments only. Never for body or UI.
                 </p>
               </div>
             </div>
-          </div>
 
-          {/* Syne */}
-          <div
-            className="flex flex-col p-8"
-            style={{ background: T.surface, border: `1px solid ${T.borderD}` }}
-          >
-            <div className="flex items-center justify-between mb-6">
-              <span className="font-body" style={{ fontSize: "0.625rem", letterSpacing: "0.3em", color: T.dim, textTransform: "uppercase" }}>
-                Structure / Design
-              </span>
-              <Tag accent>Display</Tag>
-            </div>
-
-            <div style={{ height: "1px", background: T.borderD, marginBottom: "32px" }} />
-
-            <span
-              className="font-display font-extrabold leading-none"
-              style={{ fontSize: "clamp(2.5rem, 5vw, 5rem)", color: T.white, letterSpacing: "-0.025em" }}
-            >
-              Syne
-            </span>
-
-            <div style={{ height: "1px", background: T.borderD, marginTop: "32px", marginBottom: "24px" }} />
-
-            <div className="space-y-3">
-              <div>
-                <span className="font-body" style={{ fontSize: "0.625rem", letterSpacing: "0.25em", color: T.dim, textTransform: "uppercase" }}>
-                  Loaded weights
-                </span>
-                <div className="mt-2 space-y-1">
-                  {[
-                    { w: "400", cls: "font-normal", label: "Regular" },
-                    { w: "700", cls: "font-bold",   label: "Bold" },
-                    { w: "800", cls: "font-extrabold", label: "ExtraBold — primary" },
-                  ].map(({ w, cls, label }) => (
-                    <p key={w} className={`font-display ${cls}`} style={{ fontSize: "1rem", color: w === "800" ? T.white : T.muted }}>
-                      {w} — {label}
-                    </p>
-                  ))}
-                </div>
-              </div>
-              <div style={{ height: "1px", background: T.borderD }} />
-              <div>
-                <span className="font-body" style={{ fontSize: "0.625rem", letterSpacing: "0.25em", color: T.dim, textTransform: "uppercase" }}>
-                  Usage
-                </span>
-                <p className="font-body mt-1" style={{ fontSize: "0.875rem", color: T.muted, lineHeight: 1.6 }}>
-                  All h1–h6, section titles, CTAs, navigation menu items, editorial headings.
+            <div style={{ padding: "56px 40px", borderRight: "1px solid rgba(0,0,0,0.08)" }}>
+              <p className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "56px" }}>
+                02 — Editorial · Hierarchy
+              </p>
+              <p className="font-antonio leading-none" style={{ fontSize: "clamp(2.5rem, 5vw, 5rem)", fontWeight: 600, color: "#111", letterSpacing: "0.01em" }}>
+                Antonio
+              </p>
+              <div style={{ marginTop: "48px" }}>
+                <p className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "8px" }}>
+                  Weights 300 · 400 · 600
                 </p>
-              </div>
-              <div style={{ height: "1px", background: T.borderD }} />
-              <div>
-                <span className="font-body" style={{ fontSize: "0.625rem", letterSpacing: "0.25em", color: T.dim, textTransform: "uppercase" }}>
-                  Example
-                </span>
-                <p className="font-display font-extrabold uppercase mt-2" style={{ fontSize: "1.25rem", color: T.white, letterSpacing: "-0.01em" }}>
-                  DESIGN<br />DAT WERKT.
+                <p className="font-body" style={{ fontSize: "0.875rem", color: "#666", lineHeight: 1.65 }}>
+                  Section subheadings. Editorial headings. Kicker labels. Never for body copy or logo use.
                 </p>
               </div>
             </div>
-          </div>
 
-          {/* Inter */}
-          <div
-            className="flex flex-col p-8"
-            style={{ background: T.surface, border: `1px solid ${T.borderD}` }}
-          >
-            <div className="flex items-center justify-between mb-6">
-              <span className="font-body" style={{ fontSize: "0.625rem", letterSpacing: "0.3em", color: T.dim, textTransform: "uppercase" }}>
-                Readability / UI
-              </span>
-              <Tag accent>Body</Tag>
-            </div>
-
-            <div style={{ height: "1px", background: T.borderD, marginBottom: "32px" }} />
-
-            <span
-              className="font-body font-medium leading-none"
-              style={{ fontSize: "clamp(2.5rem, 5vw, 5rem)", color: T.white, letterSpacing: "-0.02em" }}
-            >
-              Inter
-            </span>
-
-            <div style={{ height: "1px", background: T.borderD, marginTop: "32px", marginBottom: "24px" }} />
-
-            <div className="space-y-3">
-              <div>
-                <span className="font-body" style={{ fontSize: "0.625rem", letterSpacing: "0.25em", color: T.dim, textTransform: "uppercase" }}>
-                  Loaded weights
-                </span>
-                <div className="mt-2 space-y-1">
-                  {[
-                    { w: "400", cls: "font-normal", label: "Regular — body" },
-                    { w: "500", cls: "font-medium", label: "Medium — UI, buttons" },
-                  ].map(({ w, cls, label }) => (
-                    <p key={w} className={`font-body ${cls}`} style={{ fontSize: "1rem", color: T.white }}>
-                      {w} — {label}
-                    </p>
-                  ))}
-                </div>
-              </div>
-              <div style={{ height: "1px", background: T.borderD }} />
-              <div>
-                <span className="font-body" style={{ fontSize: "0.625rem", letterSpacing: "0.25em", color: T.dim, textTransform: "uppercase" }}>
-                  Usage
-                </span>
-                <p className="font-body mt-1" style={{ fontSize: "0.875rem", color: T.muted, lineHeight: 1.6 }}>
-                  All body text, paragraphs, labels, captions, form fields, metadata, UI copy.
+            <div style={{ padding: "56px 40px" }}>
+              <p className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "56px" }}>
+                03 — Readability · UI
+              </p>
+              <p className="font-body font-medium leading-none" style={{ fontSize: "clamp(2.5rem, 5vw, 5rem)", color: "#111", letterSpacing: "-0.02em" }}>
+                Inter
+              </p>
+              <div style={{ marginTop: "48px" }}>
+                <p className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "8px" }}>
+                  Weights 400 · 500
                 </p>
-              </div>
-              <div style={{ height: "1px", background: T.borderD }} />
-              <div>
-                <span className="font-body" style={{ fontSize: "0.625rem", letterSpacing: "0.25em", color: T.dim, textTransform: "uppercase" }}>
-                  Example
-                </span>
-                <p className="font-body mt-2" style={{ fontSize: "1rem", color: T.muted, lineHeight: 1.7 }}>
-                  Moderne websites die niet alleen mooi zijn maar ook converteren en resultaat opleveren.
+                <p className="font-body" style={{ fontSize: "0.875rem", color: "#666", lineHeight: 1.65 }}>
+                  Body text. Labels. Captions. Metadata. Forms. UI copy. Never for headings or display.
                 </p>
               </div>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* ═══ §02 TYPOGRAPHY SCALE ═════════════════════════════════════════════ */}
+      {/* ═══ §02 TYPE SCALE ════════════════════════════════════════════════════ */}
       <section>
-        <SectionHeader n="02" title="Typography Scale — Proposed rem system" />
+        <SectionHeader n="02" title="Type Scale" />
 
         <div style={{ border: `1px solid ${T.borderD}` }}>
-          {/* Header row */}
           <div
             className="grid font-body uppercase"
             style={{
-              gridTemplateColumns: "80px 100px 60px 1fr",
-              gap: "0 24px",
+              gridTemplateColumns: "48px 80px 120px 80px 60px 1fr",
+              gap: "0 16px",
               padding: "12px 24px",
               borderBottom: `1px solid ${T.borderD}`,
-              fontSize: "0.625rem",
+              fontSize: "0.5625rem",
               letterSpacing: "0.25em",
               color: T.dim,
             }}
           >
-            <span>Token</span>
-            <span>Rem</span>
-            <span>Px</span>
-            <span>Preview (Inter · Regular)</span>
+            <span>Level</span>
+            <span>Font</span>
+            <span>Size</span>
+            <span>Tracking</span>
+            <span>LH</span>
+            <span>Role · Preview</span>
           </div>
 
-          {SCALE.map((step, i) => (
-            <div
-              key={step.token}
-              className="grid items-center"
-              style={{
-                gridTemplateColumns: "80px 100px 60px 1fr",
-                gap: "0 24px",
-                padding: "20px 24px",
-                borderBottom: i < SCALE.length - 1 ? `1px solid ${T.borderD}` : "none",
-                background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.015)",
-              }}
-            >
-              <span
-                className="font-body font-medium"
-                style={{ fontSize: "0.625rem", letterSpacing: "0.2em", color: T.accent, textTransform: "uppercase" }}
+          {SCALE.map((step, i) => {
+            const fontClass = step.font === "Anton" ? "font-logo" : step.font === "Antonio" ? "font-antonio" : "font-body";
+            const isAnton = step.font === "Anton";
+            return (
+              <div
+                key={step.token}
+                className="grid items-center"
+                style={{
+                  gridTemplateColumns: "48px 80px 120px 80px 60px 1fr",
+                  gap: "0 16px",
+                  padding: "22px 24px",
+                  borderBottom: i < SCALE.length - 1 ? `1px solid ${T.borderD}` : "none",
+                  background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.015)",
+                }}
               >
-                {step.token}
-              </span>
-              <span
-                className="font-body"
-                style={{ fontSize: "0.75rem", color: T.dim, letterSpacing: "0.05em" }}
-              >
-                {step.rem}
-              </span>
-              <span
-                className="font-body"
-                style={{ fontSize: "0.75rem", color: T.dim }}
-              >
-                {step.px}
-              </span>
-              <span
-                className="font-body leading-tight"
-                style={{ fontSize: step.rem, color: T.white, lineHeight: 1.3 }}
-              >
-                {step.preview}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-          {[
-            { label: "Use rem for", items: ["Body text (BASE, LG)", "UI labels (XS, 2XS)", "Buttons and CTAs", "Form inputs", "Captions and meta"] },
-            { label: "Keep clamp() for", items: ["Brandbook section h2s", "Portfolio card headings", "About / Contact intro", "Any heading that must scale between breakpoints"] },
-            { label: "Keep vw for", items: ["Section banners (OVER MIJ)", "ScrollLogo hero wordmark", "Full-bleed editorial titles", "WAT IK DOE / Contact heading"] },
-          ].map(({ label, items }) => (
-            <div key={label} className="p-6" style={{ background: T.surface2, border: `1px solid ${T.borderD}` }}>
-              <p className="font-body mb-4" style={{ fontSize: "0.625rem", letterSpacing: "0.25em", color: T.accent, textTransform: "uppercase" }}>
-                {label}
-              </p>
-              <ul className="space-y-2">
-                {items.map(i => (
-                  <li key={i} className="font-body flex items-start gap-2" style={{ fontSize: "0.875rem", color: T.muted }}>
-                    <span style={{ color: T.accent, flexShrink: 0 }}>—</span>
-                    {i}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+                <span className="font-body font-medium" style={{ fontSize: "0.625rem", letterSpacing: "0.2em", color: T.accent, textTransform: "uppercase" }}>
+                  {step.token}
+                </span>
+                <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim }}>
+                  {step.font} {step.weight}
+                </span>
+                <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.03em" }}>
+                  {step.size}
+                </span>
+                <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim }}>
+                  {step.tracking}
+                </span>
+                <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim }}>
+                  {step.lh}
+                </span>
+                <div>
+                  <p className="font-body" style={{ fontSize: "0.5rem", color: T.dim, letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "4px" }}>
+                    {step.role}
+                  </p>
+                  <p
+                    className={`${fontClass} ${isAnton ? "uppercase" : ""} leading-none`}
+                    style={{
+                      fontSize: step.size.startsWith("clamp") ? "clamp(1rem,2vw,1.5rem)" : step.size,
+                      fontWeight: step.weight,
+                      letterSpacing: step.tracking === "0" ? undefined : step.tracking,
+                      color: T.white,
+                      lineHeight: parseFloat(step.lh),
+                    }}
+                  >
+                    {step.preview}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </section>
 
+      {/* ── Editorial interlude — Anton statement ──────────────────────────── */}
+      <div style={{ background: "#F4F1EB", padding: "120px 0", textAlign: "center" }}>
+        <p
+          className="font-logo uppercase leading-none"
+          style={{ fontSize: "clamp(3rem, 8vw, 8rem)", color: "#111", letterSpacing: "-0.02em" }}
+        >
+          DESIGN<br />DAT WERKT<span style={{ color: "#FF4A2A" }}>.</span>
+        </p>
+        <p
+          className="font-antonio"
+          style={{ fontSize: "clamp(0.875rem, 1.5vw, 1.125rem)", fontWeight: 300, color: "#999", letterSpacing: "0.03em", marginTop: "40px" }}
+        >
+          Anton · L1 · clamp(3rem, 8vw, 8rem) · –0.02em
+        </p>
+      </div>
+
       {/* ═══ §03 DISPLAY TYPOGRAPHY ═══════════════════════════════════════════ */}
       <section>
-        <SectionHeader n="03" title="Display Typography — clamp / vw justified" />
+        <SectionHeader n="03" title="Display Typography" />
 
-        <div className="space-y-2">
+        <div className="space-y-1">
 
-          {/* Anton — Logo / Cover */}
-          <div
-            className="p-8 md:p-12 overflow-hidden"
-            style={{ background: T.surface, border: `1px solid ${T.borderD}` }}
-          >
-            <div className="flex items-start justify-between mb-6 flex-wrap gap-4">
-              <div className="flex gap-3">
-                <Tag>Anton</Tag>
-                <Tag>clamp(4rem, 10vw, 12rem)</Tag>
-                <Tag accent>Cover · Brandbook</Tag>
-              </div>
-            </div>
+          <div className="overflow-hidden" style={{ background: T.surface, padding: "64px 48px" }}>
+            <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "48px" }}>
+              Anton · L1 · Logo · Cover
+            </p>
             <h1
               className="font-logo uppercase leading-none"
               style={{ fontSize: "clamp(4rem, 10vw, 12rem)", letterSpacing: "-0.025em", color: T.white }}
@@ -535,601 +349,350 @@ const TypoLab = () => (
             </h1>
           </div>
 
-          {/* Syne — Section banner */}
-          <div
-            className="p-8 md:p-12 overflow-hidden"
-            style={{ background: T.surface, border: `1px solid ${T.borderD}` }}
-          >
-            <div className="flex gap-3 mb-6">
-              <Tag>Syne ExtraBold</Tag>
-              <Tag>text-[10vw] md:text-[7vw] lg:text-[5.5vw]</Tag>
-              <Tag accent>Section banners</Tag>
+          <div className="overflow-hidden" style={{ background: "#F4F1EB", padding: "64px 48px" }}>
+            <p className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "48px" }}>
+              Anton · L2 · Section titles
+            </p>
+            <div className="flex flex-col gap-4">
+              {["OVER MIJ", "WAT IK DOE", "BRAND BOOK"].map(t => (
+                <h2 key={t}
+                  className="font-logo uppercase leading-none"
+                  style={{ fontSize: "clamp(1.75rem, 4vw, 3.25rem)", letterSpacing: "-0.02em", color: "#111" }}
+                >
+                  {t}
+                </h2>
+              ))}
             </div>
-            <h2
-              className="font-display font-extrabold uppercase leading-none"
-              style={{
-                fontSize: "clamp(3rem, 7vw, 5.5rem)",
-                letterSpacing: "-0.025em",
-                color: "rgba(255,255,255,0.8)",
-              }}
-            >
-              OVER MIJ
-            </h2>
           </div>
 
-          {/* Syne — Section banner 2 */}
-          <div
-            className="p-8 md:p-12 overflow-hidden"
-            style={{ background: T.surface, border: `1px solid ${T.borderD}` }}
-          >
-            <div className="flex gap-3 mb-6">
-              <Tag>Syne ExtraBold</Tag>
-              <Tag>same scale — full-bleed title</Tag>
-              <Tag accent>Projects section</Tag>
-            </div>
-            <h2
-              className="font-display font-extrabold uppercase leading-none"
-              style={{
-                fontSize: "clamp(3rem, 7vw, 5.5rem)",
-                letterSpacing: "-0.025em",
-                color: "rgba(255,255,255,0.8)",
-              }}
-            >
-              WAT IK DOE
-            </h2>
-          </div>
-
-          {/* Syne — Colophon / large editorial */}
-          <div
-            className="p-8 md:p-12 overflow-hidden"
-            style={{ background: T.surface, border: `1px solid ${T.borderD}` }}
-          >
-            <div className="flex gap-3 mb-6">
-              <Tag>Syne ExtraBold</Tag>
-              <Tag>clamp(2.2rem, 6vw, 8.5rem)</Tag>
-              <Tag accent>Colophon · endings</Tag>
-            </div>
-            <h2
-              className="font-display font-extrabold uppercase leading-none"
-              style={{
-                fontSize: "clamp(2.2rem, 6vw, 8.5rem)",
-                letterSpacing: "-0.025em",
-                color: T.white,
-              }}
-            >
-              DESIGN<br />DAT WERKT<span style={{ color: T.accent }}>.</span>
-            </h2>
-          </div>
-
-          {/* Syne — Intro heading (About) */}
-          <div
-            className="p-8 md:p-12 overflow-hidden"
-            style={{ background: T.surface, border: `1px solid ${T.borderD}` }}
-          >
-            <div className="flex gap-3 mb-6">
-              <Tag>Syne ExtraBold</Tag>
-              <Tag>clamp(3rem, 5.5vw, 5rem)</Tag>
-              <Tag accent>Intro / About</Tag>
-            </div>
+          <div className="overflow-hidden" style={{ background: T.surface, padding: "64px 48px" }}>
+            <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "48px" }}>
+              Antonio · L3 · 600 · Section subheadings
+            </p>
             <h3
-              className="font-display font-extrabold leading-none"
-              style={{
-                fontSize: "clamp(3rem, 5.5vw, 5rem)",
-                letterSpacing: "-0.025em",
-                color: T.white,
-              }}
+              className="font-antonio leading-none"
+              style={{ fontSize: "clamp(1.375rem, 2.5vw, 2.25rem)", fontWeight: 600, letterSpacing: "0.01em", color: T.white }}
             >
-              Hi, I'm<br />Wouter
+              Webdesign &amp; Development
             </h3>
           </div>
 
-          {/* Note on clamp ranges */}
-          <div
-            className="p-6"
-            style={{ background: "rgba(255,74,42,0.05)", border: `1px solid rgba(255,74,42,0.2)` }}
-          >
-            <p className="font-body" style={{ fontSize: "0.75rem", color: T.muted, lineHeight: 1.7 }}>
-              <span style={{ color: T.accent }}>Note:</span> The five Brandbook section h2s currently use five slightly different clamp ranges
-              (5rem, 5.5rem, and 6rem max values) with no visible difference. Proposal: consolidate to a
-              single token <span style={{ color: T.white }}>clamp(1.6rem, 4vw, 5.5rem)</span> for all section headings at that scale.
+          <div className="overflow-hidden" style={{ background: T.surface, padding: "48px 48px" }}>
+            <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "32px" }}>
+              Antonio · L4 · 400 · Editorial headings
+            </p>
+            <h4
+              className="font-antonio"
+              style={{ fontSize: "clamp(1.125rem, 2vw, 1.75rem)", fontWeight: 400, letterSpacing: "0.01em", color: T.white, lineHeight: 1.05 }}
+            >
+              Moderne, snelle websites die niet alleen mooi zijn maar ook converteren.
+            </h4>
+          </div>
+
+          <div className="overflow-hidden" style={{ background: "#F4F1EB", padding: "48px 48px" }}>
+            <p className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "32px" }}>
+              Antonio · L5 · 300 · Kicker · Supporting
+            </p>
+            <p
+              className="font-antonio"
+              style={{ fontSize: "clamp(1rem, 1.5vw, 1.25rem)", fontWeight: 300, letterSpacing: "0.02em", color: "#777", lineHeight: 1.1 }}
+            >
+              Performance-first digital studio · Amsterdam
             </p>
           </div>
+
         </div>
       </section>
 
-      {/* ═══ §04 BODY TEXT SYSTEM ═════════════════════════════════════════════ */}
+      {/* ═══ §04 BODY TEXT ════════════════════════════════════════════════════ */}
       <section>
-        <SectionHeader n="04" title="Body Text System — Inter only" />
+        <SectionHeader n="04" title="Body Text — Inter" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div style={{ background: "#F4F1EB", padding: "64px 48px" }}>
+          <div className="max-w-2xl space-y-12">
 
-          {/* Text hierarchy on dark */}
-          <div
-            className="p-8 space-y-8"
-            style={{ background: T.surface, border: `1px solid ${T.borderD}` }}
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <Tag>Dark background</Tag>
-            </div>
-
-            <div className="space-y-1">
-              <p className="font-body" style={{ fontSize: "0.625rem", color: T.accent, letterSpacing: "0.25em", textTransform: "uppercase" }}>
-                LG · 1.125rem · 18px
+            <div>
+              <p className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "16px" }}>
+                L6 · Inter 500 · 0.9375rem · Body emphasis
               </p>
-              <p className="font-body" style={{ fontSize: "1.125rem", color: T.white, lineHeight: 1.65 }}>
-                Moderne, snelle websites die niet alleen mooi zijn maar ook converteren en resultaat opleveren.
+              <p className="font-body font-medium" style={{ fontSize: "0.9375rem", color: "#111", lineHeight: 1.6 }}>
+                Moderne, snelle websites die niet alleen mooi zijn maar ook converteren en resultaat opleveren voor jouw bedrijf.
               </p>
             </div>
 
-            <div style={{ height: "1px", background: T.borderD }} />
+            <div style={{ height: "1px", background: "rgba(0,0,0,0.09)" }} />
 
-            <div className="space-y-1">
-              <p className="font-body" style={{ fontSize: "0.625rem", color: T.accent, letterSpacing: "0.25em", textTransform: "uppercase" }}>
-                BASE · 1rem · 16px
+            <div>
+              <p className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "16px" }}>
+                L7 · Inter 400 · 0.9375rem · Body text
               </p>
-              <p className="font-body" style={{ fontSize: "1rem", color: "rgba(255,255,255,0.7)", lineHeight: 1.7 }}>
-                Van strategie en design tot volledige front-end implementatie met de nieuwste technologieën. Gebruiksvriendelijk, schaalbaar en gebouwd voor de lange termijn.
+              <p className="font-body" style={{ fontSize: "0.9375rem", color: "#444", lineHeight: 1.7 }}>
+                Van strategie en design tot volledige front-end implementatie met de nieuwste technologieën. Gebruiksvriendelijk, schaalbaar en gebouwd voor de lange termijn. Wij bouwen websites die presteren.
               </p>
             </div>
 
-            <div style={{ height: "1px", background: T.borderD }} />
+            <div style={{ height: "1px", background: "rgba(0,0,0,0.09)" }} />
 
-            <div className="space-y-1">
-              <p className="font-body" style={{ fontSize: "0.625rem", color: T.accent, letterSpacing: "0.25em", textTransform: "uppercase" }}>
-                SM · 0.875rem · 14px
+            <div>
+              <p className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "16px" }}>
+                L8 · Inter 400 · 0.625rem · Labels · Metadata
               </p>
-              <p className="font-body" style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.65 }}>
-                Apps en platformen die complexe processen vereenvoudigen. Van wireframe tot werkend product.
+              <p className="font-body uppercase" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.25em" }}>
+                Webdesign · Branding · 2026 · Amsterdam · Performance-first
               </p>
             </div>
 
-            <div style={{ height: "1px", background: T.borderD }} />
-
-            <div className="space-y-1">
-              <p className="font-body" style={{ fontSize: "0.625rem", color: T.accent, letterSpacing: "0.25em", textTransform: "uppercase" }}>
-                XS · 0.75rem · 12px
-              </p>
-              <p className="font-body" style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.35)", lineHeight: 1.6, letterSpacing: "0.02em" }}>
-                Webdesign &amp; Development · Groningen, Nederland · hello@bitenbeeld.nl
-              </p>
-            </div>
-
-            <div style={{ height: "1px", background: T.borderD }} />
-
-            <div className="space-y-1">
-              <p className="font-body" style={{ fontSize: "0.625rem", color: T.accent, letterSpacing: "0.25em", textTransform: "uppercase" }}>
-                2XS · 0.625rem · 10px
-              </p>
-              <p className="font-body" style={{ fontSize: "0.625rem", color: "rgba(255,255,255,0.25)", letterSpacing: "0.25em", textTransform: "uppercase" }}>
-                WEBDESIGN · 2026 · PERFORMANCE-FIRST · UI/UX
-              </p>
-            </div>
-          </div>
-
-          {/* Italic / emphasis variants */}
-          <div
-            className="p-8 space-y-8"
-            style={{ background: T.surface, border: `1px solid ${T.borderD}` }}
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <Tag>Weight &amp; style variants</Tag>
-            </div>
-
-            <div className="space-y-3">
-              <p className="font-body" style={{ fontSize: "0.625rem", color: T.accent, letterSpacing: "0.25em", textTransform: "uppercase" }}>
-                Regular 400 — primary body
-              </p>
-              <p className="font-body font-normal" style={{ fontSize: "1rem", color: T.white, lineHeight: 1.7 }}>
-                Visuele identiteiten die herkenbaar blijven en een krachtig verhaal vertellen.
-              </p>
-            </div>
-
-            <div style={{ height: "1px", background: T.borderD }} />
-
-            <div className="space-y-3">
-              <p className="font-body" style={{ fontSize: "0.625rem", color: T.accent, letterSpacing: "0.25em", textTransform: "uppercase" }}>
-                Medium 500 — labels, UI, buttons
-              </p>
-              <p className="font-body font-medium" style={{ fontSize: "1rem", color: T.white, lineHeight: 1.7 }}>
-                Visuele identiteiten die herkenbaar blijven en een krachtig verhaal vertellen.
-              </p>
-            </div>
-
-            <div style={{ height: "1px", background: T.borderD }} />
-
-            <div className="space-y-3">
-              <p className="font-body" style={{ fontSize: "0.625rem", color: T.accent, letterSpacing: "0.25em", textTransform: "uppercase" }}>
-                Italic — emphasis / secondary
-              </p>
-              <p className="font-body italic" style={{ fontSize: "1rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.7 }}>
-                Visuele identiteiten die herkenbaar blijven en een krachtig verhaal vertellen.
-              </p>
-            </div>
-
-            <div style={{ height: "1px", background: T.borderD }} />
-
-            <div className="space-y-3">
-              <p className="font-body" style={{ fontSize: "0.625rem", color: T.accent, letterSpacing: "0.25em", textTransform: "uppercase" }}>
-                Uppercase tracking — labels
-              </p>
-              <p className="font-body font-medium uppercase" style={{ fontSize: "0.75rem", color: T.muted, lineHeight: 1.7, letterSpacing: "0.25em" }}>
-                Studio · Amsterdam · Available for project · Medio 2026
-              </p>
-            </div>
-
-            <div style={{ height: "1px", background: T.borderD }} />
-
-            <div className="space-y-3">
-              <p className="font-body" style={{ fontSize: "0.625rem", color: T.accent, letterSpacing: "0.25em", textTransform: "uppercase" }}>
-                Tabular nums — time, counts
-              </p>
-              <p className="font-body font-medium tabular-nums" style={{ fontSize: "1rem", color: T.white }}>
-                09:41 &nbsp;·&nbsp; GMT+2 &nbsp;·&nbsp; 01 / 04
-              </p>
-            </div>
           </div>
         </div>
       </section>
 
       {/* ═══ §05 BUTTON SYSTEM ════════════════════════════════════════════════ */}
       <section>
-        <SectionHeader n="05" title="Button System — font comparison" />
+        <SectionHeader n="05" title="Button System" />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-1">
 
-          {/* Primary */}
-          <div className="p-8 space-y-6" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
-            <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase" }}>
-              Primary button
+          <div style={{ background: "#0B0B0B", padding: "64px 48px" }}>
+            <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "56px" }}>
+              Dark canvas
             </p>
-            <div className="space-y-4">
+            <div className="space-y-8">
               <div>
-                <Tag>Syne · Bold · uppercase</Tag>
+                <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "12px" }}>
+                  Primary CTA — Antonio 700
+                </p>
                 <button
-                  className="font-display font-bold uppercase mt-3 block w-full"
-                  style={{
-                    background: T.accent,
-                    color: "#000",
-                    padding: "14px 24px",
-                    fontSize: "0.75rem",
-                    letterSpacing: "0.18em",
-                  }}
+                  className="font-antonio uppercase"
+                  style={{ fontWeight: 700, background: T.accent, color: "#000", padding: "14px 32px", fontSize: "15px", letterSpacing: "0.1em" }}
                 >
                   Start Project
                 </button>
               </div>
               <div>
-                <Tag>Inter · Medium · uppercase</Tag>
+                <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "12px" }}>
+                  Secondary — Antonio 400
+                </p>
                 <button
-                  className="font-body font-medium uppercase mt-3 block w-full"
-                  style={{
-                    background: T.accent,
-                    color: "#000",
-                    padding: "14px 24px",
-                    fontSize: "0.75rem",
-                    letterSpacing: "0.18em",
-                  }}
-                >
-                  Start Project
-                </button>
-              </div>
-              <p className="font-body" style={{ fontSize: "0.75rem", color: T.muted, lineHeight: 1.6 }}>
-                Syne gives more personality. Inter is more neutral and readable at small sizes.
-              </p>
-            </div>
-          </div>
-
-          {/* Secondary / ghost */}
-          <div className="p-8 space-y-6" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
-            <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase" }}>
-              Secondary &amp; ghost
-            </p>
-            <div className="space-y-4">
-              <div>
-                <Tag>Secondary — outline</Tag>
-                <button
-                  className="font-display font-bold uppercase mt-3 block w-full"
-                  style={{
-                    background: "transparent",
-                    color: T.white,
-                    border: `1px solid rgba(255,255,255,0.25)`,
-                    padding: "14px 24px",
-                    fontSize: "0.75rem",
-                    letterSpacing: "0.18em",
-                  }}
+                  className="font-antonio uppercase"
+                  style={{ fontWeight: 400, background: "transparent", color: T.white, border: "1px solid rgba(255,255,255,0.2)", padding: "13px 28px", fontSize: "14px", letterSpacing: "0.08em" }}
                 >
                   Bekijk Werk
                 </button>
               </div>
               <div>
-                <Tag>Ghost — text link</Tag>
+                <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "12px" }}>
+                  UI tags — Inter 400
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {["Webdesign", "Branding", "2026"].map(t => (
+                    <span key={t} className="font-body" style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: T.muted, border: `1px solid ${T.borderD}`, padding: "3px 10px" }}>
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ background: "#F4F1EB", padding: "64px 48px" }}>
+            <p className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "56px" }}>
+              Light canvas
+            </p>
+            <div className="space-y-8">
+              <div>
+                <p className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "12px" }}>
+                  Primary CTA — Antonio 700
+                </p>
                 <button
-                  className="font-display font-bold uppercase mt-3 block"
-                  style={{
-                    background: "transparent",
-                    color: T.accent,
-                    padding: "0",
-                    fontSize: "0.75rem",
-                    letterSpacing: "0.18em",
-                    border: "none",
-                  }}
+                  className="font-antonio uppercase"
+                  style={{ fontWeight: 700, background: "#111", color: "#F4F1EB", padding: "14px 32px", fontSize: "15px", letterSpacing: "0.1em" }}
                 >
-                  Meer over mij →
+                  Start Project
                 </button>
               </div>
               <div>
-                <Tag>Pill — rounded</Tag>
+                <p className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "12px" }}>
+                  Secondary — Antonio 400
+                </p>
                 <button
-                  className="font-display font-bold uppercase mt-3 inline-block rounded-full"
-                  style={{
-                    background: "rgba(255,255,255,0.08)",
-                    color: "rgba(255,255,255,0.75)",
-                    border: `1px solid rgba(255,255,255,0.2)`,
-                    padding: "12px 28px",
-                    fontSize: "0.75rem",
-                    letterSpacing: "0.15em",
-                  }}
+                  className="font-antonio uppercase"
+                  style={{ fontWeight: 400, background: "transparent", color: "#111", border: "1px solid rgba(0,0,0,0.2)", padding: "13px 28px", fontSize: "14px", letterSpacing: "0.08em" }}
                 >
-                  Plan Gesprek
+                  Bekijk Werk
                 </button>
+              </div>
+              <div>
+                <p className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "12px" }}>
+                  UI tags — Inter 400
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {["Webdesign", "Branding", "2026"].map(t => (
+                    <span key={t} className="font-body" style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#999", border: "1px solid rgba(0,0,0,0.12)", padding: "3px 10px" }}>
+                      {t}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Size comparison */}
-          <div className="p-8 space-y-6" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
-            <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase" }}>
-              Size hierarchy
-            </p>
-            <div className="space-y-4">
-              {[
-                { size: "1rem",     label: "LG — hero CTA",    py: "18px 36px" },
-                { size: "0.875rem", label: "BASE — standard",  py: "14px 28px" },
-                { size: "0.75rem",  label: "SM — compact",     py: "10px 20px" },
-                { size: "0.625rem", label: "XS — inline link", py: "0" },
-              ].map(({ size, label, py }) => (
-                <div key={label}>
-                  <Tag>{label}</Tag>
-                  <button
-                    className="font-display font-bold uppercase mt-2 block"
-                    style={{
-                      background: py === "0" ? "transparent" : T.accent,
-                      color: py === "0" ? T.accent : "#000",
-                      padding: py,
-                      fontSize: size,
-                      letterSpacing: "0.15em",
-                      border: "none",
-                    }}
-                  >
-                    Start Project {py === "0" ? "→" : ""}
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* ═══ §06 DARK / LIGHT TESTS ══════════════════════════════════════════ */}
+      {/* ═══ §06 DARK · LIGHT ════════════════════════════════════════════════ */}
       <section>
-        <SectionHeader n="06" title="Dark / Light Contrast Tests" />
+        <SectionHeader n="06" title="Dark · Light" />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-1">
 
-          {/* Dark panel */}
-          <div className="p-10 space-y-8" style={{ background: "#0B0B0B", border: `1px solid ${T.borderD}` }}>
-            <div className="flex gap-3">
-              <Tag>Dark — #0B0B0B</Tag>
-              <Tag accent>Primary canvas</Tag>
-            </div>
-
-            <div>
-              <p className="font-body mb-1" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase" }}>
-                Studio
-              </p>
-              <p className="font-logo uppercase" style={{ fontSize: "1.5rem", color: "#F5F5F5" }}>
-                BIT & BEELD
-              </p>
-            </div>
-
-            <div>
-              <h2 className="font-display font-extrabold uppercase leading-none" style={{ fontSize: "clamp(1.5rem, 3.5vw, 3rem)", color: "#F5F5F5", letterSpacing: "-0.02em" }}>
-                DESIGN DAT<br />WERKT.
+          <div style={{ background: "#0B0B0B", padding: "64px 48px" }}>
+            <div className="space-y-8">
+              <div>
+                <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "8px" }}>Studio</p>
+                <p className="font-logo uppercase" style={{ fontSize: "1.5rem", color: "#F5F5F5" }}>BIT & BEELD</p>
+              </div>
+              <h2
+                className="font-antonio leading-none"
+                style={{ fontSize: "clamp(1.5rem, 3.5vw, 3rem)", fontWeight: 600, color: "#F5F5F5", letterSpacing: "0.01em" }}
+              >
+                Design dat<br />werkt.
               </h2>
-            </div>
-
-            <div>
-              <p className="font-body" style={{ fontSize: "1rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>
+              <p className="font-body" style={{ fontSize: "0.9375rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>
                 Moderne, snelle websites die niet alleen mooi zijn maar ook converteren en resultaat opleveren.
               </p>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              {["Webdesign", "Branding", "2026"].map(t => (
-                <span key={t} className="font-body" style={{ fontSize: "0.625rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "#F5F5F5", border: "1px solid rgba(255,255,255,0.12)", padding: "4px 10px" }}>
-                  {t}
+              <div className="flex flex-wrap gap-2">
+                {["Webdesign", "Branding", "2026"].map(t => (
+                  <span key={t} className="font-body" style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#F5F5F5", border: "1px solid rgba(255,255,255,0.12)", padding: "4px 10px" }}>
+                    {t}
+                  </span>
+                ))}
+                <span className="font-body" style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#000", background: "#FF4A2A", padding: "4px 10px" }}>
+                  Featured
                 </span>
-              ))}
-              <span className="font-body" style={{ fontSize: "0.625rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "#000", background: "#FF4A2A", padding: "4px 10px" }}>
-                Featured
-              </span>
+              </div>
+              <button
+                className="font-antonio uppercase"
+                style={{ fontWeight: 700, background: "#FF4A2A", color: "#000", padding: "14px 32px", fontSize: "15px", letterSpacing: "0.1em" }}
+              >
+                Bekijk Werk
+              </button>
             </div>
-
-            <button
-              className="font-display font-bold uppercase"
-              style={{ background: "#FF4A2A", color: "#000", padding: "12px 28px", fontSize: "0.75rem", letterSpacing: "0.18em" }}
-            >
-              Bekijk Werk
-            </button>
           </div>
 
-          {/* Light panel */}
-          <div className="p-10 space-y-8" style={{ background: "#F4F1EB", border: "1px solid rgba(0,0,0,0.09)" }}>
-            <div className="flex gap-3">
-              <span className="font-body inline-block" style={{ fontSize: "0.625rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#999", border: "1px solid rgba(0,0,0,0.12)", padding: "3px 8px" }}>
-                Light — #F4F1EB
-              </span>
-              <span className="font-body inline-block" style={{ fontSize: "0.625rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#FF4A2A", border: "1px solid #FF4A2A", padding: "3px 8px" }}>
-                Secondary canvas
-              </span>
-            </div>
-
-            <div>
-              <p className="font-body mb-1" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.25em", textTransform: "uppercase" }}>
-                Studio
-              </p>
-              <p className="font-logo uppercase" style={{ fontSize: "1.5rem", color: "#111111" }}>
-                BIT & BEELD
-              </p>
-            </div>
-
-            <div>
-              <h2 className="font-display font-extrabold uppercase leading-none" style={{ fontSize: "clamp(1.5rem, 3.5vw, 3rem)", color: "#111111", letterSpacing: "-0.02em" }}>
-                DESIGN DAT<br />WERKT.
+          <div style={{ background: "#F4F1EB", padding: "64px 48px" }}>
+            <div className="space-y-8">
+              <div>
+                <p className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "8px" }}>Studio</p>
+                <p className="font-logo uppercase" style={{ fontSize: "1.5rem", color: "#111111" }}>BIT & BEELD</p>
+              </div>
+              <h2
+                className="font-antonio leading-none"
+                style={{ fontSize: "clamp(1.5rem, 3.5vw, 3rem)", fontWeight: 600, color: "#111111", letterSpacing: "0.01em" }}
+              >
+                Design dat<br />werkt.
               </h2>
-            </div>
-
-            <div>
-              <p className="font-body" style={{ fontSize: "1rem", color: "#666", lineHeight: 1.7 }}>
+              <p className="font-body" style={{ fontSize: "0.9375rem", color: "#555", lineHeight: 1.7 }}>
                 Moderne, snelle websites die niet alleen mooi zijn maar ook converteren en resultaat opleveren.
               </p>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              {["Webdesign", "Branding", "2026"].map(t => (
-                <span key={t} className="font-body" style={{ fontSize: "0.625rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "#333", border: "1px solid rgba(0,0,0,0.15)", padding: "4px 10px" }}>
-                  {t}
+              <div className="flex flex-wrap gap-2">
+                {["Webdesign", "Branding", "2026"].map(t => (
+                  <span key={t} className="font-body" style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#333", border: "1px solid rgba(0,0,0,0.15)", padding: "4px 10px" }}>
+                    {t}
+                  </span>
+                ))}
+                <span className="font-body" style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#000", background: "#FF4A2A", padding: "4px 10px" }}>
+                  Featured
                 </span>
-              ))}
-              <span className="font-body" style={{ fontSize: "0.625rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "#000", background: "#FF4A2A", padding: "4px 10px" }}>
-                Featured
-              </span>
+              </div>
+              <button
+                className="font-antonio uppercase"
+                style={{ fontWeight: 700, background: "#111111", color: "#F4F1EB", padding: "14px 32px", fontSize: "15px", letterSpacing: "0.1em" }}
+              >
+                Bekijk Werk
+              </button>
             </div>
-
-            <button
-              className="font-display font-bold uppercase"
-              style={{ background: "#111111", color: "#F4F1EB", padding: "12px 28px", fontSize: "0.75rem", letterSpacing: "0.18em" }}
-            >
-              Bekijk Werk
-            </button>
           </div>
+
         </div>
       </section>
 
-      {/* ═══ §07 SPACING / RHYTHM ═════════════════════════════════════════════ */}
+      {/* ═══ §07 SPACING · RHYTHM ═════════════════════════════════════════════ */}
       <section>
-        <SectionHeader n="07" title="Spacing / Rhythm" />
+        <SectionHeader n="07" title="Spacing · Rhythm" />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-1">
 
-          {/* Base spacing scale */}
-          <div className="p-8" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
-            <p className="font-body mb-8" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase" }}>
-              Base spacing scale — rem
+          <div style={{ background: T.surface, padding: "64px 48px" }}>
+            <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "56px" }}>
+              Live composition
             </p>
-            <div className="space-y-4">
-              {[
-                { label: "4px  · 0.25rem", px: 4 },
-                { label: "8px  · 0.5rem",  px: 8 },
-                { label: "12px · 0.75rem", px: 12 },
-                { label: "16px · 1rem",    px: 16 },
-                { label: "24px · 1.5rem",  px: 24 },
-                { label: "32px · 2rem",    px: 32 },
-                { label: "48px · 3rem",    px: 48 },
-                { label: "64px · 4rem",    px: 64 },
-                { label: "96px · 6rem",    px: 96 },
-              ].map(({ label, px }) => (
-                <div key={label} className="flex items-center gap-4">
-                  <div
-                    style={{ width: `${px}px`, height: "2px", background: T.accent, flexShrink: 0, minWidth: "4px" }}
-                  />
-                  <span className="font-body" style={{ fontSize: "0.75rem", color: T.dim, whiteSpace: "nowrap" }}>
-                    {label}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Typography rhythm example */}
-          <div className="p-8" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
-            <p className="font-body mb-8" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase" }}>
-              Typography rhythm — live example
-            </p>
-
-            {/* Simulated section layout */}
-            <div className="space-y-0">
-              <div style={{ paddingBottom: "4px" }}>
-                <span className="font-body" style={{ fontSize: "0.625rem", color: T.accent, letterSpacing: "0.3em", textTransform: "uppercase" }}>
-                  01 — WEBDESIGN
-                </span>
-              </div>
-              <div style={{ height: "1px", background: T.borderD, marginBottom: "24px" }} />
-
+            <div>
+              <span className="font-body" style={{ fontSize: "0.625rem", color: T.accent, letterSpacing: "0.3em", textTransform: "uppercase" }}>
+                01 — WEBDESIGN
+              </span>
+              <div style={{ height: "1px", background: T.borderD, margin: "4px 0 24px" }} />
               <h2
-                className="font-display font-extrabold uppercase leading-none"
-                style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)", letterSpacing: "-0.02em", color: T.white, marginBottom: "16px" }}
+                className="font-antonio leading-none"
+                style={{ fontSize: "clamp(1.375rem, 2.5vw, 2.25rem)", fontWeight: 600, letterSpacing: "0.01em", color: T.white, marginBottom: "16px" }}
               >
                 Webdesign &amp;<br />Development
               </h2>
-
-              <p className="font-body" style={{ fontSize: "1rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.7, marginBottom: "24px" }}>
+              <p className="font-body" style={{ fontSize: "0.9375rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.7, marginBottom: "24px" }}>
                 Moderne, snelle websites die niet alleen mooi zijn maar ook converteren en resultaat opleveren.
               </p>
-
               <div className="flex flex-wrap gap-2" style={{ marginBottom: "24px" }}>
                 {["React", "TypeScript", "Figma"].map(t => (
-                  <span key={t} className="font-body" style={{ fontSize: "0.625rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", border: "1px solid rgba(255,255,255,0.1)", padding: "3px 8px" }}>
+                  <span key={t} className="font-body" style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", border: "1px solid rgba(255,255,255,0.1)", padding: "3px 8px" }}>
                     {t}
                   </span>
                 ))}
               </div>
-
               <button
-                className="font-display font-bold uppercase"
-                style={{ background: T.accent, color: "#000", padding: "10px 20px", fontSize: "0.75rem", letterSpacing: "0.15em" }}
+                className="font-antonio uppercase"
+                style={{ fontWeight: 700, background: T.accent, color: "#000", padding: "14px 32px", fontSize: "15px", letterSpacing: "0.1em" }}
               >
                 Bekijk Werk →
               </button>
             </div>
+          </div>
 
-            <div style={{ height: "1px", background: T.borderD, marginTop: "32px", marginBottom: "16px" }} />
-
-            {/* Spacing annotations */}
-            <div className="space-y-1">
+          <div style={{ background: T.surface2, padding: "64px 48px" }}>
+            <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "56px" }}>
+              Spacing rules
+            </p>
+            <div className="space-y-8">
               {[
-                { label: "section number → rule", value: "4px" },
-                { label: "rule → h2", value: "24px" },
-                { label: "h2 → paragraph", value: "16px" },
-                { label: "paragraph → tags", value: "24px" },
-                { label: "tags → button", value: "24px" },
-              ].map(({ label, value }) => (
-                <div key={label} className="flex items-center justify-between">
-                  <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim }}>{label}</span>
-                  <span className="font-body" style={{ fontSize: "0.625rem", color: T.accent, letterSpacing: "0.1em" }}>{value}</span>
+                { pair: "L8 label → rule",  gap: "4px",  note: "Section number to divider — minimal, binds them together." },
+                { pair: "Rule → L3",         gap: "24px", note: "Divider to subheading — full beat to signal new content." },
+                { pair: "L3 → L7 body",      gap: "16px", note: "Subheading to paragraph — close enough to feel related." },
+                { pair: "L7 body → tags",    gap: "24px", note: "Paragraph to metadata — pause before secondary info." },
+                { pair: "Tags → CTA",        gap: "24px", note: "Metadata to button — pause before the action moment." },
+              ].map(({ pair, gap, note }) => (
+                <div key={pair} style={{ borderBottom: `1px solid ${T.borderD}`, paddingBottom: "20px" }}>
+                  <div className="flex items-baseline justify-between" style={{ marginBottom: "8px" }}>
+                    <span className="font-body font-medium" style={{ fontSize: "0.625rem", color: T.white, letterSpacing: "0.1em" }}>{pair}</span>
+                    <span className="font-antonio" style={{ fontSize: "1.5rem", fontWeight: 300, color: T.accent, letterSpacing: "0.02em" }}>{gap}</span>
+                  </div>
+                  <p className="font-body" style={{ fontSize: "0.8125rem", color: T.muted, lineHeight: 1.6 }}>{note}</p>
                 </div>
               ))}
             </div>
           </div>
+
         </div>
       </section>
 
-      {/* ═══ §08 EDITORIAL TEST AREA ══════════════════════════════════════════ */}
+      {/* ═══ §08 EDITORIAL — COMPOSITIONS ════════════════════════════════════ */}
       <section>
-        <SectionHeader n="08" title="Editorial Test Area — combinations" />
+        <SectionHeader n="08" title="Editorial — Compositions" />
 
-        <div className="space-y-4">
+        <div className="space-y-1">
 
-          {/* Combination 1: Anton + Syne + Inter — Brandbook style */}
           <div
-            className="p-10 md:p-16 grid md:grid-cols-2 gap-12 items-end"
-            style={{ background: "#0B0B0B", border: `1px solid ${T.borderD}` }}
+            className="grid md:grid-cols-2 gap-12 items-end"
+            style={{ background: "#0B0B0B", padding: "96px 64px" }}
           >
             <div>
-              <div className="flex items-center gap-3 mb-8">
-                <Tag>Anton + Syne + Inter</Tag>
-                <Tag accent>Brandbook cover style</Tag>
-              </div>
               <h1
                 className="font-logo uppercase leading-none"
                 style={{ fontSize: "clamp(3rem, 8vw, 9rem)", letterSpacing: "-0.025em", color: "#F5F5F5" }}
@@ -1137,17 +700,15 @@ const TypoLab = () => (
                 BRAND<br />BOOK<span style={{ color: T.accent }}>.</span>
               </h1>
             </div>
-            <div className="space-y-6">
+            <div className="space-y-8">
               <div className="flex items-start gap-8">
                 {[
-                  { label: "STUDIO",   value: "Bit & Beeld" },
-                  { label: "ISSUED",   value: "May 2026" },
-                  { label: "LOCATIE",  value: "Amsterdam, NL" },
+                  { label: "STUDIO",  value: "Bit & Beeld" },
+                  { label: "ISSUED",  value: "May 2026" },
+                  { label: "LOCATIE", value: "Amsterdam" },
                 ].map(({ label, value }) => (
                   <div key={label}>
-                    <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "6px" }}>
-                      {label}
-                    </p>
+                    <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "6px" }}>{label}</p>
                     <p className="font-body" style={{ fontSize: "0.875rem", color: "#AAAAAA" }}>{value}</p>
                   </div>
                 ))}
@@ -1159,83 +720,49 @@ const TypoLab = () => (
             </div>
           </div>
 
-          {/* Combination 2: Syne + Inter — Project card style */}
           <div
-            className="p-10 grid md:grid-cols-2 gap-10 items-center"
-            style={{ background: T.surface, border: `1px solid ${T.borderD}` }}
+            className="grid md:grid-cols-2 gap-10 items-center"
+            style={{ background: T.surface, padding: "80px 64px" }}
           >
             <div>
-              <div className="flex items-center gap-3 mb-8">
-                <Tag>Syne + Inter</Tag>
-                <Tag accent>Project card</Tag>
-              </div>
-
-              <div className="flex items-center gap-4 mb-4">
-                <span className="font-body tabular-nums" style={{ fontSize: "0.625rem", color: "rgba(255,255,255,0.22)", letterSpacing: "0.45em", textTransform: "uppercase" }}>
-                  01
-                </span>
+              <div className="flex items-center gap-4" style={{ marginBottom: "32px" }}>
+                <span className="font-body tabular-nums" style={{ fontSize: "0.625rem", color: "rgba(255,255,255,0.22)", letterSpacing: "0.45em", textTransform: "uppercase" }}>01</span>
                 <div style={{ flex: 1, height: "1px", background: "rgba(255,255,255,0.08)" }} />
               </div>
-
-              <div className="flex items-center gap-3 mb-3">
-                <div style={{ width: "20px", height: "1px", background: T.accent }} />
-                <span className="font-body font-medium uppercase" style={{ fontSize: "0.625rem", letterSpacing: "0.4em", color: T.accent }}>
-                  Performance-first
-                </span>
-              </div>
-
+              <p className="font-antonio" style={{ fontSize: "0.9375rem", fontWeight: 300, letterSpacing: "0.02em", color: T.accent, marginBottom: "12px" }}>
+                Performance-first
+              </p>
               <h3
-                className="font-display font-extrabold uppercase leading-none mb-4"
-                style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)", letterSpacing: "-0.02em", color: "#F5F5F5" }}
+                className="font-antonio leading-none"
+                style={{ fontSize: "clamp(1.375rem, 2.5vw, 2.25rem)", fontWeight: 600, letterSpacing: "0.01em", color: "#F5F5F5", marginBottom: "20px" }}
               >
                 Webdesign &amp;<br />Development
               </h3>
-
-              <p className="font-body mb-5" style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.65, maxWidth: "38ch" }}>
+              <p className="font-body" style={{ fontSize: "0.9375rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.7, maxWidth: "38ch", marginBottom: "24px" }}>
                 Moderne, snelle websites die niet alleen mooi zijn maar ook converteren en resultaat opleveren.
               </p>
-
-              <div className="flex flex-wrap gap-2 mb-6">
+              <div className="flex flex-wrap gap-2" style={{ marginBottom: "32px" }}>
                 {["React", "TypeScript", "Figma", "CMS"].map(t => (
-                  <span key={t} className="font-body" style={{ fontSize: "0.625rem", textTransform: "uppercase", letterSpacing: "0.18em", color: "rgba(255,255,255,0.42)", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)", padding: "3px 10px" }}>
-                    {t}
-                  </span>
+                  <span key={t} className="font-body" style={{ fontSize: "10px", textTransform: "uppercase", letterSpacing: "0.15em", color: "rgba(255,255,255,0.42)", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)", padding: "3px 10px" }}>{t}</span>
                 ))}
               </div>
-
               <button
-                className="font-display font-bold uppercase inline-flex items-center gap-3"
-                style={{ background: T.accent, color: "#fff", padding: "12px 24px", fontSize: "0.75rem", letterSpacing: "0.18em" }}
+                className="font-antonio uppercase"
+                style={{ fontWeight: 700, background: T.accent, color: "#000", padding: "14px 32px", fontSize: "15px", letterSpacing: "0.1em" }}
               >
                 Bekijk werk →
               </button>
             </div>
-
             <div style={{ aspectRatio: "4/3", background: "rgba(255,255,255,0.04)", border: `1px solid ${T.borderD}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <span className="font-body" style={{ fontSize: "0.75rem", color: T.dim, letterSpacing: "0.15em", textTransform: "uppercase" }}>
-                Project image
-              </span>
+              <span className="font-body" style={{ fontSize: "0.75rem", color: T.dim, letterSpacing: "0.15em", textTransform: "uppercase" }}>Project image</span>
             </div>
           </div>
 
-          {/* Combination 3: Anton + Inter — Identity card (Brandbook light) */}
-          <div
-            className="p-10 md:p-16"
-            style={{ background: "#F4F1EB", border: "1px solid rgba(0,0,0,0.08)" }}
-          >
-            <div className="flex items-center gap-3 mb-10">
-              <span className="font-body inline-block" style={{ fontSize: "0.625rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#999", border: "1px solid rgba(0,0,0,0.12)", padding: "3px 8px" }}>
-                Anton + Inter
-              </span>
-              <span className="font-body inline-block" style={{ fontSize: "0.625rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#FF4A2A", border: "1px solid #FF4A2A", padding: "3px 8px" }}>
-                Light — Brandbook style
-              </span>
-            </div>
-
+          <div style={{ background: "#F4F1EB", padding: "80px 64px" }}>
             <div className="grid md:grid-cols-3 gap-8 items-start">
               <div className="md:col-span-2">
                 <div style={{ height: "1px", background: "rgba(0,0,0,0.09)", marginBottom: "24px" }} />
-                <span className="font-body" style={{ fontSize: "0.625rem", letterSpacing: "0.3em", color: "#999", textTransform: "uppercase", display: "block", marginBottom: "24px" }}>
+                <span className="font-body" style={{ fontSize: "0.625rem", letterSpacing: "0.3em", color: "#999", textTransform: "uppercase", display: "block", marginBottom: "32px" }}>
                   03 — LOGO &amp; MONOGRAM
                 </span>
                 <p
@@ -1245,7 +772,7 @@ const TypoLab = () => (
                   BIT &amp;<br />BEELD
                 </p>
               </div>
-              <div className="space-y-6">
+              <div className="space-y-8">
                 {[
                   { label: "PRIMARY",  body: "Light background — default application. Anton, uppercase, full wordmark." },
                   { label: "SCALE",    body: "Use the logo at a size where the letterforms remain sharp and legible." },
@@ -1253,12 +780,8 @@ const TypoLab = () => (
                 ].map(({ label, body }) => (
                   <div key={label}>
                     <div style={{ height: "1px", background: "rgba(0,0,0,0.09)", marginBottom: "12px" }} />
-                    <p className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "6px" }}>
-                      {label}
-                    </p>
-                    <p className="font-body" style={{ fontSize: "0.75rem", color: "#777", lineHeight: 1.6 }}>
-                      {body}
-                    </p>
+                    <p className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.25em", textTransform: "uppercase", marginBottom: "6px" }}>{label}</p>
+                    <p className="font-body" style={{ fontSize: "0.8125rem", color: "#777", lineHeight: 1.65 }}>{body}</p>
                   </div>
                 ))}
               </div>
@@ -1268,90 +791,129 @@ const TypoLab = () => (
         </div>
       </section>
 
-      {/* ── Notes section ──────────────────────────────────────────────────── */}
+      {/* ═══ §09 TYPOGRAPHY IN PRACTICE ══════════════════════════════════════ */}
       <section>
-        <SectionHeader n="09" title="System Notes — Issues identified" />
+        <SectionHeader n="09" title="Typography in Practice" />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {[
-            {
-              status: "fix",
-              title: "Remove Google Fonts CDN",
-              body: "index.css imports Anton, Inter, Syne, and Nunito via CDN. The same fonts are also loaded via @fontsource. Visitors download each font twice. Remove the CDN @import entirely.",
-            },
-            {
-              status: "fix",
-              title: "Move Anton import to shared entry",
-              body: "@fontsource/anton is currently imported only in ScrollLogo.tsx. The Brandbook and TypoLab also use Anton. Move the import to index.css or main.tsx to guarantee it loads on every route.",
-            },
-            {
-              status: "fix",
-              title: "Remove Nunito",
-              body: "Nunito is loaded via Google Fonts but has no Tailwind alias and appears nowhere in the component tree. It is dead weight — remove from the CDN import.",
-            },
-            {
-              status: "fix",
-              title: "Replace font-black with font-extrabold",
-              body: "ContactV2 uses font-black (weight 900). Syne only has weights up to 800. The browser synthesises 900 which looks broken. Replace with font-extrabold (800).",
-            },
-            {
-              status: "fix",
-              title: "Replace font-semibold with font-medium",
-              body: "ContactV2 uses font-semibold (600) on Inter. Inter only loads 400 and 500. The browser synthesises 600 poorly. Replace with font-medium (500) or add @fontsource/inter/600.",
-            },
-            {
-              status: "todo",
-              title: "Consolidate Brandbook h2 clamps",
-              body: "Five near-identical section headings use five slightly different clamp ranges. Proposal: one shared token clamp(1.6rem, 4vw, 5.5rem) for all Brandbook section h2 elements.",
-            },
-            {
-              status: "todo",
-              title: "Add 2XS token to Tailwind config",
-              body: "20+ instances of fontSize: '9px' and text-[9px] across Brandbook and component files. Adding a named 2XS = 0.625rem token eliminates all arbitrary px values at the smallest scale.",
-            },
-            {
-              status: "todo",
-              title: "Replace all bare px inline styles with rem",
-              body: "Small UI text (9–14px range) in Brandbook.tsx uses bare px values. These should move to the rem scale via Tailwind named classes for accessibility and consistency.",
-            },
-          ].map(({ status, title, body }) => (
-            <div
-              key={title}
-              className="p-6"
-              style={{
-                background: status === "fix" ? "rgba(255,74,42,0.04)" : "rgba(255,255,255,0.02)",
-                border: `1px solid ${status === "fix" ? "rgba(255,74,42,0.2)" : T.borderD}`,
-              }}
-            >
-              <div className="flex items-center gap-3 mb-3">
-                <span
-                  className="font-body"
-                  style={{
-                    fontSize: "0.625rem",
-                    letterSpacing: "0.2em",
-                    textTransform: "uppercase",
-                    color: status === "fix" ? T.accent : T.green,
-                    border: `1px solid ${status === "fix" ? T.accent : T.green}`,
-                    padding: "2px 8px",
-                  }}
-                >
-                  {status === "fix" ? "Fix now" : "Refine"}
-                </span>
-              </div>
-              <p className="font-display font-bold mb-2" style={{ fontSize: "1rem", color: T.white }}>
-                {title}
-              </p>
-              <p className="font-body" style={{ fontSize: "0.875rem", color: T.muted, lineHeight: 1.65 }}>
-                {body}
-              </p>
-            </div>
-          ))}
+        {/* Intro */}
+        <div style={{ background: "#F4F1EB", padding: "64px 48px", marginBottom: "1px" }}>
+          <p
+            className="font-antonio"
+            style={{ fontSize: "clamp(1rem, 1.5vw, 1.25rem)", fontWeight: 300, color: "#888", letterSpacing: "0.02em", lineHeight: 1.35, maxWidth: "52ch" }}
+          >
+            Eight levels. Three families. Every decision exists to serve a specific role — from identity-level impact down to invisible body copy.
+          </p>
         </div>
+
+        {/* Dark canvas */}
+        <div style={{ background: "#0B0B0B", padding: "80px 48px", marginBottom: "1px" }}>
+          <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "72px" }}>
+            Dark canvas
+          </p>
+          <div className="space-y-14">
+            {SCALE.map(step => {
+              const fontClass = step.font === "Anton" ? "font-logo" : step.font === "Antonio" ? "font-antonio" : "font-body";
+              const fox = step.token === "L8"
+                ? "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG."
+                : "The quick brown fox jumps over the lazy dog.";
+              return (
+                <div key={`dark-${step.token}`}>
+                  <p className="font-body" style={{ fontSize: "0.5625rem", color: T.dim, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "10px" }}>
+                    {step.token} · {step.font} {step.weight} · {step.role}
+                  </p>
+                  <p
+                    className={`${fontClass} ${step.font === "Anton" ? "uppercase" : ""}`}
+                    style={{
+                      fontSize: step.size,
+                      fontWeight: step.weight,
+                      letterSpacing: step.token === "L8" ? "0.25em" : (step.tracking === "0" ? undefined : step.tracking),
+                      color: T.white,
+                      lineHeight: parseFloat(step.lh),
+                    }}
+                  >
+                    {fox}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Light canvas */}
+        <div style={{ background: "#F4F1EB", padding: "80px 48px", marginBottom: "1px" }}>
+          <p className="font-body" style={{ fontSize: "0.625rem", color: "#AAA", letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "72px" }}>
+            Light canvas
+          </p>
+          <div className="space-y-14">
+            {SCALE.map(step => {
+              const fontClass = step.font === "Anton" ? "font-logo" : step.font === "Antonio" ? "font-antonio" : "font-body";
+              const fox = step.token === "L8"
+                ? "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG."
+                : "The quick brown fox jumps over the lazy dog.";
+              return (
+                <div key={`light-${step.token}`}>
+                  <p className="font-body" style={{ fontSize: "0.5625rem", color: "#AAA", letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: "10px" }}>
+                    {step.token} · {step.font} {step.weight} · {step.role}
+                  </p>
+                  <p
+                    className={`${fontClass} ${step.font === "Anton" ? "uppercase" : ""}`}
+                    style={{
+                      fontSize: step.size,
+                      fontWeight: step.weight,
+                      letterSpacing: step.token === "L8" ? "0.25em" : (step.tracking === "0" ? undefined : step.tracking),
+                      color: "#111",
+                      lineHeight: parseFloat(step.lh),
+                    }}
+                  >
+                    {fox}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* System notes */}
+        <div style={{ background: T.surface, padding: "80px 48px" }}>
+          <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "64px" }}>
+            System notes
+          </p>
+          <div className="space-y-10">
+            {[
+              { token: "L1", family: "Anton 400",    role: "Logo · cover · identity",          why: "Architecture-level impact. Reserved for the logo wordmark and cover statements only. Never for content that needs to be read.", feeling: "Monolithic · authoritative · unmistakable" },
+              { token: "L2", family: "Anton 400",    role: "Section titles",                   why: "Opens a section. Directional rather than decorative — tells the reader exactly where they are in the document.", feeling: "Commanding · directional · structural" },
+              { token: "L3", family: "Antonio 600",  role: "Section subheadings",              why: "First editorial voice after Anton. Anchors the section without competing with L1 or L2. The bridge between display and reading.", feeling: "Structured · confident · editorial" },
+              { token: "L4", family: "Antonio 400",  role: "Editorial headings · card titles", why: "Where meaning lives. Long enough to carry a full sentence, tight enough to feel considered. The most readable Antonio level.", feeling: "Readable at a glance · purposeful · clear" },
+              { token: "L5", family: "Antonio 300",  role: "Kickers · supporting text",        why: "Breath before content. Sets context, adds editorial color. Never demands attention — it supplements without interrupting.", feeling: "Light · understated · almost whispering" },
+              { token: "L6", family: "Inter 500",    role: "Body emphasis · intro paragraph",  why: "Leads the reader into body text. Slightly heavier than L7 to signal an opening statement or key point.", feeling: "Focused · grounded · one step above neutral" },
+              { token: "L7", family: "Inter 400",    role: "Body text · descriptions",         why: "The workhorse of the system. Neutral enough to disappear into long-form reading. Every word on the portfolio flows through L7.", feeling: "Invisible clarity · neutral · reliable" },
+              { token: "L8", family: "Inter 400",    role: "Labels · metadata · UI tags",      why: "Scanned, not read. Always uppercase to signal its functional nature. Categorizes content — technology stacks, dates, locations.", feeling: "Functional · sparse · metadata" },
+            ].map(({ token, family, role, why, feeling }, i, arr) => (
+              <div
+                key={token}
+                style={{ borderBottom: i < arr.length - 1 ? `1px solid ${T.borderD}` : "none", paddingBottom: "36px" }}
+              >
+                <div className="flex items-baseline gap-4 flex-wrap" style={{ marginBottom: "14px" }}>
+                  <span className="font-body" style={{ fontSize: "0.5625rem", color: T.accent, letterSpacing: "0.2em", textTransform: "uppercase", minWidth: "24px" }}>{token}</span>
+                  <span className="font-body" style={{ fontSize: "0.5625rem", color: T.white, letterSpacing: "0.1em" }}>{family}</span>
+                  <span className="font-body" style={{ fontSize: "0.5625rem", color: T.dim, letterSpacing: "0.1em" }}>{role}</span>
+                </div>
+                <p className="font-body" style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.55)", lineHeight: 1.7, marginBottom: "10px", maxWidth: "56ch" }}>
+                  {why}
+                </p>
+                <p className="font-body" style={{ fontSize: "0.5625rem", color: T.accent, letterSpacing: "0.2em", textTransform: "uppercase" }}>
+                  {feeling}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </section>
 
-      {/* ═══ §10 THUNDER TYPEFACE TEST ══════════════════════════════════════════ */}
+      {/* ═══ §10 TYPOGRAPHY SYSTEM — ANTON · ANTONIO · INTER ════════════════════ */}
       <section>
-        <SectionHeader n="10" title="Thunder HC — Typeface Test (not applied globally)" />
+        <SectionHeader n="10" title="Anton · Antonio · Inter — Typography System" />
 
         {/* Info strip */}
         <div
@@ -1359,258 +921,288 @@ const TypoLab = () => (
           style={{ background: T.surface2, border: `1px solid ${T.borderD}` }}
         >
           <div className="flex flex-wrap gap-3">
-            <Tag accent>Test only — not global</Tag>
-            <Tag>ThunderHC · @font-face in TypoLab only</Tag>
-            <Tag>9 weights · HC = High Condensed · LC = Less Condensed</Tag>
+            <span className="font-body inline-block" style={{ fontSize: "0.625rem", letterSpacing: "0.2em", textTransform: "uppercase", color: T.green, border: `1px solid ${T.green}`, padding: "3px 8px" }}>
+              System finalized
+            </span>
+            <Tag>Anton — identity · impact</Tag>
+            <Tag>Antonio — editorial · hierarchy</Tag>
+            <Tag>Inter — body · UI · readability</Tag>
           </div>
           <p className="font-body" style={{ fontSize: "0.75rem", color: T.dim, lineHeight: 1.5 }}>
-            To revert: delete §10 from TypoLab.tsx · remove <code style={{ color: T.white }}>thunder</code> from tailwind.config.ts · delete THUNDER_CSS
+            Refine here before applying globally · revert: delete §10 + remove <code style={{ color: T.white }}>antonio</code> from tailwind.config.ts
           </p>
         </div>
 
         <div className="space-y-3">
 
-          {/* ── Anton vs Thunder Black HC ── */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-
-            <div className="p-10 flex flex-col" style={{ background: "#0B0B0B", border: `1px solid ${T.borderD}` }}>
-              <div className="flex flex-wrap gap-3 mb-10">
-                <Tag>Anton</Tag>
-                <Tag>weight 400 · only weight available</Tag>
-                <span className="font-body inline-block" style={{ fontSize: "0.625rem", letterSpacing: "0.2em", textTransform: "uppercase", color: T.green, border: `1px solid ${T.green}`, padding: "3px 8px" }}>
-                  CURRENT
-                </span>
-              </div>
-              <p className="font-logo uppercase leading-none" style={{ fontSize: "clamp(3rem, 8vw, 8rem)", letterSpacing: "-0.01em", color: T.white }}>
-                BIT &amp;<br />BEELD
-              </p>
-              <p className="font-body mt-6" style={{ fontSize: "0.75rem", color: T.dim, lineHeight: 1.5 }}>
-                Wide letterforms. Distinctive retrograde condensed serif. Single weight.
-              </p>
-            </div>
-
-            <div className="p-10 flex flex-col" style={{ background: "#0E0E0E", border: "1px solid rgba(255,74,42,0.3)" }}>
-              <div className="flex flex-wrap gap-3 mb-10">
-                <Tag>ThunderHC</Tag>
-                <Tag>weight 900 · Black</Tag>
-                <Tag accent>TEST</Tag>
-              </div>
-              <p className="font-thunder font-black uppercase leading-none" style={{ fontSize: "clamp(3rem, 8vw, 8rem)", letterSpacing: "-0.01em", color: T.white }}>
-                BIT &amp;<br />BEELD
-              </p>
-              <p className="font-body mt-6" style={{ fontSize: "0.75rem", color: T.dim, lineHeight: 1.5 }}>
-                Geometric. Sharp horizontals. Tight counters. Extreme condensing. Multiple weights.
-              </p>
-            </div>
-
-          </div>
-
-          {/* Thunder ExtraBold HC — secondary wordmark option */}
-          <div className="p-8" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
-            <div className="flex flex-wrap gap-3 mb-6">
-              <Tag>ThunderHC</Tag>
-              <Tag>weight 800 · ExtraBold</Tag>
-              <Tag>lighter than Black — more airy</Tag>
-            </div>
-            <p className="font-thunder font-extrabold uppercase leading-none" style={{ fontSize: "clamp(3rem, 8vw, 8rem)", letterSpacing: "-0.01em", color: T.white }}>
-              BIT &amp;<br />BEELD
-            </p>
-          </div>
-
-          {/* ── All registered weights ── */}
-          <div className="p-8" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
-            <p className="font-body mb-8" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase" }}>
-              ThunderHC — Registered weight range
-            </p>
-            <div className="space-y-0">
-              {[
-                { label: "300 · Light",     weight: 300 },
-                { label: "400 · Regular",   weight: 400 },
-                { label: "700 · Bold",      weight: 700 },
-                { label: "800 · ExtraBold", weight: 800 },
-                { label: "900 · Black",     weight: 900 },
-              ].map(({ label, weight }) => (
-                <div
-                  key={label}
-                  className="flex items-baseline gap-6"
-                  style={{ borderBottom: `1px solid ${T.borderD}`, paddingTop: "14px", paddingBottom: "14px" }}
-                >
-                  <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.2em", textTransform: "uppercase", minWidth: "130px", flexShrink: 0 }}>
-                    {label}
-                  </span>
-                  <span style={{ fontFamily: '"ThunderHC", sans-serif', fontWeight: weight, fontSize: "clamp(1.5rem, 4vw, 3.5rem)", color: T.white, lineHeight: 1, textTransform: "uppercase" }}>
-                    DESIGN DAT WERKT
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* ── HC vs LC ── */}
-          <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-10" style={{ background: T.surface2, border: `1px solid ${T.borderD}` }}>
-            <div>
-              <p className="font-body mb-6" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase" }}>
-                HC — High Condensed (very tall, narrow)
-              </p>
-              <p style={{ fontFamily: '"ThunderHC", sans-serif', fontWeight: 900, fontSize: "clamp(3rem, 7vw, 7rem)", color: T.white, lineHeight: 1, textTransform: "uppercase", letterSpacing: "-0.01em" }}>
-                BIT &amp;<br />BEELD
-              </p>
-              <p className="font-body mt-4" style={{ fontSize: "0.75rem", color: T.dim, lineHeight: 1.5 }}>
-                Extreme condensing. Strong vertical rhythm. Ideal for stacked wordmarks.
-              </p>
-            </div>
-            <div>
-              <p className="font-body mb-6" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase" }}>
-                LC — Less Condensed (wider, more balanced)
-              </p>
-              <p style={{ fontFamily: '"ThunderLC", sans-serif', fontWeight: 900, fontSize: "clamp(3rem, 7vw, 7rem)", color: T.white, lineHeight: 1, textTransform: "uppercase", letterSpacing: "-0.01em" }}>
-                BIT &amp;<br />BEELD
-              </p>
-              <p className="font-body mt-4" style={{ fontSize: "0.75rem", color: T.dim, lineHeight: 1.5 }}>
-                Less extreme. Closer to standard condensed proportions. Reads more comfortably at body sizes.
-              </p>
-            </div>
-          </div>
-
-          {/* ── 6 typographic roles ── */}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-
-            <div className="p-6 flex flex-col gap-4" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
-              <Tag>Logo / wordmark</Tag>
-              <p className="font-thunder font-black uppercase leading-none" style={{ fontSize: "2rem", color: T.white }}>
-                BIT &amp; BEELD
-              </p>
-              <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim }}>Thunder Black HC · 2rem</p>
-            </div>
-
-            <div className="p-6 flex flex-col gap-4" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
-              <Tag>Hero display</Tag>
-              <p className="font-thunder font-black uppercase leading-none" style={{ fontSize: "clamp(1.5rem, 4vw, 3.5rem)", color: T.white, letterSpacing: "-0.01em" }}>
-                DESIGN<br />DAT WERKT.
-              </p>
-              <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim }}>Thunder Black HC · clamp hero</p>
-            </div>
-
-            <div className="p-6 flex flex-col gap-4" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
-              <Tag>Section title</Tag>
-              <p className="font-thunder font-extrabold uppercase leading-none" style={{ fontSize: "clamp(1.2rem, 2.5vw, 2rem)", color: T.white }}>
-                WEBDESIGN &amp;<br />DEVELOPMENT
-              </p>
-              <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim }}>Thunder ExtraBold HC · clamp section</p>
-            </div>
-
-            <div className="p-6 flex flex-col gap-4" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
-              <Tag>Accent word</Tag>
-              <p className="font-thunder font-black uppercase leading-none" style={{ fontSize: "3rem", color: T.accent }}>
-                FEATURED
-              </p>
-              <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim }}>Thunder Black HC · 3rem · accent color</p>
-            </div>
-
-            <div className="p-6 flex flex-col gap-4" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
-              <Tag>Button text</Tag>
-              <div className="space-y-3">
-                <button className="font-thunder font-bold uppercase block w-full" style={{ background: T.accent, color: "#000", padding: "12px 24px", fontSize: "1rem", letterSpacing: "0.06em" }}>
-                  Plan Gesprek
-                </button>
-                <button className="font-thunder font-bold uppercase block w-full" style={{ background: "transparent", color: T.white, border: "1px solid rgba(255,255,255,0.25)", padding: "12px 24px", fontSize: "1rem", letterSpacing: "0.06em" }}>
-                  Bekijk Werk
-                </button>
-              </div>
-              <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim }}>Thunder Bold HC · 1rem — compare with Syne Bold</p>
-            </div>
-
-            <div className="p-6 flex flex-col gap-4" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
-              <Tag>Small label</Tag>
-              <div className="flex flex-wrap gap-2">
-                {["WEBDESIGN", "BRANDING", "2026"].map(t => (
-                  <span
-                    key={t}
-                    style={{ fontFamily: '"ThunderHC", sans-serif', fontWeight: 400, fontSize: "0.875rem", color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: "0.2em", border: `1px solid ${T.borderD}`, padding: "3px 10px" }}
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-              <p className="font-body" style={{ fontSize: "0.625rem", color: T.dim }}>Thunder Regular HC · 0.875rem — heavier optically than Inter at same size</p>
-            </div>
-
-          </div>
-
-          {/* ── Editorial system comparison ── */}
+          {/* ── §A System roles ── */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
 
-            {/* Current: Anton + Syne + Inter */}
-            <div className="p-8 flex flex-col" style={{ background: "#0B0B0B", border: `1px solid ${T.borderD}` }}>
-              <div className="flex gap-2 mb-8">
-                <span className="font-body inline-block" style={{ fontSize: "0.625rem", letterSpacing: "0.2em", textTransform: "uppercase", color: T.green, border: `1px solid ${T.green}`, padding: "3px 8px" }}>
-                  Current system
-                </span>
-              </div>
-              <div style={{ height: "1px", background: T.borderD, marginBottom: "16px" }} />
-              <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "16px", display: "block" }}>
-                01 — WEBDESIGN
-              </span>
-              <p className="font-logo uppercase leading-none mb-4" style={{ fontSize: "clamp(1.8rem, 4vw, 3.5rem)", color: T.white }}>
+            <div className="p-8 flex flex-col gap-6" style={{ background: "#0B0B0B", border: `1px solid ${T.borderD}` }}>
+              <Tag>Anton — Identity · Impact</Tag>
+              <p className="font-logo uppercase leading-none" style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", letterSpacing: "-0.02em", color: T.white }}>
                 BIT &amp;<br />BEELD
               </p>
-              <h3 className="font-display font-extrabold uppercase leading-none mb-4" style={{ fontSize: "clamp(1rem, 2vw, 1.75rem)", color: T.white, letterSpacing: "-0.02em" }}>
-                DESIGN DAT<br />WERKT.
-              </h3>
-              <p className="font-body mb-6" style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.65 }}>
-                Moderne, snelle websites die niet alleen mooi zijn maar ook converteren.
-              </p>
-              <span className="font-body mt-auto" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.2em", textTransform: "uppercase" }}>
-                Anton + Syne + Inter
-              </span>
+              <div className="space-y-1">
+                {([
+                  ["Role",     "Logo · display · major section titles"],
+                  ["Weight",   "400 — single weight"],
+                  ["Tracking", "–0.02em display · –0.01em title"],
+                  ["Leading",  "1.0"],
+                ] as [string, string][]).map(([k, v]) => (
+                  <div key={k} className="flex gap-3">
+                    <span className="font-body" style={{ fontSize: "0.5625rem", color: T.dim, letterSpacing: "0.15em", textTransform: "uppercase", minWidth: "62px", flexShrink: 0 }}>{k}</span>
+                    <span className="font-body" style={{ fontSize: "0.5625rem", color: T.muted }}>{v}</span>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* Test A: Thunder + Syne + Inter */}
-            <div className="p-8 flex flex-col" style={{ background: "#0E0E0E", border: "1px solid rgba(255,74,42,0.2)" }}>
-              <div className="flex gap-2 mb-8">
-                <Tag accent>Test A</Tag>
-                <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim, alignSelf: "center" }}>Thunder replaces Anton</span>
+            <div className="p-8 flex flex-col gap-6" style={{ background: "#0E0E0E", border: "1px solid rgba(255,74,42,0.25)" }}>
+              <Tag accent>Antonio — Editorial · Hierarchy</Tag>
+              <p className="font-antonio" style={{ fontWeight: 400, fontSize: "clamp(1.5rem, 3.5vw, 2.5rem)", color: T.white, lineHeight: 1.05, letterSpacing: "0.01em" }}>
+                Design dat<br />werkt.
+              </p>
+              <div className="space-y-1">
+                {([
+                  ["Role",     "Secondary headings · editorial support"],
+                  ["Weight",   "300 / 400 / 600"],
+                  ["Tracking", "0.01–0.02em"],
+                  ["Leading",  "1.0–1.1"],
+                ] as [string, string][]).map(([k, v]) => (
+                  <div key={k} className="flex gap-3">
+                    <span className="font-body" style={{ fontSize: "0.5625rem", color: T.dim, letterSpacing: "0.15em", textTransform: "uppercase", minWidth: "62px", flexShrink: 0 }}>{k}</span>
+                    <span className="font-body" style={{ fontSize: "0.5625rem", color: T.muted }}>{v}</span>
+                  </div>
+                ))}
               </div>
-              <div style={{ height: "1px", background: T.borderD, marginBottom: "16px" }} />
-              <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "16px", display: "block" }}>
-                01 — WEBDESIGN
-              </span>
-              <p className="font-thunder font-black uppercase leading-none mb-4" style={{ fontSize: "clamp(1.8rem, 4vw, 3.5rem)", color: T.white }}>
-                BIT &amp;<br />BEELD
-              </p>
-              <h3 className="font-display font-extrabold uppercase leading-none mb-4" style={{ fontSize: "clamp(1rem, 2vw, 1.75rem)", color: T.white, letterSpacing: "-0.02em" }}>
-                DESIGN DAT<br />WERKT.
-              </h3>
-              <p className="font-body mb-6" style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.65 }}>
-                Moderne, snelle websites die niet alleen mooi zijn maar ook converteren.
-              </p>
-              <span className="font-body mt-auto" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.2em", textTransform: "uppercase" }}>
-                Thunder HC + Syne + Inter
-              </span>
             </div>
 
-            {/* Test B: Thunder + Inter (no Syne) */}
-            <div className="p-8 flex flex-col" style={{ background: "#0E0E0E", border: "1px solid rgba(255,74,42,0.2)" }}>
-              <div className="flex gap-2 mb-8">
-                <Tag accent>Test B</Tag>
-                <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim, alignSelf: "center" }}>Thunder replaces Anton + Syne</span>
+            <div className="p-8 flex flex-col gap-6" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
+              <Tag>Inter — Body · UI · Readability</Tag>
+              <p className="font-body" style={{ fontSize: "0.9375rem", color: "rgba(255,255,255,0.7)", lineHeight: 1.7 }}>
+                Moderne websites die converteren en resultaat opleveren voor jouw bedrijf.
+              </p>
+              <div className="space-y-1">
+                {([
+                  ["Role",     "Body · labels · forms · metadata · UI"],
+                  ["Weight",   "400 / 500"],
+                  ["Tracking", "0 body · 0.25em labels"],
+                  ["Leading",  "1.65–1.75 body · 1.5 UI"],
+                ] as [string, string][]).map(([k, v]) => (
+                  <div key={k} className="flex gap-3">
+                    <span className="font-body" style={{ fontSize: "0.5625rem", color: T.dim, letterSpacing: "0.15em", textTransform: "uppercase", minWidth: "62px", flexShrink: 0 }}>{k}</span>
+                    <span className="font-body" style={{ fontSize: "0.5625rem", color: T.muted }}>{v}</span>
+                  </div>
+                ))}
               </div>
-              <div style={{ height: "1px", background: T.borderD, marginBottom: "16px" }} />
-              <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.3em", textTransform: "uppercase", marginBottom: "16px", display: "block" }}>
-                01 — WEBDESIGN
-              </span>
-              <p className="font-thunder font-black uppercase leading-none mb-4" style={{ fontSize: "clamp(1.8rem, 4vw, 3.5rem)", color: T.white }}>
+            </div>
+
+          </div>
+
+          {/* ── §B Type scale L1–L8 ── */}
+          <div style={{ border: `1px solid ${T.borderD}` }}>
+            <div className="px-6 py-4 flex items-center gap-4" style={{ background: T.surface2, borderBottom: `1px solid ${T.borderD}` }}>
+              <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.3em", textTransform: "uppercase" }}>§B</span>
+              <p className="font-body" style={{ fontSize: "0.75rem", color: T.white }}>Type scale — L1 → L8</p>
+            </div>
+            {SCALE.map((step, i) => {
+              const fontClass = step.font === "Anton" ? "font-logo" : step.font === "Antonio" ? "font-antonio" : "font-body";
+              const isAnton = step.font === "Anton";
+              return (
+                <div
+                  key={`b-${step.token}`}
+                  className="px-6 py-5 flex flex-col gap-2"
+                  style={{ borderBottom: i < SCALE.length - 1 ? `1px solid ${T.borderD}` : "none", background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.015)" }}
+                >
+                  <div className="flex items-center gap-4 flex-wrap">
+                    <span className="font-body" style={{ fontSize: "0.5625rem", color: T.accent, letterSpacing: "0.2em", textTransform: "uppercase" }}>{step.token}</span>
+                    <span className="font-body" style={{ fontSize: "0.5625rem", color: T.dim, letterSpacing: "0.1em" }}>{step.font} {step.weight} · {step.size} · {step.tracking} · lh {step.lh}</span>
+                    <span className="font-body" style={{ fontSize: "0.5625rem", color: T.dim, letterSpacing: "0.1em" }}>{step.role}</span>
+                  </div>
+                  <p
+                    className={`${fontClass} ${isAnton ? "uppercase" : ""}`}
+                    style={{
+                      fontSize: step.size.startsWith("clamp") ? step.size : step.size,
+                      fontWeight: step.weight,
+                      letterSpacing: step.tracking === "0" ? undefined : step.tracking,
+                      color: T.white,
+                      lineHeight: parseFloat(step.lh),
+                    }}
+                  >
+                    {step.preview}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* ── §C Anton primary roles ── */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+            <div className="p-8 overflow-hidden" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
+              <p className="font-body mb-6" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.3em", textTransform: "uppercase" }}>L1 · Logo · clamp(2.5rem,6vw,5rem)</p>
+              <p className="font-logo uppercase leading-none" style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", letterSpacing: "-0.02em", color: T.white }}>
                 BIT &amp;<br />BEELD
               </p>
-              <h3 className="font-thunder font-extrabold uppercase leading-none mb-4" style={{ fontSize: "clamp(1rem, 2vw, 1.75rem)", color: T.white, letterSpacing: "-0.02em" }}>
-                DESIGN DAT<br />WERKT.
-              </h3>
-              <p className="font-body mb-6" style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.6)", lineHeight: 1.65 }}>
-                Moderne, snelle websites die niet alleen mooi zijn maar ook converteren.
+            </div>
+
+            <div className="p-8 overflow-hidden" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
+              <p className="font-body mb-6" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.3em", textTransform: "uppercase" }}>L1 · Cover · clamp(4rem,10vw,12rem)</p>
+              <p className="font-logo uppercase leading-none" style={{ fontSize: "clamp(4rem, 10vw, 12rem)", letterSpacing: "-0.025em", color: T.white }}>
+                BRAND<br />BOOK<span style={{ color: T.accent }}>.</span>
               </p>
-              <span className="font-body mt-auto" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.2em", textTransform: "uppercase" }}>
-                Thunder HC + Inter (Syne removed)
-              </span>
+            </div>
+
+            <div className="p-8 overflow-hidden" style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
+              <p className="font-body mb-6" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.3em", textTransform: "uppercase" }}>L2 · Section titles · clamp(1.75rem,4vw,3.25rem)</p>
+              <div className="flex flex-col gap-2">
+                {["OVER MIJ", "WAT IK DOE", "BRAND BOOK"].map(t => (
+                  <p key={t} className="font-logo uppercase leading-none" style={{ fontSize: "clamp(1.75rem, 4vw, 3.25rem)", letterSpacing: "-0.02em", color: T.white }}>{t}</p>
+                ))}
+              </div>
+            </div>
+
+            <div className="p-8 overflow-hidden" style={{ background: "#F4F1EB", border: "1px solid rgba(0,0,0,0.08)" }}>
+              <p className="font-body mb-6" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.3em", textTransform: "uppercase" }}>L1 · Light bg · clamp(3rem,8vw,7rem)</p>
+              <p className="font-logo uppercase leading-none" style={{ fontSize: "clamp(3rem, 8vw, 7rem)", letterSpacing: "-0.01em", color: "#111" }}>
+                BIT &amp;<br />BEELD
+              </p>
+            </div>
+
+          </div>
+
+          {/* ── §D Antonio 3 weights ── */}
+          <div style={{ background: T.surface, border: `1px solid ${T.borderD}` }}>
+            <div className="px-6 py-4" style={{ background: T.surface2, borderBottom: `1px solid ${T.borderD}` }}>
+              <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.3em", textTransform: "uppercase" }}>§D · Antonio — 3 active weights</span>
+            </div>
+            {[
+              { weight: 600, level: "L3", size: "clamp(1.375rem, 2.5vw, 2.25rem)", tracking: "0.01em", label: "SemiBold · Section subheadings", text: "Webdesign & Development" },
+              { weight: 400, level: "L4", size: "clamp(1.125rem, 2vw, 1.75rem)",   tracking: "0.01em", label: "Regular · Editorial headings",    text: "Moderne, snelle websites die niet alleen mooi zijn maar ook converteren." },
+              { weight: 300, level: "L5", size: "clamp(1rem, 1.5vw, 1.25rem)",     tracking: "0.02em", label: "Light · Supporting text · kickers", text: "Performance-first digital studio · Amsterdam, NL" },
+            ].map(({ weight, level, size, tracking, label, text }, i) => (
+              <div
+                key={level}
+                className="px-8 py-8"
+                style={{ borderBottom: i < 2 ? `1px solid ${T.borderD}` : "none" }}
+              >
+                <div className="flex items-center gap-4 mb-4">
+                  <span className="font-body" style={{ fontSize: "0.5625rem", color: T.accent, letterSpacing: "0.2em", textTransform: "uppercase" }}>{level}</span>
+                  <span className="font-body" style={{ fontSize: "0.5625rem", color: T.dim, letterSpacing: "0.1em" }}>Antonio {weight} · {size} · {tracking}</span>
+                  <span className="font-body" style={{ fontSize: "0.5625rem", color: T.dim, letterSpacing: "0.1em" }}>{label}</span>
+                </div>
+                <p className="font-antonio" style={{ fontSize: size, fontWeight: weight, letterSpacing: tracking, color: T.white, lineHeight: 1.05 }}>
+                  {text}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* ── §E Button + UI system ── */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+            <div className="p-8 space-y-6" style={{ background: "#0B0B0B", border: `1px solid ${T.borderD}` }}>
+              <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.3em", textTransform: "uppercase" }}>Dark · Button system</span>
+              <div className="space-y-5">
+                <div>
+                  <p className="font-body mb-2" style={{ fontSize: "0.5625rem", color: T.dim, letterSpacing: "0.15em", textTransform: "uppercase" }}>Primary CTA · Antonio 700 · 15px · 0.1em</p>
+                  <button className="font-antonio uppercase" style={{ fontWeight: 700, background: T.accent, color: "#000", padding: "14px 32px", fontSize: "15px", letterSpacing: "0.1em" }}>
+                    Start Project
+                  </button>
+                </div>
+                <div>
+                  <p className="font-body mb-2" style={{ fontSize: "0.5625rem", color: T.dim, letterSpacing: "0.15em", textTransform: "uppercase" }}>Secondary · Antonio 400 · 14px · 0.08em</p>
+                  <button className="font-antonio uppercase" style={{ fontWeight: 400, background: "transparent", color: T.white, border: "1px solid rgba(255,255,255,0.2)", padding: "13px 28px", fontSize: "14px", letterSpacing: "0.08em" }}>
+                    Bekijk Werk
+                  </button>
+                </div>
+                <div>
+                  <p className="font-body mb-2" style={{ fontSize: "0.5625rem", color: T.dim, letterSpacing: "0.15em", textTransform: "uppercase" }}>UI tag · Inter 400 · 10px · 0.15em</p>
+                  <div className="flex flex-wrap gap-2">
+                    {["Webdesign", "Branding", "2026"].map(t => (
+                      <span key={t} className="font-body" style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: T.muted, border: `1px solid ${T.borderD}`, padding: "3px 10px" }}>{t}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-8 space-y-6" style={{ background: "#F4F1EB", border: "1px solid rgba(0,0,0,0.08)" }}>
+              <span className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.3em", textTransform: "uppercase" }}>Light · Button system</span>
+              <div className="space-y-5">
+                <div>
+                  <p className="font-body mb-2" style={{ fontSize: "0.5625rem", color: "#999", letterSpacing: "0.15em", textTransform: "uppercase" }}>Primary CTA · Antonio 700 · 15px · 0.1em</p>
+                  <button className="font-antonio uppercase" style={{ fontWeight: 700, background: "#111", color: "#F4F1EB", padding: "14px 32px", fontSize: "15px", letterSpacing: "0.1em" }}>
+                    Start Project
+                  </button>
+                </div>
+                <div>
+                  <p className="font-body mb-2" style={{ fontSize: "0.5625rem", color: "#999", letterSpacing: "0.15em", textTransform: "uppercase" }}>Secondary · Antonio 400 · 14px · 0.08em</p>
+                  <button className="font-antonio uppercase" style={{ fontWeight: 400, background: "transparent", color: "#111", border: "1px solid rgba(0,0,0,0.2)", padding: "13px 28px", fontSize: "14px", letterSpacing: "0.08em" }}>
+                    Bekijk Werk
+                  </button>
+                </div>
+                <div>
+                  <p className="font-body mb-2" style={{ fontSize: "0.5625rem", color: "#999", letterSpacing: "0.15em", textTransform: "uppercase" }}>UI tag · Inter 400 · 10px · 0.15em</p>
+                  <div className="flex flex-wrap gap-2">
+                    {["Webdesign", "Branding", "2026"].map(t => (
+                      <span key={t} className="font-body" style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#999", border: "1px solid rgba(0,0,0,0.12)", padding: "3px 10px" }}>{t}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* ── §F Full composition ── */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+            <div className="p-10 space-y-8" style={{ background: "#0B0B0B", border: `1px solid ${T.borderD}` }}>
+              <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.3em", textTransform: "uppercase" }}>§F · Full composition — dark</span>
+              <div style={{ height: "1px", background: T.borderD }} />
+              <div>
+                <p className="font-body mb-1" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.25em", textTransform: "uppercase" }}>Studio · L8</p>
+                <p className="font-logo uppercase" style={{ fontSize: "1.5rem", color: T.white }}>BIT & BEELD</p>
+              </div>
+              <p className="font-antonio leading-none" style={{ fontSize: "clamp(1.375rem, 2.5vw, 2.25rem)", fontWeight: 600, letterSpacing: "0.01em", color: T.white }}>
+                Webdesign &amp;<br />Development
+              </p>
+              <p className="font-body" style={{ fontSize: "0.9375rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.7 }}>
+                Moderne, snelle websites die niet alleen mooi zijn maar ook converteren en resultaat opleveren.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {["React", "TypeScript", "Figma"].map(t => (
+                  <span key={t} className="font-body" style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", border: "1px solid rgba(255,255,255,0.1)", padding: "3px 8px" }}>{t}</span>
+                ))}
+              </div>
+              <button className="font-antonio uppercase" style={{ fontWeight: 700, background: T.accent, color: "#000", padding: "14px 32px", fontSize: "15px", letterSpacing: "0.1em" }}>
+                Start Project
+              </button>
+            </div>
+
+            <div className="p-10 space-y-8" style={{ background: "#F4F1EB", border: "1px solid rgba(0,0,0,0.08)" }}>
+              <span className="font-body" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.3em", textTransform: "uppercase" }}>§F · Full composition — light</span>
+              <div style={{ height: "1px", background: "rgba(0,0,0,0.09)" }} />
+              <div>
+                <p className="font-body mb-1" style={{ fontSize: "0.625rem", color: "#999", letterSpacing: "0.25em", textTransform: "uppercase" }}>Studio · L8</p>
+                <p className="font-logo uppercase" style={{ fontSize: "1.5rem", color: "#111" }}>BIT & BEELD</p>
+              </div>
+              <p className="font-antonio leading-none" style={{ fontSize: "clamp(1.375rem, 2.5vw, 2.25rem)", fontWeight: 600, letterSpacing: "0.01em", color: "#111" }}>
+                Webdesign &amp;<br />Development
+              </p>
+              <p className="font-body" style={{ fontSize: "0.9375rem", color: "#555", lineHeight: 1.7 }}>
+                Moderne, snelle websites die niet alleen mooi zijn maar ook converteren en resultaat opleveren.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {["React", "TypeScript", "Figma"].map(t => (
+                  <span key={t} className="font-body" style={{ fontSize: "10px", letterSpacing: "0.15em", textTransform: "uppercase", color: "#999", border: "1px solid rgba(0,0,0,0.12)", padding: "3px 8px" }}>{t}</span>
+                ))}
+              </div>
+              <button className="font-antonio uppercase" style={{ fontWeight: 700, background: "#111", color: "#F4F1EB", padding: "14px 32px", fontSize: "15px", letterSpacing: "0.1em" }}>
+                Start Project
+              </button>
             </div>
 
           </div>
@@ -1630,7 +1222,7 @@ const TypoLab = () => (
           Typo Lab
         </span>
         <span className="font-body" style={{ fontSize: "0.625rem", color: T.dim, letterSpacing: "0.2em", textTransform: "uppercase" }}>
-          v0.1 · Internal only
+          v0.2 · Internal only
         </span>
       </div>
       <Link
