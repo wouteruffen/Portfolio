@@ -12,13 +12,24 @@ const LIGHT     = "#F4F1EB";
 const OFF_WHITE = "#F5F5F5";
 const ACCENT    = "#FF4A2A";
 
+/* ─── Antonio variable font ──────────────────────────────────────────────── */
+const ANTONIO_CSS = `
+@font-face {
+  font-family: 'Antonio';
+  src: url('/fonts/Antonio/Antonio-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 700;
+  font-style: normal;
+  font-display: swap;
+}
+`;
+
 /* ─── Color palette ──────────────────────────────────────────────────────── */
 const PALETTE = [
-  { name: "Accent Red",   hex: "#FF4A2A", bg: "#FF4A2A", lightText: false },
-  { name: "Warm Orange",  hex: "#FF7A4A", bg: "#FF7A4A", lightText: false },
-  { name: "Muted Yellow", hex: "#E8C87A", bg: "#E8C87A", lightText: true  },
-  { name: "Soft Green",   hex: "#7AB87A", bg: "#7AB87A", lightText: true  },
-  { name: "Dark Grey",    hex: "#2A2A2A", bg: "#2A2A2A", lightText: false },
+  { name: "Dark Canvas",   hex: "#0B0B0B", bg: "#0B0B0B", lightText: false },
+  { name: "Dark Surface",  hex: "#111111", bg: "#111111", lightText: false },
+  { name: "Warm Paper",    hex: "#F4F1EB", bg: "#F4F1EB", lightText: true  },
+  { name: "Light Surface", hex: "#EDEBE7", bg: "#EDEBE7", lightText: true  },
+  { name: "Signal",        hex: "#FF4A2A", bg: "#FF4A2A", lightText: false },
 ];
 
 /*
@@ -49,15 +60,16 @@ const SectionTag = ({ n, label, light = false }: { n: string; label: string; lig
     <div className="flex items-baseline gap-4 mb-4">
       <span
         className="font-body tabular-nums flex-shrink-0"
-        style={{ fontSize: "13px", letterSpacing: "0.28em", color: light ? "#999999" : "#555555" }}
+        style={{ fontSize: "11px", letterSpacing: "0.28em", color: light ? "#888888" : "#555555" }}
       >
         {n}
       </span>
       <span
-        className="font-display font-extrabold uppercase leading-none"
+        className="font-antonio uppercase leading-none"
         style={{
           fontSize: "clamp(1.3rem, 2.4vw, 3rem)",
-          letterSpacing: "0.02em",
+          fontWeight: 600,
+          letterSpacing: "0.04em",
           color: light ? "#1A1A1A" : OFF_WHITE,
         }}
       >
@@ -195,6 +207,8 @@ const Brandbook = () => {
 
   return (
     <>
+      {/* eslint-disable-next-line react/no-danger */}
+      <style dangerouslySetInnerHTML={{ __html: ANTONIO_CSS }} />
       <CursorEffects />
       <NavbarV2 showLogo />
       {/* Brandbook-only divider — color inverts with the section background */}
@@ -254,7 +268,7 @@ const Brandbook = () => {
                   transition={{ duration: 0.75 }}
                 >
                   <h1
-                    className="font-display font-extrabold uppercase leading-[0.87]"
+                    className="font-logo uppercase leading-[0.87]"
                     style={{ fontSize: "clamp(4rem, 10vw, 12rem)", color: OFF_WHITE, letterSpacing: "-0.025em" }}
                   >
                     BRAND<br />BOOK<span style={{ color: ACCENT }}>.</span>
@@ -286,14 +300,14 @@ const Brandbook = () => {
                     { label: "AUTHOR",   value: "Studio Bit & Beeld" },
                   ].map(({ label, value }) => (
                     <div key={label}>
-                      <p className="font-body" style={{ fontSize: "10px", color: "#444444", letterSpacing: "0.25em", marginBottom: "7px" }}>
+                      <p className="font-body" style={{ fontSize: "11px", color: "#666666", letterSpacing: "0.25em", marginBottom: "7px" }}>
                         {label}
                       </p>
                       <p className="font-body" style={{ fontSize: "14px", color: "#AAAAAA" }}>{value}</p>
                     </div>
                   ))}
                 </div>
-                <p className="font-body flex-shrink-0" style={{ fontSize: "10px", color: "#444444", letterSpacing: "0.35em" }}>
+                <p className="font-body flex-shrink-0" style={{ fontSize: "11px", color: "#666666", letterSpacing: "0.35em" }}>
                   SCROLL TO EXPLORE
                 </p>
               </motion.div>
@@ -315,13 +329,13 @@ const Brandbook = () => {
                     >
                       <span
                         className="font-body tabular-nums flex-shrink-0 transition-colors duration-200 group-hover:text-[#FF4A2A]"
-                        style={{ fontSize: "13px", color: "#555555", letterSpacing: "0.12em" }}
+                        style={{ fontSize: "11px", color: "#555555", letterSpacing: "0.12em" }}
                       >
                         {n}
                       </span>
                       <span
-                        className="font-display font-bold uppercase transition-colors duration-200 group-hover:text-[#FF4A2A]"
-                        style={{ fontSize: "clamp(18px, 2vw, 28px)", color: OFF_WHITE, letterSpacing: "0.01em" }}
+                        className="font-antonio uppercase transition-colors duration-200 group-hover:text-[#FF4A2A]"
+                        style={{ fontSize: "clamp(18px, 2vw, 28px)", fontWeight: 600, color: OFF_WHITE, letterSpacing: "0.02em" }}
                       >
                         {label}
                       </span>
@@ -358,7 +372,7 @@ const Brandbook = () => {
                     className="flex-1 flex flex-col items-center justify-center"
                     style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}
                   >
-                    <p className="font-body mb-3" style={{ fontSize: "9px", color: "#666666", letterSpacing: "0.3em" }}>DARK</p>
+                    <p className="font-antonio uppercase mb-3" style={{ fontSize: "11px", color: "#888888", letterSpacing: "0.25em", fontWeight: 600 }}>DARK</p>
                     <span className="font-logo uppercase leading-none text-center" style={{ fontSize: "clamp(0.9rem, 1.8vw, 1.8rem)", color: OFF_WHITE }}>
                       BIT &<br />BEELD
                     </span>
@@ -367,7 +381,7 @@ const Brandbook = () => {
                     className="flex-1 flex flex-col items-center justify-center"
                     style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}
                   >
-                    <p className="font-body mb-3" style={{ fontSize: "9px", color: "#666666", letterSpacing: "0.3em" }}>ACCENT</p>
+                    <p className="font-antonio uppercase mb-3" style={{ fontSize: "11px", color: "#888888", letterSpacing: "0.25em", fontWeight: 600 }}>ACCENT</p>
                     <span className="font-logo uppercase leading-none text-center" style={{ fontSize: "clamp(0.9rem, 1.8vw, 1.8rem)", color: ACCENT }}>
                       BIT &<br />BEELD
                     </span>
@@ -383,8 +397,8 @@ const Brandbook = () => {
                 ].map(({ label, body }) => (
                   <div key={label}>
                     <Rule light />
-                    <p className="font-body mt-3 mb-1" style={{ fontSize: "9px", color: "#999999", letterSpacing: "0.22em" }}>{label}</p>
-                    <p className="font-body leading-relaxed" style={{ fontSize: "11px", color: "#777777" }}>{body}</p>
+                    <p className="font-antonio uppercase mt-3 mb-1" style={{ fontSize: "11px", color: "#999999", letterSpacing: "0.22em", fontWeight: 600 }}>{label}</p>
+                    <p className="font-body leading-relaxed" style={{ fontSize: "12px", color: "#777777" }}>{body}</p>
                   </div>
                 ))}
               </div>
@@ -395,7 +409,7 @@ const Brandbook = () => {
               <SectionTag n="04" label="COLOR SYSTEM" />
 
               <h2
-                className="font-display font-extrabold uppercase leading-[0.88] mb-6 flex-shrink-0"
+                className="font-logo uppercase leading-[0.88] mb-6 flex-shrink-0"
                 style={{ fontSize: "clamp(1.6rem, 4.5vw, 6rem)", color: OFF_WHITE, letterSpacing: "-0.025em", opacity: 0.6 }}
               >
                 TWO STATES.<br />ONE SIGNAL.
@@ -406,11 +420,11 @@ const Brandbook = () => {
                   <div key={name} className="flex flex-col justify-end p-4" style={{ background: bg }}>
                     <p
                       className="font-body font-medium"
-                      style={{ fontSize: "10px", color: lightText ? "#222222" : OFF_WHITE, letterSpacing: "0.07em" }}
+                      style={{ fontSize: "11px", color: lightText ? "#222222" : OFF_WHITE, letterSpacing: "0.07em" }}
                     >
                       {name}
                     </p>
-                    <p className="font-body mt-0.5" style={{ fontSize: "9px", color: lightText ? "#555555" : "rgba(255,255,255,0.55)" }}>
+                    <p className="font-body mt-0.5" style={{ fontSize: "11px", color: lightText ? "#555555" : "rgba(255,255,255,0.55)" }}>
                       {hex}
                     </p>
                   </div>
@@ -419,18 +433,18 @@ const Brandbook = () => {
 
               <div
                 className="mt-2 flex-shrink-0"
-                style={{ height: "4px", background: "linear-gradient(to right, #FF4A2A, #FF7A4A, #E8C87A, #7AB87A, #2A2A2A)" }}
+                style={{ height: "4px", background: "linear-gradient(to right, #0B0B0B, #111111, #888888, #EDEBE7, #F4F1EB)" }}
               />
 
               <div className="mt-5 grid grid-cols-2 gap-8 flex-shrink-0">
                 {[
-                  { label: "PRIMARY SIGNAL", body: "#FF4A2A — the only color accent. Used sparingly across both light and dark states." },
-                  { label: "NEUTRAL SYSTEM", body: "#0B0B0B and #F4F1EB as structural base. No additional color accents outside this system." },
+                  { label: "TWO STATES", body: "Dark canvas #0B0B0B and warm paper #F4F1EB — each with one elevated surface tone. No cold white. No pure black." },
+                  { label: "ONE SIGNAL", body: "#FF4A2A — the only accent in the system. Always purposeful, never decorative. Present in both states." },
                 ].map(({ label, body }) => (
                   <div key={label}>
                     <Rule />
-                    <p className="font-body mt-3 mb-1" style={{ fontSize: "9px", color: "#777777", letterSpacing: "0.22em" }}>{label}</p>
-                    <p className="font-body leading-relaxed" style={{ fontSize: "11px", color: "#666666" }}>{body}</p>
+                    <p className="font-antonio uppercase mt-3 mb-1" style={{ fontSize: "11px", color: "#777777", letterSpacing: "0.22em", fontWeight: 600 }}>{label}</p>
+                    <p className="font-body leading-relaxed" style={{ fontSize: "12px", color: "#666666" }}>{body}</p>
                   </div>
                 ))}
               </div>
@@ -441,43 +455,46 @@ const Brandbook = () => {
               <SectionTag n="05" label="TYPOGRAPHY" />
 
               <h2
-                className="font-display font-bold mb-5 flex-shrink-0"
-                style={{ fontSize: "clamp(1.6rem, 4vw, 5rem)", color: OFF_WHITE, letterSpacing: "-0.02em", opacity: 0.6 }}
+                className="font-antonio mb-5 flex-shrink-0"
+                style={{ fontSize: "clamp(1.6rem, 4vw, 5rem)", fontWeight: 300, color: OFF_WHITE, letterSpacing: "0.02em", opacity: 0.55 }}
               >
                 Three fonts. One clear voice.
               </h2>
 
               <div className="grid grid-cols-3 gap-2 flex-shrink-0" style={{ height: "52vh" }}>
+                {/* Anton — display / logo */}
                 <div className="flex flex-col p-6" style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}>
                   <Rule />
-                  <p className="font-body mt-4 mb-0.5" style={{ fontSize: "9px", color: "#777777", letterSpacing: "0.3em" }}>DISPLAY / LOGO</p>
-                  <p className="font-body mb-5" style={{ fontSize: "10px", color: "#555555" }}>Anton</p>
+                  <p className="font-antonio uppercase mt-4 mb-0.5" style={{ fontSize: "11px", fontWeight: 600, color: "#777777", letterSpacing: "0.25em" }}>DISPLAY / LOGO</p>
+                  <p className="font-body mb-5" style={{ fontSize: "11px", color: "#555555" }}>Anton</p>
                   <span className="font-logo uppercase text-[#F5F5F5] leading-none mt-auto" style={{ fontSize: "clamp(1.8rem, 3.2vw, 4.5rem)" }}>
                     BIT &<br />BEELD
                   </span>
-                  <p className="font-body mt-4 leading-relaxed" style={{ fontSize: "11px", color: "#666666" }}>
-                    Used exclusively for the wordmark and maximum-impact display moments.
+                  <p className="font-body mt-4 leading-relaxed" style={{ fontSize: "12px", color: "#666666" }}>
+                    Reserved for the wordmark and maximum-impact display moments only.
                   </p>
                 </div>
+                {/* Antonio — editorial / hierarchy */}
                 <div className="flex flex-col p-6" style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}>
                   <Rule />
-                  <p className="font-body mt-4 mb-0.5" style={{ fontSize: "9px", color: "#777777", letterSpacing: "0.3em" }}>HEADINGS</p>
-                  <p className="font-body mb-5" style={{ fontSize: "10px", color: "#555555" }}>Syne</p>
-                  <span className="font-display font-extrabold text-[#F5F5F5] leading-tight mt-auto" style={{ fontSize: "clamp(1.4rem, 2.4vw, 3.2rem)" }}>
+                  <p className="font-antonio uppercase mt-4 mb-0.5" style={{ fontSize: "11px", fontWeight: 600, color: "#777777", letterSpacing: "0.25em" }}>EDITORIAL</p>
+                  <p className="font-body mb-5" style={{ fontSize: "11px", color: "#555555" }}>Antonio</p>
+                  <span className="font-antonio text-[#F5F5F5] leading-none mt-auto" style={{ fontSize: "clamp(1.4rem, 2.4vw, 3.2rem)", fontWeight: 600 }}>
                     Design<br />that works.
                   </span>
-                  <p className="font-body mt-4 leading-relaxed" style={{ fontSize: "11px", color: "#666666" }}>
-                    All titles and section headers. ExtraBold 800 for impact, Bold 700 for sub-hierarchy.
+                  <p className="font-body mt-4 leading-relaxed" style={{ fontSize: "12px", color: "#666666" }}>
+                    Section titles, subheadings, editorial hierarchy. The bridge between display and reading.
                   </p>
                 </div>
+                {/* Inter — body / UI */}
                 <div className="flex flex-col p-6" style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}>
                   <Rule />
-                  <p className="font-body mt-4 mb-0.5" style={{ fontSize: "9px", color: "#777777", letterSpacing: "0.3em" }}>BODY / UI</p>
-                  <p className="font-body mb-5" style={{ fontSize: "10px", color: "#555555" }}>Inter</p>
+                  <p className="font-antonio uppercase mt-4 mb-0.5" style={{ fontSize: "11px", fontWeight: 600, color: "#777777", letterSpacing: "0.25em" }}>BODY / UI</p>
+                  <p className="font-body mb-5" style={{ fontSize: "11px", color: "#555555" }}>Inter</p>
                   <span className="font-body text-[#F5F5F5] leading-relaxed mt-auto" style={{ fontSize: "clamp(0.85rem, 1.15vw, 1.25rem)" }}>
                     Clear, functional text<br />for every context<br />and every scale.
                   </span>
-                  <p className="font-body mt-4 leading-relaxed" style={{ fontSize: "11px", color: "#666666" }}>
+                  <p className="font-body mt-4 leading-relaxed" style={{ fontSize: "12px", color: "#666666" }}>
                     Paragraphs, labels, captions, UI copy. Regular 400 and Medium 500.
                   </p>
                 </div>
@@ -489,7 +506,7 @@ const Brandbook = () => {
               <SectionTag n="06" label="GRID & LAYOUT" light />
 
               <h2
-                className="font-display font-extrabold uppercase leading-[0.87] mb-6 flex-shrink-0"
+                className="font-logo uppercase leading-[0.87] mb-6 flex-shrink-0"
                 style={{ fontSize: "clamp(1.6rem, 4vw, 5.5rem)", color: "#1A1A1A", letterSpacing: "-0.025em", opacity: 0.5 }}
               >
                 STRUCTURE<br />CREATES<br />FREEDOM.
@@ -507,12 +524,12 @@ const Brandbook = () => {
                     ))}
                   </div>
                   <div className="absolute bottom-4 left-4">
-                    <p className="font-body" style={{ fontSize: "9px", color: "#555555", letterSpacing: "0.25em" }}>12 COLUMN GRID</p>
+                    <p className="font-antonio uppercase" style={{ fontSize: "11px", fontWeight: 600, color: "#555555", letterSpacing: "0.22em" }}>12 COLUMN GRID</p>
                   </div>
                 </div>
                 <div className="w-56 flex-shrink-0 flex flex-col gap-3 pt-1">
                   <Rule light />
-                  <p className="font-body mb-2" style={{ fontSize: "9px", color: "#999999", letterSpacing: "0.22em" }}>SPACING SCALE</p>
+                  <p className="font-antonio uppercase mb-2" style={{ fontSize: "11px", fontWeight: 600, color: "#999999", letterSpacing: "0.22em" }}>SPACING SCALE</p>
                   {[
                     { label: "4px",  size: 4  },
                     { label: "8px",  size: 8  },
@@ -524,7 +541,7 @@ const Brandbook = () => {
                   ].map(({ label, size }) => (
                     <div key={label} className="flex items-center gap-3">
                       <div style={{ width: `${size}px`, height: "1px", background: ACCENT, flexShrink: 0 }} />
-                      <span className="font-body" style={{ fontSize: "10px", color: "#777777" }}>{label}</span>
+                      <span className="font-body" style={{ fontSize: "11px", color: "#777777" }}>{label}</span>
                     </div>
                   ))}
                 </div>
@@ -536,8 +553,8 @@ const Brandbook = () => {
               <SectionTag n="07" label="UI ELEMENTS" />
 
               <h2
-                className="font-display font-bold mb-5 flex-shrink-0"
-                style={{ fontSize: "clamp(1.6rem, 4vw, 5rem)", color: OFF_WHITE, letterSpacing: "-0.02em", opacity: 0.6 }}
+                className="font-antonio mb-5 flex-shrink-0"
+                style={{ fontSize: "clamp(1.6rem, 4vw, 5rem)", fontWeight: 300, color: OFF_WHITE, letterSpacing: "0.02em", opacity: 0.55 }}
               >
                 Components built with intent.
               </h2>
@@ -545,23 +562,23 @@ const Brandbook = () => {
               <div className="grid grid-cols-3 gap-3 flex-shrink-0" style={{ height: "50vh" }}>
                 <div className="flex flex-col p-6 gap-4" style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}>
                   <Rule />
-                  <p className="font-body" style={{ fontSize: "9px", color: "#777777", letterSpacing: "0.3em" }}>BUTTONS</p>
+                  <p className="font-antonio uppercase" style={{ fontSize: "11px", fontWeight: 600, color: "#777777", letterSpacing: "0.25em" }}>BUTTONS</p>
                   <div className="flex flex-col gap-3 mt-2">
                     <button
                       className="font-body font-medium uppercase w-full"
-                      style={{ background: ACCENT, color: "#000", padding: "12px 24px", fontSize: "10px", letterSpacing: "0.2em" }}
+                      style={{ background: ACCENT, color: "#000", padding: "12px 24px", fontSize: "11px", letterSpacing: "0.2em" }}
                     >
                       PRIMARY
                     </button>
                     <button
                       className="font-body font-medium uppercase w-full"
-                      style={{ background: "transparent", color: OFF_WHITE, border: "1px solid rgba(255,255,255,0.18)", padding: "12px 24px", fontSize: "10px", letterSpacing: "0.2em" }}
+                      style={{ background: "transparent", color: OFF_WHITE, border: "1px solid rgba(255,255,255,0.18)", padding: "12px 24px", fontSize: "11px", letterSpacing: "0.2em" }}
                     >
                       SECONDARY
                     </button>
                     <button
                       className="font-body font-medium uppercase text-left"
-                      style={{ background: "transparent", color: ACCENT, padding: 0, fontSize: "10px", letterSpacing: "0.2em", border: "none" }}
+                      style={{ background: "transparent", color: ACCENT, padding: 0, fontSize: "11px", letterSpacing: "0.2em", border: "none" }}
                     >
                       TEXT LINK →
                     </button>
@@ -569,20 +586,20 @@ const Brandbook = () => {
                 </div>
                 <div className="flex flex-col p-6 gap-4" style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}>
                   <Rule />
-                  <p className="font-body" style={{ fontSize: "9px", color: "#777777", letterSpacing: "0.3em" }}>TAGS & LABELS</p>
+                  <p className="font-antonio uppercase" style={{ fontSize: "11px", fontWeight: 600, color: "#777777", letterSpacing: "0.25em" }}>TAGS & LABELS</p>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {["Webdesign", "Branding", "2026", "UI/UX", "Identity"].map((tag) => (
                       <span
                         key={tag}
                         className="font-body"
-                        style={{ fontSize: "9px", color: OFF_WHITE, letterSpacing: "0.1em", border: "1px solid rgba(255,255,255,0.14)", padding: "4px 10px" }}
+                        style={{ fontSize: "11px", color: OFF_WHITE, letterSpacing: "0.1em", border: "1px solid rgba(255,255,255,0.14)", padding: "4px 10px" }}
                       >
                         {tag}
                       </span>
                     ))}
                     <span
                       className="font-body"
-                      style={{ fontSize: "9px", color: "#000", letterSpacing: "0.1em", background: ACCENT, padding: "4px 10px" }}
+                      style={{ fontSize: "11px", color: "#000", letterSpacing: "0.1em", background: ACCENT, padding: "4px 10px" }}
                     >
                       FEATURED
                     </span>
@@ -590,16 +607,16 @@ const Brandbook = () => {
                 </div>
                 <div className="flex flex-col p-6 gap-4" style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}>
                   <Rule />
-                  <p className="font-body" style={{ fontSize: "9px", color: "#777777", letterSpacing: "0.3em" }}>FORM FIELDS</p>
+                  <p className="font-antonio uppercase" style={{ fontSize: "11px", fontWeight: 600, color: "#777777", letterSpacing: "0.25em" }}>FORM FIELDS</p>
                   <div className="flex flex-col gap-5 mt-2">
                     <div>
-                      <p className="font-body mb-1.5" style={{ fontSize: "9px", color: "#666666", letterSpacing: "0.15em" }}>NAAM</p>
+                      <p className="font-antonio uppercase mb-1.5" style={{ fontSize: "11px", fontWeight: 600, color: "#666666", letterSpacing: "0.15em" }}>NAAM</p>
                       <div style={{ borderBottom: "1px solid rgba(255,255,255,0.14)", paddingBottom: "8px" }}>
                         <span className="font-body" style={{ fontSize: "12px", color: "#666666" }}>Wouter</span>
                       </div>
                     </div>
                     <div>
-                      <p className="font-body mb-1.5" style={{ fontSize: "9px", color: "#666666", letterSpacing: "0.15em" }}>EMAIL</p>
+                      <p className="font-antonio uppercase mb-1.5" style={{ fontSize: "11px", fontWeight: 600, color: "#666666", letterSpacing: "0.15em" }}>EMAIL</p>
                       <div style={{ borderBottom: `1px solid ${ACCENT}`, paddingBottom: "8px" }}>
                         <span className="font-body" style={{ fontSize: "12px", color: OFF_WHITE }}>hello@bitenbeeld.nl</span>
                       </div>
@@ -614,7 +631,7 @@ const Brandbook = () => {
               <SectionTag n="08" label="DARK MODE" />
 
               <h2
-                className="font-display font-extrabold uppercase leading-[0.87] mb-6 flex-shrink-0"
+                className="font-logo uppercase leading-[0.87] mb-6 flex-shrink-0"
                 style={{ fontSize: "clamp(1.6rem, 4vw, 5.5rem)", color: OFF_WHITE, letterSpacing: "-0.025em", opacity: 0.6 }}
               >
                 BUILT FOR THE<br />BLACK CANVAS.
@@ -630,11 +647,11 @@ const Brandbook = () => {
                   <div>
                     <button
                       className="font-body font-medium uppercase"
-                      style={{ background: ACCENT, color: "#000000", padding: "14px 36px", fontSize: "10px", letterSpacing: "0.2em" }}
+                      style={{ background: ACCENT, color: "#000000", padding: "14px 36px", fontSize: "11px", letterSpacing: "0.2em" }}
                     >
                       START PROJECT
                     </button>
-                    <p className="font-body mt-3" style={{ fontSize: "11px", color: "#666666" }}>
+                    <p className="font-body mt-3" style={{ fontSize: "12px", color: "#666666" }}>
                       Accent on black — maximum contrast, one signal.
                     </p>
                   </div>
@@ -644,18 +661,18 @@ const Brandbook = () => {
                     <span className="font-logo uppercase" style={{ fontSize: "12px", color: OFF_WHITE }}>BIT & BEELD</span>
                     <div className="flex gap-5">
                       {["Work", "About", "Contact"].map((item) => (
-                        <span key={item} className="font-body" style={{ fontSize: "10px", color: "#555555", letterSpacing: "0.1em" }}>{item}</span>
+                        <span key={item} className="font-body" style={{ fontSize: "11px", color: "#555555", letterSpacing: "0.1em" }}>{item}</span>
                       ))}
                     </div>
                   </div>
                   <div className="flex-1 flex flex-col justify-center">
-                    <p className="font-body mb-2" style={{ fontSize: "9px", color: "#555555", letterSpacing: "0.3em" }}>WEBDESIGN — 2026</p>
-                    <h3 className="font-display font-extrabold leading-tight mb-3" style={{ fontSize: "clamp(1rem, 2vw, 2rem)", color: OFF_WHITE }}>
+                    <p className="font-antonio uppercase mb-2" style={{ fontSize: "11px", fontWeight: 600, color: "#555555", letterSpacing: "0.25em" }}>WEBDESIGN — 2026</p>
+                    <h3 className="font-antonio leading-tight mb-3" style={{ fontSize: "clamp(1rem, 2vw, 2rem)", fontWeight: 600, color: OFF_WHITE }}>
                       Project Naam
                     </h3>
-                    <p className="font-body" style={{ fontSize: "11px", color: "#555555" }}>Short project description. Goal, context, outcome.</p>
+                    <p className="font-body" style={{ fontSize: "12px", color: "#555555" }}>Short project description. Goal, context, outcome.</p>
                   </div>
-                  <span className="font-body flex-shrink-0" style={{ fontSize: "10px", color: "#555555", letterSpacing: "0.15em" }}>
+                  <span className="font-body flex-shrink-0" style={{ fontSize: "11px", color: "#555555", letterSpacing: "0.15em" }}>
                     VIEW PROJECT <span style={{ color: ACCENT }}>→</span>
                   </span>
                 </div>
@@ -667,7 +684,7 @@ const Brandbook = () => {
               <SectionTag n="09" label="LIGHT MODE" light />
 
               <h2
-                className="font-display font-extrabold uppercase leading-[0.87] mb-6 flex-shrink-0"
+                className="font-logo uppercase leading-[0.87] mb-6 flex-shrink-0"
                 style={{ fontSize: "clamp(1.6rem, 4vw, 5.5rem)", color: "#111111", letterSpacing: "-0.025em", opacity: 0.5 }}
               >
                 SET ON<br />WARM PAPER.
@@ -683,32 +700,32 @@ const Brandbook = () => {
                   <div>
                     <button
                       className="font-body font-medium uppercase"
-                      style={{ background: "#111111", color: LIGHT, padding: "14px 36px", fontSize: "10px", letterSpacing: "0.2em" }}
+                      style={{ background: "#111111", color: LIGHT, padding: "14px 36px", fontSize: "11px", letterSpacing: "0.2em" }}
                     >
                       START PROJECT
                     </button>
-                    <p className="font-body mt-3" style={{ fontSize: "11px", color: "#999999" }}>
+                    <p className="font-body mt-3" style={{ fontSize: "12px", color: "#999999" }}>
                       Dark on warm paper — same hierarchy, inverse state.
                     </p>
                   </div>
                 </div>
-                <div className="flex flex-col p-6 gap-5" style={{ background: "#FFFFFF", border: "1px solid rgba(0,0,0,0.08)" }}>
+                <div className="flex flex-col p-6 gap-5" style={{ background: "#F4F1EB", border: "1px solid rgba(0,0,0,0.08)" }}>
                   <div className="flex items-center justify-between pb-4 flex-shrink-0" style={{ borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
                     <span className="font-logo uppercase" style={{ fontSize: "12px", color: "#111111" }}>BIT & BEELD</span>
                     <div className="flex gap-5">
                       {["Work", "About", "Contact"].map((item) => (
-                        <span key={item} className="font-body" style={{ fontSize: "10px", color: "#AAAAAA", letterSpacing: "0.1em" }}>{item}</span>
+                        <span key={item} className="font-body" style={{ fontSize: "11px", color: "#AAAAAA", letterSpacing: "0.1em" }}>{item}</span>
                       ))}
                     </div>
                   </div>
                   <div className="flex-1 flex flex-col justify-center">
-                    <p className="font-body mb-2" style={{ fontSize: "9px", color: "#BBBBBB", letterSpacing: "0.3em" }}>BRANDING — 2026</p>
-                    <h3 className="font-display font-extrabold leading-tight mb-3" style={{ fontSize: "clamp(1rem, 2vw, 2rem)", color: "#111111" }}>
+                    <p className="font-antonio uppercase mb-2" style={{ fontSize: "11px", fontWeight: 600, color: "#BBBBBB", letterSpacing: "0.25em" }}>BRANDING — 2026</p>
+                    <h3 className="font-antonio leading-tight mb-3" style={{ fontSize: "clamp(1rem, 2vw, 2rem)", fontWeight: 600, color: "#111111" }}>
                       Project Naam
                     </h3>
-                    <p className="font-body" style={{ fontSize: "11px", color: "#999999" }}>Short project description. Goal, context, outcome.</p>
+                    <p className="font-body" style={{ fontSize: "12px", color: "#999999" }}>Short project description. Goal, context, outcome.</p>
                   </div>
-                  <span className="font-body flex-shrink-0" style={{ fontSize: "10px", color: "#AAAAAA", letterSpacing: "0.15em" }}>
+                  <span className="font-body flex-shrink-0" style={{ fontSize: "11px", color: "#AAAAAA", letterSpacing: "0.15em" }}>
                     VIEW PROJECT <span style={{ color: ACCENT }}>→</span>
                   </span>
                 </div>
@@ -720,12 +737,12 @@ const Brandbook = () => {
               <SectionTag n="10" label="VOICE & TONE" />
 
               <h2
-                className="font-display font-bold uppercase leading-none mb-3 flex-shrink-0"
+                className="font-logo uppercase leading-none mb-3 flex-shrink-0"
                 style={{ fontSize: "clamp(3rem, 9vw, 13rem)", color: OFF_WHITE, letterSpacing: "-0.03em" }}
               >
                 CONSIDERED
               </h2>
-              <p className="font-body mb-6 flex-shrink-0" style={{ fontSize: "clamp(12px, 1.4vw, 17px)", color: "#888888", letterSpacing: "0.05em" }}>
+              <p className="font-antonio mb-6 flex-shrink-0" style={{ fontSize: "clamp(0.9rem, 1.4vw, 1.25rem)", fontWeight: 300, color: "#888888", letterSpacing: "0.04em" }}>
                 Precise, generous, clear.
               </p>
 
@@ -739,12 +756,12 @@ const Brandbook = () => {
                   <div key={word} className="p-6" style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}>
                     <Rule />
                     <h3
-                      className="font-display font-bold uppercase mt-4 mb-2"
-                      style={{ fontSize: "clamp(0.9rem, 1.8vw, 1.8rem)", color: OFF_WHITE, letterSpacing: "-0.01em" }}
+                      className="font-antonio uppercase mt-4 mb-2"
+                      style={{ fontSize: "clamp(0.9rem, 1.8vw, 1.8rem)", fontWeight: 600, color: OFF_WHITE, letterSpacing: "0.04em" }}
                     >
                       {word}
                     </h3>
-                    <p className="font-body leading-relaxed" style={{ fontSize: "11px", color: "#666666" }}>{desc}</p>
+                    <p className="font-body leading-relaxed" style={{ fontSize: "12px", color: "#666666" }}>{desc}</p>
                   </div>
                 ))}
               </div>
@@ -755,7 +772,7 @@ const Brandbook = () => {
               <SectionTag n="11" label="DO'S & DON'TS" light />
 
               <h2
-                className="font-display font-extrabold uppercase leading-[0.87] mb-6 flex-shrink-0"
+                className="font-logo uppercase leading-[0.87] mb-6 flex-shrink-0"
                 style={{ fontSize: "clamp(1.4rem, 3.5vw, 4.5rem)", color: "#1A1A1A", letterSpacing: "-0.025em", opacity: 0.5 }}
               >
                 RULES OF<br />THE SYSTEM.
@@ -764,7 +781,7 @@ const Brandbook = () => {
               <div className="grid grid-cols-2 gap-6 flex-shrink-0">
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-3 mb-3">
-                    <span className="font-body" style={{ fontSize: "10px", color: "#5DB870", letterSpacing: "0.25em" }}>DO</span>
+                    <span className="font-antonio uppercase" style={{ fontSize: "11px", fontWeight: 600, color: "#5DB870", letterSpacing: "0.25em" }}>DO</span>
                     <div className="flex-1 h-px" style={{ background: "rgba(93,184,112,0.3)" }} />
                   </div>
                   {[
@@ -777,13 +794,13 @@ const Brandbook = () => {
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-3 py-2.5" style={{ borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
                       <span style={{ color: "#5DB870", fontSize: "12px", flexShrink: 0, lineHeight: 1.5 }}>+</span>
-                      <span className="font-body" style={{ fontSize: "11px", color: "#555555", lineHeight: 1.6 }}>{item}</span>
+                      <span className="font-body" style={{ fontSize: "12px", color: "#555555", lineHeight: 1.6 }}>{item}</span>
                     </div>
                   ))}
                 </div>
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-3 mb-3">
-                    <span className="font-body" style={{ fontSize: "10px", color: ACCENT, letterSpacing: "0.25em" }}>DON'T</span>
+                    <span className="font-antonio uppercase" style={{ fontSize: "11px", fontWeight: 600, color: ACCENT, letterSpacing: "0.25em" }}>DON'T</span>
                     <div className="flex-1 h-px" style={{ background: "rgba(255,74,42,0.25)" }} />
                   </div>
                   {[
@@ -796,7 +813,7 @@ const Brandbook = () => {
                   ].map((item, i) => (
                     <div key={i} className="flex items-start gap-3 py-2.5" style={{ borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
                       <span style={{ color: ACCENT, fontSize: "12px", flexShrink: 0, lineHeight: 1.5 }}>—</span>
-                      <span className="font-body" style={{ fontSize: "11px", color: "#555555", lineHeight: 1.6 }}>{item}</span>
+                      <span className="font-body" style={{ fontSize: "12px", color: "#555555", lineHeight: 1.6 }}>{item}</span>
                     </div>
                   ))}
                 </div>
@@ -809,7 +826,7 @@ const Brandbook = () => {
 
               <div className="flex items-start justify-between flex-shrink-0 mt-2">
                 <h2
-                  className="font-display font-extrabold uppercase leading-[0.87]"
+                  className="font-logo uppercase leading-[0.87]"
                   style={{ fontSize: "clamp(2.2rem, 6vw, 8.5rem)", color: OFF_WHITE, letterSpacing: "-0.025em" }}
                 >
                   DESIGN<br />DAT WERKT<span style={{ color: ACCENT }}>.</span>
@@ -822,7 +839,7 @@ const Brandbook = () => {
                     { label: "MAIL",    value: "hello@bitenbeeld.nl" },
                   ].map(({ label, value }) => (
                     <div key={label}>
-                      <p className="font-body" style={{ fontSize: "9px", color: "#666666", letterSpacing: "0.28em" }}>{label}</p>
+                      <p className="font-antonio uppercase" style={{ fontSize: "11px", fontWeight: 600, color: "#666666", letterSpacing: "0.28em" }}>{label}</p>
                       <p className="font-body" style={{ fontSize: "13px", color: OFF_WHITE }}>{value}</p>
                     </div>
                   ))}
@@ -832,10 +849,10 @@ const Brandbook = () => {
               <div className="mt-auto flex-shrink-0">
                 <Rule />
                 <div className="flex items-center justify-between mt-4">
-                  <p className="font-body" style={{ fontSize: "10px", color: "#555555", letterSpacing: "0.08em" }}>
+                  <p className="font-body" style={{ fontSize: "11px", color: "#555555", letterSpacing: "0.08em" }}>
                     © 2026 Studio Bit & Beeld — Brand Guidelines v2.0
                   </p>
-                  <p className="font-body" style={{ fontSize: "10px", color: "#555555" }}>Nederland</p>
+                  <p className="font-body" style={{ fontSize: "11px", color: "#555555" }}>Nederland</p>
                 </div>
               </div>
             </Slide>
