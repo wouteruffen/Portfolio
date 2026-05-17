@@ -74,7 +74,7 @@ const MarqueeSection = ({
                 {Array.from({ length: ITEMS }, (_, i) => (
                   <span
                     key={i}
-                    className="flex items-center font-display font-extrabold uppercase text-white/90 tracking-tight leading-none"
+                    className="flex items-center font-logo uppercase text-white/90 tracking-tight leading-none"
                     style={{ fontSize: "clamp(2.8rem, 6vw, 6rem)" }}
                   >
                     {TEXT}

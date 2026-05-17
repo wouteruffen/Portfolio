@@ -84,13 +84,10 @@ interface AboutV2Props {
 }
 
 const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
-  // outerRef: the tall scroll-tracked wrapper. Tracking this (not the sticky
-  // inner) gives accurate revealProgress even when the section is pinned.
   const outerRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const hasSnapped = useRef(false);
 
-  // Portrait parallax uses the outer wrapper so sticky doesn't distort values.
   const { scrollYProgress } = useScroll({
     target: outerRef,
     container: scrollContainerRef as React.RefObject<HTMLElement>,
@@ -126,8 +123,6 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
   });
 
   return (
-    // 200vh outer wrapper keeps the sticky inner section pinned at the top
-    // while Projects slides up — mirrors exactly how Hero stays under About.
     <div
       ref={outerRef}
       style={{ height: "200vh", marginTop: "-100vh", position: "relative", zIndex: 42 }}
@@ -165,20 +160,19 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="font-display font-extrabold text-white/80 uppercase leading-[0.9] tracking-[-0.02em] text-[10vw] md:text-[7vw] lg:text-[5.5vw]"
+          className="font-logo text-white/80 uppercase leading-[0.9] tracking-[-0.02em] text-[10vw] md:text-[7vw] lg:text-[5.5vw]"
         >
           OVER MIJ
         </motion.h2>
       </div>
 
-      {/* ── MAIN CONTENT: portrait left-offset + text ─────────────── */}
+      {/* ── MAIN CONTENT ─────────────────────────────────────────── */}
       <div className="relative z-10 flex-1 flex flex-col w-full px-6 md:px-16 lg:px-24 max-w-[1400px] mx-auto">
 
-        {/* Portrait + text — centered in remaining space */}
         <div className="flex-1 flex flex-col justify-center">
         <div className="grid grid-cols-1 md:grid-cols-[1.25fr_1fr] gap-10 md:gap-16 py-8 md:py-10 items-stretch">
 
-          {/* Portrait — dominant, large */}
+          {/* Portrait */}
           <motion.div
             className="order-1 h-full"
             style={{ y: imageY }}
@@ -217,7 +211,7 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
             >
               <div className="w-6 h-px" style={{ backgroundColor: ACCENT }} />
               <span
-                className="text-[10px] tracking-[0.4em] font-body font-medium uppercase"
+                className="text-[10px] tracking-[0.4em] font-body uppercase"
                 style={{ color: ACCENT }}
               >
                 Introduction
@@ -230,7 +224,7 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.18, ease: EASE }}
               viewport={VP}
-              className="font-display font-extrabold text-white leading-[0.9] tracking-tight mb-5"
+              className="font-antonio font-semibold text-white leading-[0.9] tracking-tight mb-5"
               style={{ fontSize: "clamp(3rem, 5.5vw, 5rem)" }}
             >
               Hi, I'm
@@ -268,7 +262,7 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
             >
               <Link
                 to="/over-mij"
-                className="group inline-flex items-center gap-3 text-white font-display font-bold text-xs tracking-[0.2em] uppercase px-8 py-4 transition-opacity hover:opacity-80"
+                className="group inline-flex items-center gap-3 text-white font-body font-medium text-xs tracking-[0.18em] uppercase px-8 py-4 transition-opacity hover:opacity-80"
                 style={{ backgroundColor: ACCENT }}
               >
                 Meer over mij
@@ -278,7 +272,7 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
           </div>
         </div>
 
-        </div>{/* end centering wrapper */}
+        </div>
 
         {/* ── META ROW ────────────────────────────────────────────── */}
         <div

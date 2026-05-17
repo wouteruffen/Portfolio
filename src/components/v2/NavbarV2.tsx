@@ -192,10 +192,16 @@ const NavbarV2 = ({
               }}
             />
             <div className="flex flex-col">
-              <span className="text-white text-base font-body font-medium tracking-wide">
+              <span
+                className="font-body text-white"
+                style={{ fontSize: "15px", fontWeight: 500, letterSpacing: "0.015em" }}
+              >
                 Beschikbaar voor project
               </span>
-              <span className="text-white/50 text-xs font-body uppercase tracking-[0.15em]">
+              <span
+                className="font-body uppercase text-white/50"
+                style={{ fontSize: "10px", letterSpacing: "0.15em" }}
+              >
                 Medio 2026
               </span>
             </div>
@@ -214,7 +220,7 @@ const NavbarV2 = ({
           {/* CTA — navigates to #contact on home or to /#contact from other pages */}
           <button
             onClick={(e) => handleNavClick(e, "#contact")}
-            className="px-7 py-3 rounded-full border border-white/40 bg-white/10 text-white/75 text-base font-display font-bold tracking-[0.15em] uppercase hover:bg-white/22 hover:border-white/65 hover:text-white hover:scale-[1.03] transition-all duration-300"
+            className="px-7 py-3 rounded-full border border-white/40 bg-white/10 text-white/75 text-base font-body font-medium tracking-[0.12em] uppercase hover:bg-white/22 hover:border-white/65 hover:text-white hover:scale-[1.03] transition-all duration-300"
           >
             Plan Gesprek
           </button>
@@ -265,7 +271,12 @@ const NavbarV2 = ({
               <div className="flex items-center justify-between px-8 py-5">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 bg-[hsl(10,85%,50%)]" />
-                  <span className="text-white/60 text-xs font-body font-medium tracking-[0.15em] uppercase">Menu</span>
+                  <span
+                    className="font-body uppercase text-white/60"
+                    style={{ fontSize: "11px", letterSpacing: "0.22em" }}
+                  >
+                    Menu
+                  </span>
                 </div>
                 <button onClick={() => setMenuOpen(false)} className="text-white/60 hover:text-white transition-colors">
                   <X size={20} />
@@ -287,7 +298,10 @@ const NavbarV2 = ({
                       onClick={(e) => handleNavClick(e, item.href)}
                       className="group flex items-center gap-2 py-5 border-b border-white/10"
                     >
-                      <span className="text-white font-display font-extrabold text-3xl md:text-4xl uppercase tracking-wide hover:text-white/70 transition-colors">
+                      <span
+                        className="font-body font-medium text-3xl md:text-4xl uppercase text-white group-hover:text-white/70 transition-colors"
+                        style={{ letterSpacing: "0.08em" }}
+                      >
                         {item.label}
                       </span>
                       {isActive(item.href) && (
@@ -306,20 +320,34 @@ const NavbarV2 = ({
                 className="px-8 pb-10"
               >
                 <div className="mb-6">
-                  <span className="text-white/30 text-[10px] font-body tracking-[0.2em] uppercase">(Email)</span>
-                  <a href="mailto:hello@bitbeeld.nl" className="block text-[hsl(10,85%,50%)] text-lg font-body font-medium mt-1 hover:underline">
+                  <span
+                    className="font-body uppercase text-white/30"
+                    style={{ fontSize: "10px", letterSpacing: "0.2em" }}
+                  >
+                    Email
+                  </span>
+                  <a
+                    href="mailto:hello@bitbeeld.nl"
+                    className="font-body block text-[hsl(10,85%,50%)] text-lg font-medium mt-1 hover:underline"
+                  >
                     hello@bitbeeld.nl
                   </a>
                 </div>
 
                 <div>
-                  <span className="text-white/30 text-[10px] font-body tracking-[0.2em] uppercase">(Socials)</span>
+                  <span
+                    className="font-body uppercase text-white/30"
+                    style={{ fontSize: "10px", letterSpacing: "0.2em" }}
+                  >
+                    Socials
+                  </span>
                   <div className="grid grid-cols-2 gap-x-8 gap-y-2 mt-2">
                     {SOCIALS.map((s) => (
                       <a
                         key={s.label}
                         href={s.href}
-                        className="text-white/70 text-sm font-body hover:text-white transition-colors flex items-center gap-1"
+                        className="font-body text-white/70 text-sm hover:text-white transition-colors flex items-center gap-1"
+                        style={{ letterSpacing: "0.04em" }}
                       >
                         {s.label} <ArrowUpRight size={12} />
                       </a>

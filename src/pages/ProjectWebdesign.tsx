@@ -22,7 +22,7 @@ const ProjectWebdesign = () => {
               <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors font-body mb-6">
                 <ArrowLeft size={16} /> Terug naar home
               </Link>
-              <h1 className="text-5xl md:text-7xl font-display font-extrabold leading-tight">
+              <h1 className="text-5xl md:text-7xl font-logo leading-tight">
                 Webdesign &<br /><span className="text-primary">Development</span>
               </h1>
             </motion.div>
@@ -33,7 +33,7 @@ const ProjectWebdesign = () => {
         <section className="px-6 md:px-16 lg:px-24 py-24 max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-              <h2 className="text-3xl font-display font-extrabold mb-6">Websites die werken</h2>
+              <h2 className="text-3xl font-antonio font-semibold mb-6">Websites die werken</h2>
               <div className="space-y-4 text-muted-foreground font-body leading-relaxed">
                 <p>Elk project begint met een duidelijke strategie. Ik ontwerp en bouw websites die niet alleen mooi zijn, maar ook converteren en resultaat opleveren.</p>
                 <p>Van snelle landingspagina's tot complexe webapplicaties — alles wordt gebouwd met moderne technologieën zoals React, TypeScript en Tailwind CSS.</p>
@@ -58,8 +58,8 @@ const ProjectWebdesign = () => {
                 { step: "04", title: "Launch", desc: "Testen, optimaliseren en live zetten." },
               ].map((item) => (
                 <div key={item.step} className="border-t border-border pt-6">
-                  <span className="text-primary font-display font-extrabold text-2xl">{item.step}</span>
-                  <h3 className="font-display font-extrabold text-foreground text-lg mt-2">{item.title}</h3>
+                  <span className="text-primary font-antonio font-semibold text-2xl">{item.step}</span>
+                  <h3 className="font-antonio font-semibold text-foreground text-lg mt-2">{item.title}</h3>
                   <p className="text-muted-foreground text-sm font-body mt-2">{item.desc}</p>
                 </div>
               ))}
@@ -80,12 +80,12 @@ const ProjectWebdesign = () => {
 
           {/* CTA */}
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 text-center">
-            <p className="text-2xl md:text-4xl font-display font-extrabold mb-8">
+            <p className="text-2xl md:text-4xl font-antonio font-semibold mb-8">
               Klaar voor een nieuwe <span className="text-primary">website</span>?
             </p>
             <Link
               to="/#contact"
-              className="group inline-flex items-center gap-3 px-8 py-4 font-display font-bold text-base tracking-widest uppercase border border-[hsl(350,58%,36%)] bg-[hsl(350,58%,36%)] hover:bg-transparent transition-all duration-300"
+              className="group inline-flex items-center gap-3 px-8 py-4 font-body font-medium text-base tracking-widest uppercase border border-[hsl(350,58%,36%)] bg-[hsl(350,58%,36%)] hover:bg-transparent transition-all duration-300"
               style={{ color: "transparent", WebkitTextStroke: "1.5px rgba(255,255,255,0.88)" }}
             >
               Start Project

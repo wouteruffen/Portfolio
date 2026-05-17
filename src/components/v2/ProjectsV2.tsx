@@ -217,7 +217,7 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
           className="relative z-10 w-full text-center px-6 md:px-16 lg:px-24 flex-shrink-0"
           style={{ paddingTop: "100px", paddingBottom: "20px" }}
         >
-          <h2 className="text-[10vw] md:text-[7vw] lg:text-[5.5vw] leading-[0.9] tracking-[-0.02em] text-white/80 uppercase font-display font-extrabold">
+          <h2 className="text-[10vw] md:text-[7vw] lg:text-[5.5vw] leading-[0.9] tracking-[-0.02em] text-white/80 uppercase font-logo">
             WAT IK DOE
           </h2>
         </div>
@@ -245,7 +245,7 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
                   {/* Index row */}
                   <div className="flex items-center gap-4 mb-3">
                     <span
-                      className="text-[10px] tracking-[0.45em] font-body uppercase font-medium"
+                      className="text-[10px] tracking-[0.45em] font-body uppercase"
                       style={{ color: "hsl(0 0% 100% / 0.22)" }}
                     >
                       0{i + 1}
@@ -260,7 +260,7 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-5 h-px" style={{ backgroundColor: ACCENT }} />
                     <span
-                      className="text-[10px] tracking-[0.4em] font-body font-medium uppercase"
+                      className="text-[10px] tracking-[0.4em] font-antonio uppercase"
                       style={{ color: ACCENT }}
                     >
                       {proj.highlight}
@@ -269,7 +269,7 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
 
                   {/* Title */}
                   <h3
-                    className="font-display font-extrabold text-white uppercase leading-[0.88] tracking-tight mb-3"
+                    className="font-antonio font-semibold text-white uppercase leading-[0.88] tracking-tight mb-3"
                     style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)" }}
                   >
                     {proj.title}
@@ -300,7 +300,7 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
                   {/* CTA button */}
                   <Link
                     to={proj.href}
-                    className="group inline-flex items-center gap-3 font-display font-bold text-xs tracking-[0.18em] uppercase px-6 py-3 transition-opacity duration-300 hover:opacity-80"
+                    className="group inline-flex items-center gap-3 font-body font-medium text-xs tracking-[0.18em] uppercase px-6 py-3 transition-opacity duration-300 hover:opacity-80"
                     style={{
                       backgroundColor: ACCENT,
                       color: "white",

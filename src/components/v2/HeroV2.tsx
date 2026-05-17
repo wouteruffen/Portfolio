@@ -188,18 +188,6 @@ const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
         className="absolute inset-y-0 z-10 flex flex-col items-center justify-center pointer-events-none"
         style={{ right: "3vw" }}
       >
-        {/*
-          Outer div is 300px wide so the maskImage coordinate space covers the
-          label area. Icons are right-aligned inside so their visual position is
-          unchanged (right edge still 12px from the column's right edge = 3vw
-          from the viewport). The label lives in the ~200px left space — fully
-          within the mask area and fully within inner div's overflow:hidden box,
-          so nothing clips it.
-
-          Each icon and its label share ONE motion wrapper. whileHover scale
-          applied to the wrapper moves icon + label as a single unit with zero
-          lag — CSS transform inheritance is instantaneous, no rAF needed.
-        */}
         <div
           style={{
             height: "50vh",
@@ -236,7 +224,6 @@ const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
                     animate={{ scale: hovered ? 1.08 : 1 }}
                     transition={{ duration: 0.2, ease: "easeOut" }}
                   >
-                    {/* Skill icon button */}
                     <div
                       aria-label={skill.name}
                       className="w-16 h-16 flex items-center justify-center flex-shrink-0 text-white/65"
@@ -255,15 +242,6 @@ const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
                       {skill.svg}
                     </div>
 
-                    {/*
-                      Label is position:absolute inside the same motion wrapper.
-                      It shares the wrapper's transform, so when scale: 1.08 fires
-                      the label moves with the icon at exactly the same time —
-                      no polling, no rAF, no lag.
-                      top:0 bottom:0 + alignItems:center handles vertical centering
-                      without a transform, so Framer Motion's x-slide animation
-                      doesn't conflict with any translateY.
-                    */}
                     <AnimatePresence>
                       {hovered && (
                         <motion.span
@@ -286,7 +264,7 @@ const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
                             textTransform: "uppercase",
                             color: "rgba(255,255,255,0.85)",
                             fontFamily: "Inter, sans-serif",
-                            fontWeight: 600,
+                            fontWeight: 500,
                           }}
                         >
                           {skill.name}
@@ -330,7 +308,7 @@ const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
 
         <a
           href="#contact"
-          className="group inline-flex items-center gap-4 px-16 py-5 rounded-full border-[3px] border-[#FF4A2A] bg-[#FF4A2A]/10 text-[#FF4A2A] font-display font-bold text-2xl tracking-widest uppercase transition-all duration-300 hover:bg-[#FF4A2A] hover:text-black hover:border-[#FF4A2A]"
+          className="group inline-flex items-center gap-4 px-16 py-5 rounded-full border-[3px] border-[#FF4A2A] bg-[#FF4A2A]/10 text-[#FF4A2A] font-body font-medium text-2xl tracking-[0.1em] uppercase transition-all duration-300 hover:bg-[#FF4A2A] hover:text-black hover:border-[#FF4A2A]"
         >
           Start Project
           <span className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 text-[#FF4A2A] group-hover:text-black">

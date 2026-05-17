@@ -95,7 +95,7 @@ const FooterV2 = ({ scrollContainerRef, revealProgress }: FooterV2Props) => {
 
         {/* Right — statement + social icons */}
         <div className="flex flex-col items-end justify-between gap-6 self-stretch shrink-0 max-w-xs md:max-w-sm">
-          <p className="text-black font-display font-black text-xl md:text-2xl lg:text-3xl leading-tight text-right tracking-[-0.01em]">
+          <p className="text-black font-antonio font-semibold text-xl md:text-2xl lg:text-3xl leading-tight text-right tracking-[-0.01em]">
             Design dat werkt.<br />
             Gebouwd met visie.
           </p>

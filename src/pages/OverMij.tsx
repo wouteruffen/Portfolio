@@ -40,7 +40,7 @@ const OverMijPage = () => {
               <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors font-body mb-6">
                 <ArrowLeft size={16} /> Terug naar home
               </Link>
-              <h1 className="text-5xl md:text-7xl font-display font-extrabold leading-tight">
+              <h1 className="text-5xl md:text-7xl font-logo leading-tight">
                 Over <span className="text-primary">Mij</span>
               </h1>
             </motion.div>
@@ -51,7 +51,7 @@ const OverMijPage = () => {
         <section className="px-6 md:px-16 lg:px-24 py-24 max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-              <h2 className="text-3xl md:text-4xl font-display font-extrabold mb-6 leading-snug">
+              <h2 className="text-3xl md:text-4xl font-antonio font-semibold mb-6 leading-snug">
                 Ik ben een creatieve freelancer die merken helpt groeien met doordacht design en slimme technologie.
               </h2>
               <div className="space-y-4 text-muted-foreground font-body leading-relaxed">
@@ -85,7 +85,7 @@ const OverMijPage = () => {
               { num: "∞", label: "Koffie" },
             ].map((stat) => (
               <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
-                <div className="text-4xl font-display font-extrabold text-primary">{stat.num}</div>
+                <div className="text-4xl font-antonio font-semibold text-primary">{stat.num}</div>
                 <div className="text-sm text-muted-foreground mt-1 font-body">{stat.label}</div>
               </motion.div>
             ))}
@@ -113,9 +113,9 @@ const OverMijPage = () => {
                   transition={{ duration: 0.5, delay: i * 0.1 }}
                   className="grid md:grid-cols-[120px_1fr] gap-4 md:gap-8 border-t border-border py-8"
                 >
-                  <span className="text-primary font-display font-extrabold text-2xl">{item.year}</span>
+                  <span className="text-primary font-antonio font-semibold text-2xl">{item.year}</span>
                   <div>
-                    <h3 className="font-display font-extrabold text-foreground text-lg">{item.title}</h3>
+                    <h3 className="font-antonio font-semibold text-foreground text-lg">{item.title}</h3>
                     <p className="text-muted-foreground text-sm font-body mt-1">{item.desc}</p>
                   </div>
                 </motion.div>
@@ -156,7 +156,7 @@ const OverMijPage = () => {
                 { title: "Continu leren", desc: "Technologie evolueert, en ik evolueer mee. Altijd up-to-date." },
               ].map((value) => (
                 <div key={value.title} className="border border-border p-6 hover:border-primary transition-colors">
-                  <h3 className="font-display font-extrabold text-foreground text-lg mb-2">{value.title}</h3>
+                  <h3 className="font-antonio font-semibold text-foreground text-lg mb-2">{value.title}</h3>
                   <p className="text-muted-foreground text-sm font-body">{value.desc}</p>
                 </div>
               ))}
@@ -167,10 +167,10 @@ const OverMijPage = () => {
         {/* CTA */}
         <section className="px-6 md:px-16 lg:px-24 py-24 max-w-7xl mx-auto text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-            <p className="text-2xl md:text-4xl font-display font-extrabold mb-8">
+            <p className="text-2xl md:text-4xl font-antonio font-semibold mb-8">
               Laten we <span className="text-primary">samenwerken</span>
             </p>
-            <Link to="/#contact" className="inline-block bg-primary text-primary-foreground px-8 py-4 font-display font-bold text-sm tracking-widest uppercase hover:bg-accent hover:text-accent-foreground transition-colors">
+            <Link to="/#contact" className="inline-block bg-primary text-primary-foreground px-8 py-4 font-body font-medium text-sm tracking-widest uppercase hover:bg-accent hover:text-accent-foreground transition-colors">
               Neem Contact Op
             </Link>
           </motion.div>

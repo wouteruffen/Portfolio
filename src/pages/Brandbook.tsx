@@ -10,7 +10,11 @@ import { useSmoothScroll } from "@/lib/useSmoothScroll";
 const DARK      = "#0B0B0B";
 const LIGHT     = "#F4F1EB";
 const OFF_WHITE = "#F5F5F5";
-const ACCENT    = "#FF4A2A";
+const ACCENT    = "#FF5A36";   // Signal Orange
+const TEAL      = "#0E9AA7";   // Teal Cyan — digital identity layer
+const DUSTY_BLUE = "#6E8FB7";  // Dusty Blue — supporting cool accent
+const LAVENDER  = "#8D86C9";   // Muted Lavender — use very sparingly
+const GRAPHITE  = "#2A2A2A";   // Graphite — elevated dark surface
 
 /* ─── Antonio variable font ──────────────────────────────────────────────── */
 const ANTONIO_CSS = `
@@ -24,12 +28,17 @@ const ANTONIO_CSS = `
 `;
 
 /* ─── Color palette ──────────────────────────────────────────────────────── */
-const PALETTE = [
-  { name: "Dark Canvas",   hex: "#0B0B0B", bg: "#0B0B0B", lightText: false },
-  { name: "Dark Surface",  hex: "#111111", bg: "#111111", lightText: false },
-  { name: "Warm Paper",    hex: "#F4F1EB", bg: "#F4F1EB", lightText: true  },
-  { name: "Light Surface", hex: "#EDEBE7", bg: "#EDEBE7", lightText: true  },
-  { name: "Signal",        hex: "#FF4A2A", bg: "#FF4A2A", lightText: false },
+const PALETTE_FOUNDATION = [
+  { name: "Near Black",  hex: "#0B0B0B", bg: "#0B0B0B", lightText: false, role: "PRIMARY DARK"  },
+  { name: "Graphite",    hex: "#2A2A2A", bg: "#2A2A2A", lightText: false, role: "SURFACE DARK"  },
+  { name: "Warm Paper",  hex: "#F4F1EB", bg: "#F4F1EB", lightText: true,  role: "PRIMARY LIGHT" },
+];
+
+const PALETTE_ACCENTS = [
+  { name: "Signal Orange",  hex: "#FF5A36", bg: "#FF5A36", lightText: false, role: "SIGNAL"   },
+  { name: "Teal Cyan",      hex: "#0E9AA7", bg: "#0E9AA7", lightText: false, role: "DIGITAL"  },
+  { name: "Dusty Blue",     hex: "#6E8FB7", bg: "#6E8FB7", lightText: false, role: "COOL"     },
+  { name: "Muted Lavender", hex: "#8D86C9", bg: "#8D86C9", lightText: false, role: "SUBTLE"   },
 ];
 
 /*
@@ -249,7 +258,7 @@ const Brandbook = () => {
                 <Link
                   to="/"
                   className="inline-flex items-center gap-2 font-body transition-colors"
-                  style={{ fontSize: "12px", color: "#777777", letterSpacing: "0.08em" }}
+                  style={{ fontSize: "12px", color: "#777777", letterSpacing: "0.1em" }}
                   onMouseEnter={e => (e.currentTarget.style.color = OFF_WHITE)}
                   onMouseLeave={e => (e.currentTarget.style.color = "#777777")}
                 >
@@ -328,13 +337,13 @@ const Brandbook = () => {
                       onClick={() => scrollToSection(index)}
                     >
                       <span
-                        className="font-body tabular-nums flex-shrink-0 transition-colors duration-200 group-hover:text-[#FF4A2A]"
+                        className="font-body tabular-nums flex-shrink-0 transition-colors duration-200 group-hover:text-[#FF5A36]"
                         style={{ fontSize: "11px", color: "#555555", letterSpacing: "0.12em" }}
                       >
                         {n}
                       </span>
                       <span
-                        className="font-antonio uppercase transition-colors duration-200 group-hover:text-[#FF4A2A]"
+                        className="font-antonio uppercase transition-colors duration-200 group-hover:text-[#FF5A36]"
                         style={{ fontSize: "clamp(18px, 2vw, 28px)", fontWeight: 600, color: OFF_WHITE, letterSpacing: "0.02em" }}
                       >
                         {label}
@@ -393,7 +402,7 @@ const Brandbook = () => {
                 {[
                   { label: "PRIMARY",  body: "Light background — default application. Anton, uppercase, full wordmark." },
                   { label: "DARK",     body: "Off-white on near-black. Same weight, same spacing. Use in dark contexts." },
-                  { label: "ACCENT",   body: "#FF4A2A variant — reserved for special moments only. Never as default." },
+                  { label: "ACCENT",   body: "Signal Orange (#FF5A36) variant — reserved for special moments only. Never as default." },
                 ].map(({ label, body }) => (
                   <div key={label}>
                     <Rule light />
@@ -409,37 +418,92 @@ const Brandbook = () => {
               <SectionTag n="04" label="COLOR SYSTEM" />
 
               <h2
-                className="font-logo uppercase leading-[0.88] mb-6 flex-shrink-0"
+                className="font-logo uppercase leading-[0.88] mb-3 flex-shrink-0"
                 style={{ fontSize: "clamp(1.6rem, 4.5vw, 6rem)", color: OFF_WHITE, letterSpacing: "-0.025em", opacity: 0.6 }}
               >
-                TWO STATES.<br />ONE SIGNAL.
+                90% MONO.<br />10% SIGNAL.
               </h2>
 
-              <div className="grid grid-cols-5 gap-2 flex-shrink-0" style={{ height: "36vh" }}>
-                {PALETTE.map(({ name, hex, bg, lightText }) => (
-                  <div key={name} className="flex flex-col justify-end p-4" style={{ background: bg }}>
-                    <p
-                      className="font-body font-medium"
-                      style={{ fontSize: "11px", color: lightText ? "#222222" : OFF_WHITE, letterSpacing: "0.07em" }}
-                    >
-                      {name}
-                    </p>
-                    <p className="font-body mt-0.5" style={{ fontSize: "11px", color: lightText ? "#555555" : "rgba(255,255,255,0.55)" }}>
-                      {hex}
-                    </p>
-                  </div>
+              {/* Foundation layer */}
+              <div className="flex-shrink-0">
+                <p
+                  className="font-antonio uppercase mb-1.5"
+                  style={{ fontSize: "10px", color: "#444444", letterSpacing: "0.32em" }}
+                >
+                  FOUNDATION LAYER
+                </p>
+                <div className="grid grid-cols-3 gap-2" style={{ height: "18vh" }}>
+                  {PALETTE_FOUNDATION.map(({ name, hex, bg, lightText, role }) => (
+                    <div key={name} className="flex flex-col justify-between p-3" style={{ background: bg }}>
+                      <p
+                        className="font-body"
+                        style={{ fontSize: "9px", letterSpacing: "0.28em", color: lightText ? "rgba(0,0,0,0.3)" : "rgba(255,255,255,0.28)" }}
+                      >
+                        {role}
+                      </p>
+                      <div>
+                        <p
+                          className="font-body font-medium"
+                          style={{ fontSize: "11px", color: lightText ? "#222222" : OFF_WHITE, letterSpacing: "0.05em" }}
+                        >
+                          {name}
+                        </p>
+                        <p className="font-body mt-0.5" style={{ fontSize: "10px", color: lightText ? "#555555" : "rgba(255,255,255,0.45)" }}>
+                          {hex}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Signal / accent layer */}
+              <div className="mt-2 flex-shrink-0">
+                <p
+                  className="font-antonio uppercase mb-1.5"
+                  style={{ fontSize: "10px", color: "#444444", letterSpacing: "0.32em" }}
+                >
+                  SIGNAL LAYER
+                </p>
+                <div className="grid grid-cols-4 gap-2" style={{ height: "13vh" }}>
+                  {PALETTE_ACCENTS.map(({ name, hex, bg, role }) => (
+                    <div key={name} className="flex flex-col justify-between p-3" style={{ background: bg }}>
+                      <p
+                        className="font-body"
+                        style={{ fontSize: "9px", letterSpacing: "0.28em", color: "rgba(255,255,255,0.38)" }}
+                      >
+                        {role}
+                      </p>
+                      <div>
+                        <p className="font-body font-medium" style={{ fontSize: "10px", color: OFF_WHITE, letterSpacing: "0.04em" }}>
+                          {name}
+                        </p>
+                        <p className="font-body mt-0.5" style={{ fontSize: "9px", color: "rgba(255,255,255,0.5)" }}>
+                          {hex}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Full-spectrum strip */}
+              <div className="mt-2 flex gap-0.5 flex-shrink-0">
+                {[DARK, GRAPHITE, "#555555", "#888888", LIGHT, ACCENT, TEAL, DUSTY_BLUE, LAVENDER].map((color) => (
+                  <div key={color} style={{ flex: 1, height: "3px", background: color }} />
                 ))}
               </div>
 
-              <div
-                className="mt-2 flex-shrink-0"
-                style={{ height: "4px", background: "linear-gradient(to right, #0B0B0B, #111111, #888888, #EDEBE7, #F4F1EB)" }}
-              />
-
-              <div className="mt-5 grid grid-cols-2 gap-8 flex-shrink-0">
+              <div className="mt-4 grid grid-cols-2 gap-8 flex-shrink-0">
                 {[
-                  { label: "TWO STATES", body: "Dark canvas #0B0B0B and warm paper #F4F1EB — each with one elevated surface tone. No cold white. No pure black." },
-                  { label: "ONE SIGNAL", body: "#FF4A2A — the only accent in the system. Always purposeful, never decorative. Present in both states." },
+                  {
+                    label: "FOUNDATION",
+                    body: "Near black and warm paper anchor the monochromatic base — 90% of every composition. Graphite as the elevated surface. No cold white. No pure black.",
+                  },
+                  {
+                    label: "SIGNAL LAYER",
+                    body: "Signal orange is the primary accent. Teal cyan, dusty blue, and muted lavender are compositional tools — metadata, system states, hover accents. Purposeful. Never dominant.",
+                  },
                 ].map(({ label, body }) => (
                   <div key={label}>
                     <Rule />
@@ -464,7 +528,7 @@ const Brandbook = () => {
               <div className="grid grid-cols-3 gap-2 flex-shrink-0" style={{ height: "52vh" }}>
                 {/* Anton — display / logo */}
                 <div className="flex flex-col p-6" style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}>
-                  <Rule />
+                  <div style={{ height: "1px", background: ACCENT, opacity: 0.75 }} />
                   <p className="font-antonio uppercase mt-4 mb-0.5" style={{ fontSize: "11px", fontWeight: 600, color: "#777777", letterSpacing: "0.25em" }}>DISPLAY / LOGO</p>
                   <p className="font-body mb-5" style={{ fontSize: "11px", color: "#555555" }}>Anton</p>
                   <span className="font-logo uppercase text-[#F5F5F5] leading-none mt-auto" style={{ fontSize: "clamp(1.8rem, 3.2vw, 4.5rem)" }}>
@@ -476,7 +540,7 @@ const Brandbook = () => {
                 </div>
                 {/* Antonio — editorial / hierarchy */}
                 <div className="flex flex-col p-6" style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}>
-                  <Rule />
+                  <div style={{ height: "1px", background: TEAL, opacity: 0.75 }} />
                   <p className="font-antonio uppercase mt-4 mb-0.5" style={{ fontSize: "11px", fontWeight: 600, color: "#777777", letterSpacing: "0.25em" }}>EDITORIAL</p>
                   <p className="font-body mb-5" style={{ fontSize: "11px", color: "#555555" }}>Antonio</p>
                   <span className="font-antonio text-[#F5F5F5] leading-none mt-auto" style={{ fontSize: "clamp(1.4rem, 2.4vw, 3.2rem)", fontWeight: 600 }}>
@@ -488,7 +552,7 @@ const Brandbook = () => {
                 </div>
                 {/* Inter — body / UI */}
                 <div className="flex flex-col p-6" style={{ background: "#111111", border: "1px solid rgba(255,255,255,0.06)" }}>
-                  <Rule />
+                  <div style={{ height: "1px", background: DUSTY_BLUE, opacity: 0.75 }} />
                   <p className="font-antonio uppercase mt-4 mb-0.5" style={{ fontSize: "11px", fontWeight: 600, color: "#777777", letterSpacing: "0.25em" }}>BODY / UI</p>
                   <p className="font-body mb-5" style={{ fontSize: "11px", color: "#555555" }}>Inter</p>
                   <span className="font-body text-[#F5F5F5] leading-relaxed mt-auto" style={{ fontSize: "clamp(0.85rem, 1.15vw, 1.25rem)" }}>
@@ -540,7 +604,7 @@ const Brandbook = () => {
                     { label: "64px", size: 64 },
                   ].map(({ label, size }) => (
                     <div key={label} className="flex items-center gap-3">
-                      <div style={{ width: `${size}px`, height: "1px", background: ACCENT, flexShrink: 0 }} />
+                      <div style={{ width: `${size}px`, height: "1px", background: TEAL, flexShrink: 0 }} />
                       <span className="font-body" style={{ fontSize: "11px", color: "#777777" }}>{label}</span>
                     </div>
                   ))}
@@ -588,11 +652,23 @@ const Brandbook = () => {
                   <Rule />
                   <p className="font-antonio uppercase" style={{ fontSize: "11px", fontWeight: 600, color: "#777777", letterSpacing: "0.25em" }}>TAGS & LABELS</p>
                   <div className="flex flex-wrap gap-2 mt-2">
-                    {["Webdesign", "Branding", "2026", "UI/UX", "Identity"].map((tag) => (
+                    {[
+                      { tag: "Webdesign", teal: false },
+                      { tag: "Branding",  teal: false },
+                      { tag: "2026",      teal: false },
+                      { tag: "UI/UX",     teal: true  },
+                      { tag: "Identity",  teal: false },
+                    ].map(({ tag, teal }) => (
                       <span
                         key={tag}
                         className="font-body"
-                        style={{ fontSize: "11px", color: OFF_WHITE, letterSpacing: "0.1em", border: "1px solid rgba(255,255,255,0.14)", padding: "4px 10px" }}
+                        style={{
+                          fontSize: "11px",
+                          color: teal ? TEAL : OFF_WHITE,
+                          letterSpacing: "0.1em",
+                          border: `1px solid ${teal ? `${TEAL}55` : "rgba(255,255,255,0.14)"}`,
+                          padding: "4px 10px",
+                        }}
                       >
                         {tag}
                       </span>
@@ -661,18 +737,18 @@ const Brandbook = () => {
                     <span className="font-logo uppercase" style={{ fontSize: "12px", color: OFF_WHITE }}>BIT & BEELD</span>
                     <div className="flex gap-5">
                       {["Work", "About", "Contact"].map((item) => (
-                        <span key={item} className="font-body" style={{ fontSize: "11px", color: "#555555", letterSpacing: "0.1em" }}>{item}</span>
+                        <span key={item} className="font-antonio" style={{ fontSize: "11px", color: "#555555", letterSpacing: "0.1em" }}>{item}</span>
                       ))}
                     </div>
                   </div>
                   <div className="flex-1 flex flex-col justify-center">
-                    <p className="font-antonio uppercase mb-2" style={{ fontSize: "11px", fontWeight: 600, color: "#555555", letterSpacing: "0.25em" }}>WEBDESIGN — 2026</p>
+                    <p className="font-antonio uppercase mb-2" style={{ fontSize: "11px", fontWeight: 600, color: TEAL, letterSpacing: "0.25em" }}>WEBDESIGN — 2026</p>
                     <h3 className="font-antonio leading-tight mb-3" style={{ fontSize: "clamp(1rem, 2vw, 2rem)", fontWeight: 600, color: OFF_WHITE }}>
                       Project Naam
                     </h3>
                     <p className="font-body" style={{ fontSize: "12px", color: "#555555" }}>Short project description. Goal, context, outcome.</p>
                   </div>
-                  <span className="font-body flex-shrink-0" style={{ fontSize: "11px", color: "#555555", letterSpacing: "0.15em" }}>
+                  <span className="font-antonio flex-shrink-0" style={{ fontSize: "11px", color: "#555555", letterSpacing: "0.15em" }}>
                     VIEW PROJECT <span style={{ color: ACCENT }}>→</span>
                   </span>
                 </div>
@@ -714,18 +790,18 @@ const Brandbook = () => {
                     <span className="font-logo uppercase" style={{ fontSize: "12px", color: "#111111" }}>BIT & BEELD</span>
                     <div className="flex gap-5">
                       {["Work", "About", "Contact"].map((item) => (
-                        <span key={item} className="font-body" style={{ fontSize: "11px", color: "#AAAAAA", letterSpacing: "0.1em" }}>{item}</span>
+                        <span key={item} className="font-antonio" style={{ fontSize: "11px", color: "#AAAAAA", letterSpacing: "0.1em" }}>{item}</span>
                       ))}
                     </div>
                   </div>
                   <div className="flex-1 flex flex-col justify-center">
-                    <p className="font-antonio uppercase mb-2" style={{ fontSize: "11px", fontWeight: 600, color: "#BBBBBB", letterSpacing: "0.25em" }}>BRANDING — 2026</p>
+                    <p className="font-antonio uppercase mb-2" style={{ fontSize: "11px", fontWeight: 600, color: TEAL, letterSpacing: "0.25em" }}>BRANDING — 2026</p>
                     <h3 className="font-antonio leading-tight mb-3" style={{ fontSize: "clamp(1rem, 2vw, 2rem)", fontWeight: 600, color: "#111111" }}>
                       Project Naam
                     </h3>
                     <p className="font-body" style={{ fontSize: "12px", color: "#999999" }}>Short project description. Goal, context, outcome.</p>
                   </div>
-                  <span className="font-body flex-shrink-0" style={{ fontSize: "11px", color: "#AAAAAA", letterSpacing: "0.15em" }}>
+                  <span className="font-antonio flex-shrink-0" style={{ fontSize: "11px", color: "#AAAAAA", letterSpacing: "0.15em" }}>
                     VIEW PROJECT <span style={{ color: ACCENT }}>→</span>
                   </span>
                 </div>
@@ -787,7 +863,7 @@ const Brandbook = () => {
                   {[
                     "Use Anton exclusively for the wordmark",
                     "Maintain generous whitespace throughout",
-                    "Use #FF4A2A as the single accent color",
+                    "Use Signal Orange (#FF5A36) as the primary accent — teal only for system accents",
                     "Keep type hierarchy consistent and clear",
                     "Apply the 12-column grid at every breakpoint",
                     "Use #F4F1EB (warm off-white) in light mode",
@@ -801,7 +877,7 @@ const Brandbook = () => {
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-3 mb-3">
                     <span className="font-antonio uppercase" style={{ fontSize: "11px", fontWeight: 600, color: ACCENT, letterSpacing: "0.25em" }}>DON'T</span>
-                    <div className="flex-1 h-px" style={{ background: "rgba(255,74,42,0.25)" }} />
+                    <div className="flex-1 h-px" style={{ background: "rgba(255,90,54,0.25)" }} />
                   </div>
                   {[
                     "Use Anton for body copy or UI labels",
@@ -833,14 +909,14 @@ const Brandbook = () => {
                 </h2>
                 <div className="text-right space-y-4 mt-1">
                   {[
-                    { label: "STUDIO",  value: "Studio Bit & Beeld" },
-                    { label: "LOCATIE", value: "Groningen, Nederland" },
-                    { label: "WEB",     value: "bitenbeeld.nl" },
-                    { label: "MAIL",    value: "hello@bitenbeeld.nl" },
-                  ].map(({ label, value }) => (
+                    { label: "STUDIO",  value: "Studio Bit & Beeld", digital: false },
+                    { label: "LOCATIE", value: "Groningen, Nederland", digital: false },
+                    { label: "WEB",     value: "bitenbeeld.nl",        digital: true  },
+                    { label: "MAIL",    value: "hello@bitenbeeld.nl",  digital: false },
+                  ].map(({ label, value, digital }) => (
                     <div key={label}>
                       <p className="font-antonio uppercase" style={{ fontSize: "11px", fontWeight: 600, color: "#666666", letterSpacing: "0.28em" }}>{label}</p>
-                      <p className="font-body" style={{ fontSize: "13px", color: OFF_WHITE }}>{value}</p>
+                      <p className="font-body" style={{ fontSize: "13px", color: digital ? TEAL : OFF_WHITE }}>{value}</p>
                     </div>
                   ))}
                 </div>

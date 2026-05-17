@@ -22,7 +22,7 @@ const ProjectBranding = () => {
               <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors font-body mb-6">
                 <ArrowLeft size={16} /> Terug naar home
               </Link>
-              <h1 className="text-5xl md:text-7xl font-display font-extrabold leading-tight">
+              <h1 className="text-5xl md:text-7xl font-logo leading-tight">
                 Merk<span className="text-secondary">identiteit</span>
               </h1>
             </motion.div>
@@ -33,7 +33,7 @@ const ProjectBranding = () => {
         <section className="px-6 md:px-16 lg:px-24 py-24 max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-              <h2 className="text-3xl font-display font-extrabold mb-6">Merken die blijven hangen</h2>
+              <h2 className="text-3xl font-antonio font-semibold mb-6">Merken die blijven hangen</h2>
               <div className="space-y-4 text-muted-foreground font-body leading-relaxed">
                 <p>Een sterk merk is meer dan een logo. Het is een compleet visueel systeem dat vertrouwen wekt en herkenning creëert bij je doelgroep.</p>
                 <p>Ik ontwikkel merkidentiteiten van de grond af aan: van strategie en positionering tot logo-ontwerp, kleurpaletten, typografie en uitgebreide brandbooks.</p>
@@ -57,7 +57,7 @@ const ProjectBranding = () => {
                 { title: "Brandbook", items: ["Merkrichtlijnen", "Do's & don'ts", "Toepassingsvoorbeelden"] },
               ].map((block) => (
                 <div key={block.title} className="border-t border-border pt-6">
-                  <h3 className="font-display font-extrabold text-foreground text-lg mb-4">{block.title}</h3>
+                  <h3 className="font-antonio font-semibold text-foreground text-lg mb-4">{block.title}</h3>
                   <ul className="space-y-2">
                     {block.items.map((item) => (
                       <li key={item} className="text-muted-foreground text-sm font-body flex items-center gap-2">
@@ -73,12 +73,12 @@ const ProjectBranding = () => {
 
           {/* CTA */}
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 text-center">
-            <p className="text-2xl md:text-4xl font-display font-extrabold mb-8">
+            <p className="text-2xl md:text-4xl font-antonio font-semibold mb-8">
               Tijd voor een <span className="text-secondary">sterk merk</span>?
             </p>
             <Link
               to="/#contact"
-              className="group inline-flex items-center gap-3 px-8 py-4 font-display font-bold text-base tracking-widest uppercase border border-[hsl(350,58%,36%)] bg-[hsl(350,58%,36%)] hover:bg-transparent transition-all duration-300"
+              className="group inline-flex items-center gap-3 px-8 py-4 font-body font-medium text-base tracking-widest uppercase border border-[hsl(350,58%,36%)] bg-[hsl(350,58%,36%)] hover:bg-transparent transition-all duration-300"
               style={{ color: "transparent", WebkitTextStroke: "1.5px rgba(255,255,255,0.88)" }}
             >
               Start Project

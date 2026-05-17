@@ -121,7 +121,7 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={VP}
                 transition={{ duration: 0.8, ease: EASE }}
-                className="text-[10vw] md:text-[7vw] lg:text-[5.5vw] leading-[0.9] tracking-[-0.02em] text-white/80 uppercase font-display font-extrabold"
+                className="text-[10vw] md:text-[7vw] lg:text-[5.5vw] leading-[0.9] tracking-[-0.02em] text-white/80 uppercase font-logo"
               >
                 Contact
               </motion.h2>
@@ -142,22 +142,22 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                     viewport={VP}
                     transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
                   >
-                    <p className="text-2xl md:text-4xl font-display font-black text-foreground leading-tight">
+                    <p className="text-2xl md:text-4xl font-antonio font-semibold text-foreground leading-tight">
                       Klaar om iets
                       <span className="text-secondary"> moois</span> te bouwen?
                     </p>
                     <div className="mt-6 h-px w-48 bg-secondary/35" />
                     <div className="flex flex-col gap-4 text-sm text-foreground/50 font-body mt-6">
                       <div>
-                        <div className="font-semibold mb-1 uppercase text-xs tracking-widest text-secondary/70">Email</div>
+                        <div className="font-body font-medium mb-1 uppercase text-xs tracking-widest text-secondary/70">Email</div>
                         hello@studiobitbeeld.nl
                       </div>
                       <div>
-                        <div className="font-semibold mb-1 uppercase text-xs tracking-widest text-secondary/70">Telefoon</div>
+                        <div className="font-body font-medium mb-1 uppercase text-xs tracking-widest text-secondary/70">Telefoon</div>
                         +31 (0)6 1234 5678
                       </div>
                       <div>
-                        <div className="font-semibold mb-1 uppercase text-xs tracking-widest text-secondary/70">Locatie</div>
+                        <div className="font-body font-medium mb-1 uppercase text-xs tracking-widest text-secondary/70">Locatie</div>
                         Amsterdam, NL
                       </div>
                     </div>
