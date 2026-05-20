@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Menu, X, ArrowUpRight, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useTheme } from "@/context/ThemeContext";
 
 /*
  * Scroll offsets (in pixels) for each home-page section.
@@ -34,6 +35,8 @@ interface NavbarV2Props {
   isAboutActive?: boolean;
   /** When true, renders the studio wordmark in the top-left (used by Brandbook). */
   showLogo?: boolean;
+  /** When true, hides the light/dark toggle (e.g. Brandbook has its own light/dark system). */
+  hideThemeToggle?: boolean;
   /**
    * If provided, called when the user clicks a section anchor (#over-ons etc.)
    * while already on the home page. Use the smooth-scroll hook's scrollTo so
@@ -46,14 +49,25 @@ const NavbarV2 = ({
   scrollContainerRef,
   isAboutActive = false,
   showLogo = false,
+  hideThemeToggle = false,
   onScrollToSection,
 }: NavbarV2Props) => {
-  const [menuOpen, setMenuOpen]   = useState(false);
-  const [currentTime, setCurrentTime] = useState("");
-  const [scrolled, setScrolled]   = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  const { isDark, toggleTheme } = useTheme();
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Nav color tokens — adapt to dark/light theme
+  const navText       = isDark ? "rgba(255,255,255,0.75)" : "rgba(11,11,11,0.78)";
+  const navTextSubtle = isDark ? "rgba(255,255,255,0.50)" : "rgba(11,11,11,0.42)";
+
+  // Tailwind class strings for interactive pill elements
+  const pillClass = isDark
+    ? "border-white/40 bg-white/10 text-white/75 hover:bg-white/[0.22] hover:border-white/65 hover:text-white"
+    : "border-black/20 bg-black/[0.05] text-black/75 hover:bg-black/10 hover:border-black/30 hover:text-black";
 
   useEffect(() => {
     const container = scrollContainerRef?.current;
@@ -62,30 +76,6 @@ const NavbarV2 = ({
     container.addEventListener("scroll", onScroll, { passive: true });
     return () => container.removeEventListener("scroll", onScroll);
   }, [scrollContainerRef]);
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setCurrentTime(
-        now.toLocaleTimeString("nl-NL", {
-          hour:     "2-digit",
-          minute:   "2-digit",
-          hour12:   false,
-          timeZone: "Europe/Amsterdam",
-        })
-      );
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 60000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const tzOffset = () => {
-    const fmt   = new Intl.DateTimeFormat("nl-NL", { timeZone: "Europe/Amsterdam", timeZoneName: "shortOffset" });
-    const parts = fmt.formatToParts(new Date());
-    const tz    = parts.find(p => p.type === "timeZoneName");
-    return tz ? tz.value : "GMT+2";
-  };
 
   /**
    * Unified navigation handler for every nav link and the CTA button.
@@ -169,7 +159,7 @@ const NavbarV2 = ({
             className="font-logo uppercase leading-none"
             style={{
               fontSize:      "clamp(13px, 1.4vw, 17px)",
-              color:         "rgba(255,255,255,0.85)",
+              color:         navText,
               letterSpacing: "0.03em",
             }}
           >
@@ -193,41 +183,64 @@ const NavbarV2 = ({
             />
             <div className="flex flex-col">
               <span
-                className="font-body text-white"
-                style={{ fontSize: "15px", fontWeight: 500, letterSpacing: "0.015em" }}
+                className="font-body"
+                style={{ fontSize: "15px", fontWeight: 500, letterSpacing: "0.015em", color: navText }}
               >
                 Beschikbaar voor project
               </span>
               <span
-                className="font-body uppercase text-white/50"
-                style={{ fontSize: "10px", letterSpacing: "0.15em" }}
+                className="font-body uppercase"
+                style={{ fontSize: "10px", letterSpacing: "0.15em", color: navTextSubtle }}
               >
                 Medio 2026
               </span>
             </div>
           </div>
 
-          {/* Time + timezone */}
-          <div className="hidden md:flex flex-col items-center">
-            <span className="text-white text-base font-body font-medium tabular-nums">
-              {currentTime}
-            </span>
-            <span className="text-white/50 text-xs font-body">
-              ({tzOffset()})
-            </span>
-          </div>
+          {/* Light / dark toggle */}
+          {!hideThemeToggle && (
+            <button
+              onClick={toggleTheme}
+              aria-label={isDark ? "Schakel naar licht modus" : "Schakel naar donker modus"}
+              className={`hidden md:flex items-center justify-center w-9 h-9 rounded-full border transition-all duration-300 hover:scale-[1.05] ${pillClass}`}
+            >
+              <AnimatePresence mode="wait">
+                {isDark ? (
+                  <motion.div
+                    key="sun"
+                    initial={{ opacity: 0, rotate: -20 }}
+                    animate={{ opacity: 1, rotate: 0 }}
+                    exit={{ opacity: 0, rotate: 20 }}
+                    transition={{ duration: 0.18 }}
+                  >
+                    <Sun size={14} />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="moon"
+                    initial={{ opacity: 0, rotate: 20 }}
+                    animate={{ opacity: 1, rotate: 0 }}
+                    exit={{ opacity: 0, rotate: -20 }}
+                    transition={{ duration: 0.18 }}
+                  >
+                    <Moon size={14} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </button>
+          )}
 
           {/* CTA — navigates to #contact on home or to /#contact from other pages */}
           <button
             onClick={(e) => handleNavClick(e, "#contact")}
-            className="px-7 py-3 rounded-full border border-white/40 bg-white/10 text-white/75 text-base font-body font-medium tracking-[0.12em] uppercase hover:bg-white/22 hover:border-white/65 hover:text-white hover:scale-[1.03] transition-all duration-300"
+            className={`px-7 py-3 rounded-full border text-base font-body font-medium tracking-[0.12em] uppercase hover:scale-[1.03] transition-all duration-300 ${pillClass}`}
           >
             Plan Gesprek
           </button>
 
           {/* Hamburger */}
           <button
-            className="flex items-center justify-center w-12 h-12 rounded-full border border-white/40 bg-white/10 text-white/75 z-50 relative hover:bg-white/22 hover:border-white/65 hover:text-white hover:scale-[1.05] transition-all duration-300"
+            className={`flex items-center justify-center w-12 h-12 rounded-full border z-50 relative hover:scale-[1.05] transition-all duration-300 ${pillClass}`}
             onClick={() => setMenuOpen(!menuOpen)}
           >
             <AnimatePresence mode="wait">

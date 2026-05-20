@@ -56,12 +56,53 @@
   }
 }
 
+/* Light mode — Warm Paper editorial palette */
+html.light {
+  --background: 39 29% 94%;          /* #F4F1EB Warm Paper */
+  --foreground: 0 0% 4%;             /* #0B0B0B Near Black */
+
+  --card: 38 35% 97%;
+  --card-foreground: 0 0% 4%;
+
+  --popover: 38 35% 97%;
+  --popover-foreground: 0 0% 4%;
+
+  --primary: 14 100% 60%;            /* Signal Orange — keep brand identity */
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 10 100% 58%;
+  --secondary-foreground: 0 0% 100%;
+
+  --muted: 39 18% 87%;
+  --muted-foreground: 0 0% 35%;
+
+  --accent: 215 75% 50%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 39 12% 78%;
+  --input: 39 12% 78%;
+  --ring: 14 100% 60%;
+
+  --sidebar-background: 38 35% 97%;
+  --sidebar-foreground: 0 0% 4%;
+  --sidebar-primary: 14 100% 60%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 39 18% 87%;
+  --sidebar-accent-foreground: 0 0% 4%;
+  --sidebar-border: 39 12% 78%;
+  --sidebar-ring: 14 100% 60%;
+}
+
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground font-body antialiased;
+    transition: background-color 0.5s ease, color 0.4s ease;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
