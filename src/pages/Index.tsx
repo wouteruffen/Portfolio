@@ -15,7 +15,6 @@ import ContactV2 from "@/components/v2/ContactV2";
 import LoadingScreen from "@/components/LoadingScreen";
 import ScrollLogo from "@/components/v2/ScrollLogo";
 
-const DARK_BG = "hsl(0, 0%, 5%)";
 
 /*
  * Scroll targets (px) for each section anchor, derived from the layout heights:
@@ -74,16 +73,16 @@ const Index = () => {
       <ScrollLogo scrollContainerRef={scrollRef} />
       <div
         ref={scrollRef}
-        className="overflow-y-auto h-screen"
-        style={{ background: DARK_BG }}
+        className="overflow-y-auto h-screen bg-background"
       >
-        {/* Top gradient — improves navbar text contrast over image backgrounds */}
+        {/* Top gradient — cross-fades between dark (dark mode) and warm (light mode) */}
         <div
-          className="fixed top-0 left-0 w-full pointer-events-none z-40"
-          style={{
-            height:     "160px",
-            background: "linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0))",
-          }}
+          className="opacity-0 dark:opacity-100 transition-opacity duration-300 fixed top-0 left-0 w-full pointer-events-none z-40"
+          style={{ height: "160px", background: "linear-gradient(to bottom, rgba(0,0,0,0.85), transparent)" }}
+        />
+        <div
+          className="opacity-100 dark:opacity-0 transition-opacity duration-300 fixed top-0 left-0 w-full pointer-events-none z-40"
+          style={{ height: "200px", background: "linear-gradient(to bottom, rgba(244,241,235,0.55) 0%, rgba(244,241,235,0.22) 50%, transparent 100%)" }}
         />
         <NavbarV2
           scrollContainerRef={scrollRef}

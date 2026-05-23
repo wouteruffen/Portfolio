@@ -3,7 +3,6 @@ import { useState, useRef } from "react";
 import React from "react";
 import FooterV2 from "./FooterV2";
 
-const DARK_BG = "hsl(0, 0%, 5%)";
 const EASE    = [0.22, 1, 0.36, 1] as const;
 const VP      = { once: true } as const;
 
@@ -92,11 +91,11 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
             ref={sectionRef}
             className="relative overflow-hidden flex flex-col"
             style={{
-              backgroundColor: DARK_BG,
+              backgroundColor: "hsl(var(--background))",
               y: revealY,
               borderRadius: revealRadius,
               height: "100%",
-              boxShadow: "0 -24px 60px rgba(0,0,0,0.55)",
+              boxShadow: "var(--section-shadow)",
             }}
           >
             {/* Grid texture */}
@@ -104,8 +103,8 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
               className="absolute inset-0 pointer-events-none opacity-[0.03]"
               style={{
                 backgroundImage: `
-                  linear-gradient(hsl(0 0% 100%) 1px, transparent 1px),
-                  linear-gradient(90deg, hsl(0 0% 100%) 1px, transparent 1px)
+                  linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
+                  linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)
                 `,
                 backgroundSize: "60px 60px",
               }}
@@ -121,7 +120,7 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={VP}
                 transition={{ duration: 0.8, ease: EASE }}
-                className="text-[10vw] md:text-[7vw] lg:text-[5.5vw] leading-[0.9] tracking-[-0.02em] text-white/80 uppercase font-logo"
+                className="text-[10vw] md:text-[7vw] lg:text-[5.5vw] leading-[0.9] tracking-[-0.02em] text-foreground/80 uppercase font-logo"
               >
                 Contact
               </motion.h2>

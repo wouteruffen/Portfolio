@@ -8,7 +8,6 @@ import projectProduct from "@/assets/project-product.jpg";
 import projectCampagne from "@/assets/hero-branding.jpg";
 import React from "react";
 
-const DARK_BG   = "hsl(0, 0%, 5%)";
 const ACCENT    = "#FF4A2A";
 const CARD_H_VH = 46;
 
@@ -191,13 +190,13 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
         id="projecten"
         className="relative snap-start overflow-hidden flex flex-col"
         style={{
-          backgroundColor: DARK_BG,
+          backgroundColor: "hsl(var(--background))",
           y: revealY,
           borderRadius: revealRadius,
           position: "sticky",
           top: 0,
           height: "100vh",
-          boxShadow: "0 -24px 60px rgba(0,0,0,0.55)",
+          boxShadow: "var(--section-shadow)",
         }}
       >
         {/* Grid texture */}
@@ -205,8 +204,8 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
           className="absolute inset-0 pointer-events-none opacity-[0.03]"
           style={{
             backgroundImage: `
-              linear-gradient(hsl(0 0% 100%) 1px, transparent 1px),
-              linear-gradient(90deg, hsl(0 0% 100%) 1px, transparent 1px)
+              linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
+              linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)
             `,
             backgroundSize: "60px 60px",
           }}
@@ -217,7 +216,7 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
           className="relative z-10 w-full text-center px-6 md:px-16 lg:px-24 flex-shrink-0"
           style={{ paddingTop: "100px", paddingBottom: "20px" }}
         >
-          <h2 className="text-[10vw] md:text-[7vw] lg:text-[5.5vw] leading-[0.9] tracking-[-0.02em] text-white/80 uppercase font-logo">
+          <h2 className="text-[10vw] md:text-[7vw] lg:text-[5.5vw] leading-[0.9] tracking-[-0.02em] text-foreground/80 uppercase font-logo">
             WAT IK DOE
           </h2>
         </div>
@@ -246,13 +245,13 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
                   <div className="flex items-center gap-4 mb-3">
                     <span
                       className="text-[10px] tracking-[0.45em] font-body uppercase"
-                      style={{ color: "hsl(0 0% 100% / 0.22)" }}
+                      style={{ color: "hsl(var(--foreground) / 0.35)" }}
                     >
                       0{i + 1}
                     </span>
                     <div
                       className="flex-1 h-px"
-                      style={{ backgroundColor: "hsl(0 0% 100% / 0.08)" }}
+                      style={{ backgroundColor: "hsl(var(--foreground) / 0.10)" }}
                     />
                   </div>
 
@@ -269,14 +268,14 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
 
                   {/* Title */}
                   <h3
-                    className="font-antonio font-semibold text-white uppercase leading-[0.88] tracking-tight mb-3"
+                    className="font-antonio font-semibold text-foreground uppercase leading-[0.88] tracking-tight mb-3"
                     style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)" }}
                   >
                     {proj.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="font-body text-white/65 text-sm leading-relaxed mb-4 max-w-[42ch]">
+                  <p className="font-body text-foreground/65 text-sm leading-relaxed mb-4 max-w-[42ch]">
                     {proj.description}
                   </p>
 
@@ -287,9 +286,9 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
                         key={tool}
                         className="font-body text-[9px] uppercase tracking-[0.18em] px-2.5 py-1 rounded-full"
                         style={{
-                          color: "hsl(0 0% 100% / 0.42)",
-                          backgroundColor: "hsl(0 0% 100% / 0.05)",
-                          border: "1px solid hsl(0 0% 100% / 0.10)",
+                          color: "hsl(var(--foreground) / 0.55)",
+                          backgroundColor: "hsl(var(--foreground) / 0.06)",
+                          border: "1px solid hsl(var(--foreground) / 0.12)",
                         }}
                       >
                         {tool}
@@ -318,8 +317,8 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
                 <div className="relative">
                   {/* Depth shadow layer */}
                   <div
-                    className="absolute inset-0 rounded-sm bg-black/55"
-                    style={{ transform: "translate(7px, 7px)", zIndex: 0 }}
+                    className="absolute inset-0 rounded-sm"
+                    style={{ transform: "translate(7px, 7px)", zIndex: 0, backgroundColor: "var(--card-depth-shadow)" }}
                   />
 
                   <motion.div
@@ -380,21 +379,21 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
                   backgroundColor:
                     i === progressIndex
                       ? ACCENT
-                      : "hsl(0 0% 100% / 0.15)",
+                      : "hsl(var(--foreground) / 0.18)",
                 }}
               />
             ))}
           </div>
           <span
             className="text-[9px] tracking-[0.35em] font-body uppercase"
-            style={{ color: "hsl(0 0% 100% / 0.2)" }}
+            style={{ color: "hsl(var(--foreground) / 0.35)" }}
           >
             0{progressIndex + 1} / 0{projects.length}
           </span>
           <div className="flex-1" />
           <span
             className="text-[9px] tracking-[0.25em] font-body uppercase hidden md:block"
-            style={{ color: "hsl(0 0% 100% / 0.14)" }}
+            style={{ color: "hsl(var(--foreground) / 0.25)" }}
           >
             Scroll to explore
           </span>

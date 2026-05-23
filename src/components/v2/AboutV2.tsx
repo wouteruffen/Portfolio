@@ -5,7 +5,6 @@ import { ArrowRight } from "lucide-react";
 import aboutPortrait from "@/assets/about-portrait.jpg";
 import React from "react";
 
-const DARK_BG = "hsl(0, 0%, 5%)";
 const ACCENT  = "#FF4A2A";
 const EASE    = [0.22, 1, 0.36, 1] as const;
 const VP      = { once: false, amount: 0.1 } as const;
@@ -132,13 +131,13 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
         id="over-ons"
         className="relative flex flex-col overflow-hidden"
         style={{
-          backgroundColor: DARK_BG,
+          backgroundColor: "hsl(var(--background))",
           y: revealY,
           borderRadius: revealRadius,
           height: "100vh",
           position: "sticky",
           top: 0,
-          boxShadow: "0 -24px 60px rgba(0,0,0,0.55)",
+          boxShadow: "var(--section-shadow)",
         }}
       >
       {/* Grid texture */}
@@ -146,8 +145,8 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
         className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
           backgroundImage: `
-            linear-gradient(hsl(0 0% 100%) 1px, transparent 1px),
-            linear-gradient(90deg, hsl(0 0% 100%) 1px, transparent 1px)
+            linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
+            linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)
           `,
           backgroundSize: "60px 60px",
         }}
@@ -160,7 +159,7 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="font-logo text-white/80 uppercase leading-[0.9] tracking-[-0.02em] text-[10vw] md:text-[7vw] lg:text-[5.5vw]"
+          className="font-logo text-foreground/80 uppercase leading-[0.9] tracking-[-0.02em] text-[10vw] md:text-[7vw] lg:text-[5.5vw]"
         >
           OVER MIJ
         </motion.h2>
@@ -224,7 +223,7 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.18, ease: EASE }}
               viewport={VP}
-              className="font-antonio font-semibold text-white leading-[0.9] tracking-tight mb-5"
+              className="font-antonio font-semibold text-foreground leading-[0.9] tracking-tight mb-5"
               style={{ fontSize: "clamp(3rem, 5.5vw, 5rem)" }}
             >
               Hi, I'm
@@ -240,15 +239,15 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
               viewport={VP}
               className="space-y-3 mb-6"
             >
-              <p className="font-body text-lg leading-relaxed text-white/60">
+              <p className="font-body text-lg leading-relaxed text-foreground/60">
                 Ik ontwerp en ontwikkel digitale ervaringen die niet alleen goed ogen, maar ook werken.
                 Van eerste idee tot uitgewerkt concept denk ik mee in structuur, gebruik en uitstraling.
               </p>
-              <p className="font-body text-lg leading-relaxed text-white/60">
+              <p className="font-body text-lg leading-relaxed text-foreground/60">
                 Geen overbodige complexiteit, maar duidelijke keuzes en een resultaat dat klopt.
                 Of het nu gaat om webdesign, branding of interactie — alles draait om balans tussen vorm en functie.
               </p>
-              <p className="font-body text-sm leading-relaxed text-white/30 italic">
+              <p className="font-body text-sm leading-relaxed text-foreground/30 italic">
                 Ik werk het liefst aan projecten waar creativiteit en techniek samenkomen.
               </p>
             </motion.div>
@@ -277,7 +276,7 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
         {/* ── META ROW ────────────────────────────────────────────── */}
         <div
           className="py-4 md:py-6"
-          style={{ borderTop: "1px solid hsl(0 0% 100% / 0.08)" }}
+          style={{ borderTop: "1px solid hsl(var(--border))" }}
         >
           <motion.div
             className="grid grid-cols-2 md:grid-cols-4 gap-y-6"
@@ -288,10 +287,10 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
           >
             {META.map((item) => (
               <div key={item.label}>
-                <p className="text-white/20 text-[9px] font-body tracking-[0.35em] uppercase mb-2">
+                <p className="text-foreground/40 text-[9px] font-body tracking-[0.35em] uppercase mb-2">
                   {item.label}
                 </p>
-                <p className="text-white/55 text-base font-body font-medium">
+                <p className="text-foreground/65 text-base font-body font-medium">
                   {item.value}
                 </p>
               </div>
@@ -304,7 +303,7 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
       {/* ── SKILLS / ICONS ROW ───────────────────────────────────── */}
       <div
         className="w-full px-6 md:px-16 lg:px-24 max-w-[1400px] mx-auto pb-6 md:pb-8"
-        style={{ borderTop: "1px solid hsl(0 0% 100% / 0.08)", paddingTop: "20px" }}
+        style={{ borderTop: "1px solid hsl(var(--border))", paddingTop: "20px" }}
       >
         <motion.div
           className="flex items-center justify-center gap-8 md:gap-12 flex-wrap"
@@ -319,11 +318,11 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
               className="group flex flex-col items-center gap-2 cursor-default"
             >
               <div
-                className="w-8 h-8 text-white/35 transition-all duration-300 group-hover:text-white/80 group-hover:scale-110"
+                className="w-8 h-8 text-foreground/35 transition-all duration-300 group-hover:text-foreground/80 group-hover:scale-110"
               >
                 {skill.icon}
               </div>
-              <span className="text-[9px] tracking-[0.3em] font-body uppercase text-white/20 transition-colors duration-300 group-hover:text-white/50">
+              <span className="text-[9px] tracking-[0.3em] font-body uppercase text-foreground/30 transition-colors duration-300 group-hover:text-foreground/60">
                 {skill.label}
               </span>
             </div>

@@ -5,15 +5,66 @@
 @tailwind utilities;
 
 @layer base {
+  /* ─── Light mode (default / warm paper) ─────────────────────────── */
   :root {
-    --background: 0 0% 5%;
-    --foreground: 40 30% 88%;
+    --background: 40 29% 94%;       /* #F4F1EB warm paper */
+    --foreground: 0 0% 7%;          /* near black */
 
     --brand-red: 0 80% 50%;
     --brand-orange: 30 95% 50%;
     --brand-yellow: 50 95% 55%;
     --brand-green: 140 65% 40%;
     --brand-blue: 215 75% 50%;
+
+    --card: 40 18% 89%;             /* slightly darker warm surface */
+    --card-foreground: 0 0% 7%;
+
+    --popover: 40 18% 89%;
+    --popover-foreground: 0 0% 7%;
+
+    --primary: 14 100% 60%;         /* Signal Orange #FF5A36 */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 10 100% 58%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 40 14% 84%;            /* muted warm */
+    --muted-foreground: 0 0% 42%;
+
+    --accent: 215 75% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 40 12% 78%;           /* warm divider */
+    --input: 40 12% 78%;
+    --ring: 14 100% 60%;
+
+    --radius: 0px;
+
+    --retro-purple: 270 60% 50%;
+    --retro-teal: 175 70% 45%;
+
+    --sidebar-background: 40 29% 94%;
+    --sidebar-foreground: 0 0% 7%;
+    --sidebar-primary: 14 100% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 40 14% 84%;
+    --sidebar-accent-foreground: 0 0% 7%;
+    --sidebar-border: 40 12% 78%;
+    --sidebar-ring: 14 100% 60%;
+
+    /* Section lift shadow — subtle on warm paper */
+    --section-shadow: 0 -24px 60px rgba(0, 0, 0, 0.12);
+    /* Image card depth offset shadow */
+    --card-depth-shadow: rgba(0, 0, 0, 0.10);
+  }
+
+  /* ─── Dark mode (.dark on <html>) ───────────────────────────────── */
+  .dark {
+    --background: 0 0% 5%;
+    --foreground: 40 30% 88%;
 
     --card: 0 0% 9%;
     --card-foreground: 45 20% 90%;
@@ -53,6 +104,11 @@
     --sidebar-accent-foreground: 45 20% 90%;
     --sidebar-border: 0 0% 18%;
     --sidebar-ring: 30 95% 50%;
+
+    /* Section lift shadow — strong depth on near-black */
+    --section-shadow: 0 -24px 60px rgba(0, 0, 0, 0.55);
+    /* Image card depth offset shadow */
+    --card-depth-shadow: rgba(0, 0, 0, 0.55);
   }
 }
 
@@ -62,6 +118,7 @@
   }
   body {
     @apply bg-background text-foreground font-body antialiased;
+    transition: background-color 0.4s ease, color 0.3s ease;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
