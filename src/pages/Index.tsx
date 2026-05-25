@@ -73,7 +73,7 @@ const Index = () => {
       <ScrollLogo scrollContainerRef={scrollRef} />
       <div
         ref={scrollRef}
-        className="overflow-y-auto h-screen bg-background"
+        className="overflow-y-auto h-screen bg-background transition-colors duration-500"
       >
         {/* Top gradient — cross-fades between dark (dark mode) and warm (light mode) */}
         <div

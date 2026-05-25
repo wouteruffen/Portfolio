@@ -219,7 +219,7 @@ const Brandbook = () => {
       {/* eslint-disable-next-line react/no-danger */}
       <style dangerouslySetInnerHTML={{ __html: ANTONIO_CSS }} />
       <CursorEffects />
-      <NavbarV2 showLogo />
+      <NavbarV2 showLogo hideThemeToggle />
       {/* Brandbook-only divider — color inverts with the section background */}
       <div
         style={{

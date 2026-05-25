@@ -35,6 +35,8 @@ interface NavbarV2Props {
   isAboutActive?: boolean;
   /** When true, renders the studio wordmark in the top-left (used by Brandbook). */
   showLogo?: boolean;
+  /** When true, hides the light/dark toggle (Brandbook has its own contrast system). */
+  hideThemeToggle?: boolean;
   /**
    * If provided, called when the user clicks a section anchor (#over-ons etc.)
    * while already on the home page. Use the smooth-scroll hook's scrollTo so
@@ -47,6 +49,7 @@ const NavbarV2 = ({
   scrollContainerRef,
   isAboutActive = false,
   showLogo = false,
+  hideThemeToggle = false,
   onScrollToSection,
 }: NavbarV2Props) => {
   const [menuOpen, setMenuOpen]   = useState(false);
@@ -152,10 +155,9 @@ const NavbarV2 = ({
         {/* Studio wordmark — only in pages that request it (Brandbook) */}
         {showLogo && (
           <span
-            className="font-logo uppercase leading-none"
+            className={`font-logo uppercase leading-none ${forceWhite ? "text-white" : "text-black/80 dark:text-white"}`}
             style={{
               fontSize:      "clamp(13px, 1.4vw, 17px)",
-              color:         "rgba(255,255,255,0.85)",
               letterSpacing: "0.03em",
             }}
           >
@@ -194,7 +196,7 @@ const NavbarV2 = ({
           </div>
 
           {/* Light / dark toggle */}
-          <button
+          {!hideThemeToggle && <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className={`hidden md:flex items-center justify-center w-10 h-10 rounded-full border transition-all duration-300 hover:scale-[1.05] ${pillColors}`}
             aria-label="Toggle light/dark mode"
@@ -210,7 +212,7 @@ const NavbarV2 = ({
                 </motion.span>
               )}
             </AnimatePresence>
-          </button>
+          </button>}
 
           {/* CTA — navigates to #contact on home or to /#contact from other pages */}
           <button
