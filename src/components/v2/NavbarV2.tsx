@@ -150,7 +150,7 @@ const NavbarV2 = ({
           paddingTop:   { duration: 0.45, ease: [0.33, 1, 0.68, 1] },
           paddingBottom: { duration: 0.45, ease: [0.33, 1, 0.68, 1] },
         }}
-        className={`fixed top-0 left-0 right-0 z-[60] px-6 md:px-16 lg:px-24 flex items-center relative ${showLogo ? "justify-between" : "justify-end"}`}
+        className={`fixed top-0 left-0 right-0 z-[60] px-6 md:px-16 lg:px-24 flex items-center ${showLogo ? "justify-between" : "justify-end"}`}
       >
         {/* Studio wordmark — only in pages that request it (Brandbook) */}
         {showLogo && (
