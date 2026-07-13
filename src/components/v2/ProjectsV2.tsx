@@ -9,7 +9,7 @@ import projectCampagne from "@/assets/hero-branding.jpg";
 import React from "react";
 
 const ACCENT    = "#FF4A2A";
-const CARD_H_VH = 46;
+const CARD_H_VH = 42;
 
 const projects = [
   {
@@ -213,12 +213,14 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
 
         {/* ── Sticky title ──────────────────────────────────────────────── */}
         <div
-          className="relative z-10 w-full text-center px-6 md:px-16 lg:px-24 flex-shrink-0"
-          style={{ paddingTop: "100px", paddingBottom: "20px" }}
+          className="relative z-10 w-full px-6 md:px-10 lg:px-14 flex-shrink-0"
+          style={{ paddingTop: "100px", paddingBottom: "12px" }}
         >
-          <h2 className="text-[10vw] md:text-[7vw] lg:text-[5.5vw] leading-[0.9] tracking-[-0.02em] text-foreground/80 uppercase font-logo">
-            WAT IK DOE
-          </h2>
+          <div className="max-w-[1240px] mx-auto">
+            <h2 className="text-[10vw] md:text-[7vw] lg:text-[5.5vw] leading-[0.9] tracking-[-0.02em] text-foreground/80 uppercase font-logo">
+              WAT IK DOE
+            </h2>
+          </div>
         </div>
 
         {/* Divider */}
@@ -229,7 +231,7 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
           {projects.map((proj, i) => (
             <motion.div
               key={proj.title}
-              className="absolute inset-x-0 top-0 flex items-center px-6 md:px-16 lg:px-24"
+              className="absolute inset-x-0 top-0 flex items-center px-6 md:px-10 lg:px-14"
               style={{
                 height:  `${CARD_H_VH}vh`,
                 y:       yFor(i),
@@ -237,7 +239,7 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
                 opacity: opFor(i),
               }}
             >
-              <div className="grid md:grid-cols-2 gap-6 md:gap-14 items-center w-full max-w-6xl mx-auto">
+              <div className="grid md:grid-cols-2 gap-8 md:gap-10 items-center w-full max-w-[1240px] mx-auto">
 
                 {/* ── Text block ──────────────────────────────────────── */}
                 <div>
@@ -328,7 +330,7 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
                       position: "relative",
                       zIndex:   1,
                     }}
-                    className="group aspect-[16/10] md:aspect-[4/3] overflow-hidden rounded-sm"
+                    className="group aspect-[16/10] overflow-hidden rounded-sm"
                   >
                     <img
                       src={proj.image}
@@ -366,37 +368,39 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
 
         {/* ── Progress indicator ─────────────────────────────────────────── */}
         <div
-          className="relative z-10 flex-shrink-0 px-6 md:px-16 lg:px-24 flex items-center gap-4"
-          style={{ paddingTop: "14px", paddingBottom: "20px" }}
+          className="relative z-10 flex-shrink-0 px-6 md:px-10 lg:px-14"
+          style={{ paddingTop: "12px", paddingBottom: "18px" }}
         >
-          <div className="flex items-center gap-2">
-            {projects.map((_, i) => (
-              <div
-                key={i}
-                className="h-px transition-all duration-700 ease-out"
-                style={{
-                  width: i === progressIndex ? "28px" : "14px",
-                  backgroundColor:
-                    i === progressIndex
-                      ? ACCENT
-                      : "hsl(var(--foreground) / 0.18)",
-                }}
-              />
-            ))}
+          <div className="max-w-[1240px] mx-auto flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              {projects.map((_, i) => (
+                <div
+                  key={i}
+                  className="h-px transition-all duration-700 ease-out"
+                  style={{
+                    width: i === progressIndex ? "28px" : "14px",
+                    backgroundColor:
+                      i === progressIndex
+                        ? ACCENT
+                        : "hsl(var(--foreground) / 0.18)",
+                  }}
+                />
+              ))}
+            </div>
+            <span
+              className="text-[9px] tracking-[0.35em] font-body uppercase"
+              style={{ color: "hsl(var(--foreground) / 0.35)" }}
+            >
+              0{progressIndex + 1} / 0{projects.length}
+            </span>
+            <div className="flex-1" />
+            <span
+              className="text-[9px] tracking-[0.25em] font-body uppercase hidden md:block"
+              style={{ color: "hsl(var(--foreground) / 0.25)" }}
+            >
+              Scroll to explore
+            </span>
           </div>
-          <span
-            className="text-[9px] tracking-[0.35em] font-body uppercase"
-            style={{ color: "hsl(var(--foreground) / 0.35)" }}
-          >
-            0{progressIndex + 1} / 0{projects.length}
-          </span>
-          <div className="flex-1" />
-          <span
-            className="text-[9px] tracking-[0.25em] font-body uppercase hidden md:block"
-            style={{ color: "hsl(var(--foreground) / 0.25)" }}
-          >
-            Scroll to explore
-          </span>
         </div>
 
       </motion.section>
