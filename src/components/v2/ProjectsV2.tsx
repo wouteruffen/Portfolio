@@ -7,6 +7,7 @@ import projectBrand from "@/assets/project-brand.jpg";
 import projectProduct from "@/assets/project-product.jpg";
 import projectCampagne from "@/assets/hero-branding.jpg";
 import React from "react";
+import { SECTION_TITLE_CLASS, SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_DIVIDER_CLASS } from "@/lib/sectionTitle";
 
 const ACCENT    = "#FF4A2A";
 const CARD_H_VH = 42;
@@ -216,15 +217,15 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
           className="relative z-10 w-full px-6 md:px-10 lg:px-14 flex-shrink-0"
           style={{ paddingTop: "100px", paddingBottom: "12px" }}
         >
-          <div className="max-w-[1240px] mx-auto">
-            <h2 className="text-[10vw] md:text-[7vw] lg:text-[5.5vw] leading-[0.9] tracking-[-0.02em] text-foreground/80 uppercase font-logo">
+          <div className={SECTION_TITLE_CONTAINER_CLASS}>
+            <h2 className={SECTION_TITLE_CLASS}>
               WAT IK DOE
             </h2>
           </div>
         </div>
 
         {/* Divider */}
-        <div className="relative z-10 flex-shrink-0 h-px bg-gradient-to-r from-transparent via-foreground/20 to-transparent" />
+        <div className={SECTION_TITLE_DIVIDER_CLASS} />
 
         {/* ── Card stack ────────────────────────────────────────────────── */}
         <div className="relative z-10 flex-1 overflow-hidden">

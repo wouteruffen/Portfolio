@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import aboutPortrait from "@/assets/about-portrait.jpg";
 import React from "react";
+import { SECTION_TITLE_CLASS, SECTION_TITLE_DIVIDER_CLASS } from "@/lib/sectionTitle";
 
 const ACCENT  = "#FF4A2A";
 const EASE    = [0.22, 1, 0.36, 1] as const;
@@ -86,28 +87,37 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
         }}
       />
 
+      {/* ── Sticky title — pinned to the same top row as WAT IK DOE ─── */}
+      <div
+        className="relative z-10 w-full px-6 md:px-10 lg:px-14 flex-shrink-0"
+        style={{ paddingTop: "100px", paddingBottom: "12px" }}
+      >
+        <div className="max-w-[1240px] mx-auto">
+          <motion.h2
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className={SECTION_TITLE_CLASS}
+          >
+            OVER MIJ
+          </motion.h2>
+        </div>
+      </div>
+
+      {/* Divider */}
+      <div className={SECTION_TITLE_DIVIDER_CLASS} />
+
       {/* ── TWO-COLUMN EDITORIAL LAYOUT ──────────────────────────── */}
       <div
         className="relative z-10 flex-1 flex flex-col justify-center px-6 md:px-10 lg:px-14"
-        style={{ paddingTop: "88px", paddingBottom: "40px" }}
+        style={{ paddingBottom: "40px" }}
       >
         <div className="w-full max-w-[1240px] mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-[40fr_60fr] gap-10 md:gap-12 lg:gap-16">
 
-          {/* ── LEFT COLUMN: title → intro card → CTA ─────────────── */}
+          {/* ── LEFT COLUMN: intro card → CTA ─────────────── */}
           <div className="flex flex-col">
-
-            {/* Section title */}
-            <motion.h2
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="font-logo text-foreground/80 uppercase leading-[0.9] tracking-[-0.02em] mb-6 md:mb-8"
-              style={{ fontSize: "clamp(2.8rem, 5.5vw, 5rem)" }}
-            >
-              OVER MIJ
-            </motion.h2>
 
             {/* Red label */}
             <motion.div

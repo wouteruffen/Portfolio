@@ -37,6 +37,8 @@ interface NavbarV2Props {
   showLogo?: boolean;
   /** When true, hides the light/dark toggle (Brandbook has its own contrast system). */
   hideThemeToggle?: boolean;
+  /** When true, forces the always-dark Hero navbar palette regardless of the selected theme (Index only, while the Hero is active). */
+  overHero?: boolean;
   /**
    * If provided, called when the user clicks a section anchor (#over-ons etc.)
    * while already on the home page. Use the smooth-scroll hook's scrollTo so
@@ -50,6 +52,7 @@ const NavbarV2 = ({
   isAboutActive = false,
   showLogo = false,
   hideThemeToggle = false,
+  overHero = false,
   onScrollToSection,
 }: NavbarV2Props) => {
   const [menuOpen, setMenuOpen]   = useState(false);
@@ -58,8 +61,10 @@ const NavbarV2 = ({
 
   // In Brandbook mode (showLogo=true) the page uses CSS filter:invert() to flip
   // the entire nav on light sections, so the nav must always start white.
-  // On normal pages we use Tailwind dark: variants for theme-awareness.
-  const forceWhite = showLogo;
+  // Over the Hero (overHero=true) the navbar must stay dark regardless of the
+  // selected theme — only once the Hero is left do Tailwind dark: variants
+  // take over for normal theme-awareness.
+  const forceWhite = showLogo || overHero;
 
   // Shared colour tokens for pill/icon buttons (toggle, CTA, hamburger).
   // Split so they can be composed with per-button sizing classes.
@@ -247,7 +252,7 @@ const NavbarV2 = ({
           animate={{
             opacity: scrolled ? 1 : 0,
             backgroundColor:
-              theme === "light"
+              theme === "light" && !forceWhite
                 ? "rgba(0, 0, 0, 0.09)"
                 : "rgba(255, 255, 255, 0.09)",
           }}

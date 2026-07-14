@@ -75,18 +75,24 @@ const Index = () => {
         ref={scrollRef}
         className="overflow-y-auto h-screen bg-background transition-colors duration-500"
       >
-        {/* Top gradient — cross-fades between dark (dark mode) and warm (light mode) */}
+        {/*
+          Top gradient — stays forced dark while the Hero is active (aboutActive
+          false) so the Hero's navbar fade never turns white/warm in Light Mode.
+          Once About has snapped in (aboutActive true) it cross-fades normally
+          between dark mode and light mode for the rest of the page.
+        */}
         <div
-          className="opacity-0 dark:opacity-100 transition-opacity duration-300 fixed top-0 left-0 w-full pointer-events-none z-40"
+          className={`transition-opacity duration-300 fixed top-0 left-0 w-full pointer-events-none z-40 ${aboutActive ? "opacity-0 dark:opacity-100" : "opacity-100"}`}
           style={{ height: "160px", background: "linear-gradient(to bottom, rgba(0,0,0,0.85), transparent)" }}
         />
         <div
-          className="opacity-100 dark:opacity-0 transition-opacity duration-300 fixed top-0 left-0 w-full pointer-events-none z-40"
+          className={`transition-opacity duration-300 fixed top-0 left-0 w-full pointer-events-none z-40 ${aboutActive ? "opacity-100 dark:opacity-0" : "opacity-0"}`}
           style={{ height: "200px", background: "linear-gradient(to bottom, rgba(244,241,235,0.55) 0%, rgba(244,241,235,0.22) 50%, transparent 100%)" }}
         />
         <NavbarV2
           scrollContainerRef={scrollRef}
           isAboutActive={aboutActive}
+          overHero={!aboutActive}
           onScrollToSection={handleScrollToSection}
         />
         <HeroV2 scrollContainerRef={scrollRef} />

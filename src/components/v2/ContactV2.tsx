@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useRef } from "react";
 import React from "react";
 import FooterV2 from "./FooterV2";
+import { SECTION_TITLE_CLASS, SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_GUTTER_CLASS, SECTION_TITLE_DIVIDER_CLASS } from "@/lib/sectionTitle";
 
 const EASE    = [0.22, 1, 0.36, 1] as const;
 const VP      = { once: true } as const;
@@ -112,19 +113,24 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
 
             {/* ── Title ────────────────────────────────────────────────── */}
             <div
-              className="relative z-10 w-full px-6 md:px-16 lg:px-24 flex-shrink-0 text-center"
-              style={{ paddingTop: "100px", paddingBottom: "16px" }}
+              className={`relative z-10 w-full ${SECTION_TITLE_GUTTER_CLASS} flex-shrink-0`}
+              style={{ paddingTop: "100px", paddingBottom: "12px" }}
             >
-              <motion.h2
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={VP}
-                transition={{ duration: 0.8, ease: EASE }}
-                className="text-[10vw] md:text-[7vw] lg:text-[5.5vw] leading-[0.9] tracking-[-0.02em] text-foreground/80 uppercase font-logo"
-              >
-                Contact
-              </motion.h2>
+              <div className={SECTION_TITLE_CONTAINER_CLASS}>
+                <motion.h2
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={VP}
+                  transition={{ duration: 0.8, ease: EASE }}
+                  className={SECTION_TITLE_CLASS}
+                >
+                  Contact
+                </motion.h2>
+              </div>
             </div>
+
+            {/* Divider */}
+            <div className={SECTION_TITLE_DIVIDER_CLASS} />
 
             {/* ── Content ──────────────────────────────────────────────── */}
             <motion.div
