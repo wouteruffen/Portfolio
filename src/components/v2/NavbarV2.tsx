@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Menu, X, ArrowUpRight, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -31,14 +31,18 @@ const SOCIALS = [
 
 interface NavbarV2Props {
   scrollContainerRef?: React.RefObject<HTMLDivElement>;
-  /** True only after About has fully snapped into place — drives the solid background. */
-  isAboutActive?: boolean;
+  /**
+   * Ref to a sentinel placed at the top of the About section's outer wrapper
+   * (Index only). When provided, the navbar observes it via IntersectionObserver
+   * and switches to the solid brand-orange background exactly when About's
+   * opaque panel rises to cover the navbar's own strip. Pages without a Hero
+   * simply omit this.
+   */
+  aboutTopRef?: React.RefObject<HTMLDivElement>;
   /** When true, renders the studio wordmark in the top-left (used by Brandbook). */
   showLogo?: boolean;
   /** When true, hides the light/dark toggle (Brandbook has its own contrast system). */
   hideThemeToggle?: boolean;
-  /** When true, forces the always-dark Hero navbar palette regardless of the selected theme (Index only, while the Hero is active). */
-  overHero?: boolean;
   /**
    * If provided, called when the user clicks a section anchor (#over-ons etc.)
    * while already on the home page. Use the smooth-scroll hook's scrollTo so
@@ -49,22 +53,24 @@ interface NavbarV2Props {
 
 const NavbarV2 = ({
   scrollContainerRef,
-  isAboutActive = false,
+  aboutTopRef,
   showLogo = false,
   hideThemeToggle = false,
-  overHero = false,
   onScrollToSection,
 }: NavbarV2Props) => {
   const [menuOpen, setMenuOpen]   = useState(false);
   const [scrolled, setScrolled]   = useState(false);
+  const [solidNav, setSolidNav]   = useState(false);
+  const [navHeight, setNavHeight] = useState(0);
+  const navRef = useRef<HTMLElement>(null);
   const { theme, setTheme } = useTheme();
 
   // In Brandbook mode (showLogo=true) the page uses CSS filter:invert() to flip
   // the entire nav on light sections, so the nav must always start white.
-  // Over the Hero (overHero=true) the navbar must stay dark regardless of the
-  // selected theme — only once the Hero is left do Tailwind dark: variants
-  // take over for normal theme-awareness.
-  const forceWhite = showLogo || overHero;
+  // Pages with a Hero (aboutTopRef provided) always force white nav text/icons —
+  // both while over the dark Hero and over the solid orange post-Hero background —
+  // regardless of the selected theme. Pages without a Hero stay theme-aware.
+  const forceWhite = showLogo || Boolean(aboutTopRef);
 
   // Shared colour tokens for pill/icon buttons (toggle, CTA, hamburger).
   // Split so they can be composed with per-button sizing classes.
@@ -82,6 +88,41 @@ const NavbarV2 = ({
     container.addEventListener("scroll", onScroll, { passive: true });
     return () => container.removeEventListener("scroll", onScroll);
   }, [scrollContainerRef]);
+
+  // Track the navbar's own rendered height so the solid-nav boundary below
+  // can be inset by the *real* nav height instead of a guessed pixel value —
+  // this keeps it correct across mobile/desktop/QHD without breakpoint math.
+  useEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+    const ro = new ResizeObserver(([entry]) => setNavHeight(entry.contentRect.height));
+    ro.observe(nav);
+    return () => ro.disconnect();
+  }, []);
+
+  // Solid-nav detection: observes a sentinel at the TOP of About's outer
+  // wrapper (rendered by AboutV2 via aboutTopRef) instead of a scroll-position
+  // threshold or Framer Motion's revealProgress. Once that sentinel — About's
+  // own top edge — rises above the navbar's bottom edge, About's opaque panel
+  // is guaranteed to fully back the navbar's strip, so this is the exact
+  // moment "transparent" would otherwise expose About's raw background.
+  // rootMargin insets the root by the navbar's own height so the switch (and
+  // its transition) completes right as coverage arrives, not after.
+  useEffect(() => {
+    const sentinel = aboutTopRef?.current;
+    if (!sentinel) return;
+    const root = scrollContainerRef?.current ?? null;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const rootTop = entry.rootBounds?.top ?? 0;
+        setSolidNav(entry.boundingClientRect.top < rootTop);
+      },
+      { root, rootMargin: `-${navHeight}px 0px 0px 0px`, threshold: 0 },
+    );
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [aboutTopRef, scrollContainerRef, navHeight]);
 
   /**
    * Unified navigation handler for every nav link and the CTA button.
@@ -143,18 +184,30 @@ const NavbarV2 = ({
   return (
     <>
       <motion.nav
+        ref={navRef}
         initial={{ opacity: 0, paddingTop: "20px", paddingBottom: "20px" }}
         animate={{
           opacity:        menuOpen ? 0 : 1,
           pointerEvents:  menuOpen ? "none" : "auto",
           paddingTop:     scrolled ? "10px" : "20px",
           paddingBottom:  scrolled ? "10px" : "20px",
+          // #FF4A2A is the exact accent already used site-wide (Hero CTA, About
+          // CTA, Projects, Contact, TypoLab) — written as literal rgba because
+          // framer-motion interpolates colors frame-by-frame and can't resolve
+          // a CSS custom property mid-animation.
+          backgroundColor: solidNav ? "rgba(255, 74, 42, 0.94)" : "rgba(255, 74, 42, 0)",
+          backdropFilter:  solidNav ? "blur(16px)" : "blur(0px)",
+          boxShadow:       solidNav ? "0 8px 24px -12px rgba(0, 0, 0, 0.35)" : "0 0px 0px rgba(0, 0, 0, 0)",
         }}
         transition={{
-          opacity:      { duration: 0.25, ease: "easeInOut" },
-          paddingTop:   { duration: 0.45, ease: [0.33, 1, 0.68, 1] },
-          paddingBottom: { duration: 0.45, ease: [0.33, 1, 0.68, 1] },
+          opacity:        { duration: 0.25, ease: "easeInOut" },
+          paddingTop:     { duration: 0.45, ease: [0.33, 1, 0.68, 1] },
+          paddingBottom:  { duration: 0.45, ease: [0.33, 1, 0.68, 1] },
+          backgroundColor: { duration: 0.4, ease: "easeInOut" },
+          backdropFilter:  { duration: 0.4, ease: "easeInOut" },
+          boxShadow:       { duration: 0.4, ease: "easeInOut" },
         }}
+        style={{ WebkitBackdropFilter: solidNav ? "blur(16px)" : "blur(0px)" }}
         className={`fixed top-0 left-0 right-0 z-[60] px-6 md:px-16 lg:px-24 flex items-center ${showLogo ? "justify-between" : "justify-end"}`}
       >
         {/* Studio wordmark — only in pages that request it (Brandbook) */}
@@ -246,13 +299,15 @@ const NavbarV2 = ({
           </button>
         </div>
 
-        {/* Scroll divider — fades in once user leaves the hero top */}
+        {/* Bottom divider — fades in once scrolled within Hero, or as a subtle
+            separator once the orange navbar takes over past the Hero. */}
         <motion.div
           className="absolute bottom-0 left-0 right-0 h-px pointer-events-none"
           animate={{
-            opacity: scrolled ? 1 : 0,
-            backgroundColor:
-              theme === "light" && !forceWhite
+            opacity: scrolled || solidNav ? 1 : 0,
+            backgroundColor: solidNav
+              ? "rgba(0, 0, 0, 0.14)"
+              : theme === "light" && !forceWhite
                 ? "rgba(0, 0, 0, 0.09)"
                 : "rgba(255, 255, 255, 0.09)",
           }}

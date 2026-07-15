@@ -15,9 +15,15 @@ interface AboutV2Props {
   scrollContainerRef?: React.RefObject<HTMLDivElement>;
   /** Called with true when About snaps into place; false when scrolled back past the reset threshold. */
   onSnap?: (active: boolean) => void;
+  /**
+   * Ref to a sentinel placed at the top of About's outer wrapper (Index only).
+   * NavbarV2 observes it via IntersectionObserver to know when About's opaque
+   * background has risen to cover the fixed navbar's own strip.
+   */
+  aboutTopRef?: React.RefObject<HTMLDivElement>;
 }
 
-const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
+const AboutV2 = ({ scrollContainerRef, onSnap, aboutTopRef }: AboutV2Props) => {
   const outerRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const hasSnapped = useRef(false);
@@ -61,6 +67,10 @@ const AboutV2 = ({ scrollContainerRef, onSnap }: AboutV2Props) => {
       ref={outerRef}
       style={{ height: "200vh", marginTop: "-100vh", position: "relative", zIndex: 42 }}
     >
+      {/* Sentinel at the very top of this wrapper — the point at which the
+          sticky panel below stops tracking scroll and starts covering the
+          screen (including the navbar strip) top-down. */}
+      <div ref={aboutTopRef} className="absolute top-0 left-0 w-full h-px pointer-events-none" aria-hidden="true" />
       <motion.section
         ref={sectionRef}
         id="over-ons"

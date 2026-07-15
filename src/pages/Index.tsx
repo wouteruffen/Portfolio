@@ -31,6 +31,7 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [aboutActive, setAboutActive] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const aboutTopRef = useRef<HTMLDivElement>(null);
   const location  = useLocation();
 
   const { scrollTo } = useSmoothScroll(scrollRef);
@@ -91,12 +92,11 @@ const Index = () => {
         />
         <NavbarV2
           scrollContainerRef={scrollRef}
-          isAboutActive={aboutActive}
-          overHero={!aboutActive}
+          aboutTopRef={aboutTopRef}
           onScrollToSection={handleScrollToSection}
         />
         <HeroV2 scrollContainerRef={scrollRef} />
-        <AboutV2 scrollContainerRef={scrollRef} onSnap={setAboutActive} />
+        <AboutV2 scrollContainerRef={scrollRef} onSnap={setAboutActive} aboutTopRef={aboutTopRef} />
         <ProjectsV2 scrollContainerRef={scrollRef} />
         <ContactV2 scrollContainerRef={scrollRef} />
       </div>
