@@ -12,7 +12,9 @@ const T = {
   white:   "#F5F5F5",
   muted:   "#888888",
   dim:     "#555555",
-  accent:  "#FF4A2A",
+  // Single brand orange, shared with NavbarV2/FooterV2/LoadingScreen — no
+  // more a locally-hardcoded accent hex that can drift from --brand-orange.
+  accent:  "hsl(var(--brand-orange))",
   borderD: "rgba(255,255,255,0.07)",
   borderL: "rgba(0,0,0,0.06)",
 };

@@ -4,8 +4,9 @@ import React from "react";
 import { Instagram, Linkedin, Github, Mail } from "lucide-react";
 // @ts-ignore
 import "@fontsource/anton";
+import { BRAND_ORANGE_HSL } from "@/lib/brandColor";
 
-const FOOTER_BG = "hsl(14, 95%, 52%)";
+const FOOTER_BG = BRAND_ORANGE_HSL;
 
 const SOCIALS = [
   { icon: Instagram, label: "Instagram", href: "#" },
@@ -37,9 +38,14 @@ const FooterV2 = ({ scrollContainerRef, revealProgress }: FooterV2Props) => {
   const standaloneY       = useTransform(scrollYProgress, [0, 1], [80, 0]);
   const standaloneOpacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
-  // fixed mode: y from footer's full height below viewport → 0 (at bottom)
+  // fixed mode: y from footer's full height below viewport → 0 (at bottom).
+  // Opacity now shares the exact same [0,1] input range as y (previously
+  // [0, 0.25], reaching full opacity while y was still mostly off-screen,
+  // and — like ContactV2's old footerReveal cutoff — clamped there for the
+  // rest of the scroll). Matching ranges keeps fade and slide in lockstep
+  // and removes the second half of the "won't reverse" dead zone.
   const fixedY       = useTransform(revealProgress ?? scrollYProgress, [0, 1], ["100%", "0%"]);
-  const fixedOpacity = useTransform(revealProgress ?? scrollYProgress, [0, 0.25], [0, 1]);
+  const fixedOpacity = useTransform(revealProgress ?? scrollYProgress, [0, 1], [0, 1]);
 
   const isFixed = !!revealProgress;
   const y       = isFixed ? fixedY       : standaloneY;
@@ -62,18 +68,21 @@ const FooterV2 = ({ scrollContainerRef, revealProgress }: FooterV2Props) => {
         zIndex:   isFixed ? 48 : 47,
         boxShadow: "0 -24px 60px rgba(0,0,0,0.55)",
       }}
-      className="px-6 md:px-16 lg:px-24 pt-10 pb-8 min-h-[32vh] flex flex-col justify-between overflow-hidden"
+      className="px-6 md:px-12 lg:px-24 pt-10 md:pt-8 lg:pt-10 landscape-mobile:pt-5 pb-8 md:pb-6 lg:pb-8 landscape-mobile:pb-4 min-h-[32vh] landscape-mobile:min-h-0 flex flex-col justify-between overflow-hidden"
     >
       {/* ── Main row ─────────────────────────────────────────────────────── */}
-      <div className="flex items-start justify-between gap-8 flex-1">
+      {/* Stacks on phones (flex-col) instead of squeezing both blocks into a
+          row that has no room to breathe below md — desktop (lg+) keeps the
+          original side-by-side layout untouched; tablet (md) also rows but
+          with a tighter gap. */}
+      <div className="flex flex-col md:flex-row items-start md:items-start justify-between gap-8 md:gap-6 lg:gap-8 landscape-mobile:gap-3 flex-1">
 
         {/* Left — wordmark anchored to bottom, styled to match hero Anton logo */}
-        <div className="flex flex-col items-start self-end select-none">
+        <div className="flex flex-col items-start md:self-end select-none">
           <span
-            className="uppercase text-black leading-none"
+            className="uppercase text-black leading-none text-[clamp(2rem,4.5vw,4rem)] landscape-mobile:text-[clamp(1.1rem,5vh,1.75rem)]"
             style={{
               fontFamily: "'Anton', sans-serif",
-              fontSize: "clamp(2rem, 4.5vw, 4rem)",
               letterSpacing: "-0.02em",
               lineHeight: 0.9,
             }}
@@ -81,10 +90,9 @@ const FooterV2 = ({ scrollContainerRef, revealProgress }: FooterV2Props) => {
             Bit &
           </span>
           <span
-            className="uppercase text-black leading-none"
+            className="uppercase text-black leading-none text-[clamp(2rem,4.5vw,4rem)] landscape-mobile:text-[clamp(1.1rem,5vh,1.75rem)]"
             style={{
               fontFamily: "'Anton', sans-serif",
-              fontSize: "clamp(2rem, 4.5vw, 4rem)",
               letterSpacing: "-0.02em",
               lineHeight: 0.9,
             }}
@@ -94,13 +102,17 @@ const FooterV2 = ({ scrollContainerRef, revealProgress }: FooterV2Props) => {
         </div>
 
         {/* Right — statement + social icons */}
-        <div className="flex flex-col items-end justify-between gap-6 self-stretch shrink-0 max-w-xs md:max-w-sm">
-          <p className="text-black font-antonio font-semibold text-xl md:text-2xl lg:text-3xl leading-tight text-right tracking-[-0.01em]">
+        <div className="flex flex-col items-start md:items-end justify-between gap-6 md:gap-4 lg:gap-6 landscape-mobile:gap-2 self-stretch shrink-0 max-w-full md:max-w-sm">
+          {/* Tablet keeps this at the same size as mobile (text-xl) rather
+              than desktop's larger step — it read oversized at 768–1023
+              container widths; lg: restores the original text-3xl.
+              landscape-mobile shrinks it again, further still. */}
+          <p className="text-black font-antonio font-semibold text-xl lg:text-3xl landscape-mobile:text-sm leading-tight text-left md:text-right tracking-[-0.01em]">
             Design dat werkt.<br />
             Gebouwd met visie.
           </p>
 
-          <div className="flex items-center gap-4 mt-auto">
+          <div className="flex items-center gap-4 landscape-mobile:gap-3 mt-auto">
             {SOCIALS.map(({ icon: Icon, label, href }) => (
               <a
                 key={label}
@@ -108,7 +120,7 @@ const FooterV2 = ({ scrollContainerRef, revealProgress }: FooterV2Props) => {
                 aria-label={label}
                 className="text-black/60 hover:text-black transition-colors duration-150"
               >
-                <Icon size={20} strokeWidth={1.75} />
+                <Icon className="w-5 h-5 md:w-[18px] md:h-[18px] lg:w-5 lg:h-5 landscape-mobile:w-4 landscape-mobile:h-4" strokeWidth={1.75} />
               </a>
             ))}
           </div>
@@ -116,11 +128,11 @@ const FooterV2 = ({ scrollContainerRef, revealProgress }: FooterV2Props) => {
       </div>
 
       {/* ── Bottom bar ───────────────────────────────────────────────────── */}
-      <div className="mt-8 pt-4 border-t border-black/15 flex items-center justify-between">
-        <p className="text-black/40 text-xs font-body uppercase tracking-widest">
+      <div className="mt-8 md:mt-6 lg:mt-8 landscape-mobile:mt-3 pt-4 md:pt-3 lg:pt-4 landscape-mobile:pt-2 border-t border-black/15 flex items-center justify-between">
+        <p className="text-black/40 text-xs landscape-mobile:text-[9px] font-body uppercase tracking-widest">
           © 2026 Studio Bit & Beeld
         </p>
-        <p className="text-black/40 text-xs font-body uppercase tracking-widest">
+        <p className="text-black/40 text-xs landscape-mobile:text-[9px] font-body uppercase tracking-widest">
           Amsterdam, NL
         </p>
       </div>

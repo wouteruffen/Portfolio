@@ -8,19 +8,64 @@
   /* ─── Light mode (default / warm paper) ─────────────────────────── */
   :root {
     --background: 40 29% 94%;       /* #F4F1EB warm paper */
-    --foreground: 0 0% 7%;          /* near black */
+    --foreground: var(--near-black);
+
+    /* Warm cream — the sitewide replacement for pure white (#FFFFFF) on
+       primary interface elements (text, icons, hairline borders) that sit
+       on near-black/dark surfaces (Hero overlay, dark-mode nav/menu, dark
+       sections). Set once on :root rather than duplicated per-theme: it
+       already reads as "white" there in both themes, so no .dark override
+       is needed. NOT used for text on saturated brand-color backgrounds
+       (--primary/--secondary/--accent/brand-orange buttons): measured
+       contrast there is only 2.8-4.5:1 with cream vs 3-4.7:1 with white —
+       already borderline against WCAG AA (4.5:1), and cream measurably
+       makes it worse (accent text drops from passing to failing). Those
+       keep literal white (or near-black, on the lightest orange fill). */
+    --cream: 40 33% 97%;            /* #FAF8F5 */
+
+    /* Soft near-black — the sitewide replacement for flat neutral black
+       (#0B0B0B / 0 0% 7%) on primary interface elements (body text, the
+       post-Hero solid navbar's CONTENT, the ScrollLogo mark). A touch of
+       warm hue (20°) and low saturation (10%) at the same ~7% lightness
+       keeps the contrast ratio essentially unchanged versus the old neutral
+       value (still >14:1 against both --background and --cream) while
+       reading softer than a clinical, hue-less black. Set once on :root,
+       same rationale as --cream: it's the same "black" in both themes.
+       NOTE: this drives --foreground (i.e. sitewide body text in Light
+       Mode) — the post-Hero solid navbar's own BACKGROUND fill uses the
+       dedicated --navbar-charcoal token below instead, precisely so tuning
+       the navbar's fill can never shift body text tone site-wide. */
+    --near-black: 20 10% 7%;        /* ~#141110 */
+
+    /* Dedicated solid-navbar SURFACE colors (the post-Hero bar's own fill,
+       not its content) — deliberately decoupled from --near-black/--cream
+       above. Those two drive body text, borders, ScrollLogo, etc. sitewide;
+       routing the navbar's fill through its own tokens means retuning it
+       (e.g. "make the Dark Mode bar more cream") can never ripple into
+       Hero copy, footer text, or any other --near-black/--cream consumer.
+       See NAVBAR_CHARCOAL_RGB / NAVBAR_CREAM_RGB in brandColor.ts —
+       framer-motion needs literals, not CSS vars, mid-animation, so those
+       mirror these values rather than resolving them at runtime. */
+    --navbar-charcoal: 20 11% 11%;  /* ~#1E1A18 — solid navbar bg, Light Mode */
+    --navbar-cream: 35 33% 93%;     /* ~#F3EEE7 — solid navbar bg, Dark Mode */
 
     --brand-red: 0 80% 50%;
-    --brand-orange: 30 95% 50%;
+    /* Single source of truth for the solid brand orange shared by the
+       footer and the post-Hero navbar (see src/lib/brandColor.ts).
+       Saturation lowered from 95% to 88% (same hue/lightness) for a calmer,
+       more editorial feel as a full-width navbar fill — still unmistakably
+       the same brand orange. Lightness nudged from 52% to 49% for a
+       slightly richer, less loud weight; hue/saturation untouched. */
+    --brand-orange: 14 88% 49%;
     --brand-yellow: 50 95% 55%;
     --brand-green: 140 65% 40%;
     --brand-blue: 215 75% 50%;
 
     --card: 40 18% 89%;             /* slightly darker warm surface */
-    --card-foreground: 0 0% 7%;
+    --card-foreground: var(--near-black);
 
     --popover: 40 18% 89%;
-    --popover-foreground: 0 0% 7%;
+    --popover-foreground: var(--near-black);
 
     --primary: 14 100% 60%;         /* Signal Orange #FF5A36 */
     --primary-foreground: 0 0% 100%;
@@ -47,11 +92,11 @@
     --retro-teal: 175 70% 45%;
 
     --sidebar-background: 40 29% 94%;
-    --sidebar-foreground: 0 0% 7%;
+    --sidebar-foreground: var(--near-black);
     --sidebar-primary: 14 100% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 40 14% 84%;
-    --sidebar-accent-foreground: 0 0% 7%;
+    --sidebar-accent-foreground: var(--near-black);
     --sidebar-border: 40 12% 78%;
     --sidebar-ring: 14 100% 60%;
 
@@ -63,17 +108,21 @@
 
   /* ─── Dark mode (.dark on <html>) ───────────────────────────────── */
   .dark {
-    --background: 0 0% 5%;
+    /* Same warm-near-black family as --near-black (20° hue, low saturation),
+       just darker/lighter for background vs. card — softer than the old flat
+       neutral 0 0% 5%/9%, same lightness so contrast against --foreground
+       (cream-ish) is unaffected. */
+    --background: 20 8% 6%;
     --foreground: 40 30% 88%;
 
-    --card: 0 0% 9%;
+    --card: 20 7% 10%;
     --card-foreground: 45 20% 90%;
 
-    --popover: 0 0% 9%;
+    --popover: 20 7% 10%;
     --popover-foreground: 45 20% 90%;
 
     --primary: 30 95% 50%;
-    --primary-foreground: 0 0% 5%;
+    --primary-foreground: var(--near-black);
 
     --secondary: 10 100% 58%;
     --secondary-foreground: 0 0% 100%;
@@ -96,10 +145,10 @@
     --retro-purple: 270 60% 50%;
     --retro-teal: 175 70% 45%;
 
-    --sidebar-background: 0 0% 5%;
+    --sidebar-background: var(--background);
     --sidebar-foreground: 45 20% 90%;
     --sidebar-primary: 30 95% 50%;
-    --sidebar-primary-foreground: 0 0% 5%;
+    --sidebar-primary-foreground: var(--near-black);
     --sidebar-accent: 0 0% 14%;
     --sidebar-accent-foreground: 45 20% 90%;
     --sidebar-border: 0 0% 18%;

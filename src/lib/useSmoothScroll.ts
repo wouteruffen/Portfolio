@@ -9,7 +9,7 @@ const LERP = 0.10;
  * Returns a `scrollTo(target)` function that shares the same RAF loop and
  * targetY ref, so programmatic navigation never fights the wheel handler.
  */
-export function useSmoothScroll(containerRef: RefObject<HTMLDivElement>) {
+export function useSmoothScroll(containerRef: RefObject<HTMLDivElement>, enabled: boolean = true) {
   const targetYRef = useRef(0);
   const rafRef = useRef<number | null>(null);
 
@@ -33,6 +33,10 @@ export function useSmoothScroll(containerRef: RefObject<HTMLDivElement>) {
   }, [containerRef]);
 
   useEffect(() => {
+    // On mobile, native touch scrolling handles everything and wheel events
+    // don't fire from touch input anyway — skip attaching the listener
+    // entirely rather than registering dead weight on every phone visit.
+    if (!enabled) return;
     const container = containerRef.current;
     if (!container) return;
 
@@ -60,7 +64,7 @@ export function useSmoothScroll(containerRef: RefObject<HTMLDivElement>) {
         rafRef.current = null;
       }
     };
-  }, [containerRef, startTick]);
+  }, [containerRef, startTick, enabled]);
 
   const scrollTo = useCallback((target: number) => {
     const container = containerRef.current;

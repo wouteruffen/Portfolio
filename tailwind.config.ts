@@ -13,6 +13,19 @@ export default {
       },
     },
     extend: {
+      screens: {
+        // Short, wide phone screens (e.g. iPhone Pro Max in landscape) —
+        // deliberately NOT width-based like md/lg, since those devices are
+        // 800-1024px wide (well into the md/lg range) but only 390-500px
+        // tall. max-width: 1024px specifically covers the iPhone 17 Pro Max's
+        // 956px-wide landscape viewport while still excluding real tablet
+        // landscape (e.g. 1024x768, 960x600 — both taller than 500px so the
+        // max-height guard rules them out regardless). The max-height guard
+        // is what keeps this from firing on a short desktop browser window.
+        // Defined last so its rules win over md:/lg: at equal specificity
+        // when a landscape phone also matches those.
+        "landscape-mobile": { raw: "(orientation: landscape) and (max-height: 500px) and (max-width: 1024px)" },
+      },
       fontFamily: {
         display: ["Syne", "sans-serif"],
         body: ["Inter", "sans-serif"],
@@ -27,6 +40,8 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        cream: "hsl(var(--cream))",
+        nearBlack: "hsl(var(--near-black))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

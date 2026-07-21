@@ -2,7 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useRef } from "react";
 import React from "react";
 import FooterV2 from "./FooterV2";
-import { SECTION_TITLE_CLASS, SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_GUTTER_CLASS, SECTION_TITLE_DIVIDER_CLASS } from "@/lib/sectionTitle";
+import { SECTION_TITLE_CLASS, SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_GUTTER_CLASS, SECTION_TITLE_DIVIDER_CLASS, SECTION_TITLE_PADDING_TOP_CLASS } from "@/lib/sectionTitle";
 
 const EASE    = [0.22, 1, 0.36, 1] as const;
 const VP      = { once: true } as const;
@@ -45,9 +45,20 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
     offset: ["start start", "end start"],
   });
 
-  // Footer reaches y:0 at contentProgress 0.45 (~90vh of scroll after snap),
-  // which is just before the sticky true-dwell ends at 0.5 (~100vh).
-  const footerReveal = useTransform(contentProgress, [0, 0.45], [0, 1]);
+  // Footer reveal — normalized to contentProgress's TRUE achievable range,
+  // not an arbitrary early cutoff. With a 200vh outer and a -100vh margin,
+  // the outer's "start start" → "end start" span (0→1 for contentProgress)
+  // requires the outer to travel a full 200vh, but only 100vh of that is
+  // ever real, reachable scroll distance (the other 100vh is cancelled by
+  // the negative margin) — so contentProgress can mathematically never
+  // exceed 0.5. The previous version mapped just [0, 0.45] of that to the
+  // reveal, clamping to "fully revealed" 0.05 short of the actual scroll
+  // ceiling; scrolling back up had to cross back through that whole
+  // plateau before ANYTHING moved, reading as "the footer won't slide back
+  // down" for smaller reverse-scroll gestures. Mapping the reveal to the
+  // EXACT [0, 0.5] ceiling instead means it completes precisely at the
+  // natural scroll end, with zero dead zone in either direction.
+  const footerReveal = useTransform(contentProgress, [0, 0.5], [0, 1]);
 
   // Nudge contact content upward as the footer slides in — title stays fixed.
   const contentCardY = useTransform(contentProgress, [0, 0.45], [0, -60]);
@@ -99,9 +110,12 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
               boxShadow: "var(--section-shadow)",
             }}
           >
-            {/* Grid texture */}
+            {/* Grid texture — same opacity in both themes (0.06): Light
+                Mode's lines are near-black (--foreground = var(--near-black)
+                here), Dark Mode's are the light --foreground already used
+                before. Equal weight, mirrored tone, both equally present. */}
             <div
-              className="absolute inset-0 pointer-events-none opacity-[0.03]"
+              className="absolute inset-0 pointer-events-none opacity-[0.06]"
               style={{
                 backgroundImage: `
                   linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
@@ -113,8 +127,8 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
 
             {/* ── Title ────────────────────────────────────────────────── */}
             <div
-              className={`relative z-10 w-full ${SECTION_TITLE_GUTTER_CLASS} flex-shrink-0`}
-              style={{ paddingTop: "100px", paddingBottom: "12px" }}
+              className={`relative z-10 w-full ${SECTION_TITLE_GUTTER_CLASS} flex-shrink-0 ${SECTION_TITLE_PADDING_TOP_CLASS}`}
+              style={{ paddingBottom: "12px" }}
             >
               <div className={SECTION_TITLE_CONTAINER_CLASS}>
                 <motion.h2
@@ -149,20 +163,20 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                   >
                     <p className="text-2xl md:text-4xl font-antonio font-semibold text-foreground leading-tight">
                       Klaar om iets
-                      <span className="text-secondary"> moois</span> te bouwen?
+                      <span className="text-brand-orange"> moois</span> te bouwen?
                     </p>
-                    <div className="mt-6 h-px w-48 bg-secondary/35" />
+                    <div className="mt-6 h-px w-48 bg-brand-orange/35" />
                     <div className="flex flex-col gap-4 text-sm text-foreground/50 font-body mt-6">
                       <div>
-                        <div className="font-body font-medium mb-1 uppercase text-xs tracking-widest text-secondary/70">Email</div>
+                        <div className="font-body font-medium mb-1 uppercase text-xs tracking-widest text-brand-orange/70">Email</div>
                         hello@studiobitbeeld.nl
                       </div>
                       <div>
-                        <div className="font-body font-medium mb-1 uppercase text-xs tracking-widest text-secondary/70">Telefoon</div>
+                        <div className="font-body font-medium mb-1 uppercase text-xs tracking-widest text-brand-orange/70">Telefoon</div>
                         +31 (0)6 1234 5678
                       </div>
                       <div>
-                        <div className="font-body font-medium mb-1 uppercase text-xs tracking-widest text-secondary/70">Locatie</div>
+                        <div className="font-body font-medium mb-1 uppercase text-xs tracking-widest text-brand-orange/70">Locatie</div>
                         Amsterdam, NL
                       </div>
                     </div>
@@ -187,7 +201,7 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full bg-transparent border-b-2 border-foreground/20 py-2.5 text-foreground font-body focus:outline-none focus:border-secondary transition-colors placeholder:text-foreground/30"
+                        className="w-full bg-transparent border-b-2 border-foreground/20 py-2.5 text-foreground font-body focus:outline-none focus:border-brand-orange transition-colors placeholder:text-foreground/30"
                         placeholder="Jouw naam"
                       />
                     </div>
@@ -201,7 +215,7 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full bg-transparent border-b-2 border-foreground/20 py-2.5 text-foreground font-body focus:outline-none focus:border-secondary transition-colors placeholder:text-foreground/30"
+                        className="w-full bg-transparent border-b-2 border-foreground/20 py-2.5 text-foreground font-body focus:outline-none focus:border-brand-orange transition-colors placeholder:text-foreground/30"
                         placeholder="jouw@email.nl"
                       />
                     </div>
@@ -215,13 +229,13 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                         rows={3}
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        className="w-full bg-transparent border-b-2 border-foreground/20 py-2.5 text-foreground font-body focus:outline-none focus:border-secondary transition-colors resize-none placeholder:text-foreground/30"
+                        className="w-full bg-transparent border-b-2 border-foreground/20 py-2.5 text-foreground font-body focus:outline-none focus:border-brand-orange transition-colors resize-none placeholder:text-foreground/30"
                         placeholder="Vertel over je project..."
                       />
                     </div>
                     <button
                       type="submit"
-                      className="bg-[#FF4A2A] text-black px-8 py-3.5 font-body font-medium text-sm tracking-widest uppercase hover:opacity-90 transition-opacity mt-2"
+                      className="bg-brand-orange text-black px-8 py-3.5 font-body font-medium text-sm tracking-widest uppercase hover:opacity-90 transition-opacity mt-2"
                     >
                       Verstuur Bericht
                     </button>

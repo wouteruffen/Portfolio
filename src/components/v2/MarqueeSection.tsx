@@ -48,7 +48,7 @@ const MarqueeSection = ({
       }}
     >
       {/* Top border */}
-      <div className="w-full h-px bg-white/10" />
+      <div className="w-full h-px bg-cream/10" />
 
       <div className="py-5 md:py-6">
         {/*
@@ -74,12 +74,12 @@ const MarqueeSection = ({
                 {Array.from({ length: ITEMS }, (_, i) => (
                   <span
                     key={i}
-                    className="flex items-center font-logo uppercase text-white/90 tracking-tight leading-none"
+                    className="flex items-center font-logo uppercase text-cream/90 tracking-tight leading-none"
                     style={{ fontSize: "clamp(2.8rem, 6vw, 6rem)" }}
                   >
                     {TEXT}
                     <span
-                      className="mx-6 md:mx-10 text-white/30 flex-shrink-0"
+                      className="mx-6 md:mx-10 text-cream/30 flex-shrink-0"
                       style={{ fontSize: "0.45em" }}
                       aria-hidden
                     >
@@ -94,7 +94,7 @@ const MarqueeSection = ({
       </div>
 
       {/* Bottom border */}
-      <div className="w-full h-px bg-white/10" />
+      <div className="w-full h-px bg-cream/10" />
     </section>
   );
 };

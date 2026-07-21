@@ -56,7 +56,7 @@ const CursorEffects = () => {
           return (
             <div
               key={dot.id}
-              className="absolute rounded-full bg-primary"
+              className="absolute rounded-full bg-brand-orange"
               style={{
                 left: dot.x - dotSize / 2,
                 top: dot.y - dotSize / 2,
@@ -71,7 +71,7 @@ const CursorEffects = () => {
 
         {/* Crosshair - horizontal */}
         <div
-          className="absolute bg-primary"
+          className="absolute bg-brand-orange"
           style={{
             left: pos.x - size / 2,
             top: pos.y - thickness / 2,
@@ -81,7 +81,7 @@ const CursorEffects = () => {
         />
         {/* Crosshair - vertical */}
         <div
-          className="absolute bg-primary"
+          className="absolute bg-brand-orange"
           style={{
             left: pos.x - thickness / 2,
             top: pos.y - size / 2,
@@ -91,7 +91,7 @@ const CursorEffects = () => {
         />
         {/* Center dot */}
         <div
-          className="absolute rounded-full bg-primary"
+          className="absolute rounded-full bg-brand-orange"
           style={{
             left: pos.x - 2,
             top: pos.y - 2,
@@ -104,7 +104,7 @@ const CursorEffects = () => {
       {/* Custom scrollbar */}
       <div className="fixed top-4 right-4 bottom-4 w-1.5 z-50 rounded-full overflow-hidden bg-muted/60">
         <motion.div
-          className="w-full rounded-full bg-primary"
+          className="w-full rounded-full bg-brand-orange"
           style={{ height: `${scrollPercent}%` }}
           transition={{ duration: 0.1 }}
         />

@@ -2,54 +2,15 @@ import { motion, useScroll, useTransform, useMotionValueEvent, useSpring, easeIn
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import projectWeb from "@/assets/project-web.jpg";
-import projectBrand from "@/assets/project-brand.jpg";
-import projectProduct from "@/assets/project-product.jpg";
-import projectCampagne from "@/assets/hero-branding.jpg";
 import React from "react";
-import { SECTION_TITLE_CLASS, SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_DIVIDER_CLASS } from "@/lib/sectionTitle";
+import { SECTION_TITLE_CLASS, SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_DIVIDER_CLASS, SECTION_TITLE_PADDING_TOP_CLASS } from "@/lib/sectionTitle";
+import { BRAND_ORANGE_HSL } from "@/lib/brandColor";
+import { PROJECTS as projects } from "@/lib/projectsData";
 
-const ACCENT    = "#FF4A2A";
+// Single brand orange, shared with NavbarV2/FooterV2/LoadingScreen — no more
+// locally-hardcoded accent hex that can drift from --brand-orange over time.
+const ACCENT    = BRAND_ORANGE_HSL;
 const CARD_H_VH = 42;
-
-const projects = [
-  {
-    title: "Webdesign & Development",
-    description:
-      "Moderne, snelle websites die niet alleen mooi zijn maar ook converteren en resultaat opleveren. Van strategie en design tot volledige front-end implementatie met de nieuwste technologieën.",
-    highlight: "Performance-first",
-    tools: ["React", "TypeScript", "Figma", "CMS"],
-    image: projectWeb,
-    href: "/webdesign",
-  },
-  {
-    title: "Merkidentiteit",
-    description:
-      "Visuele identiteiten die herkenbaar blijven en een krachtig verhaal vertellen. Van logo-ontwerp en kleurpalet tot complete huisstijl en uitgebreid brandbook.",
-    highlight: "Van concept tot brandbook",
-    tools: ["Figma", "Illustrator", "Branding", "Strategie"],
-    image: projectBrand,
-    href: "/merkidentiteit",
-  },
-  {
-    title: "Digitale Producten",
-    description:
-      "Apps en platformen die complexe processen vereenvoudigen. Gebruiksvriendelijk, schaalbaar en gebouwd voor de lange termijn — van wireframe tot werkend product.",
-    highlight: "End-to-end",
-    tools: ["React", "TypeScript", "UI/UX", "Prototyping"],
-    image: projectProduct,
-    href: "/digitale-producten",
-  },
-  {
-    title: "Campagne Design",
-    description:
-      "Opvallende visuele campagnes die aandacht trekken en een boodschap scherp overbrengen. Print, social media en digitale uitingen — consistent en op maat gemaakt.",
-    highlight: "Art Direction",
-    tools: ["Photoshop", "Illustrator", "Art Direction", "Campagne"],
-    image: projectCampagne,
-    href: "/merkidentiteit",
-  },
-];
 
 interface ProjectsV2Props {
   scrollContainerRef?: React.RefObject<HTMLDivElement>;
@@ -200,9 +161,12 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
           boxShadow: "var(--section-shadow)",
         }}
       >
-        {/* Grid texture */}
+        {/* Grid texture — same opacity in both themes (0.06): Light Mode's
+            lines are near-black (--foreground = var(--near-black) here),
+            Dark Mode's are the light --foreground already used before.
+            Equal weight, mirrored tone, so both read as equally present. */}
         <div
-          className="absolute inset-0 pointer-events-none opacity-[0.03]"
+          className="absolute inset-0 pointer-events-none opacity-[0.06]"
           style={{
             backgroundImage: `
               linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
@@ -214,8 +178,8 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
 
         {/* ── Sticky title ──────────────────────────────────────────────── */}
         <div
-          className="relative z-10 w-full px-6 md:px-10 lg:px-14 flex-shrink-0"
-          style={{ paddingTop: "100px", paddingBottom: "12px" }}
+          className={`relative z-10 w-full px-6 md:px-10 lg:px-14 flex-shrink-0 ${SECTION_TITLE_PADDING_TOP_CLASS}`}
+          style={{ paddingBottom: "12px" }}
         >
           <div className={SECTION_TITLE_CONTAINER_CLASS}>
             <h2 className={SECTION_TITLE_CLASS}>

@@ -4,9 +4,12 @@ import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import aboutPortrait from "@/assets/about-portrait.jpg";
 import React from "react";
-import { SECTION_TITLE_CLASS, SECTION_TITLE_DIVIDER_CLASS } from "@/lib/sectionTitle";
+import { SECTION_TITLE_CLASS, SECTION_TITLE_DIVIDER_CLASS, SECTION_TITLE_PADDING_TOP_CLASS } from "@/lib/sectionTitle";
+import { BRAND_ORANGE_HSL } from "@/lib/brandColor";
 
-const ACCENT  = "#FF4A2A";
+// Single brand orange, shared with NavbarV2/FooterV2/LoadingScreen — no more
+// locally-hardcoded accent hex that can drift from --brand-orange over time.
+const ACCENT  = BRAND_ORANGE_HSL;
 const EASE    = [0.22, 1, 0.36, 1] as const;
 const VP      = { once: false, amount: 0.1 } as const;
 
@@ -85,9 +88,13 @@ const AboutV2 = ({ scrollContainerRef, onSnap, aboutTopRef }: AboutV2Props) => {
           boxShadow: "var(--section-shadow)",
         }}
       >
-      {/* Grid texture */}
+      {/* Grid texture — same opacity in both themes (0.06): Light Mode's
+          lines are near-black (--foreground = var(--near-black) here), Dark
+          Mode's are the light --foreground already used before. Equal
+          weight, mirrored tone, so both read as equally present rather than
+          Light Mode's old 0.03 washing the texture out. */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
+        className="absolute inset-0 pointer-events-none opacity-[0.06]"
         style={{
           backgroundImage: `
             linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
@@ -99,8 +106,8 @@ const AboutV2 = ({ scrollContainerRef, onSnap, aboutTopRef }: AboutV2Props) => {
 
       {/* ── Sticky title — pinned to the same top row as WAT IK DOE ─── */}
       <div
-        className="relative z-10 w-full px-6 md:px-10 lg:px-14 flex-shrink-0"
-        style={{ paddingTop: "100px", paddingBottom: "12px" }}
+        className={`relative z-10 w-full px-6 md:px-10 lg:px-14 flex-shrink-0 ${SECTION_TITLE_PADDING_TOP_CLASS}`}
+        style={{ paddingBottom: "12px" }}
       >
         <div className="max-w-[1240px] mx-auto">
           <motion.h2

@@ -2,8 +2,9 @@ import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 // @ts-ignore
 import "@fontsource/anton";
+import { BRAND_ORANGE_HSL } from "@/lib/brandColor";
 
-const ORANGE_BG = "hsl(14, 95%, 52%)";
+const ORANGE_BG = BRAND_ORANGE_HSL;
 const EASE_REVEAL = [0.22, 1, 0.36, 1] as const;
 const EASE_EXIT   = [0.76, 0, 0.24, 1] as const;
 
