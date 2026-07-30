@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { useTheme } from "next-themes";
-import { NEAR_BLACK_HEX, CREAM_HEX } from "@/lib/brandColor";
+import { CREAM_HEX } from "@/lib/brandColor";
 // @ts-ignore
 import "@fontsource/anton";
 
 interface ScrollLogoProps {
   scrollContainerRef: React.RefObject<HTMLDivElement>;
   /**
-   * True once the navbar has gone solid (About has covered the Hero). Colors
-   * the logo the same theme-aware foreground as the navbar's own text at
-   * that point — cream in Light Mode (against the near-black solid bar),
-   * near-black in Dark Mode (against the cream solid bar) — using the same
-   * 0.4s/easeInOut so both cross-fade in sync.
+   * True once the navbar has gone solid (About has covered the Hero).
+   * Fades this mark out (0.4s/easeInOut, matching the navbar's own
+   * backgroundColor tween) as the hand-off point to NavbarV2's own small
+   * Bit & Beeld logo, which fades in at the same moment — keeps only one
+   * brand mark on screen in the top-left at a time instead of stacking both.
    */
   solid?: boolean;
 }
@@ -23,7 +22,6 @@ const GROW_THRESHOLD = 30;
 
 const ScrollLogo = ({ scrollContainerRef, solid = false }: ScrollLogoProps) => {
   const [isSmall, setIsSmall] = useState(false);
-  const { theme } = useTheme();
 
   useEffect(() => {
     const container = scrollContainerRef.current;
@@ -45,21 +43,24 @@ const ScrollLogo = ({ scrollContainerRef, solid = false }: ScrollLogoProps) => {
     return () => container.removeEventListener("scroll", handleScroll);
   }, [scrollContainerRef]);
 
-  const textColor = solid ? (theme === "light" ? CREAM_HEX : NEAR_BLACK_HEX) : CREAM_HEX;
-  const colorTransition = { duration: 0.4, ease: "easeInOut" as const };
+  // Hands off to NavbarV2's own small Bit & Beeld logo the instant the
+  // navbar goes solid — same 0.4s/easeInOut as that logo's fade-in and the
+  // navbar's own backgroundColor tween, so only one brand mark is ever
+  // visible in the top-left at a time.
+  const handOffTransition = { duration: 0.4, ease: "easeInOut" as const };
 
   return (
     <motion.div
       initial={{ opacity: 0, scale: 1, y: 0 }}
       animate={{
-        opacity: 1,
+        opacity: solid ? 0 : 1,
         scale: isSmall ? 0.10 : 1,
         y: isSmall ? -62 : 0,
       }}
       transition={
         isSmall
-          ? { duration: 0.85, ease: [0.33, 1, 0.68, 1] }
-          : { scale: { duration: 0.85, ease: [0.33, 1, 0.68, 1] }, y: { duration: 0.85, ease: [0.33, 1, 0.68, 1] }, opacity: { duration: 0.6, delay: 0.4 } }
+          ? { duration: 0.85, ease: [0.33, 1, 0.68, 1], opacity: handOffTransition }
+          : { scale: { duration: 0.85, ease: [0.33, 1, 0.68, 1] }, y: { duration: 0.85, ease: [0.33, 1, 0.68, 1] }, opacity: solid ? handOffTransition : { duration: 0.6, delay: 0.4 } }
       }
       // left matches NavbarV2's own horizontal padding exactly at each
       // breakpoint (md:px-12 / lg:px-24) so the logo's left edge always
@@ -78,33 +79,34 @@ const ScrollLogo = ({ scrollContainerRef, solid = false }: ScrollLogoProps) => {
     >
       <div className="overflow-hidden">
         <motion.h1
-          initial={{ y: "110%", color: CREAM_HEX }}
-          animate={{ y: 0, color: textColor }}
-          transition={{ y: { duration: 1, delay: 0.4, ease: [0.33, 1, 0.68, 1] }, color: colorTransition }}
+          initial={{ y: "110%" }}
+          animate={{ y: 0 }}
+          transition={{ duration: 1, delay: 0.4, ease: [0.33, 1, 0.68, 1] }}
           className="text-[18vw] md:text-[14vw] lg:text-[12vw] landscape-mobile:text-[clamp(1.25rem,6.5vh,2rem)] leading-[0.9] tracking-[-0.02em] uppercase"
-          style={{ fontFamily: "'Anton', sans-serif" }}
+          style={{ fontFamily: "'Anton', sans-serif", color: CREAM_HEX }}
         >
           Bit &
         </motion.h1>
       </div>
       <div className="overflow-hidden landscape-mobile:!pb-1" style={{ paddingBottom: "5vw" }}>
         <motion.h1
-          initial={{ y: "110%", color: CREAM_HEX }}
-          animate={{ y: 0, color: textColor }}
-          transition={{ y: { duration: 1, delay: 0.55, ease: [0.33, 1, 0.68, 1] }, color: colorTransition }}
+          initial={{ y: "110%" }}
+          animate={{ y: 0 }}
+          transition={{ duration: 1, delay: 0.55, ease: [0.33, 1, 0.68, 1] }}
           className="text-[18vw] md:text-[14vw] lg:text-[12vw] landscape-mobile:text-[clamp(1.25rem,6.5vh,2rem)] leading-[0.9] tracking-[-0.02em] uppercase"
-          style={{ fontFamily: "'Anton', sans-serif" }}
+          style={{ fontFamily: "'Anton', sans-serif", color: CREAM_HEX }}
         >
           Beeld
           <motion.span
-            animate={{ opacity: isSmall ? 0 : 1, color: textColor }}
-            transition={{ opacity: { duration: 0.3 }, color: colorTransition }}
+            animate={{ opacity: isSmall ? 0 : 1 }}
+            transition={{ duration: 0.3 }}
             className="text-[3vw] md:text-[2vw] lg:text-[1.5vw] landscape-mobile:text-[0.65rem] ml-[0.1em]"
             style={{
               display: "inline-block",
               verticalAlign: "-0.5em",
               lineHeight: 1,
               fontFamily: "'Anton', sans-serif",
+              color: CREAM_HEX,
             }}
           >
             ®

@@ -3,8 +3,10 @@ import { Menu, X, ArrowUpRight, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTheme } from "next-themes";
+import { useThemeTransition } from "@/components/ThemeTransitionProvider";
 import { useIsPhoneLayout, useIsTablet, useIsLandscapeMobile } from "@/hooks/use-mobile";
-import { NAVBAR_CHARCOAL_RGB, NAVBAR_CREAM_RGB, BRAND_ORANGE_RGB } from "@/lib/brandColor";
+import { BRAND_ORANGE_RGB } from "@/lib/brandColor";
+import bitBeeldLogo from "@/assets/logo-bitbeeld-transparent.png";
 
 /*
  * Scroll offsets (in pixels) for each home-page section.
@@ -74,7 +76,8 @@ const NavbarV2 = ({
   const [solidNav, setSolidNav]   = useState(false);
   const [navHeight, setNavHeight] = useState(0);
   const navRef = useRef<HTMLElement>(null);
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
+  const { toggleTheme } = useThemeTransition();
   // Portrait phone OR landscape phone — must match Index.tsx's routing
   // exactly (same hook), since this decides whether the navbar renders its
   // simplified always-solid-orange treatment. If this ever disagreed with
@@ -99,6 +102,13 @@ const NavbarV2 = ({
   // doesn't act on it), but nothing downstream should treat `solidNav` as
   // a phone layout's real state.
   const effectiveSolidNav = isPhoneLayout || solidNav;
+
+  // The small solid-navbar wordmark logo only applies to the Hero→solid
+  // transition (aboutTopRef is only ever passed by Index) and only on
+  // desktop/tablet — phone layouts are always-solid from first paint (no
+  // transition to hand off from) and already get their own static logo
+  // inside MobileHero, so adding this one there would duplicate it.
+  const showSolidLogo = Boolean(aboutTopRef) && !isPhoneLayout;
 
   // In Brandbook mode (showLogo=true) the page uses CSS filter:invert() to flip
   // the entire nav on light sections, so the nav must always start white.
@@ -130,9 +140,7 @@ const NavbarV2 = ({
   // versus literal white, so mobile's solid-content pairing is near-black
   // (Light Mode) / literal white (Dark Mode), not the cream/near-black pair
   // desktop's cream-or-charcoal bar uses.
-  const solidBgRGB = isPhoneLayout
-    ? BRAND_ORANGE_RGB
-    : theme === "light" ? NAVBAR_CHARCOAL_RGB : NAVBAR_CREAM_RGB;
+  const solidBgRGB = BRAND_ORANGE_RGB;
   const solidNavText = isPhoneLayout
     ? (theme === "light" ? "text-nearBlack" : "text-white")
     : (theme === "light" ? "text-cream" : "text-nearBlack");
@@ -153,17 +161,34 @@ const NavbarV2 = ({
 
   // Shared colour tokens for pill/icon buttons (toggle, CTA, hamburger).
   // Split so they can be composed with per-button sizing classes.
+  //
+  // Border/text colours are untouched from before. The only thing that
+  // changes once effectiveSolidNav is true (navbar has gone solid
+  // red/orange) is: border width bumps from 1px to ~1.75px, and the bg tint
+  // switches to a uniform light glass (bg-white/10, hover bg-white/20) instead
+  // of the previous theme-tinted fill — since the bar itself is now always
+  // the same orange regardless of theme, one light overlay reads correctly
+  // against it everywhere, whereas the old per-branch tints were tuned for
+  // the old charcoal/cream solid bars. Non-solid (transparent Hero) states
+  // keep their original 1px border and light tint completely unchanged.
   const pillColors = forceWhite
     ? effectiveSolidNav
       ? isPhoneLayout
         ? theme === "light"
-          ? "border-nearBlack/30 bg-nearBlack/10 text-nearBlack/80 hover:bg-nearBlack/20 hover:border-nearBlack/50 hover:text-nearBlack"
-          : "border-white/30 bg-white/10 text-white/80 hover:bg-white/20 hover:border-white/50 hover:text-white"
-        : theme === "light"
-          ? "border-cream/40 bg-cream/10 text-cream/75 hover:bg-cream/[0.22] hover:border-cream/65 hover:text-cream"
-          : "border-nearBlack/40 bg-nearBlack/10 text-nearBlack/75 hover:bg-nearBlack/[0.22] hover:border-nearBlack/65 hover:text-nearBlack"
-      : "border-cream/40 bg-cream/10 text-cream/75 hover:bg-cream/[0.22] hover:border-cream/65 hover:text-cream"
-    : "border-nearBlack/20 bg-nearBlack/5 text-nearBlack/65 dark:border-cream/40 dark:bg-cream/10 dark:text-cream/75 hover:bg-nearBlack/10 hover:border-nearBlack/[0.30] hover:text-nearBlack dark:hover:bg-cream/[0.22] dark:hover:border-cream/65 dark:hover:text-cream";
+          ? "border-[1.75px] border-nearBlack/30 bg-white/10 text-nearBlack/80 hover:bg-white/20 hover:border-nearBlack/50 hover:text-nearBlack"
+          : "border-[1.75px] border-white/30 bg-white/10 text-white/80 hover:bg-white/20 hover:border-white/50 hover:text-white"
+        // Same near-black border/text in both themes: once solid, the bar
+        // itself is always brand-orange regardless of theme (see solidBgRGB
+        // above), so a theme-dependent control color no longer makes sense
+        // here — this used to be cream in Light Mode / near-black in Dark
+        // Mode, which read as an inconsistent pairing on an identical fill.
+        : "border-[1.75px] border-nearBlack/40 bg-white/10 text-nearBlack/75 hover:bg-white/20 hover:border-nearBlack/65 hover:text-nearBlack"
+      : "border border-cream/40 bg-cream/10 text-cream/75 hover:bg-cream/[0.22] hover:border-cream/65 hover:text-cream"
+    : effectiveSolidNav
+      ? theme === "light"
+        ? "border-[1.75px] border-nearBlack/20 bg-white/10 text-nearBlack/65 hover:bg-white/20 hover:border-nearBlack/[0.30] hover:text-nearBlack"
+        : "border-[1.75px] border-cream/40 bg-white/10 text-cream/75 hover:bg-white/20 hover:border-cream/65 hover:text-cream"
+      : "border border-nearBlack/20 bg-nearBlack/5 text-nearBlack/65 dark:border-cream/40 dark:bg-cream/10 dark:text-cream/75 hover:bg-nearBlack/10 hover:border-nearBlack/[0.30] hover:text-nearBlack dark:hover:bg-cream/[0.22] dark:hover:border-cream/65 dark:hover:text-cream";
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -321,8 +346,25 @@ const NavbarV2 = ({
           backgroundColor: { duration: 0.4, ease: "easeInOut" },
           boxShadow:       { duration: 0.4, ease: "easeInOut" },
         }}
-        className={`fixed top-0 left-0 right-0 z-[60] px-6 md:px-12 lg:px-24 landscape-mobile:pl-[max(1rem,env(safe-area-inset-left))] landscape-mobile:pr-[max(1rem,env(safe-area-inset-right))] flex items-center ${showLogo ? "justify-between" : "justify-end"}`}
+        className={`fixed top-0 left-0 right-0 z-[60] px-6 md:px-12 lg:px-24 landscape-mobile:pl-[max(1rem,env(safe-area-inset-left))] landscape-mobile:pr-[max(1rem,env(safe-area-inset-right))] flex items-center ${showLogo || showSolidLogo ? "justify-between" : "justify-end"}`}
       >
+        {/* Bit & Beeld logo mark — fades/slides in with the navbar's own
+            transparent-to-solid transition (same 0.4s duration as its
+            backgroundColor tween above) and is fully hidden while still
+            transparent over the Hero. Always mounted (rather than
+            conditionally rendered) so the flex layout's left slot stays
+            reserved and the right-hand control group never shifts. */}
+        {showSolidLogo && (
+          <motion.img
+            src={bitBeeldLogo}
+            alt="Bit & Beeld"
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: effectiveSolidNav ? 1 : 0, x: effectiveSolidNav ? 0 : -8 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="h-6 md:h-7 lg:h-8 w-auto select-none pointer-events-none"
+          />
+        )}
+
         {/* Studio wordmark — only in pages that request it (Brandbook) */}
         {showLogo && (
           <span
@@ -340,39 +382,45 @@ const NavbarV2 = ({
           {/* Available for project — hidden on landscape-mobile too: MobileHero
               (rendered for both phone layouts) already has its own identical
               badge, so this would otherwise duplicate it the same way the
-              CTA below would. */}
-          <div className="hidden md:flex landscape-mobile:hidden items-center gap-4">
-            <span
-              className="rounded-full flex-shrink-0 w-2.5 h-2.5"
-              style={{
-                marginRight:     "2px",
-                backgroundColor: "#22c55e",
-                boxShadow:       "0 0 6px rgba(34,197,94,0.6), 0 0 12px rgba(34,197,94,0.4)",
-                animation:       "statusPulse 1.8s ease-in-out infinite",
-              }}
-            />
-            <div className="flex flex-col">
+              CTA below would. Also hidden once the navbar has gone solid
+              red/orange (effectiveSolidNav) — kept only for the transparent
+              Hero state. */}
+          {!effectiveSolidNav && (
+            <div className="hidden md:flex landscape-mobile:hidden items-center gap-4">
               <span
-                className={`font-body transition-colors duration-300 text-[15px] ${forceWhite ? forceWhiteText : "text-nearBlack/80 dark:text-cream"}`}
-                style={{ fontWeight: 500, letterSpacing: "0.015em" }}
-              >
-                Beschikbaar voor project
-              </span>
-              <span
-                className={`font-body uppercase transition-colors duration-300 text-[10px] ${forceWhite ? (effectiveSolidNav ? `${solidNavText}/50` : "text-cream/50") : "text-nearBlack/40 dark:text-cream/50"}`}
-                style={{ letterSpacing: "0.15em" }}
-              >
-                Medio 2026
-              </span>
+                className="rounded-full flex-shrink-0 w-2.5 h-2.5"
+                style={{
+                  marginRight:     "2px",
+                  backgroundColor: "#22c55e",
+                  boxShadow:       "0 0 6px rgba(34,197,94,0.6), 0 0 12px rgba(34,197,94,0.4)",
+                  animation:       "statusPulse 1.8s ease-in-out infinite",
+                }}
+              />
+              <div className="flex flex-col">
+                <span
+                  className={`font-body transition-colors duration-300 text-[15px] ${forceWhite ? forceWhiteText : "text-nearBlack/80 dark:text-cream"}`}
+                  style={{ fontWeight: 500, letterSpacing: "0.015em" }}
+                >
+                  Beschikbaar voor project
+                </span>
+                <span
+                  className={`font-body uppercase transition-colors duration-300 text-[10px] ${forceWhite ? "text-cream/50" : "text-nearBlack/40 dark:text-cream/50"}`}
+                  style={{ letterSpacing: "0.15em" }}
+                >
+                  Medio 2026
+                </span>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Light / dark toggle — visible at every breakpoint (unlike the
               availability block above and the CTA below) since the mobile
               navbar should keep it per the mobile-nav simplification pass. */}
-          {!hideThemeToggle && <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className={`flex items-center justify-center w-10 h-10 md:w-9 md:h-9 lg:w-10 lg:h-10 landscape-mobile:w-7 landscape-mobile:h-7 rounded-full border transition-all duration-300 hover:scale-[1.05] ${pillColors}`}
+          {!hideThemeToggle && <motion.button
+            onClick={toggleTheme}
+            whileTap={{ scale: 0.88 }}
+            transition={{ duration: 0.15 }}
+            className={`flex items-center justify-center w-10 h-10 md:w-9 md:h-9 lg:w-10 lg:h-10 landscape-mobile:w-7 landscape-mobile:h-7 rounded-full transition-all duration-300 hover:scale-[1.05] ${pillColors}`}
             aria-label="Toggle light/dark mode"
           >
             <AnimatePresence mode="wait" initial={false}>
@@ -386,7 +434,7 @@ const NavbarV2 = ({
                 </motion.span>
               )}
             </AnimatePresence>
-          </button>}
+          </motion.button>}
 
           {/* CTA — navigates to #contact on home or to /#contact from other pages.
               Hidden below md, and hidden again on landscape-mobile despite
@@ -399,14 +447,14 @@ const NavbarV2 = ({
               exact original desktop size untouched. */}
           <button
             onClick={(e) => handleNavClick(e, "#contact")}
-            className={`hidden md:inline-block landscape-mobile:hidden px-5 py-2.5 lg:px-7 lg:py-3 rounded-full border text-sm lg:text-base font-body font-medium tracking-[0.12em] uppercase hover:scale-[1.03] transition-all duration-300 ${pillColors}`}
+            className={`hidden md:inline-block landscape-mobile:hidden px-5 py-2.5 lg:px-7 lg:py-3 rounded-full text-sm lg:text-base font-body font-medium tracking-[0.12em] uppercase hover:scale-[1.03] transition-all duration-300 ${pillColors}`}
           >
             Plan Gesprek
           </button>
 
           {/* Hamburger */}
           <button
-            className={`flex items-center justify-center w-12 h-12 md:w-10 md:h-10 lg:w-12 lg:h-12 landscape-mobile:w-7 landscape-mobile:h-7 rounded-full border z-50 relative hover:scale-[1.05] transition-all duration-300 ${pillColors}`}
+            className={`flex items-center justify-center w-12 h-12 md:w-10 md:h-10 lg:w-12 lg:h-12 landscape-mobile:w-7 landscape-mobile:h-7 rounded-full z-50 relative hover:scale-[1.05] transition-all duration-300 ${pillColors}`}
             onClick={() => setMenuOpen(!menuOpen)}
           >
             <AnimatePresence mode="wait">
