@@ -1,14 +1,24 @@
-import { motion } from "framer-motion";
-import { ArrowLeft } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, type ReactNode } from "react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import NavbarV2 from "@/components/v2/NavbarV2";
+import FooterV2 from "@/components/v2/FooterV2";
 import CursorEffects from "@/components/CursorEffects";
 import aboutPortrait from "@/assets/about-portrait.jpg";
+import {
+  SECTION_TITLE_CLASS,
+  SECTION_TITLE_DIVIDER_CLASS,
+  SECTION_TITLE_PADDING_TOP_CLASS,
+} from "@/lib/sectionTitle";
 
-const skills = [
-  "React", "TypeScript", "Figma", "Tailwind CSS", "Branding",
-  "UI/UX Design", "Framer Motion", "Next.js", "Node.js", "SEO",
-  "Adobe Creative Suite", "Webflow", "Git", "Responsive Design", "Accessibility",
+const EASE = [0.22, 1, 0.36, 1] as const;
+const VP = { once: true, amount: 0.15 } as const;
+
+const stats = [
+  { num: "50+", label: "Projecten" },
+  { num: "8", label: "Jaar ervaring" },
+  { num: "100%", label: "Maatwerk" },
 ];
 
 const timeline = [
@@ -19,162 +29,347 @@ const timeline = [
   { year: "2026", title: "Vandaag", desc: "50+ projecten afgerond, continue groei en vernieuwing." },
 ];
 
+const skills = [
+  "React", "TypeScript", "Figma", "Tailwind CSS", "Branding",
+  "UI/UX Design", "Framer Motion", "Next.js", "Node.js", "SEO",
+  "Adobe Creative Suite", "Webflow", "Git", "Responsive Design", "Accessibility",
+];
+
+const values = [
+  { title: "Kwaliteit boven kwantiteit", desc: "Liever één project goed dan drie half. Elk detail telt." },
+  { title: "Transparante communicatie", desc: "Geen verrassingen. Eerlijk, direct en altijd bereikbaar." },
+  { title: "Continu leren", desc: "Technologie evolueert, en ik evolueer mee. Altijd up-to-date." },
+];
+
+/** Chapter marker — same index-row grammar as ProjectsV2's card numbering. */
+const ChapterIndex = ({ n }: { n: string }) => (
+  <div className="flex items-center gap-4 mb-6">
+    <span
+      className="text-[10px] tracking-[0.45em] font-body uppercase"
+      style={{ color: "hsl(var(--foreground) / 0.35)" }}
+    >
+      {n}
+    </span>
+    <div className="flex-1 h-px" style={{ backgroundColor: "hsl(var(--foreground) / 0.10)" }} />
+  </div>
+);
+
+/** Accent micro-label — same recipe as AboutV2's "Introduction" label. */
+const ChapterLabel = ({ children }: { children: ReactNode }) => (
+  <div className="flex items-center gap-3 mb-4">
+    <div className="w-5 h-px bg-brand-orange" />
+    <span className="text-[10px] tracking-[0.4em] font-body uppercase text-brand-orange">
+      {children}
+    </span>
+  </div>
+);
+
 const OverMijPage = () => {
+  const portraitRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: portraitProgress } = useScroll({
+    target: portraitRef,
+    offset: ["start end", "end start"],
+  });
+  const portraitY = useTransform(portraitProgress, [0, 1], [30, -30]);
+
   return (
     <>
       <CursorEffects />
       <div className="min-h-screen bg-background text-foreground">
         <NavbarV2 />
 
-        {/* Hero */}
-        <section className="relative min-h-[60vh] flex items-end overflow-hidden">
-          <div className="absolute inset-0 opacity-[0.04]" style={{
+        {/* ── Grid texture — same recipe used on every homepage section ── */}
+        <div
+          className="fixed inset-0 pointer-events-none opacity-[0.06] z-0"
+          style={{
             backgroundImage: `
-              linear-gradient(hsl(25 95% 55%) 1px, transparent 1px),
-              linear-gradient(90deg, hsl(25 95% 55%) 1px, transparent 1px)
+              linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
+              linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)
             `,
-            backgroundSize: '60px 60px'
-          }} />
-          <div className="px-6 md:px-16 lg:px-24 pb-16 pt-32 max-w-7xl mx-auto w-full relative z-10">
-            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-              <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors font-body mb-6">
-                <ArrowLeft size={16} /> Terug naar home
-              </Link>
-              <h1 className="text-5xl md:text-7xl font-logo leading-tight">
-                Over <span className="text-primary">Mij</span>
-              </h1>
-            </motion.div>
-          </div>
-        </section>
+            backgroundSize: "60px 60px",
+          }}
+        />
 
-        {/* Intro + Photo */}
-        <section className="px-6 md:px-16 lg:px-24 py-24 max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-              <h2 className="text-3xl md:text-4xl font-antonio font-semibold mb-6 leading-snug">
-                Ik ben een creatieve freelancer die merken helpt groeien met doordacht design en slimme technologie.
-              </h2>
-              <div className="space-y-4 text-muted-foreground font-body leading-relaxed">
-                <p>Bij Studio Bit & Beeld combineer ik strategie, design en development tot digitale ervaringen die impact maken. Mijn passie ligt bij het vertalen van complexe ideeën naar strakke, functionele oplossingen.</p>
-                <p>Van merkidentiteit tot volledige webplatformen — ik bouw alles met precisie, passie en een scherp oog voor detail. Elk project is een kans om iets unieks te creëren.</p>
-                <p>Als eenmanszaak werk ik nauw samen met mijn klanten. Korte lijnen, snelle beslissingen en persoonlijke aandacht voor elk detail.</p>
-              </div>
-            </motion.div>
+        {/* ── Opening spread ─────────────────────────────────────────── */}
+        <section className={`relative z-10 px-6 md:px-10 lg:px-14 ${SECTION_TITLE_PADDING_TOP_CLASS} pb-16 md:pb-20`}>
+          <div className="max-w-[1240px] mx-auto">
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: EASE }}
             >
-              <div className="aspect-[3/4] overflow-hidden">
-                <img src={aboutPortrait} alt="Portret van de oprichter" className="w-full h-full object-cover" loading="lazy" width={800} height={1067} />
-              </div>
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 border-2 border-primary" />
+              <Link
+                to="/"
+                className="inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase font-body text-foreground/50 hover:text-brand-orange transition-colors mb-10 md:mb-14"
+              >
+                <ArrowLeft size={14} /> Terug naar home
+              </Link>
             </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: EASE }}
+              className={SECTION_TITLE_CLASS}
+            >
+              MEER OVER MIJ
+            </motion.h1>
           </div>
         </section>
 
-        {/* Stats */}
-        <section className="px-6 md:px-16 lg:px-24 py-16 max-w-7xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 border-y border-border py-12">
-            {[
-              { num: "50+", label: "Projecten" },
-              { num: "8", label: "Jaar ervaring" },
-              { num: "100%", label: "Maatwerk" },
-              { num: "∞", label: "Koffie" },
-            ].map((stat) => (
-              <motion.div key={stat.label} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}>
-                <div className="text-4xl font-antonio font-semibold text-primary">{stat.num}</div>
-                <div className="text-sm text-muted-foreground mt-1 font-body">{stat.label}</div>
+        <div className={`relative z-10 ${SECTION_TITLE_DIVIDER_CLASS}`} />
+
+        <section className="relative z-10 px-6 md:px-10 lg:px-14 py-16 md:py-24">
+          <div className="max-w-[1240px] mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-[40fr_60fr] gap-10 md:gap-12 lg:gap-16">
+
+              {/* Left column — statement, copy, stats */}
+              <div className="flex flex-col">
+                <ChapterLabel>The Full Story</ChapterLabel>
+
+                <motion.h2
+                  initial={{ opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={VP}
+                  transition={{ duration: 0.6, delay: 0.1, ease: EASE }}
+                  className="font-antonio font-semibold text-foreground leading-[0.95] tracking-tight mb-6"
+                  style={{ fontSize: "clamp(2.25rem, 4vw, 3.5rem)" }}
+                >
+                  Vorm en functie,<br />
+                  in <span className="text-brand-orange">balans</span>.
+                </motion.h2>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={VP}
+                  transition={{ duration: 0.55, delay: 0.2, ease: EASE }}
+                  className="space-y-4 mb-10"
+                >
+                  <p className="font-body text-lg leading-relaxed text-foreground/60">
+                    Bij Studio Bit &amp; Beeld combineer ik strategie, design en development tot digitale
+                    ervaringen die impact maken. Mijn passie ligt bij het vertalen van complexe ideeën naar
+                    strakke, functionele oplossingen.
+                  </p>
+                  <p className="font-body text-lg leading-relaxed text-foreground/60">
+                    Van merkidentiteit tot volledige webplatformen — ik bouw alles met precisie, passie en
+                    een scherp oog voor detail. Als eenmanszaak werk ik nauw samen met mijn klanten: korte
+                    lijnen, snelle beslissingen, persoonlijke aandacht.
+                  </p>
+                  <p className="font-body text-sm leading-relaxed text-foreground/30 italic">
+                    Elk project is een kans om iets unieks te creëren.
+                  </p>
+                </motion.div>
+
+                {/* Stats — integrated inline, not a boxed strip */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={VP}
+                  transition={{ duration: 0.5, delay: 0.3, ease: EASE }}
+                  className="flex items-stretch gap-8 md:gap-10"
+                >
+                  {stats.map((stat, i) => (
+                    <div
+                      key={stat.label}
+                      className={i > 0 ? "pl-8 md:pl-10 border-l border-foreground/10" : ""}
+                    >
+                      <div className="font-antonio font-semibold text-3xl md:text-4xl text-brand-orange">
+                        {stat.num}
+                      </div>
+                      <div className="text-[10px] tracking-[0.2em] uppercase text-foreground/40 font-body mt-1">
+                        {stat.label}
+                      </div>
+                    </div>
+                  ))}
+                </motion.div>
+              </div>
+
+              {/* Right column — portrait with depth-shadow + parallax */}
+              <motion.div
+                ref={portraitRef}
+                initial={{ opacity: 0, x: 32, scale: 0.96 }}
+                whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                viewport={{ once: false, amount: 0.1 }}
+                transition={{ duration: 0.85, delay: 0.15, ease: EASE }}
+                className="relative md:max-w-[400px] md:ml-auto"
+                style={{ y: portraitY }}
+              >
+                <div className="relative aspect-[3/4]">
+                  <div
+                    className="absolute inset-0 rounded-2xl"
+                    style={{ transform: "translate(12px, 12px)", zIndex: 0, backgroundColor: "var(--card-depth-shadow)" }}
+                  />
+                  <div className="relative z-10 w-full h-full overflow-hidden rounded-2xl">
+                    <img
+                      src={aboutPortrait}
+                      alt="Portret van Wouter"
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                      width={1000}
+                      height={1333}
+                      style={{ transform: "scale(1.06)", transformOrigin: "center top" }}
+                    />
+                  </div>
+                </div>
               </motion.div>
-            ))}
+
+            </div>
           </div>
         </section>
 
-        {/* Timeline */}
-        <section className="px-6 md:px-16 lg:px-24 py-24 max-w-7xl mx-auto relative">
-          <div className="absolute inset-0 opacity-[0.04]" style={{
-            backgroundImage: `
-              linear-gradient(hsl(25 95% 55%) 1px, transparent 1px),
-              linear-gradient(90deg, hsl(25 95% 55%) 1px, transparent 1px)
-            `,
-            backgroundSize: '60px 60px'
-          }} />
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="relative z-10">
-            <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-12 font-body uppercase">Tijdlijn</h2>
-            <div className="space-y-0">
+        {/* ── 01 — Tijdlijn ──────────────────────────────────────────── */}
+        <section className="relative z-10 px-6 md:px-10 lg:px-14 py-16 md:py-24 border-t border-foreground/10">
+          <div className="max-w-[1240px] mx-auto">
+            <ChapterIndex n="01" />
+            <ChapterLabel>Tijdlijn</ChapterLabel>
+            <motion.h2
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={VP}
+              transition={{ duration: 0.6, ease: EASE }}
+              className="font-antonio font-semibold text-foreground leading-[0.95] tracking-tight mb-10 md:mb-14"
+              style={{ fontSize: "clamp(2rem, 3.5vw, 3rem)" }}
+            >
+              De weg tot hier
+            </motion.h2>
+
+            <div>
               {timeline.map((item, i) => (
                 <motion.div
                   key={item.year}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="grid md:grid-cols-[120px_1fr] gap-4 md:gap-8 border-t border-border py-8"
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={VP}
+                  transition={{ duration: 0.5, delay: i * 0.06, ease: EASE }}
+                  className="grid grid-cols-[64px_1fr] md:grid-cols-[120px_1fr] gap-4 md:gap-8 border-t border-foreground/10 py-7 md:py-8"
                 >
-                  <span className="text-primary font-antonio font-semibold text-2xl">{item.year}</span>
+                  <span className="text-brand-orange font-antonio font-semibold text-xl md:text-2xl">
+                    {item.year}
+                  </span>
                   <div>
-                    <h3 className="font-antonio font-semibold text-foreground text-lg">{item.title}</h3>
-                    <p className="text-muted-foreground text-sm font-body mt-1">{item.desc}</p>
+                    <h3 className="font-antonio font-semibold text-foreground text-base md:text-lg">
+                      {item.title}
+                    </h3>
+                    <p className="text-foreground/50 text-sm font-body mt-1 leading-relaxed max-w-[52ch]">
+                      {item.desc}
+                    </p>
                   </div>
                 </motion.div>
               ))}
+              <div className="border-t border-foreground/10" />
             </div>
-          </motion.div>
+          </div>
         </section>
 
-        {/* Skills */}
-        <section className="px-6 md:px-16 lg:px-24 py-24 max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-            <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-10 font-body uppercase">Skills & Tools</h2>
-            <div className="flex flex-wrap gap-3">
+        {/* ── 02 — Skills & Tools ────────────────────────────────────── */}
+        <section className="relative z-10 px-6 md:px-10 lg:px-14 py-16 md:py-24 border-t border-foreground/10">
+          <div className="max-w-[1240px] mx-auto">
+            <ChapterIndex n="02" />
+            <ChapterLabel>Skills &amp; Tools</ChapterLabel>
+            <motion.h2
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={VP}
+              transition={{ duration: 0.6, ease: EASE }}
+              className="font-antonio font-semibold text-foreground leading-[0.95] tracking-tight mb-10 md:mb-14"
+              style={{ fontSize: "clamp(2rem, 3.5vw, 3rem)" }}
+            >
+              Waarmee ik werk
+            </motion.h2>
+
+            <div className="flex flex-wrap gap-2.5 md:gap-3">
               {skills.map((skill, i) => (
                 <motion.span
                   key={skill}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: i * 0.04 }}
-                  className="px-4 py-2 border border-border text-sm font-body text-muted-foreground hover:border-primary hover:text-primary transition-colors"
+                  viewport={VP}
+                  transition={{ duration: 0.35, delay: i * 0.03, ease: EASE }}
+                  className="font-body text-[11px] uppercase tracking-[0.18em] px-4 py-2.5 rounded-full border border-foreground/10 bg-foreground/[0.04] text-foreground/55 hover:border-brand-orange hover:text-brand-orange transition-colors duration-300"
                 >
                   {skill}
                 </motion.span>
               ))}
             </div>
-          </motion.div>
+          </div>
         </section>
 
-        {/* Values */}
-        <section className="px-6 md:px-16 lg:px-24 py-24 max-w-7xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-            <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-10 font-body uppercase">Mijn Waarden</h2>
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                { title: "Kwaliteit boven kwantiteit", desc: "Liever één project goed dan drie half. Elk detail telt." },
-                { title: "Transparante communicatie", desc: "Geen verrassingen. Eerlijk, direct en altijd bereikbaar." },
-                { title: "Continu leren", desc: "Technologie evolueert, en ik evolueer mee. Altijd up-to-date." },
-              ].map((value) => (
-                <div key={value.title} className="border border-border p-6 hover:border-primary transition-colors">
-                  <h3 className="font-antonio font-semibold text-foreground text-lg mb-2">{value.title}</h3>
-                  <p className="text-muted-foreground text-sm font-body">{value.desc}</p>
-                </div>
+        {/* ── 03 — Waarden ───────────────────────────────────────────── */}
+        <section className="relative z-10 px-6 md:px-10 lg:px-14 py-16 md:py-24 border-t border-foreground/10">
+          <div className="max-w-[1240px] mx-auto">
+            <ChapterIndex n="03" />
+            <ChapterLabel>Waarden</ChapterLabel>
+            <motion.h2
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={VP}
+              transition={{ duration: 0.6, ease: EASE }}
+              className="font-antonio font-semibold text-foreground leading-[0.95] tracking-tight mb-10 md:mb-14"
+              style={{ fontSize: "clamp(2rem, 3.5vw, 3rem)" }}
+            >
+              Waar ik voor sta
+            </motion.h2>
+
+            <div>
+              {values.map((value, i) => (
+                <motion.div
+                  key={value.title}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={VP}
+                  transition={{ duration: 0.5, delay: i * 0.08, ease: EASE }}
+                  className="grid grid-cols-[64px_1fr] md:grid-cols-[120px_1fr] gap-4 md:gap-8 border-t border-foreground/10 py-7 md:py-8"
+                >
+                  <span className="text-brand-orange font-antonio font-semibold text-xl md:text-2xl">
+                    0{i + 1}
+                  </span>
+                  <div>
+                    <h3 className="font-antonio font-semibold text-foreground text-base md:text-lg">
+                      {value.title}
+                    </h3>
+                    <p className="text-foreground/50 text-sm font-body mt-1 leading-relaxed max-w-[52ch]">
+                      {value.desc}
+                    </p>
+                  </div>
+                </motion.div>
               ))}
+              <div className="border-t border-foreground/10" />
             </div>
-          </motion.div>
+          </div>
         </section>
 
-        {/* CTA */}
-        <section className="px-6 md:px-16 lg:px-24 py-24 max-w-7xl mx-auto text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-            <p className="text-2xl md:text-4xl font-antonio font-semibold mb-8">
-              Laten we <span className="text-primary">samenwerken</span>
-            </p>
-            <Link to="/#contact" className="inline-block bg-primary text-primary-foreground px-8 py-4 font-body font-medium text-sm tracking-widest uppercase hover:bg-accent hover:text-accent-foreground transition-colors">
-              Neem Contact Op
-            </Link>
-          </motion.div>
+        {/* ── Closing CTA ────────────────────────────────────────────── */}
+        <section className="relative z-10 px-6 md:px-10 lg:px-14 py-24 md:py-32 border-t border-foreground/10">
+          <div className="max-w-[1240px] mx-auto text-center">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={VP}
+              transition={{ duration: 0.6, ease: EASE }}
+              className="font-antonio font-semibold text-foreground leading-tight mb-8"
+              style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)" }}
+            >
+              Klaar om iets <span className="text-brand-orange">moois</span> te bouwen?
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={VP}
+              transition={{ duration: 0.5, delay: 0.1, ease: EASE }}
+            >
+              <Link
+                to="/#contact"
+                className="group inline-flex items-center gap-3 text-white font-body font-medium text-xs tracking-[0.18em] uppercase px-8 py-4 bg-brand-orange transition-opacity hover:opacity-80"
+              >
+                Neem Contact Op
+                <ArrowRight size={14} className="transition-transform group-hover:translate-x-1.5" />
+              </Link>
+            </motion.div>
+          </div>
         </section>
+
+        <FooterV2 />
       </div>
     </>
   );
