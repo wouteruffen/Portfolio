@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import NavbarV2 from "@/components/v2/NavbarV2";
+import FooterV2 from "@/components/v2/FooterV2";
 import CursorEffects from "@/components/CursorEffects";
 import heroImg from "@/assets/hero-branding.jpg";
 import projectBrand from "@/assets/project-brand.jpg";
@@ -11,7 +12,7 @@ const ProjectBranding = () => {
     <>
       <CursorEffects />
       <div className="min-h-screen bg-background text-foreground">
-        <NavbarV2 />
+        <NavbarV2 forceSolid />
 
         {/* Hero */}
         <section className="relative h-[70vh] overflow-hidden">
@@ -91,6 +92,8 @@ const ProjectBranding = () => {
             </Link>
           </motion.div>
         </section>
+
+        <FooterV2 />
       </div>
     </>
   );

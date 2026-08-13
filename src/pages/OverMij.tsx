@@ -76,7 +76,7 @@ const OverMijPage = () => {
     <>
       <CursorEffects />
       <div className="min-h-screen bg-background text-foreground">
-        <NavbarV2 />
+        <NavbarV2 forceSolid />
 
         {/* ── Grid texture — same recipe used on every homepage section ── */}
         <div

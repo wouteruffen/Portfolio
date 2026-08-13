@@ -6,7 +6,7 @@ import { useTheme } from "next-themes";
 import { useThemeTransition } from "@/components/ThemeTransitionProvider";
 import { useIsPhoneLayout, useIsTablet, useIsLandscapeMobile } from "@/hooks/use-mobile";
 import { BRAND_ORANGE_RGB } from "@/lib/brandColor";
-import bitBeeldLogo from "@/assets/logo-bitbeeld-transparent.png";
+import bitBeeldLogo from "@/assets/bitbeeld-logo-black.svg";
 
 /*
  * Scroll offsets (in pixels) for each home-page section.
@@ -43,6 +43,16 @@ interface NavbarV2Props {
    * simply omit this.
    */
   aboutTopRef?: React.RefObject<HTMLDivElement>;
+  /**
+   * When true, the navbar renders in its solid, post-Hero state from the very
+   * first frame — same brand-orange background, shadow, black logo mark, and
+   * theme-aware content colors as Index's navbar once About has covered the
+   * Hero — instead of the default transparent Hero state. For pages with no
+   * Hero of their own to fade over (e.g. OverMij) that still want the exact
+   * "solid" look. Independent of aboutTopRef/solidNav — no scroll or
+   * IntersectionObserver involved.
+   */
+  forceSolid?: boolean;
   /** When true, renders the studio wordmark in the top-left (used by Brandbook). */
   showLogo?: boolean;
   /** When true, hides the light/dark toggle (Brandbook has its own contrast system). */
@@ -66,6 +76,7 @@ interface NavbarV2Props {
 const NavbarV2 = ({
   scrollContainerRef,
   aboutTopRef,
+  forceSolid = false,
   showLogo = false,
   hideThemeToggle = false,
   onScrollToSection,
@@ -100,22 +111,25 @@ const NavbarV2 = ({
   // always in the "solid" visual state from first paint — the
   // IntersectionObserver below still runs (harmless; Index's phone branch
   // doesn't act on it), but nothing downstream should treat `solidNav` as
-  // a phone layout's real state.
-  const effectiveSolidNav = isPhoneLayout || solidNav;
+  // a phone layout's real state. forceSolid (pages with no Hero at all,
+  // e.g. OverMij) short-circuits to the same solid state unconditionally.
+  const effectiveSolidNav = isPhoneLayout || solidNav || forceSolid;
 
   // The small solid-navbar wordmark logo only applies to the Hero→solid
   // transition (aboutTopRef is only ever passed by Index) and only on
   // desktop/tablet — phone layouts are always-solid from first paint (no
   // transition to hand off from) and already get their own static logo
   // inside MobileHero, so adding this one there would duplicate it.
-  const showSolidLogo = Boolean(aboutTopRef) && !isPhoneLayout;
+  // forceSolid pages have no MobileHero equivalent at any breakpoint, so the
+  // logo shows everywhere there instead of being gated by isPhoneLayout.
+  const showSolidLogo = forceSolid ? true : Boolean(aboutTopRef) && !isPhoneLayout;
 
   // In Brandbook mode (showLogo=true) the page uses CSS filter:invert() to flip
   // the entire nav on light sections, so the nav must always start white.
-  // Pages with a Hero (aboutTopRef provided) force white nav text/icons while
-  // the navbar is still transparent over the dark Hero, regardless of the
-  // selected theme. Pages without a Hero stay theme-aware.
-  const forceWhite = showLogo || Boolean(aboutTopRef);
+  // Pages with a Hero (aboutTopRef provided) or forceSolid force white nav
+  // text/icons while the navbar is solid/transparent over the dark Hero,
+  // regardless of the selected theme. Pages without either stay theme-aware.
+  const forceWhite = showLogo || Boolean(aboutTopRef) || forceSolid;
 
   // Once solidNav flips (About has covered the navbar strip), the navbar
   // background itself becomes theme-dependent instead of brand-orange (see
@@ -301,21 +315,32 @@ const NavbarV2 = ({
   const navPaddingRest     = isLandscapeMobile ? "8px" : isTablet ? "16px" : "20px";
   const navPaddingScrolled = isLandscapeMobile ? "4px" : isTablet ? "8px" : "10px";
 
+  // forceSolid pages (OverMij, project pages, ...) skip the Hero entirely, so
+  // without this they'd render at navPaddingRest forever — taller than
+  // Home's solid navbar, which on desktop/tablet is only ever reached after
+  // scrolling well past the 80px `scrolled` threshold that shrinks padding.
+  // Phone is exempt: Home's own solid mobile navbar starts at navPaddingRest
+  // too (no Hero-scroll runway there either), so forceSolid phones already
+  // match without help, and forcing the shrink there would make them shorter
+  // than Home's mobile reference instead of equal to it.
+  const effectiveScrolled = scrolled || (forceSolid && !isPhoneLayout);
+
   return (
     <>
       <motion.nav
         ref={navRef}
-        // Mobile pre-sets backgroundColor/boxShadow in `initial` to the exact
-        // same value `animate` resolves to below, so framer-motion has zero
-        // delta to tween on mount — the bar is solid brand-orange from the
-        // very first frame, never a transparent-to-solid fade like desktop's
-        // Hero-exit crossfade.
+        // Mobile (and forceSolid pages, e.g. OverMij) pre-set
+        // backgroundColor/boxShadow in `initial` to the exact same value
+        // `animate` resolves to below, so framer-motion has zero delta to
+        // tween on mount — the bar is solid brand-orange from the very first
+        // frame, never a transparent-to-solid fade like desktop's Hero-exit
+        // crossfade.
         initial={
-          isPhoneLayout
+          isPhoneLayout || forceSolid
             ? {
                 opacity: 0,
-                paddingTop: "20px",
-                paddingBottom: "20px",
+                paddingTop: effectiveScrolled ? navPaddingScrolled : navPaddingRest,
+                paddingBottom: effectiveScrolled ? navPaddingScrolled : navPaddingRest,
                 backgroundColor: `rgba(${solidBgRGB}, 1)`,
                 boxShadow: solidNavShadow,
               }
@@ -324,8 +349,8 @@ const NavbarV2 = ({
         animate={{
           opacity:        menuOpen ? 0 : 1,
           pointerEvents:  menuOpen ? "none" : "auto",
-          paddingTop:     scrolled ? navPaddingScrolled : navPaddingRest,
-          paddingBottom:  scrolled ? navPaddingScrolled : navPaddingRest,
+          paddingTop:     effectiveScrolled ? navPaddingScrolled : navPaddingRest,
+          paddingBottom:  effectiveScrolled ? navPaddingScrolled : navPaddingRest,
           // solidBgRGB is theme-dependent (deeper cream in Dark Mode, warm
           // charcoal in Light Mode — dedicated navbar-surface tokens, see
           // brandColor.ts) on desktop, or the official --brand-orange on
