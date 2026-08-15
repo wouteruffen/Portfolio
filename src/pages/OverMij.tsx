@@ -1,16 +1,15 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, type ReactNode } from "react";
+import { useRef } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import NavbarV2 from "@/components/v2/NavbarV2";
 import FooterV2 from "@/components/v2/FooterV2";
+import SubpageGridBackground from "@/components/v2/SubpageGridBackground";
+import SubpageHeaderSection from "@/components/v2/SubpageHeaderSection";
 import CursorEffects from "@/components/CursorEffects";
 import aboutPortrait from "@/assets/about-portrait.jpg";
-import {
-  SECTION_TITLE_CLASS,
-  SECTION_TITLE_DIVIDER_CLASS,
-  SECTION_TITLE_PADDING_TOP_CLASS,
-} from "@/lib/sectionTitle";
+import { SECTION_TITLE_CLASS, SECTION_TITLE_DIVIDER_CLASS } from "@/lib/sectionTitle";
+import { PILL_CLASS } from "@/lib/pill";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const VP = { once: true, amount: 0.15 } as const;
@@ -41,29 +40,6 @@ const values = [
   { title: "Continu leren", desc: "Technologie evolueert, en ik evolueer mee. Altijd up-to-date." },
 ];
 
-/** Chapter marker — same index-row grammar as ProjectsV2's card numbering. */
-const ChapterIndex = ({ n }: { n: string }) => (
-  <div className="flex items-center gap-4 mb-6">
-    <span
-      className="text-[10px] tracking-[0.45em] font-body uppercase"
-      style={{ color: "hsl(var(--foreground) / 0.35)" }}
-    >
-      {n}
-    </span>
-    <div className="flex-1 h-px" style={{ backgroundColor: "hsl(var(--foreground) / 0.10)" }} />
-  </div>
-);
-
-/** Accent micro-label — same recipe as AboutV2's "Introduction" label. */
-const ChapterLabel = ({ children }: { children: ReactNode }) => (
-  <div className="flex items-center gap-3 mb-4">
-    <div className="w-5 h-px bg-brand-orange" />
-    <span className="text-[10px] tracking-[0.4em] font-body uppercase text-brand-orange">
-      {children}
-    </span>
-  </div>
-);
-
 const OverMijPage = () => {
   const portraitRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: portraitProgress } = useScroll({
@@ -78,44 +54,32 @@ const OverMijPage = () => {
       <div className="min-h-screen bg-background text-foreground">
         <NavbarV2 forceSolid />
 
-        {/* ── Grid texture — same recipe used on every homepage section ── */}
-        <div
-          className="fixed inset-0 pointer-events-none opacity-[0.06] z-0"
-          style={{
-            backgroundImage: `
-              linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
-              linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)
-            `,
-            backgroundSize: "60px 60px",
-          }}
-        />
+        <SubpageGridBackground />
 
         {/* ── Opening spread ─────────────────────────────────────────── */}
-        <section className={`relative z-10 px-6 md:px-10 lg:px-14 ${SECTION_TITLE_PADDING_TOP_CLASS} pb-16 md:pb-20`}>
-          <div className="max-w-[1240px] mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: EASE }}
+        <SubpageHeaderSection>
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: EASE }}
+          >
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase font-body text-foreground/50 hover:text-brand-orange transition-colors mb-10 md:mb-14"
             >
-              <Link
-                to="/"
-                className="inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase font-body text-foreground/50 hover:text-brand-orange transition-colors mb-10 md:mb-14"
-              >
-                <ArrowLeft size={14} /> Terug naar home
-              </Link>
-            </motion.div>
+              <ArrowLeft size={14} /> Terug naar home
+            </Link>
+          </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: EASE }}
-              className={SECTION_TITLE_CLASS}
-            >
-              MEER OVER MIJ
-            </motion.h1>
-          </div>
-        </section>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: EASE }}
+            className={SECTION_TITLE_CLASS}
+          >
+            MEER OVER MIJ
+          </motion.h1>
+        </SubpageHeaderSection>
 
         <div className={`relative z-10 ${SECTION_TITLE_DIVIDER_CLASS}`} />
 
@@ -125,8 +89,6 @@ const OverMijPage = () => {
 
               {/* Left column — statement, copy, stats */}
               <div className="flex flex-col">
-                <ChapterLabel>The Full Story</ChapterLabel>
-
                 <motion.h2
                   initial={{ opacity: 0, y: 18 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -221,8 +183,6 @@ const OverMijPage = () => {
         {/* ── 01 — Tijdlijn ──────────────────────────────────────────── */}
         <section className="relative z-10 px-6 md:px-10 lg:px-14 py-16 md:py-24 border-t border-foreground/10">
           <div className="max-w-[1240px] mx-auto">
-            <ChapterIndex n="01" />
-            <ChapterLabel>Tijdlijn</ChapterLabel>
             <motion.h2
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -265,8 +225,6 @@ const OverMijPage = () => {
         {/* ── 02 — Skills & Tools ────────────────────────────────────── */}
         <section className="relative z-10 px-6 md:px-10 lg:px-14 py-16 md:py-24 border-t border-foreground/10">
           <div className="max-w-[1240px] mx-auto">
-            <ChapterIndex n="02" />
-            <ChapterLabel>Skills &amp; Tools</ChapterLabel>
             <motion.h2
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -286,7 +244,7 @@ const OverMijPage = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={VP}
                   transition={{ duration: 0.35, delay: i * 0.03, ease: EASE }}
-                  className="font-body text-[11px] uppercase tracking-[0.18em] px-4 py-2.5 rounded-full border border-foreground/10 bg-foreground/[0.04] text-foreground/55 hover:border-brand-orange hover:text-brand-orange transition-colors duration-300"
+                  className={`${PILL_CLASS} font-body text-[11px] uppercase tracking-[0.18em] px-4 py-2.5 hover:border-brand-orange hover:text-brand-orange`}
                 >
                   {skill}
                 </motion.span>
@@ -298,8 +256,6 @@ const OverMijPage = () => {
         {/* ── 03 — Waarden ───────────────────────────────────────────── */}
         <section className="relative z-10 px-6 md:px-10 lg:px-14 py-16 md:py-24 border-t border-foreground/10">
           <div className="max-w-[1240px] mx-auto">
-            <ChapterIndex n="03" />
-            <ChapterLabel>Waarden</ChapterLabel>
             <motion.h2
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}

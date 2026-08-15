@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { BRAND_ORANGE_HSL } from "@/lib/brandColor";
 import { SECTION_TITLE_CLASS, SECTION_TITLE_DIVIDER_CLASS } from "@/lib/sectionTitle";
+import { PILL_CLASS } from "@/lib/pill";
 import { PROJECTS } from "@/lib/projectsData";
 
 const ACCENT = BRAND_ORANGE_HSL;
@@ -60,19 +61,6 @@ const MobileProjects = () => {
             </div>
 
             <div className="landscape-mobile:flex-1 landscape-mobile:min-w-0">
-              <div className="flex items-center gap-3 mb-2 landscape-mobile:mb-1">
-                <span
-                  className="text-[10px] landscape-mobile:text-[8px] tracking-[0.4em] font-body uppercase"
-                  style={{ color: "hsl(var(--foreground) / 0.35)" }}
-                >
-                  0{i + 1}
-                </span>
-                <div className="w-4 h-px" style={{ backgroundColor: ACCENT }} />
-                <span className="text-[10px] landscape-mobile:text-[8px] tracking-[0.3em] font-antonio uppercase" style={{ color: ACCENT }}>
-                  {proj.highlight}
-                </span>
-              </div>
-
               <h3 className="font-antonio font-semibold text-foreground uppercase leading-[0.95] text-2xl landscape-mobile:text-base mb-2 landscape-mobile:mb-1">
                 {proj.title}
               </h3>
@@ -85,12 +73,7 @@ const MobileProjects = () => {
                 {proj.tools.map(tool => (
                   <span
                     key={tool}
-                    className="font-body text-[9px] uppercase tracking-[0.18em] px-2.5 py-1 rounded-full"
-                    style={{
-                      color: "hsl(var(--foreground) / 0.55)",
-                      backgroundColor: "hsl(var(--foreground) / 0.06)",
-                      border: "1px solid hsl(var(--foreground) / 0.12)",
-                    }}
+                    className={`${PILL_CLASS} font-body text-[9px] uppercase tracking-[0.18em] px-2.5 py-1`}
                   >
                     {tool}
                   </span>

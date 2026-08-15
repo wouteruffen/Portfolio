@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import React from "react";
 import { SECTION_TITLE_CLASS, SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_DIVIDER_CLASS, SECTION_TITLE_PADDING_TOP_CLASS } from "@/lib/sectionTitle";
 import { BRAND_ORANGE_HSL } from "@/lib/brandColor";
+import { PILL_CLASS } from "@/lib/pill";
 import { PROJECTS as projects } from "@/lib/projectsData";
 
 // Single brand orange, shared with NavbarV2/FooterV2/LoadingScreen — no more
@@ -204,35 +205,10 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
                 opacity: opFor(i),
               }}
             >
-              <div className="grid md:grid-cols-2 gap-8 md:gap-10 items-center w-full max-w-[1240px] mx-auto">
+              <div className="grid md:grid-cols-2 gap-8 md:gap-10 items-start w-full max-w-[1240px] mx-auto">
 
                 {/* ── Text block ──────────────────────────────────────── */}
                 <div>
-                  {/* Index row */}
-                  <div className="flex items-center gap-4 mb-3">
-                    <span
-                      className="text-[10px] tracking-[0.45em] font-body uppercase"
-                      style={{ color: "hsl(var(--foreground) / 0.35)" }}
-                    >
-                      0{i + 1}
-                    </span>
-                    <div
-                      className="flex-1 h-px"
-                      style={{ backgroundColor: "hsl(var(--foreground) / 0.10)" }}
-                    />
-                  </div>
-
-                  {/* Highlight label — same pattern as AboutV2 "Introduction" */}
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-5 h-px" style={{ backgroundColor: ACCENT }} />
-                    <span
-                      className="text-[10px] tracking-[0.4em] font-antonio uppercase"
-                      style={{ color: ACCENT }}
-                    >
-                      {proj.highlight}
-                    </span>
-                  </div>
-
                   {/* Title */}
                   <h3
                     className="font-antonio font-semibold text-foreground uppercase leading-[0.88] tracking-tight mb-3"
@@ -251,12 +227,7 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
                     {proj.tools.map(tool => (
                       <span
                         key={tool}
-                        className="font-body text-[9px] uppercase tracking-[0.18em] px-2.5 py-1 rounded-full"
-                        style={{
-                          color: "hsl(var(--foreground) / 0.55)",
-                          backgroundColor: "hsl(var(--foreground) / 0.06)",
-                          border: "1px solid hsl(var(--foreground) / 0.12)",
-                        }}
+                        className={`${PILL_CLASS} font-body text-[9px] uppercase tracking-[0.18em] px-2.5 py-1`}
                       >
                         {tool}
                       </span>

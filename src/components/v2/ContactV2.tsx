@@ -148,10 +148,10 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
 
             {/* ── Content ──────────────────────────────────────────────── */}
             <motion.div
-              className="relative z-10 flex-1 flex items-center px-6 md:px-16 lg:px-24 pb-8 overflow-hidden"
+              className={`relative z-10 flex-1 flex items-center ${SECTION_TITLE_GUTTER_CLASS} pb-8 overflow-hidden`}
               style={{ y: contentCardY }}
             >
-              <div className="max-w-7xl mx-auto w-full">
+              <div className={`${SECTION_TITLE_CONTAINER_CLASS} w-full`}>
                 <div className="grid md:grid-cols-2 gap-12 md:gap-16">
 
                   {/* Left */}

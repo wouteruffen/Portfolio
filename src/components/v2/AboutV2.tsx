@@ -136,28 +136,11 @@ const AboutV2 = ({ scrollContainerRef, onSnap, aboutTopRef }: AboutV2Props) => {
           {/* ── LEFT COLUMN: intro card → CTA ─────────────── */}
           <div className="flex flex-col">
 
-            {/* Red label */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, delay: 0.1, ease: EASE }}
-              viewport={VP}
-              className="flex items-center gap-3 mb-4"
-            >
-              <div className="w-6 h-px" style={{ backgroundColor: ACCENT }} />
-              <span
-                className="text-[10px] tracking-[0.4em] font-body uppercase"
-                style={{ color: ACCENT }}
-              >
-                Introduction
-              </span>
-            </motion.div>
-
             {/* Headline */}
             <motion.h3
               initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.18, ease: EASE }}
+              transition={{ duration: 0.6, delay: 0.08, ease: EASE }}
               viewport={VP}
               className="font-antonio font-semibold text-foreground leading-[0.9] tracking-tight mb-5"
               style={{ fontSize: "clamp(3rem, 5.5vw, 5rem)" }}
@@ -171,7 +154,7 @@ const AboutV2 = ({ scrollContainerRef, onSnap, aboutTopRef }: AboutV2Props) => {
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.28, ease: EASE }}
+              transition={{ duration: 0.55, delay: 0.18, ease: EASE }}
               viewport={VP}
               className="space-y-3 mb-6"
             >
@@ -192,7 +175,7 @@ const AboutV2 = ({ scrollContainerRef, onSnap, aboutTopRef }: AboutV2Props) => {
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.38, ease: EASE }}
+              transition={{ duration: 0.4, delay: 0.28, ease: EASE }}
               viewport={VP}
             >
               <Link

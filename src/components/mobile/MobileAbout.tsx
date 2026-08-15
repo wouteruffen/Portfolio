@@ -74,24 +74,11 @@ const MobileAbout = ({ aboutTopRef }: MobileAboutProps) => {
 
         <div className="landscape-mobile:flex-1 landscape-mobile:min-w-0">
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={VP}
-            transition={{ duration: 0.45, delay: 0.05, ease: EASE }}
-            className="relative z-10 flex items-center gap-3 mb-3 landscape-mobile:mb-1.5"
-          >
-            <div className="w-5 h-px" style={{ backgroundColor: ACCENT }} />
-            <span className="text-[10px] landscape-mobile:text-[8px] tracking-[0.35em] font-body uppercase" style={{ color: ACCENT }}>
-              Introduction
-            </span>
-          </motion.div>
-
           <motion.h3
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={VP}
-            transition={{ duration: 0.5, delay: 0.1, ease: EASE }}
+            transition={{ duration: 0.5, delay: 0.05, ease: EASE }}
             className="relative z-10 font-antonio font-semibold text-foreground leading-[0.95] text-4xl landscape-mobile:text-lg mb-4 landscape-mobile:mb-1.5"
           >
             Hi, I'm <span style={{ color: ACCENT }}>Wouter</span>
