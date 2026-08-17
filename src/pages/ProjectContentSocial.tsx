@@ -6,10 +6,10 @@ import FooterV2 from "@/components/v2/FooterV2";
 import SubpageGridBackground from "@/components/v2/SubpageGridBackground";
 import SubpageHeader from "@/components/v2/SubpageHeader";
 import CursorEffects from "@/components/CursorEffects";
-import projectBrand from "@/assets/project-brand.jpg";
+import projectContentSocial from "@/assets/hero-branding.jpg";
 import { SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_GUTTER_CLASS } from "@/lib/sectionTitle";
 
-const ProjectBranding = () => {
+const ProjectContentSocial = () => {
   return (
     <>
       <CursorEffects />
@@ -18,23 +18,23 @@ const ProjectBranding = () => {
 
         <SubpageGridBackground />
 
-        <SubpageHeader title="Merkidentiteit" />
+        <SubpageHeader title="Content & Social Media" />
 
         {/* Content */}
         <section className={`relative z-10 ${SECTION_TITLE_GUTTER_CLASS} py-16 md:py-24`}>
           <div className={SECTION_TITLE_CONTAINER_CLASS}>
             <div className="grid md:grid-cols-2 gap-16">
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-                <h2 className="text-3xl font-antonio font-semibold mb-6">Merken die blijven hangen</h2>
+                <h2 className="text-3xl font-antonio font-semibold mb-6">Zichtbaar op de kanalen die tellen</h2>
                 <div className="space-y-4 text-muted-foreground font-body leading-relaxed">
-                  <p>Een sterk merk is meer dan een logo. Het is een compleet visueel systeem dat vertrouwen wekt en herkenning creëert bij je doelgroep.</p>
-                  <p>Ik ontwikkel merkidentiteiten van de grond af aan: van strategie en positionering tot logo-ontwerp, kleurpaletten, typografie en uitgebreide brandbooks.</p>
-                  <p>Elk element wordt zorgvuldig ontworpen om samen een consistent en krachtig verhaal te vertellen.</p>
+                  <p>Een sterke website is één ding — regelmatig zichtbaar zijn op social media is minstens zo belangrijk.</p>
+                  <p>Van social media content en fotografie tot video en reels: content die aansluit bij een merk en aanslaat bij het publiek waar het al is.</p>
+                  <p>Steeds met hetzelfde uitgangspunt: consistente, doordachte content in plaats van losse plaatjes.</p>
                 </div>
               </motion.div>
               <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}>
                 <div className="aspect-[4/3] overflow-hidden">
-                  <img src={projectBrand} alt="Branding project voorbeeld" className="w-full h-full object-cover" loading="lazy" width={800} height={600} />
+                  <img src={projectContentSocial} alt="Content & Social Media voorbeeld" className="w-full h-full object-cover" loading="lazy" width={800} height={600} />
                 </div>
               </motion.div>
             </div>
@@ -44,9 +44,9 @@ const ProjectBranding = () => {
               <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-10 font-body uppercase">Wat je krijgt</h2>
               <div className="grid md:grid-cols-3 gap-8">
                 {[
-                  { title: "Logo & Beeldmerk", items: ["Primair logo", "Varianten (icon, horizontaal)", "Favicon & social assets"] },
-                  { title: "Visueel Systeem", items: ["Kleurpalet", "Typografie", "Iconografie & patronen"] },
-                  { title: "Brandbook", items: ["Merkrichtlijnen", "Do's & don'ts", "Toepassingsvoorbeelden"] },
+                  { title: "Beeldmateriaal", items: ["Fotografie", "Video & reels", "Short-form content"] },
+                  { title: "Social Media", items: ["Instagram content", "Contentplanning", "Vaste visuele lijn"] },
+                  { title: "Content Design", items: ["Templates & sjablonen", "Campagne-content", "Afstemming met merk"] },
                 ].map((block) => (
                   <div key={block.title} className="border-t border-border pt-6">
                     <h3 className="font-antonio font-semibold text-foreground text-lg mb-4">{block.title}</h3>
@@ -66,7 +66,7 @@ const ProjectBranding = () => {
             {/* CTA */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 text-center">
               <p className="text-2xl md:text-4xl font-antonio font-semibold mb-8">
-                Tijd voor een <span className="text-secondary">sterk merk</span>?
+                Klaar voor <span className="text-secondary">meer bereik</span>?
               </p>
               <Link
                 to="/#contact"
@@ -91,4 +91,4 @@ const ProjectBranding = () => {
   );
 };
 
-export default ProjectBranding;
+export default ProjectContentSocial;

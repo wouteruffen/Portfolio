@@ -6,6 +6,7 @@ import "@fontsource/inter/500.css";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import { useSmoothScroll } from "@/lib/useSmoothScroll";
+import { consumeHomepageScroll, saveHomepageScroll } from "@/lib/homepageScroll";
 import { useIsPhoneLayout } from "@/hooks/use-mobile";
 import NavbarV2 from "@/components/v2/NavbarV2";
 import CursorEffects from "@/components/CursorEffects";
@@ -50,7 +51,7 @@ const Index = () => {
   // (portrait or landscape) use native touch scrolling — wheel events never
   // fire from touch input anyway — so the listener is skipped entirely
   // rather than registered as dead weight.
-  const { scrollTo } = useSmoothScroll(scrollRef, !isPhoneLayout);
+  const { scrollTo, jumpTo } = useSmoothScroll(scrollRef, !isPhoneLayout);
 
   useEffect(() => {
     let cancelled = false;
@@ -62,6 +63,32 @@ const Index = () => {
       if (!cancelled) setIsLoading(false);
     });
     return () => { cancelled = true; };
+  }, []);
+
+  /*
+   * Persists scrollTop to sessionStorage on every scroll event (not just on
+   * unmount) so a subpage's "Terug" link can read a correct, already-saved
+   * position the instant it first renders. Saving only in an unmount
+   * cleanup would race the subpage's initial render: React unmounts Index
+   * and mounts the subpage in the same commit, but passive-effect cleanups
+   * (where an unmount-only save would run) fire only after that commit and
+   * its paint — after the subpage has already rendered its "Terug" href
+   * from a stale/empty value.
+   *
+   * Deliberately no eager save on mount: at mount time scrollTop is 0
+   * (nothing has been restored yet — see the restore effect below, gated
+   * on isLoading turning false several seconds later), so an immediate
+   * write would overwrite a legitimately-saved position with 0 before the
+   * restore effect gets a chance to consume it. jumpTo's own scrollTop
+   * assignment fires a scroll event on its own, which this listener picks
+   * up and re-persists — no eager call needed.
+   */
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+    const onScroll = () => { saveHomepageScroll(container.scrollTop); };
+    container.addEventListener("scroll", onScroll, { passive: true });
+    return () => { container.removeEventListener("scroll", onScroll); };
   }, []);
 
   /*
@@ -94,6 +121,25 @@ const Index = () => {
     if (!location.hash) return;
     scrollToSection(location.hash.slice(1));
   }, [isLoading, location.hash, scrollToSection]);
+
+  /*
+   * Restores the homepage scroll position saved when the user left for a
+   * subpage (see the tracking effect above and SubpageHeader's "Terug"
+   * link), so returning — via that link or the native browser Back button,
+   * which remounts Index the same way — lands back where they were instead
+   * of at the top. Skipped when a hash is present (the effect above owns
+   * that case: a direct subpage visit with no saved position falls back to
+   * a section anchor instead). jumpTo (not scrollTo) applies it instantly,
+   * since an animated glide right after mount would read as an unwanted
+   * scroll rather than "picking up where you left off".
+   */
+  useEffect(() => {
+    if (isLoading) return;
+    if (location.hash) return;
+    const saved = consumeHomepageScroll();
+    if (saved == null) return;
+    jumpTo(saved);
+  }, [isLoading, location.hash, jumpTo]);
 
   return (
     <>

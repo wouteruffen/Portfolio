@@ -26,6 +26,15 @@ export const SECTION_TITLE_GUTTER_CLASS = "px-6 md:px-10 lg:px-14";
  */
 export const SECTION_TITLE_PADDING_TOP_CLASS = "pt-[132px] md:pt-[168px]";
 
-/** Divider placed directly beneath a large section title — same edge-to-edge treatment as "WAT IK DOE". */
-export const SECTION_TITLE_DIVIDER_CLASS =
-  "relative z-10 flex-shrink-0 h-[2px] bg-gradient-to-r from-transparent via-foreground/20 to-transparent";
+/**
+ * Bottom padding for the desktop homepage title wrapper (About/Projects/
+ * Contact) — the gap between the title and the content below it. These
+ * sections used to end this gap with a thin divider line; now that the
+ * grid texture runs through every section, an extra rule under the title
+ * risked a double-line effect against the grid's own horizontal lines.
+ * Titles are large display type (5.5–10vw) that already carries hierarchy
+ * on its own, so removing the line just meant widening this gap enough
+ * that the title still reads as a deliberate pause, not typography and
+ * content running into unrelated body copy.
+ */
+export const SECTION_TITLE_GAP_CLASS = "pb-8";

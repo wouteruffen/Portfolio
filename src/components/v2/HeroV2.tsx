@@ -93,15 +93,15 @@ const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
             crowded to keep alongside a legible CTA at this height, and the
             spec explicitly allows hiding them here. */}
         <div className="flex gap-6 landscape-mobile:hidden">
-          <span>#01 Brand Strategy</span>
-          <span>#02 Identity Design</span>
+          <span>#01 Webdesign</span>
+          <span>#02 Social Media</span>
           {/* Reserved for desktop (lg+, ≥1024): at tablet widths (md,
               768–1023) the row shares space with the CTA below, and even
               tablet-sized, four tags plus a button crowd that narrower
               band — so tablet shows the same two tags as before, gaining
               the other two back only at lg like on desktop today. */}
-          <span className="hidden lg:inline">#03 Webdesign</span>
-          <span className="hidden lg:inline">#04 Creative Direction</span>
+          <span className="hidden lg:inline">#03 Print & Design</span>
+          <span className="hidden lg:inline">#04 Digitale Producten</span>
         </div>
 
         {/* Start Project CTA — sized per breakpoint instead of scaled

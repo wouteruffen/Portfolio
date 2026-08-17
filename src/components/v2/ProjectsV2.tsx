@@ -3,7 +3,7 @@ import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import React from "react";
-import { SECTION_TITLE_CLASS, SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_DIVIDER_CLASS, SECTION_TITLE_PADDING_TOP_CLASS } from "@/lib/sectionTitle";
+import { SECTION_TITLE_CLASS, SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_GAP_CLASS, SECTION_TITLE_PADDING_TOP_CLASS } from "@/lib/sectionTitle";
 import { BRAND_ORANGE_HSL } from "@/lib/brandColor";
 import { PILL_CLASS } from "@/lib/pill";
 import { PROJECTS as projects } from "@/lib/projectsData";
@@ -179,8 +179,7 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
 
         {/* ── Sticky title ──────────────────────────────────────────────── */}
         <div
-          className={`relative z-10 w-full px-6 md:px-10 lg:px-14 flex-shrink-0 ${SECTION_TITLE_PADDING_TOP_CLASS}`}
-          style={{ paddingBottom: "12px" }}
+          className={`relative z-10 w-full px-6 md:px-10 lg:px-14 flex-shrink-0 ${SECTION_TITLE_PADDING_TOP_CLASS} ${SECTION_TITLE_GAP_CLASS}`}
         >
           <div className={SECTION_TITLE_CONTAINER_CLASS}>
             <h2 className={SECTION_TITLE_CLASS}>
@@ -188,9 +187,6 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
             </h2>
           </div>
         </div>
-
-        {/* Divider */}
-        <div className={SECTION_TITLE_DIVIDER_CLASS} />
 
         {/* ── Card stack ────────────────────────────────────────────────── */}
         <div className="relative z-10 flex-1 overflow-hidden">

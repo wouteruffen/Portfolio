@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import aboutPortrait from "@/assets/about-portrait.jpg";
 import React from "react";
-import { SECTION_TITLE_CLASS, SECTION_TITLE_DIVIDER_CLASS, SECTION_TITLE_PADDING_TOP_CLASS } from "@/lib/sectionTitle";
+import { SECTION_TITLE_CLASS, SECTION_TITLE_GAP_CLASS, SECTION_TITLE_PADDING_TOP_CLASS } from "@/lib/sectionTitle";
 import { BRAND_ORANGE_HSL } from "@/lib/brandColor";
 
 // Single brand orange, shared with NavbarV2/FooterV2/LoadingScreen — no more
@@ -106,8 +106,7 @@ const AboutV2 = ({ scrollContainerRef, onSnap, aboutTopRef }: AboutV2Props) => {
 
       {/* ── Sticky title — pinned to the same top row as WAT IK DOE ─── */}
       <div
-        className={`relative z-10 w-full px-6 md:px-10 lg:px-14 flex-shrink-0 ${SECTION_TITLE_PADDING_TOP_CLASS}`}
-        style={{ paddingBottom: "12px" }}
+        className={`relative z-10 w-full px-6 md:px-10 lg:px-14 flex-shrink-0 ${SECTION_TITLE_PADDING_TOP_CLASS} ${SECTION_TITLE_GAP_CLASS}`}
       >
         <div className="max-w-[1240px] mx-auto">
           <motion.h2
@@ -121,9 +120,6 @@ const AboutV2 = ({ scrollContainerRef, onSnap, aboutTopRef }: AboutV2Props) => {
           </motion.h2>
         </div>
       </div>
-
-      {/* Divider */}
-      <div className={SECTION_TITLE_DIVIDER_CLASS} />
 
       {/* ── TWO-COLUMN EDITORIAL LAYOUT ──────────────────────────── */}
       <div

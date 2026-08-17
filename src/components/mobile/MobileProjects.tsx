@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { BRAND_ORANGE_HSL } from "@/lib/brandColor";
-import { SECTION_TITLE_CLASS, SECTION_TITLE_DIVIDER_CLASS } from "@/lib/sectionTitle";
+import { SECTION_TITLE_CLASS } from "@/lib/sectionTitle";
 import { PILL_CLASS } from "@/lib/pill";
 import { PROJECTS } from "@/lib/projectsData";
 
@@ -33,8 +33,7 @@ const MobileProjects = () => {
         }}
       />
 
-      <h2 className={`relative z-10 ${SECTION_TITLE_CLASS} mb-4 landscape-mobile:mb-2`}>WAT IK DOE</h2>
-      <div className={`${SECTION_TITLE_DIVIDER_CLASS} mb-10 landscape-mobile:mb-5`} />
+      <h2 className={`relative z-10 ${SECTION_TITLE_CLASS} mb-10 landscape-mobile:mb-5`}>WAT IK DOE</h2>
 
       <div className="relative z-10 flex flex-col gap-12 landscape-mobile:gap-6">
         {PROJECTS.map((proj, i) => (

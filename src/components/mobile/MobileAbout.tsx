@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import React from "react";
 import aboutPortrait from "@/assets/about-portrait.jpg";
 import { BRAND_ORANGE_HSL } from "@/lib/brandColor";
-import { SECTION_TITLE_CLASS, SECTION_TITLE_DIVIDER_CLASS } from "@/lib/sectionTitle";
+import { SECTION_TITLE_CLASS } from "@/lib/sectionTitle";
 
 const ACCENT = BRAND_ORANGE_HSL;
 const EASE   = [0.22, 1, 0.36, 1] as const;
@@ -44,8 +44,7 @@ const MobileAbout = ({ aboutTopRef }: MobileAboutProps) => {
         }}
       />
 
-      <h2 className={`relative z-10 ${SECTION_TITLE_CLASS} mb-4 landscape-mobile:mb-2`}>OVER MIJ</h2>
-      <div className={`${SECTION_TITLE_DIVIDER_CLASS} mb-8 landscape-mobile:mb-4`} />
+      <h2 className={`relative z-10 ${SECTION_TITLE_CLASS} mb-8 landscape-mobile:mb-4`}>OVER MIJ</h2>
 
       {/* landscape-mobile: image + copy sit side by side (this outer div has
           no layout classes outside that variant, so portrait/tablet/desktop

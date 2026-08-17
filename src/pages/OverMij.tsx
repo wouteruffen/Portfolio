@@ -7,8 +7,9 @@ import FooterV2 from "@/components/v2/FooterV2";
 import SubpageGridBackground from "@/components/v2/SubpageGridBackground";
 import SubpageHeaderSection from "@/components/v2/SubpageHeaderSection";
 import CursorEffects from "@/components/CursorEffects";
+import { getHomeReturnHref } from "@/lib/homepageScroll";
 import aboutPortrait from "@/assets/about-portrait.jpg";
-import { SECTION_TITLE_CLASS, SECTION_TITLE_DIVIDER_CLASS } from "@/lib/sectionTitle";
+import { SECTION_TITLE_CLASS } from "@/lib/sectionTitle";
 import { PILL_CLASS } from "@/lib/pill";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -64,7 +65,7 @@ const OverMijPage = () => {
             transition={{ duration: 0.5, ease: EASE }}
           >
             <Link
-              to="/"
+              to={getHomeReturnHref("over-ons")}
               className="inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase font-body text-foreground/50 hover:text-brand-orange transition-colors mb-10 md:mb-14"
             >
               <ArrowLeft size={14} /> Terug naar home
@@ -80,8 +81,6 @@ const OverMijPage = () => {
             MEER OVER MIJ
           </motion.h1>
         </SubpageHeaderSection>
-
-        <div className={`relative z-10 ${SECTION_TITLE_DIVIDER_CLASS}`} />
 
         <section className="relative z-10 px-6 md:px-10 lg:px-14 py-16 md:py-24">
           <div className="max-w-[1240px] mx-auto">

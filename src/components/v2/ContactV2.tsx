@@ -2,7 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useRef } from "react";
 import React from "react";
 import FooterV2 from "./FooterV2";
-import { SECTION_TITLE_CLASS, SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_GUTTER_CLASS, SECTION_TITLE_DIVIDER_CLASS, SECTION_TITLE_PADDING_TOP_CLASS } from "@/lib/sectionTitle";
+import { SECTION_TITLE_CLASS, SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_GUTTER_CLASS, SECTION_TITLE_GAP_CLASS, SECTION_TITLE_PADDING_TOP_CLASS } from "@/lib/sectionTitle";
 
 const EASE    = [0.22, 1, 0.36, 1] as const;
 const VP      = { once: true } as const;
@@ -127,8 +127,7 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
 
             {/* ── Title ────────────────────────────────────────────────── */}
             <div
-              className={`relative z-10 w-full ${SECTION_TITLE_GUTTER_CLASS} flex-shrink-0 ${SECTION_TITLE_PADDING_TOP_CLASS}`}
-              style={{ paddingBottom: "12px" }}
+              className={`relative z-10 w-full ${SECTION_TITLE_GUTTER_CLASS} flex-shrink-0 ${SECTION_TITLE_PADDING_TOP_CLASS} ${SECTION_TITLE_GAP_CLASS}`}
             >
               <div className={SECTION_TITLE_CONTAINER_CLASS}>
                 <motion.h2
@@ -142,9 +141,6 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                 </motion.h2>
               </div>
             </div>
-
-            {/* Divider */}
-            <div className={SECTION_TITLE_DIVIDER_CLASS} />
 
             {/* ── Content ──────────────────────────────────────────────── */}
             <motion.div

@@ -74,5 +74,24 @@ export function useSmoothScroll(containerRef: RefObject<HTMLDivElement>, enabled
     startTick();
   }, [containerRef, startTick]);
 
-  return { scrollTo };
+  /**
+   * Instantly sets scrollTop AND the LERP target in one step, unlike
+   * scrollTo (which animates toward the target over several frames). Used
+   * to restore a saved position on mount, where an animated glide would
+   * look like an unwanted scroll rather than "picking up where you left off".
+   */
+  const jumpTo = useCallback((target: number) => {
+    const container = containerRef.current;
+    if (!container) return;
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    const max = container.scrollHeight - container.clientHeight;
+    const clamped = Math.max(0, Math.min(max, target));
+    targetYRef.current = clamped;
+    container.scrollTop = clamped;
+  }, [containerRef]);
+
+  return { scrollTo, jumpTo };
 }

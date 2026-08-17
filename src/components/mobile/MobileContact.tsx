@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import React from "react";
 import FooterV2 from "@/components/v2/FooterV2";
-import { SECTION_TITLE_CLASS, SECTION_TITLE_DIVIDER_CLASS } from "@/lib/sectionTitle";
+import { SECTION_TITLE_CLASS } from "@/lib/sectionTitle";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const VP   = { once: true, amount: 0.15 } as const;
@@ -41,8 +41,7 @@ const MobileContact = ({ scrollContainerRef }: MobileContactProps) => {
           }}
         />
 
-        <h2 className={`relative z-10 ${SECTION_TITLE_CLASS} mb-4 landscape-mobile:mb-2`}>Contact</h2>
-        <div className={`${SECTION_TITLE_DIVIDER_CLASS} mb-8 landscape-mobile:mb-4`} />
+        <h2 className={`relative z-10 ${SECTION_TITLE_CLASS} mb-8 landscape-mobile:mb-4`}>Contact</h2>
 
         {/* landscape-mobile: info column + form side by side (same pairing
             desktop's ContactV2 already uses), so the two don't have to stack

@@ -7,7 +7,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import ProjectWebdesign from "./pages/ProjectWebdesign.tsx";
-import ProjectBranding from "./pages/ProjectBranding.tsx";
+import ProjectContentSocial from "./pages/ProjectContentSocial.tsx";
+import ProjectPrintDesign from "./pages/ProjectPrintDesign.tsx";
 import ProjectProduct from "./pages/ProjectProduct.tsx";
 import OverMij from "./pages/OverMij.tsx";
 import Brandbook from "./pages/Brandbook.tsx";
@@ -27,7 +28,8 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/webdesign" element={<ProjectWebdesign />} />
-          <Route path="/merkidentiteit" element={<ProjectBranding />} />
+          <Route path="/content-social-media" element={<ProjectContentSocial />} />
+          <Route path="/print-design" element={<ProjectPrintDesign />} />
           <Route path="/digitale-producten" element={<ProjectProduct />} />
           <Route path="/over-mij" element={<OverMij />} />
           <Route path="/brandbook" element={<Brandbook />} />
