@@ -7,15 +7,15 @@ import SubpageGridBackground from "@/components/v2/SubpageGridBackground";
 import SubpageHeader from "@/components/v2/SubpageHeader";
 import CursorEffects from "@/components/CursorEffects";
 import { SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_GUTTER_CLASS } from "@/lib/sectionTitle";
-// Stand-ins for the real-work mosaic below, borrowed from the site's existing
-// image set purely to block out scale, crop and composition. None of these
-// are Content & Social Media client work — swap each one for real Instagram/
-// content material as it becomes available (see the array below).
-// TODO: Replace with final Content & Social Media project image.
-import socialPlaceholderHero from "@/assets/about-portrait.jpg";
-import socialPlaceholderCampaign from "@/assets/hero-branding.jpg";
-import socialPlaceholderReel from "@/assets/hero-product.jpg";
-import socialPlaceholderPortrait from "@/assets/hero-portrait.jpg";
+// Real Instagram feed screenshots for the mosaic below — actual accounts,
+// not stock/unrelated imagery. Case-study copy (client/account names) isn't
+// finalized yet, so nothing here is labeled beyond a generic description.
+// Cropped via object-position (see JSX) to hide the phone status bar /
+// Instagram nav chrome rather than the content itself.
+// TODO: Replace/relabel once the accounts behind these are confirmed.
+import socialFeedDominant from "@/assets/social-media/IMG_0312.jpg";
+import socialFeedSupport from "@/assets/social-media/IMG_0308.jpg";
+import socialFeedOffset from "@/assets/social-media/IMG_0310.jpg";
 
 const CONTENT_DISCIPLINES = [
   "Fotografie",
@@ -26,18 +26,16 @@ const CONTENT_DISCIPLINES = [
 ];
 
 /**
- * Real-work mosaic for "Social media in de praktijk". Every entry is a
- * temporary stand-in image (see imports above) so the composition, scale
- * and spacing can already be evaluated. Swap `src` for the final asset —
- * Instagram profile/feed screenshot, single post, photography, reel/video
- * still, campaign visual or BTS shot — the layout below doesn't need to
- * change when that happens, only these four sources.
+ * Real-work mosaic for "Social media in de praktijk" — three actual
+ * Instagram feed screenshots (different accounts) standing in until
+ * case-study copy is finalized. `object-bottom` on each <img> crops the
+ * phone status bar / Instagram nav chrome off the top rather than the
+ * content grid itself.
  */
-const SOCIAL_WORK_IMAGES = {
-  hero: { src: socialPlaceholderHero, alt: "Fotografie" }, // TODO: Replace with final Content & Social Media project image.
-  campaign: { src: socialPlaceholderCampaign, alt: "Campagnebeeld" }, // TODO: Replace with final Content & Social Media project image.
-  reel: { src: socialPlaceholderReel, alt: "Video- of reelbeeld" }, // TODO: Replace with final Content & Social Media project image.
-  portrait: { src: socialPlaceholderPortrait, alt: "Portretfotografie" }, // TODO: Replace with final Content & Social Media project image.
+const FEED_SCREENSHOTS = {
+  dominant: { src: socialFeedDominant, alt: "Screenshot van een Instagram-feed met content en fotografie" },
+  support: { src: socialFeedSupport, alt: "Screenshot van een Instagram-feed met eventcontent" },
+  offset: { src: socialFeedOffset, alt: "Screenshot van een Instagram-feed met projectfoto's" },
 };
 
 const ProjectContentSocial = () => {
@@ -78,55 +76,44 @@ const ProjectContentSocial = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
               <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">Social media in de praktijk</h2>
               <p className="text-muted-foreground font-body leading-relaxed max-w-[560px] mb-10">
-                Fotografie, video en social content, samen vormgegeven tot één herkenbare lijn.
+                Een blik op de feeds en content die ik vormgeef en beheer.
               </p>
 
-              {/* Editorial mosaic — one dominant image, two stacked supporting
-                  tiles, and a smaller offset tile below for asymmetry. Swap
-                  the four sources in SOCIAL_WORK_IMAGES above; this layout
-                  doesn't need to change. */}
-              <div className="grid md:grid-cols-3 gap-4 md:h-[560px]">
+              {/* Editorial mosaic — dominant feed screenshot, one support
+                  beside it, a third offset below-left with whitespace to
+                  its right. Source images are pre-cropped (see the PNG ->
+                  JPG export) to remove the phone status bar / Instagram nav
+                  chrome, so a plain object-cover is enough here. */}
+              <div className="grid md:grid-cols-3 md:grid-rows-[520px] gap-4">
                 <div className="md:col-span-2 md:h-full">
                   <div className="aspect-[4/5] md:aspect-auto md:h-full w-full overflow-hidden">
                     <img
-                      src={SOCIAL_WORK_IMAGES.hero.src}
-                      alt={SOCIAL_WORK_IMAGES.hero.alt}
-                      className="w-full h-full object-cover object-top"
+                      src={FEED_SCREENSHOTS.dominant.src}
+                      alt={FEED_SCREENSHOTS.dominant.alt}
+                      className="w-full h-full object-cover"
                       loading="lazy"
                     />
                   </div>
                 </div>
-                <div className="flex flex-col gap-4 md:h-full">
-                  <div className="md:flex-1 overflow-hidden">
-                    <div className="aspect-[4/3] md:aspect-auto md:h-full w-full overflow-hidden">
-                      <img
-                        src={SOCIAL_WORK_IMAGES.campaign.src}
-                        alt={SOCIAL_WORK_IMAGES.campaign.alt}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                      />
-                    </div>
-                  </div>
-                  <div className="md:flex-1 overflow-hidden">
-                    <div className="aspect-[4/3] md:aspect-auto md:h-full w-full overflow-hidden">
-                      <img
-                        src={SOCIAL_WORK_IMAGES.reel.src}
-                        alt={SOCIAL_WORK_IMAGES.reel.alt}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                      />
-                    </div>
+                <div className="md:col-span-1 md:h-full">
+                  <div className="aspect-[4/3] md:aspect-auto md:h-full w-full overflow-hidden">
+                    <img
+                      src={FEED_SCREENSHOTS.support.src}
+                      alt={FEED_SCREENSHOTS.support.alt}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
                   </div>
                 </div>
               </div>
 
-              <div className="mt-4 md:mt-6 flex justify-end">
+              <div className="mt-4 md:mt-6">
                 <div className="w-full md:w-[42%]">
                   <div className="aspect-[4/5] overflow-hidden">
                     <img
-                      src={SOCIAL_WORK_IMAGES.portrait.src}
-                      alt={SOCIAL_WORK_IMAGES.portrait.alt}
-                      className="w-full h-full object-cover object-top"
+                      src={FEED_SCREENSHOTS.offset.src}
+                      alt={FEED_SCREENSHOTS.offset.alt}
+                      className="w-full h-full object-cover"
                       loading="lazy"
                     />
                   </div>

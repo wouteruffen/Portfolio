@@ -6,8 +6,30 @@ import FooterV2 from "@/components/v2/FooterV2";
 import SubpageGridBackground from "@/components/v2/SubpageGridBackground";
 import SubpageHeader from "@/components/v2/SubpageHeader";
 import CursorEffects from "@/components/CursorEffects";
-import projectPrint from "@/assets/project-brand.jpg";
 import { SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_GUTTER_CLASS } from "@/lib/sectionTitle";
+import posterDominant from "@/assets/print/a2-screen-1.jpg";
+import posterTeal from "@/assets/print/a2-screen-2.jpg";
+import posterArtboard from "@/assets/print/artboard-1.jpg";
+import posterSimplon from "@/assets/print/b31-simplon.jpg";
+
+/**
+ * Same depth-shadow frame treatment used for real work elsewhere on the site
+ * (see FramedShot in ProjectWebdesign) — recreated locally rather than
+ * imported so this page doesn't reach into another subpage's file. Renders
+ * each poster at its native aspect ratio via `h-auto`, so nothing is cropped.
+ */
+const PosterFrame = ({ src, alt, className = "" }: { src: string; alt: string; className?: string }) => (
+  <div className={`relative ${className}`}>
+    <div
+      className="absolute inset-0"
+      style={{ transform: "translate(8px, 8px)", zIndex: 0, backgroundColor: "var(--card-depth-shadow)" }}
+      aria-hidden="true"
+    />
+    <div className="relative z-[1] border border-border overflow-hidden">
+      <img src={src} alt={alt} className="w-full h-auto block" loading="lazy" />
+    </div>
+  </div>
+);
 
 const ProjectPrintDesign = () => {
   return (
@@ -23,25 +45,40 @@ const ProjectPrintDesign = () => {
         {/* Content */}
         <section className={`relative z-10 ${SECTION_TITLE_GUTTER_CLASS} py-16 md:py-24`}>
           <div className={SECTION_TITLE_CONTAINER_CLASS}>
-            <div className="grid md:grid-cols-2 gap-16">
-              <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-                <h2 className="text-3xl font-antonio font-semibold mb-6">Vormgeving die ook offline werkt</h2>
-                <div className="space-y-4 text-muted-foreground font-body leading-relaxed">
-                  <p>Niet alles hoeft op een scherm te leven. Posters, flyers en ander drukwerk trekken de aandacht juist doordat ze tastbaar zijn.</p>
-                  <p>Van los grafisch ontwerp voor een enkele opdracht tot samenhangende campagnebeelden — ik ontwerp print- en promotiemateriaal dat overtuigt, van eerste schets tot drukklaar bestand.</p>
-                  <p>Ook hier geldt: consistent, doordacht en afgestemd op waar het materiaal daadwerkelijk gebruikt wordt.</p>
-                </div>
-              </motion.div>
-              <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}>
-                <div className="aspect-[4/3] overflow-hidden">
-                  <img src={projectPrint} alt="Print & Design voorbeeld" className="w-full h-full object-cover" loading="lazy" width={800} height={600} />
-                </div>
-              </motion.div>
-            </div>
+            {/* Intro */}
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="max-w-[640px]">
+              <h2 className="text-3xl font-antonio font-semibold mb-6">Vormgeving die ook offline werkt</h2>
+              <div className="space-y-4 text-muted-foreground font-body leading-relaxed">
+                <p>Niet alles hoeft op een scherm te leven. Posters, flyers en ander drukwerk trekken de aandacht juist doordat ze tastbaar zijn.</p>
+                <p>Van los grafisch ontwerp voor een enkele opdracht tot samenhangende campagnebeelden — ik ontwerp print- en promotiemateriaal dat overtuigt, van eerste schets tot drukklaar bestand.</p>
+                <p>Ook hier geldt: consistent, doordacht en afgestemd op waar het materiaal daadwerkelijk gebruikt wordt.</p>
+              </div>
+            </motion.div>
 
-            {/* Deliverables */}
+            {/* Real work — poster showcase */}
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
+              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">Posters in de praktijk</h2>
+              <p className="text-muted-foreground font-body leading-relaxed max-w-[560px] mb-10">
+                Een selectie posters, van eerste schets tot drukklaar ontwerp.
+              </p>
+
+              {/* Editorial poster wall — mobile stacks full-width; tablet
+                  puts the dominant poster full-width on top with the other
+                  three below in a 2-col grid; desktop lines all four up in
+                  one row with the dominant poster given a wider track and
+                  the other three staggered vertically for rhythm. Every
+                  poster keeps its native A2 aspect ratio (h-auto, no crop). */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr] gap-6 md:gap-8 lg:gap-10">
+                <PosterFrame src={posterDominant} alt="Posterontwerp, A2 formaat" className="md:col-span-2 lg:col-span-1" />
+                <PosterFrame src={posterTeal} alt="Posterontwerp, A2 formaat" className="lg:mt-12" />
+                <PosterFrame src={posterArtboard} alt="Posterontwerp, A2 formaat" className="lg:mt-4" />
+                <PosterFrame src={posterSimplon} alt="Posterontwerp, A2 formaat" className="lg:mt-16" />
+              </div>
+            </motion.div>
+
+            {/* What can be made */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24">
-              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-10 font-body uppercase">Wat je krijgt</h2>
+              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-10 font-body uppercase">Wat ik kan maken</h2>
               <div className="grid md:grid-cols-3 gap-8">
                 {[
                   { title: "Drukwerk", items: ["Posters & flyers", "Promotiemateriaal", "Drukklare bestanden"] },
