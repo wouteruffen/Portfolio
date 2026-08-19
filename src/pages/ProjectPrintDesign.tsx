@@ -15,18 +15,20 @@ import posterSimplon from "@/assets/print/b31-simplon.jpg";
 /**
  * Same depth-shadow frame treatment used for real work elsewhere on the site
  * (see FramedShot in ProjectWebdesign) — recreated locally rather than
- * imported so this page doesn't reach into another subpage's file. Renders
- * each poster at its native aspect ratio via `h-auto`, so nothing is cropped.
+ * imported so this page doesn't reach into another subpage's file. Every
+ * poster sits in an identical A-series aspect-ratio box (210/297, same as
+ * the source A2 artwork) with object-cover, so all four render at exactly
+ * the same size regardless of their native pixel dimensions.
  */
-const PosterFrame = ({ src, alt, className = "" }: { src: string; alt: string; className?: string }) => (
-  <div className={`relative ${className}`}>
+const PosterFrame = ({ src, alt }: { src: string; alt: string }) => (
+  <div className="relative">
     <div
       className="absolute inset-0"
       style={{ transform: "translate(8px, 8px)", zIndex: 0, backgroundColor: "var(--card-depth-shadow)" }}
       aria-hidden="true"
     />
-    <div className="relative z-[1] border border-border overflow-hidden">
-      <img src={src} alt={alt} className="w-full h-auto block" loading="lazy" />
+    <div className="relative z-[1] aspect-[210/297] border border-border overflow-hidden">
+      <img src={src} alt={alt} className="w-full h-full object-cover block" loading="lazy" />
     </div>
   </div>
 );
@@ -62,17 +64,16 @@ const ProjectPrintDesign = () => {
                 Een selectie posters, van eerste schets tot drukklaar ontwerp.
               </p>
 
-              {/* Editorial poster wall — mobile stacks full-width; tablet
-                  puts the dominant poster full-width on top with the other
-                  three below in a 2-col grid; desktop lines all four up in
-                  one row with the dominant poster given a wider track and
-                  the other three staggered vertically for rhythm. Every
-                  poster keeps its native A2 aspect ratio (h-auto, no crop). */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1fr] gap-6 md:gap-8 lg:gap-10">
-                <PosterFrame src={posterDominant} alt="Posterontwerp, A2 formaat" className="md:col-span-2 lg:col-span-1" />
-                <PosterFrame src={posterTeal} alt="Posterontwerp, A2 formaat" className="lg:mt-12" />
-                <PosterFrame src={posterArtboard} alt="Posterontwerp, A2 formaat" className="lg:mt-4" />
-                <PosterFrame src={posterSimplon} alt="Posterontwerp, A2 formaat" className="lg:mt-16" />
+              {/* Uniform poster grid — one poster per column on mobile, two
+                  on tablet, all four in a single row on desktop. Every
+                  poster sits in an identical aspect-ratio box (see
+                  PosterFrame), so the collection reads as one set rather
+                  than four independently sized images. */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-10">
+                <PosterFrame src={posterDominant} alt="Posterontwerp, A2 formaat" />
+                <PosterFrame src={posterTeal} alt="Posterontwerp, A2 formaat" />
+                <PosterFrame src={posterArtboard} alt="Posterontwerp, A2 formaat" />
+                <PosterFrame src={posterSimplon} alt="Posterontwerp, A2 formaat" />
               </div>
             </motion.div>
 
