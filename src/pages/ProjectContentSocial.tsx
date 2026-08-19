@@ -91,16 +91,20 @@ const ProjectContentSocial = () => {
             {/* Kopjek Clubtour — the opening campaign showcase. A clean 2x2 of
                 the four city posters, all the same size: they share the exact
                 same native 1080x1350 aspect ratio, so a plain grid keeps every
-                tile aligned without any cropping trade-off. Large enough per
-                tile (roughly half the container width each) to actually study
-                the typography and 3D form, not a thumbnail row. */}
+                tile aligned without any cropping trade-off. Plain fr-based
+                grid-cols-2 — the same mechanism as every other multi-image
+                row on this page — fills the full page container edge to
+                edge. The only size reduction from the original is a wider
+                column gap at lg (a native grid property, not a width
+                constraint), which lands each tile around ~90% of its
+                original size while the section itself stays full-width. */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
               <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">Uitgelichte campagne</h2>
               <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">Een terugkerend sjabloon voor een clubtour</h3>
               <p className="text-muted-foreground font-body leading-relaxed max-w-[640px] mb-10">
                 Voor de Kopjek Clubtour ontwierp ik één visueel sjabloon — typografie, 3D-vorm, indeling — dat per stad een eigen kleurstelling kreeg. Vier steden, hetzelfde sjabloon, elk met een eigen kleur en line-up.
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 lg:gap-x-40">
                 {KOPJEK_GRID.map((item) => (
                   <Shot
                     key={item.city}
@@ -147,14 +151,18 @@ const ProjectContentSocial = () => {
 
             {/* Closing case — one story, three formats. Same composition as
                 elsewhere on the page, positioned last as the final strong
-                portfolio piece before the CTA. */}
+                portfolio piece before the CTA. Back to the original fr-based
+                3fr/1fr grid, full page-container width. The only reduction
+                from the original oversized version is a wider column gap at
+                lg — both tracks shrink proportionally (still exactly 3:1),
+                landing around ~85-90% of the original size. */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
               <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">Campagne → formaten</h2>
               <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">Eén verhaal, verteld in drie momenten</h3>
               <p className="text-muted-foreground font-body leading-relaxed max-w-[640px] mb-10">
                 Voor FIXY's DJ Talentroom liep de aankondiging op via stories — "stay tuned", "big news soon" — voordat de feed-post de line-up onthulde. Zelfde visuele systeem, drie momenten, drie formaten.
               </p>
-              <div className="grid md:grid-cols-[3fr_1fr] gap-6 md:gap-8">
+              <div className="grid md:grid-cols-[3fr_1fr] gap-6 md:gap-8 lg:gap-x-36">
                 <Shot
                   src={djTalentroomPost}
                   alt="FIXY DJ Talentroom — feed post met line-up onthulling"
