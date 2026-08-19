@@ -14,8 +14,8 @@ interface SubpageHeaderProps {
    * Homepage section id to fall back to when there's no saved scroll
    * position to restore (e.g. the subpage URL was opened directly).
    * Defaults to "projecten" — where every project-category subpage
-   * (Webdesign & Development, Content & Social Media, Print & Design,
-   * Digitale Producten) is linked from.
+   * (Webdesign & Development, Design & Identiteit, Print & Campaign Design,
+   * Content & Social Media) is linked from.
    */
   fallbackSection?: string;
 }

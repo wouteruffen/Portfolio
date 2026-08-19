@@ -21,7 +21,8 @@ This is a Dutch-language portfolio site built with React 18 + TypeScript + Vite,
 
 **Routing** (`src/App.tsx`): React Router v6 with these routes:
 - `/` — Home (Index)
-- `/webdesign`, `/merkidentiteit`, `/digitale-producten` — Project category pages
+- `/webdesign`, `/design-identity`, `/print-design`, `/content-social-media` — Project category pages (linked from the homepage service cards)
+- `/digitale-producten` — Legacy project category page, still live but no longer linked from the homepage service cards
 - `/over-mij` — About page
 - `/brandbook` — Brand book page
 

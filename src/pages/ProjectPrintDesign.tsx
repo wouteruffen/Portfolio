@@ -42,7 +42,7 @@ const ProjectPrintDesign = () => {
 
         <SubpageGridBackground />
 
-        <SubpageHeader title="Print & Design" />
+        <SubpageHeader title="Print & Campaign Design" />
 
         {/* Content */}
         <section className={`relative z-10 ${SECTION_TITLE_GUTTER_CLASS} py-16 md:py-24`}>

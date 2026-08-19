@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import ProjectWebdesign from "./pages/ProjectWebdesign.tsx";
+import ProjectDesignIdentity from "./pages/ProjectDesignIdentity.tsx";
 import ProjectContentSocial from "./pages/ProjectContentSocial.tsx";
 import ProjectPrintDesign from "./pages/ProjectPrintDesign.tsx";
 import ProjectProduct from "./pages/ProjectProduct.tsx";
@@ -28,6 +29,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/webdesign" element={<ProjectWebdesign />} />
+          <Route path="/design-identity" element={<ProjectDesignIdentity />} />
           <Route path="/content-social-media" element={<ProjectContentSocial />} />
           <Route path="/print-design" element={<ProjectPrintDesign />} />
           <Route path="/digitale-producten" element={<ProjectProduct />} />

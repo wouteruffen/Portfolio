@@ -7,36 +7,63 @@ import SubpageGridBackground from "@/components/v2/SubpageGridBackground";
 import SubpageHeader from "@/components/v2/SubpageHeader";
 import CursorEffects from "@/components/CursorEffects";
 import { SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_GUTTER_CLASS } from "@/lib/sectionTitle";
-// Real Instagram feed screenshots for the mosaic below — actual accounts,
-// not stock/unrelated imagery. Case-study copy (client/account names) isn't
-// finalized yet, so nothing here is labeled beyond a generic description.
-// Cropped via object-position (see JSX) to hide the phone status bar /
-// Instagram nav chrome rather than the content itself.
-// TODO: Replace/relabel once the accounts behind these are confirmed.
-import socialFeedDominant from "@/assets/social-media/IMG_0312.jpg";
-import socialFeedSupport from "@/assets/social-media/IMG_0308.jpg";
-import socialFeedOffset from "@/assets/social-media/IMG_0310.jpg";
+import { PILL_CLASS } from "@/lib/pill";
+// Real client work — native-resolution final artwork (1080x1350 / 1080x1920,
+// Instagram's own post/story dimensions) rather than screenshots of a phone
+// feed. That distinction is deliberate: a screenshot of a feed grid is a
+// photo of small thumbnails, so blowing one up to hero size in a layout
+// always looks soft, no matter which export you pick. These are the actual
+// source files, so they stay sharp at real display size.
+import djTalentroomPost from "@/assets/social-media/DJ Contest.jpg";
+import djTalentroomStay from "@/assets/social-media/DJ TALENTROOM 2 .jpg";
+import djTalentroomBigNews from "@/assets/social-media/STORY - COMING SOON .jpg";
+import gronings from "@/assets/social-media/GRONINGS FINEST POST.jpg";
+import kopjek1 from "@/assets/social-media/KOPJEK_CLUBTOUR_ARTWORK.jpg";
+import kopjek2 from "@/assets/social-media/KOPJEK_CLUBTOUR_ARTWORK2.jpg";
+import kopjek3 from "@/assets/social-media/KOPJEK_CLUBTOUR_ARTWORK3.jpg";
+import kopjek4 from "@/assets/social-media/KOPJEK_CLUBTOUR_ARTWORK4.jpg";
+import levi from "@/assets/social-media/LEVI - MOOVLINE.jpg";
+import tonightFlip from "@/assets/social-media/TONIGHT WE FLIP BAR FIXY.jpg";
 
-const CONTENT_DISCIPLINES = [
-  "Fotografie",
-  "Video & reels",
-  "Social posts",
-  "Visuele contentvormgeving",
-  "Instagram-beheer",
+// Row-major order for a 2x2 grid: Groningen / Utrecht on top,
+// Leiden / Zwolle underneath — this array order is also what mobile falls
+// back to when the grid collapses to a single column, so it doubles as the
+// intended reading order at every breakpoint.
+const KOPJEK_GRID = [
+  { src: kopjek4, city: "Groningen" },
+  { src: kopjek1, city: "Utrecht" },
+  { src: kopjek2, city: "Leiden" },
+  { src: kopjek3, city: "Zwolle" },
+];
+
+const DISCIPLINES = [
+  "Campagnebeelden",
+  "Social posts & stories",
+  "Terugkerende sjablonen",
+  "Aankondigingen",
+  "Eventfotografie",
 ];
 
 /**
- * Real-work mosaic for "Social media in de praktijk" — three actual
- * Instagram feed screenshots (different accounts) standing in until
- * case-study copy is finalized. `object-bottom` on each <img> crops the
- * phone status bar / Instagram nav chrome off the top rather than the
- * content grid itself.
+ * Same depth-shadow frame treatment used across the other subpages (see
+ * FramedDoc in ProjectDesignIdentity) — recreated locally rather than
+ * imported so this page doesn't reach into another subpage's file.
  */
-const FEED_SCREENSHOTS = {
-  dominant: { src: socialFeedDominant, alt: "Screenshot van een Instagram-feed met content en fotografie" },
-  support: { src: socialFeedSupport, alt: "Screenshot van een Instagram-feed met eventcontent" },
-  offset: { src: socialFeedOffset, alt: "Screenshot van een Instagram-feed met projectfoto's" },
-};
+const Shot = ({ src, alt, caption, aspectClass }: { src: string; alt: string; caption?: string; aspectClass: string }) => (
+  <div>
+    <div className="relative">
+      <div
+        className="absolute inset-0"
+        style={{ transform: "translate(8px, 8px)", zIndex: 0, backgroundColor: "var(--card-depth-shadow)" }}
+        aria-hidden="true"
+      />
+      <div className={`relative z-[1] border border-border overflow-hidden ${aspectClass}`}>
+        <img src={src} alt={alt} className="w-full h-full object-cover block" loading="lazy" />
+      </div>
+    </div>
+    {caption && <p className="mt-3 text-xs font-body uppercase tracking-[0.15em] text-muted-foreground">{caption}</p>}
+  </div>
+);
 
 const ProjectContentSocial = () => {
   return (
@@ -52,98 +79,116 @@ const ProjectContentSocial = () => {
         {/* Content */}
         <section className={`relative z-10 ${SECTION_TITLE_GUTTER_CLASS} py-16 md:py-24`}>
           <div className={SECTION_TITLE_CONTAINER_CLASS}>
-            {/* Intro — custom approach, no fixed package */}
+            {/* Intro — thesis statement, no image; the real work below carries the page */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="max-w-[640px]">
-              <h2 className="text-3xl font-antonio font-semibold mb-6">Zichtbaar op de kanalen die tellen</h2>
+              <h2 className="text-3xl font-antonio font-semibold mb-6">Content die een merk laat leven</h2>
               <div className="space-y-4 text-muted-foreground font-body leading-relaxed">
-                <p>Geen vast contentpakket en geen standaard aantal posts per maand — ik kijk naar wat een merk, project of campagne daadwerkelijk nodig heeft en bouw de content daaromheen op.</p>
-                <p>Dat kan van alles zijn: fotografie, video, reels, social posts, visuele contentvormgeving, het opzetten van een consistente visuele lijn, of het beheren van een Instagram-account.</p>
-                <p>Soms is dat een eenmalig project, soms een doorlopende samenwerking. Welke disciplines samenkomen, hangt steeds af van het project.</p>
+                <p>Social media vraagt om meer dan losse plaatjes. Het draait om een visuele lijn die zich laat vertalen naar elk formaat — feed, story, aankondiging — zonder de herkenbaarheid te verliezen.</p>
+                <p>Hieronder een selectie van content die ik ontwierp voor merken in de nachtcultuur: van terugkerende campagnesystemen tot content die zich aanpast aan uiteenlopende formaten.</p>
               </div>
-              <div className="flex flex-wrap gap-2 mt-6">
-                {CONTENT_DISCIPLINES.map((item) => (
-                  <span
-                    key={item}
-                    className="rounded-full border border-secondary/25 bg-secondary/10 text-foreground/70 px-3.5 py-1.5 text-xs font-body uppercase tracking-[0.1em]"
-                  >
-                    {item}
-                  </span>
+            </motion.div>
+
+            {/* Kopjek Clubtour — the opening campaign showcase. A clean 2x2 of
+                the four city posters, all the same size: they share the exact
+                same native 1080x1350 aspect ratio, so a plain grid keeps every
+                tile aligned without any cropping trade-off. Large enough per
+                tile (roughly half the container width each) to actually study
+                the typography and 3D form, not a thumbnail row. */}
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
+              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">Uitgelichte campagne</h2>
+              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">Een terugkerend sjabloon voor een clubtour</h3>
+              <p className="text-muted-foreground font-body leading-relaxed max-w-[640px] mb-10">
+                Voor de Kopjek Clubtour ontwierp ik één visueel sjabloon — typografie, 3D-vorm, indeling — dat per stad een eigen kleurstelling kreeg. Vier steden, hetzelfde sjabloon, elk met een eigen kleur en line-up.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
+                {KOPJEK_GRID.map((item) => (
+                  <Shot
+                    key={item.city}
+                    src={item.src}
+                    alt={`Kopjek Clubtour aankondiging voor ${item.city}, zelfde sjabloon in eigen kleurstelling`}
+                    caption={item.city}
+                    aspectClass="aspect-[4/5]"
+                  />
                 ))}
               </div>
             </motion.div>
 
-            {/* Real work */}
+            {/* Overview — different brands, different worlds. Plain grid row,
+                all three items direct grid children with no per-item wrapper
+                or margin, so they share the same row-start alignment and top
+                edge exactly — no stagger. */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
-              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">Social media in de praktijk</h2>
-              <p className="text-muted-foreground font-body leading-relaxed max-w-[560px] mb-10">
-                Een blik op de feeds en content die ik vormgeef en beheer.
+              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">In de praktijk</h2>
+              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">Andere merken, andere sferen</h3>
+              <p className="text-muted-foreground font-body leading-relaxed max-w-[640px] mb-10">
+                Niet elk merk vraagt om dezelfde toon. Van een moody editorial aankondiging tot warme releasefotografie en een speelse typografische wending — de aanpak verschuift mee met wat het merk nodig heeft.
               </p>
-
-              {/* Editorial mosaic — dominant feed screenshot, one support
-                  beside it, a third offset below-left with whitespace to
-                  its right. Source images are pre-cropped (see the PNG ->
-                  JPG export) to remove the phone status bar / Instagram nav
-                  chrome, so a plain object-cover is enough here. */}
-              <div className="grid md:grid-cols-3 md:grid-rows-[520px] gap-4">
-                <div className="md:col-span-2 md:h-full">
-                  <div className="aspect-[4/5] md:aspect-auto md:h-full w-full overflow-hidden">
-                    <img
-                      src={FEED_SCREENSHOTS.dominant.src}
-                      alt={FEED_SCREENSHOTS.dominant.alt}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
-                <div className="md:col-span-1 md:h-full">
-                  <div className="aspect-[4/3] md:aspect-auto md:h-full w-full overflow-hidden">
-                    <img
-                      src={FEED_SCREENSHOTS.support.src}
-                      alt={FEED_SCREENSHOTS.support.alt}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
+                <Shot
+                  src={gronings}
+                  alt="Gronings Finest — moody editorial eventaankondiging"
+                  caption="Gronings Finest"
+                  aspectClass="aspect-[4/5]"
+                />
+                <Shot
+                  src={levi}
+                  alt="Levi — Moovline releasefeest, fotografie-gedreven aankondiging"
+                  caption="Levi — Moovline"
+                  aspectClass="aspect-[4/5]"
+                />
+                <Shot
+                  src={tonightFlip}
+                  alt="FIXY Bar — 'Tonight we flip', omgedraaide typografie als visuele wending"
+                  caption="Bar FIXY — Flip"
+                  aspectClass="aspect-[4/5]"
+                />
               </div>
+            </motion.div>
 
-              <div className="mt-4 md:mt-6">
-                <div className="w-full md:w-[42%]">
-                  <div className="aspect-[4/5] overflow-hidden">
-                    <img
-                      src={FEED_SCREENSHOTS.offset.src}
-                      alt={FEED_SCREENSHOTS.offset.alt}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                  </div>
+            {/* Closing case — one story, three formats. Same composition as
+                elsewhere on the page, positioned last as the final strong
+                portfolio piece before the CTA. */}
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
+              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">Campagne → formaten</h2>
+              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">Eén verhaal, verteld in drie momenten</h3>
+              <p className="text-muted-foreground font-body leading-relaxed max-w-[640px] mb-10">
+                Voor FIXY's DJ Talentroom liep de aankondiging op via stories — "stay tuned", "big news soon" — voordat de feed-post de line-up onthulde. Zelfde visuele systeem, drie momenten, drie formaten.
+              </p>
+              <div className="grid md:grid-cols-[3fr_1fr] gap-6 md:gap-8">
+                <Shot
+                  src={djTalentroomPost}
+                  alt="FIXY DJ Talentroom — feed post met line-up onthulling"
+                  caption="Feed post — line-up onthuld"
+                  aspectClass="aspect-[4/5]"
+                />
+                <div className="grid grid-cols-2 md:grid-cols-1 gap-6 md:gap-8">
+                  <Shot
+                    src={djTalentroomStay}
+                    alt="FIXY DJ Talentroom — story teaser 'stay tuned'"
+                    caption="Story — teaser"
+                    aspectClass="aspect-[9/16]"
+                  />
+                  <Shot
+                    src={djTalentroomBigNews}
+                    alt="FIXY DJ Talentroom — story aankondiging 'big news soon'"
+                    caption="Story — aankondiging"
+                    aspectClass="aspect-[9/16]"
+                  />
                 </div>
               </div>
             </motion.div>
 
-            {/* What I can help with */}
+            {/* How I approach this — compact, portfolio-flavored rather than a service menu */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24">
-              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">Waar ik bij kan helpen</h2>
-              <p className="text-muted-foreground font-body leading-relaxed max-w-[560px] mb-10">
-                Geen project is hetzelfde. Afhankelijk van wat er nodig is, combineer ik verschillende disciplines tot een passende aanpak.
+              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">Hoe ik dit aanpak</h2>
+              <p className="text-muted-foreground font-body leading-relaxed max-w-[560px] mb-6">
+                Geen vast contentpakket en geen vaste hoeveelheid posts per maand — ik kijk naar wat een merk, avond of campagne nodig heeft en bouw de content daaromheen op.
               </p>
-              <div className="grid md:grid-cols-3 gap-8">
-                {[
-                  { title: "Beeld", items: ["Fotografie", "Video & reels", "Campagnecontent"] },
-                  { title: "Social", items: ["Instagram-beheer", "Contentplanning", "Social posts"] },
-                  { title: "Design", items: ["Templates", "Campagnevisuals", "Doorvertaling van huisstijl"] },
-                ].map((block) => (
-                  <div key={block.title} className="border-t border-border pt-6">
-                    <h3 className="font-antonio font-semibold text-foreground text-lg mb-4">{block.title}</h3>
-                    <ul className="space-y-2">
-                      {block.items.map((item) => (
-                        <li key={item} className="text-muted-foreground text-sm font-body flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 bg-secondary flex-shrink-0" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+              <div className="flex flex-wrap gap-2">
+                {DISCIPLINES.map((item) => (
+                  <span key={item} className={`${PILL_CLASS} px-3.5 py-1.5 text-xs font-body uppercase tracking-[0.1em]`}>
+                    {item}
+                  </span>
                 ))}
               </div>
             </motion.div>
