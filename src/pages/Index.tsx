@@ -39,6 +39,13 @@ const SECTION_SCROLL_TARGETS: Record<string, number> = {
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [heroLeft, setHeroLeft] = useState(false);
+  // True once ScrollLogo's own shrink + crossfade into SolidLogoMark has
+  // fully settled — threaded into NavbarV2 as `heroLogoSettled` so it can't
+  // visually go solid before the Hero logo has actually finished shrinking
+  // into it, regardless of scroll speed. Sticky once true: there's no
+  // legitimate reason to "unsettle" it just because the user scrolled back
+  // up, and re-scrolling down always re-settles well before the Hero ends.
+  const [logoSettled, setLogoSettled] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const aboutTopRef = useRef<HTMLDivElement>(null);
   const location  = useLocation();
@@ -150,7 +157,13 @@ const Index = () => {
       {/* The giant scroll-shrinking wordmark is desktop-Hero-specific;
           both phone layouts get their own small static logo inside
           MobileHero instead. */}
-      {!isPhoneLayout && <ScrollLogo scrollContainerRef={scrollRef} solid={heroLeft} />}
+      {!isPhoneLayout && (
+        <ScrollLogo
+          scrollContainerRef={scrollRef}
+          solid={heroLeft}
+          onShrinkSettled={() => setLogoSettled(true)}
+        />
+      )}
       <div
         ref={scrollRef}
         className="overflow-y-auto h-screen bg-background transition-colors duration-500"
@@ -182,6 +195,7 @@ const Index = () => {
           aboutTopRef={aboutTopRef}
           onScrollToSection={scrollToSection}
           onSolidNavChange={setHeroLeft}
+          heroLogoSettled={logoSettled}
         />
         {isPhoneLayout ? (
           <>

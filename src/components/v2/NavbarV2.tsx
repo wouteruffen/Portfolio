@@ -6,7 +6,7 @@ import { useTheme } from "next-themes";
 import { useThemeTransition } from "@/components/ThemeTransitionProvider";
 import { useIsPhoneLayout, useIsTablet, useIsLandscapeMobile } from "@/hooks/use-mobile";
 import { BRAND_ORANGE_RGB } from "@/lib/brandColor";
-import bitBeeldLogo from "@/assets/bitbeeld-logo-black.svg";
+import { LOGO_ZWART, SolidLogoMark } from "@/components/v2/BitBeeldLogo";
 
 /*
  * Scroll offsets (in pixels) for each home-page section.
@@ -64,13 +64,27 @@ interface NavbarV2Props {
    */
   onScrollToSection?: (sectionId: string) => void;
   /**
-   * Fired whenever solidNav flips — the exact moment the Hero has been fully
-   * scrolled past and About's opaque panel covers the navbar strip. Lets the
-   * page sync other Hero-exit effects (e.g. the top gradient swap) to this
-   * same IntersectionObserver-driven trigger instead of a second, independent
-   * one, which is what caused the gradient and navbar to desync.
+   * Fired whenever the GATED solid state flips (see `gatedSolidNav` below —
+   * About-covers-Hero geometry AND `heroLogoSettled`, not geometry alone).
+   * Lets the page sync other Hero-exit effects (e.g. the top gradient swap)
+   * to this same trigger instead of a second, independent one, which is
+   * what caused the gradient and navbar to desync.
    */
   onSolidNavChange?: (active: boolean) => void;
+  /**
+   * True once ScrollLogo's own shrink + crossfade into SolidLogoMark has
+   * fully settled (Index threads this through from ScrollLogo's
+   * `onShrinkSettled`). The navbar will not visually go solid — background,
+   * shadow, its own SolidLogoMark, `onSolidNavChange` — until this is true,
+   * even if the About-covers-Hero scroll geometry has already been reached.
+   * This is what keeps a fast/instant scroll (or an instant scroll-restore
+   * on mount) from showing the solid navbar's logo before ScrollLogo has
+   * actually finished shrinking into it — see `gatedSolidNav` below.
+   * Defaults to true so pages with no ScrollLogo at all (forceSolid pages,
+   * anything without `aboutTopRef`) are never blocked by a signal that
+   * would otherwise never arrive.
+   */
+  heroLogoSettled?: boolean;
 }
 
 const NavbarV2 = ({
@@ -81,6 +95,7 @@ const NavbarV2 = ({
   hideThemeToggle = false,
   onScrollToSection,
   onSolidNavChange,
+  heroLogoSettled = true,
 }: NavbarV2Props) => {
   const [menuOpen, setMenuOpen]   = useState(false);
   const [scrolled, setScrolled]   = useState(false);
@@ -113,7 +128,13 @@ const NavbarV2 = ({
   // doesn't act on it), but nothing downstream should treat `solidNav` as
   // a phone layout's real state. forceSolid (pages with no Hero at all,
   // e.g. OverMij) short-circuits to the same solid state unconditionally.
-  const effectiveSolidNav = isPhoneLayout || solidNav || forceSolid;
+  // AND-gated against heroLogoSettled (see the prop doc above): raw scroll
+  // geometry alone isn't enough to visually go solid on Index/Home — the
+  // Hero's own logo shrink + crossfade into SolidLogoMark must also have
+  // already finished, so a fast scroll (or instant scroll-restore) can't
+  // show the navbar's mark before ScrollLogo has actually settled into it.
+  const gatedSolidNav = solidNav && heroLogoSettled;
+  const effectiveSolidNav = isPhoneLayout || gatedSolidNav || forceSolid;
 
   // The small solid-navbar wordmark logo only applies to the Hero→solid
   // transition (aboutTopRef is only ever passed by Index) and only on
@@ -244,13 +265,23 @@ const NavbarV2 = ({
         const rootTop = entry.rootBounds?.top ?? 0;
         const active = entry.boundingClientRect.top < rootTop;
         setSolidNav(active);
-        onSolidNavChange?.(active);
       },
       { root, rootMargin: `-${navHeight}px 0px 0px 0px`, threshold: 0 },
     );
     observer.observe(sentinel);
     return () => observer.disconnect();
-  }, [aboutTopRef, scrollContainerRef, navHeight, onSolidNavChange]);
+  }, [aboutTopRef, scrollContainerRef, navHeight]);
+
+  // Notifies the parent of the GATED solid state (not raw geometry) — and
+  // deliberately depends on `gatedSolidNav` itself rather than living inside
+  // the observer callback above, since `heroLogoSettled` can turn true
+  // *after* the geometry trigger already fired once (the observer callback
+  // only re-runs when the intersection itself changes, not when
+  // heroLogoSettled does) — this effect re-evaluates whenever either input
+  // changes, so the parent still gets notified once both are true.
+  useEffect(() => {
+    onSolidNavChange?.(gatedSolidNav);
+  }, [gatedSolidNav, onSolidNavChange]);
 
   /**
    * Unified navigation handler for every nav link and the CTA button.
@@ -373,21 +404,26 @@ const NavbarV2 = ({
         }}
         className={`fixed top-0 left-0 right-0 z-[60] px-6 md:px-12 lg:px-24 landscape-mobile:pl-[max(1rem,env(safe-area-inset-left))] landscape-mobile:pr-[max(1rem,env(safe-area-inset-right))] flex items-center ${showLogo || showSolidLogo ? "justify-between" : "justify-end"}`}
       >
-        {/* Bit & Beeld logo mark — fades/slides in with the navbar's own
+        {/* Bit & Beeld logo mark — fades in with the navbar's own
             transparent-to-solid transition (same 0.4s duration as its
             backgroundColor tween above) and is fully hidden while still
             transparent over the Hero. Always mounted (rather than
             conditionally rendered) so the flex layout's left slot stays
             reserved and the right-hand control group never shifts. */}
         {showSolidLogo && (
-          <motion.img
-            src={bitBeeldLogo}
-            alt="Bit & Beeld"
-            initial={{ opacity: 0, x: -8 }}
-            animate={{ opacity: effectiveSolidNav ? 1 : 0, x: effectiveSolidNav ? 0 : -8 }}
+          // Opacity only — no x/position animation here. ScrollLogo's own
+          // small mark is already fully settled at this exact spot by the
+          // time this fades in (see ScrollLogo.tsx's stable-window
+          // guarantee), so this should read as a pure color swap (white →
+          // black) synced with the background reveal, not a second motion.
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: effectiveSolidNav ? 1 : 0 }}
             transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="h-6 md:h-7 lg:h-8 w-auto select-none pointer-events-none"
-          />
+            className="select-none pointer-events-none"
+          >
+            <SolidLogoMark src={LOGO_ZWART} />
+          </motion.div>
         )}
 
         {/* Studio wordmark — only in pages that request it (Brandbook) */}

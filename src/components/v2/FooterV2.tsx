@@ -5,6 +5,7 @@ import { Instagram, Linkedin, Github, Mail } from "lucide-react";
 // @ts-ignore
 import "@fontsource/anton";
 import { BRAND_ORANGE_HSL } from "@/lib/brandColor";
+import { LOGO_ZWART, LOGO_FULL_BOX, LogoCrop } from "@/components/v2/BitBeeldLogo";
 
 const FOOTER_BG = BRAND_ORANGE_HSL;
 
@@ -77,28 +78,17 @@ const FooterV2 = ({ scrollContainerRef, revealProgress }: FooterV2Props) => {
           with a tighter gap. */}
       <div className="flex flex-col md:flex-row items-start md:items-start justify-between gap-8 md:gap-6 lg:gap-8 landscape-mobile:gap-3 flex-1">
 
-        {/* Left — wordmark anchored to bottom, styled to match hero Anton logo */}
-        <div className="flex flex-col items-start md:self-end select-none">
-          <span
-            className="uppercase text-black leading-none text-[clamp(2rem,4.5vw,4rem)] landscape-mobile:text-[clamp(1.1rem,5vh,1.75rem)]"
-            style={{
-              fontFamily: "'Anton', sans-serif",
-              letterSpacing: "-0.02em",
-              lineHeight: 0.9,
-            }}
-          >
-            Bit &
-          </span>
-          <span
-            className="uppercase text-black leading-none text-[clamp(2rem,4.5vw,4rem)] landscape-mobile:text-[clamp(1.1rem,5vh,1.75rem)]"
-            style={{
-              fontFamily: "'Anton', sans-serif",
-              letterSpacing: "-0.02em",
-              lineHeight: 0.9,
-            }}
-          >
-            Beeld
-          </span>
+        {/* Left — wordmark anchored to bottom, sized off the same clamp() the
+            old two-line Anton text used (as a font-size basis only — no text
+            is rendered at it, it just sets the em scale below). 1.89em —
+            not a plain 2× — matches the ratio between the full two-row mark
+            and a single text row (validated against ScrollLogo, which uses
+            the same font/weight/line-height and crops a single row to 0.9em). */}
+        <div
+          className="items-start md:self-end select-none text-[clamp(2rem,4.5vw,4rem)] landscape-mobile:text-[clamp(1.1rem,5vh,1.75rem)]"
+          style={{ height: "1.89em" }}
+        >
+          <LogoCrop src={LOGO_ZWART} box={LOGO_FULL_BOX} className="h-full" alt="Bit & Beeld" />
         </div>
 
         {/* Right — statement + social icons */}

@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useTheme } from "next-themes";
+import { LOGO_WIT, LOGO_ZWART, LOGO_FULL_BOX, LogoCrop } from "@/components/v2/BitBeeldLogo";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -17,6 +19,9 @@ interface MobileHeroProps {
  * past and needs no scroll-linked motion values.
  */
 const MobileHero = ({ onScrollToSection }: MobileHeroProps) => {
+  const { theme } = useTheme();
+  const logoSrc = theme === "light" ? LOGO_ZWART : LOGO_WIT;
+
   return (
     <section className="relative flex flex-col items-center justify-center min-h-[100svh] landscape-mobile:min-h-0 px-6 pt-24 landscape-mobile:pt-14 pb-16 landscape-mobile:pb-6 text-center overflow-hidden">
       {/* Grid texture — same treatment as every other section, at rest (no
@@ -51,16 +56,20 @@ const MobileHero = ({ onScrollToSection }: MobileHeroProps) => {
         <span className="font-body text-xs landscape-mobile:text-[10px] text-foreground/40 uppercase tracking-wide">Medio 2026</span>
       </motion.div>
 
-      {/* Studio logo — a modest static wordmark, not the animated Anton
-          giant used on desktop. */}
-      <motion.span
+      {/* Studio logo — a modest static mark, not the animated giant used on
+          desktop. Sized off the same text-3xl/landscape-mobile:text-lg em
+          basis the old single-line wordmark used (as a width multiple, not
+          a literal font-size) so it stays close to that mark's footprint;
+          height follows from the mark's own aspect ratio. */}
+      <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.08, ease: EASE }}
-        className="relative z-10 font-logo uppercase text-foreground text-3xl landscape-mobile:text-lg mb-6 landscape-mobile:mb-2 tracking-tight"
+        className="relative z-10 text-3xl landscape-mobile:text-lg mb-6 landscape-mobile:mb-2"
+        style={{ width: "5.2em" }}
       >
-        Bit &amp; Beeld
-      </motion.span>
+        <LogoCrop src={logoSrc} box={LOGO_FULL_BOX} className="w-full" alt="Bit & Beeld" />
+      </motion.div>
 
       {/* Short introduction — landscape-mobile drops the narrow max-width so
           this reads as one line instead of wrapping to three across the
