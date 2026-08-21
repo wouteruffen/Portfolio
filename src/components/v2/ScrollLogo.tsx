@@ -33,6 +33,18 @@ interface ScrollLogoProps {
    * reveal — see the prop doc on NavbarV2Props.heroLogoSettled.
    */
   onShrinkSettled?: () => void;
+  /**
+   * The scroll position this mount is about to be restored to (Index's own
+   * same-tick peek at the saved homepage position — see its own comment),
+   * or null if this is a plain top-of-page visit. Lets this component mount
+   * DIRECTLY in the settled/shrunk state — no shrink tween, no crossfade —
+   * when that position is already past SHRINK_THRESHOLD, instead of always
+   * starting from the big-logo state and animating a "shrink" that doesn't
+   * correspond to anything actually happening on screen (the restore itself
+   * is an instant jump, not a scroll journey). Purely an initial-state
+   * decision; live scrolling from the top behaves identically to before.
+   */
+  initialScrollTop?: number | null;
 }
 
 // Scroll past this → shrink. Drop below this → grow back. Small, fixed
@@ -99,18 +111,39 @@ const SHRINK_TRANSITION = { duration: 0.85, ease: [0.33, 1, 0.68, 1] as const };
 // clean dissolve, not two independently-timed fades.
 const CROSSFADE_TRANSITION = { duration: 0.25, ease: "easeInOut" as const };
 
-const ScrollLogo = ({ scrollContainerRef, solid = false, onShrinkSettled }: ScrollLogoProps) => {
-  const [isSmall, setIsSmall] = useState(false);
+const ScrollLogo = ({ scrollContainerRef, solid = false, onShrinkSettled, initialScrollTop = null }: ScrollLogoProps) => {
+  // Only ever read on the very first render (useState/useRef initial
+  // arguments are ignored on every render after) — a restore landing past
+  // the shrink threshold, so this mount should start already-settled rather
+  // than animate into it. See the prop doc above.
+  const startSettled = initialScrollTop != null && initialScrollTop > SHRINK_THRESHOLD;
+  const [isSmall, setIsSmall] = useState(startSettled);
   // True once the shrink (scale/y) tween has actually finished — this is
   // what triggers the row-group → SolidLogoMark crossfade, and is reset the
   // instant the user scrolls back near the top so growing back into the big
   // logo starts from the same clean state a fresh shrink would.
-  const [settled, setSettled] = useState(false);
+  const [settled, setSettled] = useState(startSettled);
   // Guards onShrinkSettled so it only ever fires once per genuine
   // shrink-then-crossfade completion, not on every render that happens to
   // pass through the completed state.
-  const notifiedRef = useRef(false);
+  const notifiedRef = useRef(startSettled);
   const [shrinkScale, setShrinkScale] = useState(computeShrinkScale);
+
+  // Mount-only counterpart to the onAnimationComplete-driven notification
+  // below: when startSettled is true, isSmall/settled are already `true` on
+  // this component's very first render, so Framer Motion has nothing to
+  // animate (with no `initial` prop, it defaults to matching the first
+  // `animate` values) — the shrink/crossfade tweens below simply never run,
+  // and onAnimationComplete never fires for them. Fire the settled
+  // notification directly instead, so NavbarV2 isn't left waiting on an
+  // animation that was never going to play.
+  useEffect(() => {
+    if (startSettled) onShrinkSettled?.();
+    // startSettled is derived from a prop that Index only ever sets once
+    // per mount (see its own comment), so it can't meaningfully change
+    // across this component's lifetime — this is intentionally mount-only.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const onResize = () => setShrinkScale(computeShrinkScale());

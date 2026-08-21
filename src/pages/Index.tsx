@@ -6,7 +6,7 @@ import "@fontsource/inter/500.css";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import { useSmoothScroll } from "@/lib/useSmoothScroll";
-import { consumeHomepageScroll, saveHomepageScroll } from "@/lib/homepageScroll";
+import { consumeHomepageScroll, saveHomepageScroll, peekHomepageScroll } from "@/lib/homepageScroll";
 import { useIsPhoneLayout } from "@/hooks/use-mobile";
 import NavbarV2 from "@/components/v2/NavbarV2";
 import CursorEffects from "@/components/CursorEffects";
@@ -48,7 +48,30 @@ const Index = () => {
   const [logoSettled, setLogoSettled] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const aboutTopRef = useRef<HTMLDivElement>(null);
+  // MobileHero's own logo block — mobile has no fixed-position brand mark,
+  // so NavbarV2 observes this ref's real geometry to know when it's scrolled
+  // out of view and needs to reveal its own small mark. See MobileHero's
+  // own prop doc.
+  const mobileLogoRef = useRef<HTMLDivElement>(null);
   const location  = useLocation();
+  /*
+   * Peeked once, synchronously, at construction — NOT the same read as the
+   * restore effect below (which consumes/clears the value and actually
+   * applies it via jumpTo). This is purely a same-tick hint so ScrollLogo
+   * can decide what to paint on its very first frame, before the restore
+   * effect has had a chance to run (that's gated behind isLoading turning
+   * false, ~1.7s+ after mount — ScrollLogo mounts immediately). Mirrors the
+   * restore effect's own `location.hash` guard so the two can never
+   * disagree about whether a restore is actually about to happen (a
+   * hash-deep-link ignores the saved value in favor of scrolling to that
+   * section instead, so ScrollLogo shouldn't assume the saved value either).
+   * The `=== undefined` guard makes this a "compute once, keep forever for
+   * this mount" ref rather than re-peeking sessionStorage every render.
+   */
+  const initialRestoreTargetRef = useRef<number | null>();
+  if (initialRestoreTargetRef.current === undefined) {
+    initialRestoreTargetRef.current = location.hash ? null : peekHomepageScroll();
+  }
   // Portrait phone OR landscape phone — see useIsPhoneLayout's own comment.
   // Both get the same Mobile* component tree below; tablet/desktop always
   // get the scroll-jacked V2 tree untouched.
@@ -62,7 +85,7 @@ const Index = () => {
 
   useEffect(() => {
     let cancelled = false;
-    const minWait = new Promise<void>(resolve => setTimeout(resolve, 2200));
+    const minWait = new Promise<void>(resolve => setTimeout(resolve, 1700));
     // Wait for both the minimum display time AND all @font-face fonts to render.
     // On cold cache, fonts load after the JS bundle; without this wait, font
     // layout shifts mid-scroll corrupt useScroll measurements and cause jitter.
@@ -162,6 +185,7 @@ const Index = () => {
           scrollContainerRef={scrollRef}
           solid={heroLeft}
           onShrinkSettled={() => setLogoSettled(true)}
+          initialScrollTop={initialRestoreTargetRef.current}
         />
       )}
       <div
@@ -196,10 +220,11 @@ const Index = () => {
           onScrollToSection={scrollToSection}
           onSolidNavChange={setHeroLeft}
           heroLogoSettled={logoSettled}
+          mobileLogoRef={mobileLogoRef}
         />
         {isPhoneLayout ? (
           <>
-            <MobileHero onScrollToSection={scrollToSection} />
+            <MobileHero onScrollToSection={scrollToSection} logoRef={mobileLogoRef} />
             <MobileAbout aboutTopRef={aboutTopRef} />
             <MobileProjects />
             <MobileContact scrollContainerRef={scrollRef} />

@@ -8,6 +8,16 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 interface MobileHeroProps {
   /** Same handler Index.tsx wires into NavbarV2 — keeps CTA scrolling consistent. */
   onScrollToSection: (sectionId: string) => void;
+  /**
+   * Ref to this component's own logo block, threaded up through Index into
+   * NavbarV2. NavbarV2 has no fixed-position brand mark on mobile — this is
+   * the only logo in the top of the page, sitting in normal document flow
+   * rather than pinned — so once the user scrolls (or a restored scroll
+   * position lands) past it, nothing else is visible to replace it.
+   * NavbarV2 observes this ref's real geometry to know exactly when that
+   * happens and reveal its own small mark to cover the gap.
+   */
+  logoRef?: React.RefObject<HTMLDivElement>;
 }
 
 /**
@@ -18,7 +28,7 @@ interface MobileHeroProps {
  * Normal document flow (no sticky/pinning), so it costs nothing to scroll
  * past and needs no scroll-linked motion values.
  */
-const MobileHero = ({ onScrollToSection }: MobileHeroProps) => {
+const MobileHero = ({ onScrollToSection, logoRef }: MobileHeroProps) => {
   const { theme } = useTheme();
   const logoSrc = theme === "light" ? LOGO_ZWART : LOGO_WIT;
 
@@ -62,6 +72,7 @@ const MobileHero = ({ onScrollToSection }: MobileHeroProps) => {
           a literal font-size) so it stays close to that mark's footprint;
           height follows from the mark's own aspect ratio. */}
       <motion.div
+        ref={logoRef}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.08, ease: EASE }}

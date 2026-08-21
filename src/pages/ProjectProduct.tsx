@@ -6,7 +6,11 @@ import FooterV2 from "@/components/v2/FooterV2";
 import SubpageGridBackground from "@/components/v2/SubpageGridBackground";
 import SubpageHeader from "@/components/v2/SubpageHeader";
 import CursorEffects from "@/components/CursorEffects";
-import projectProduct from "@/assets/project-product.jpg";
+// TEMPORARY placeholder — the original project-product.jpg was lost in an
+// asset reorg with no replacement yet decided. Reusing the Kruize website
+// screenshot only to unblock the build; swap for the real Digitale
+// Producten visual once one exists.
+import projectProduct from "@/assets/web/website-timo.jpg";
 import { SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_GUTTER_CLASS } from "@/lib/sectionTitle";
 
 const ProjectProduct = () => {

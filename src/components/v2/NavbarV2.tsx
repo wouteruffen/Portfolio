@@ -7,6 +7,7 @@ import { useThemeTransition } from "@/components/ThemeTransitionProvider";
 import { useIsPhoneLayout, useIsTablet, useIsLandscapeMobile } from "@/hooks/use-mobile";
 import { BRAND_ORANGE_RGB } from "@/lib/brandColor";
 import { LOGO_ZWART, SolidLogoMark } from "@/components/v2/BitBeeldLogo";
+import { saveHomepageScroll } from "@/lib/homepageScroll";
 
 /*
  * Scroll offsets (in pixels) for each home-page section.
@@ -85,6 +86,17 @@ interface NavbarV2Props {
    * would otherwise never arrive.
    */
   heroLogoSettled?: boolean;
+  /**
+   * Ref to MobileHero's own logo block (Index only — threaded down from
+   * there). Mobile has no fixed-position brand mark of its own; MobileHero's
+   * logo sits in normal document flow near the top of the page instead, so
+   * once it's scrolled out of view (including a restored scroll position
+   * landing straight past it, e.g. Home-link back from a subpage) nothing
+   * else is visible to replace it. Observed the same way `aboutTopRef` is —
+   * synchronous geometry on every scroll event — to reveal this navbar's own
+   * small mark exactly when that gap opens up. See `showMobileHomeLogo`.
+   */
+  mobileLogoRef?: React.RefObject<HTMLDivElement>;
 }
 
 const NavbarV2 = ({
@@ -96,11 +108,17 @@ const NavbarV2 = ({
   onScrollToSection,
   onSolidNavChange,
   heroLogoSettled = true,
+  mobileLogoRef,
 }: NavbarV2Props) => {
   const [menuOpen, setMenuOpen]   = useState(false);
   const [scrolled, setScrolled]   = useState(false);
   const [solidNav, setSolidNav]   = useState(false);
   const [navHeight, setNavHeight] = useState(0);
+  // True once MobileHero's own logo (see mobileLogoRef) has scrolled above
+  // this navbar's own bottom edge — recomputed synchronously on every scroll
+  // event, same pattern as solidNav below. Irrelevant off mobile / off Home
+  // (mobileLogoRef is only ever passed there), where it just stays false.
+  const [mobileLogoOutOfView, setMobileLogoOutOfView] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const { theme } = useTheme();
   const { toggleTheme } = useThemeTransition();
@@ -139,11 +157,26 @@ const NavbarV2 = ({
   // The small solid-navbar wordmark logo only applies to the Hero→solid
   // transition (aboutTopRef is only ever passed by Index) and only on
   // desktop/tablet — phone layouts are always-solid from first paint (no
-  // transition to hand off from) and already get their own static logo
-  // inside MobileHero, so adding this one there would duplicate it.
-  // forceSolid pages have no MobileHero equivalent at any breakpoint, so the
-  // logo shows everywhere there instead of being gated by isPhoneLayout.
+  // transition to hand off from). forceSolid pages have no MobileHero
+  // equivalent at any breakpoint, so the logo shows everywhere there instead
+  // of being gated by isPhoneLayout.
   const showSolidLogo = forceSolid ? true : Boolean(aboutTopRef) && !isPhoneLayout;
+  // Mobile Home specifically: MobileHero has its own static logo, but it
+  // sits in normal document flow (not fixed), so it's only actually visible
+  // near the top of the page. This mounts the SAME mark showSolidLogo uses
+  // (not a duplicate — every other mobile page, e.g. forceSolid ones, already
+  // shows it unconditionally; Home was the one inconsistent exception) once
+  // mobileLogoOutOfView says MobileHero's own logo has scrolled away. Kept
+  // as a separate flag from showSolidLogo (rather than folding into it)
+  // because its OPACITY is driven by mobileLogoOutOfView, not
+  // effectiveSolidNav — mobile's effectiveSolidNav is always true, which
+  // would show this mark from the very first frame, on top of MobileHero's
+  // own logo still being in view.
+  const showMobileHomeLogo = Boolean(aboutTopRef) && isPhoneLayout;
+  // Stable per-page mount condition — aboutTopRef/forceSolid/isPhoneLayout
+  // don't change mid-scroll, so (unlike the opacity below) this itself never
+  // flickers the element in and out of the DOM.
+  const showBrandMark = showSolidLogo || showMobileHomeLogo;
 
   // In Brandbook mode (showLogo=true) the page uses CSS filter:invert() to flip
   // the entire nav on light sections, so the nav must always start white.
@@ -209,9 +242,12 @@ const NavbarV2 = ({
   const pillColors = forceWhite
     ? effectiveSolidNav
       ? isPhoneLayout
-        ? theme === "light"
-          ? "border-[1.75px] border-nearBlack/30 bg-white/10 text-nearBlack/80 hover:bg-white/20 hover:border-nearBlack/50 hover:text-nearBlack"
-          : "border-[1.75px] border-white/30 bg-white/10 text-white/80 hover:bg-white/20 hover:border-white/50 hover:text-white"
+        // Dark stroke/text in BOTH themes on mobile, deliberately — the
+        // theme-dependent split this used to have (dark stroke in Light
+        // Mode, white stroke in Dark Mode) read as an inconsistent flicker
+        // between themes for the exact same solid-orange bar, so mobile
+        // never varies here regardless of `theme`.
+        ? "border-[1.75px] border-nearBlack/30 bg-white/10 text-nearBlack/80 hover:bg-white/20 hover:border-nearBlack/50 hover:text-nearBlack"
         // Same near-black border/text in both themes: once solid, the bar
         // itself is always brand-orange regardless of theme (see solidBgRGB
         // above), so a theme-dependent control color no longer makes sense
@@ -231,10 +267,39 @@ const NavbarV2 = ({
   useEffect(() => {
     const container = scrollContainerRef?.current;
     if (!container) return;
-    const onScroll = () => setScrolled(container.scrollTop > 80);
+    const onScroll = () => {
+      setScrolled(container.scrollTop > 80);
+
+      // Synchronous top-up for solidNav, reconciled directly from the
+      // sentinel's real DOM geometry on every scroll event — not just live
+      // wheel/touch scrolling but also a programmatic jump (Index restoring
+      // a saved position after browser Back still fires a real 'scroll'
+      // event on this same container, since assigning `.scrollTop` always
+      // dispatches one). The IntersectionObserver below remains the
+      // steady-state mechanism for ordinary scrolling and is untouched;
+      // this only exists so a restored position can never sit disagreeing
+      // with the navbar's solid/transparent state while waiting on IO's
+      // own asynchronous, browser-batched notification. Same threshold
+      // rule as the observer below (sentinel's top risen above the
+      // navbar's own bottom edge), just computed eagerly instead of via
+      // the IO abstraction.
+      const sentinel = aboutTopRef?.current;
+      const nav = navRef.current;
+      if (sentinel && nav) {
+        setSolidNav(sentinel.getBoundingClientRect().top < nav.getBoundingClientRect().bottom);
+      }
+
+      // Same synchronous geometry check, for MobileHero's logo (see
+      // mobileLogoRef's own prop doc) — mobileLogoRef is only ever passed
+      // on mobile Home, so this is a no-op everywhere else.
+      const mobileLogo = mobileLogoRef?.current;
+      if (mobileLogo && nav) {
+        setMobileLogoOutOfView(mobileLogo.getBoundingClientRect().bottom < nav.getBoundingClientRect().bottom);
+      }
+    };
     container.addEventListener("scroll", onScroll, { passive: true });
     return () => container.removeEventListener("scroll", onScroll);
-  }, [scrollContainerRef]);
+  }, [scrollContainerRef, aboutTopRef, mobileLogoRef]);
 
   // Track the navbar's own rendered height so the solid-nav boundary below
   // can be inset by the *real* nav height instead of a guessed pixel value —
@@ -249,6 +314,11 @@ const NavbarV2 = ({
 
   // Solid-nav detection: observes a sentinel at the TOP of About's outer
   // wrapper (rendered by AboutV2 via aboutTopRef) instead of a scroll-position
+  // (This is the steady-state mechanism for ordinary scrolling. The scroll
+  // listener above additionally reconciles solidNav synchronously from the
+  // same sentinel's geometry on every scroll event — see its own comment —
+  // which is what keeps a programmatically-restored scroll position from
+  // sitting disagreeing with this observer's own async notification.)
   // threshold or Framer Motion's revealProgress. Once that sentinel — About's
   // own top edge — rises above the navbar's bottom edge, About's opaque panel
   // is guaranteed to fully back the navbar's strip, so this is the exact
@@ -334,6 +404,39 @@ const NavbarV2 = ({
     navigate(href);
   };
 
+  /**
+   * The Bit & Beeld mark itself — always "go Home", but deliberately its own
+   * handler rather than reusing handleNavClick's "/" branch: that branch's
+   * subpage case (navigate("/")) would otherwise let Index's existing
+   * restore effect silently re-apply whatever homepage position was saved
+   * before this subpage visit, since that effect's only guards are
+   * `isLoading`/`location.hash` — fine for the Home *nav item* and for
+   * genuine Back/"Terug" navigation, which are supposed to restore it, but
+   * wrong for the logo, which the user explicitly wants to always land at
+   * the very top. Overwriting the saved value to 0 here — rather than
+   * threading a new "skip restore" flag into Index — means that same
+   * restore effect's jumpTo(0) call is simply a no-op on the fresh mount
+   * (already at scrollTop 0), so nothing else needs to change.
+   */
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setMenuOpen(false);
+
+    if (location.pathname === "/") {
+      // Already home — identical to the Home nav item's own "already home"
+      // path: a plain smooth scroll to the top, no navigation at all.
+      if (onScrollToSection) {
+        onScrollToSection("__top__");
+      } else {
+        scrollContainerRef?.current?.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      return;
+    }
+
+    saveHomepageScroll(0);
+    navigate("/");
+  };
+
   /* Whether to mark a nav item as "active" (shows the accent dot). */
   const isActive = (href: string) =>
     href === "/" ? location.pathname === "/"
@@ -402,15 +505,21 @@ const NavbarV2 = ({
           backgroundColor: { duration: 0.4, ease: "easeInOut" },
           boxShadow:       { duration: 0.4, ease: "easeInOut" },
         }}
-        className={`fixed top-0 left-0 right-0 z-[60] px-6 md:px-12 lg:px-24 landscape-mobile:pl-[max(1rem,env(safe-area-inset-left))] landscape-mobile:pr-[max(1rem,env(safe-area-inset-right))] flex items-center ${showLogo || showSolidLogo ? "justify-between" : "justify-end"}`}
+        className={`fixed top-0 left-0 right-0 z-[60] px-6 md:px-12 lg:px-24 landscape-mobile:pl-[max(1rem,env(safe-area-inset-left))] landscape-mobile:pr-[max(1rem,env(safe-area-inset-right))] flex items-center ${showLogo || showBrandMark ? "justify-between" : "justify-end"}`}
       >
         {/* Bit & Beeld logo mark — fades in with the navbar's own
             transparent-to-solid transition (same 0.4s duration as its
             backgroundColor tween above) and is fully hidden while still
             transparent over the Hero. Always mounted (rather than
             conditionally rendered) so the flex layout's left slot stays
-            reserved and the right-hand control group never shifts. */}
-        {showSolidLogo && (
+            reserved and the right-hand control group never shifts. On
+            mobile Home (showMobileHomeLogo) the opacity instead follows
+            mobileLogoOutOfView — effectiveSolidNav is always true on
+            mobile, which would show this immediately on top of
+            MobileHero's own logo still being in view. Clickable — see
+            handleLogoClick — as a standard "go Home" link; size, position
+            and this same opacity animation are untouched by that. */}
+        {showBrandMark && (
           // Opacity only — no x/position animation here. ScrollLogo's own
           // small mark is already fully settled at this exact spot by the
           // time this fades in (see ScrollLogo.tsx's stable-window
@@ -418,11 +527,18 @@ const NavbarV2 = ({
           // black) synced with the background reveal, not a second motion.
           <motion.div
             initial={{ opacity: 0 }}
-            animate={{ opacity: effectiveSolidNav ? 1 : 0 }}
+            animate={{ opacity: (showMobileHomeLogo ? mobileLogoOutOfView : effectiveSolidNav) ? 1 : 0 }}
             transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="select-none pointer-events-none"
+            className="select-none"
           >
-            <SolidLogoMark src={LOGO_ZWART} />
+            <a
+              href="/"
+              onClick={handleLogoClick}
+              aria-label="Bit & Beeld — naar de homepage"
+              className="block"
+            >
+              <SolidLogoMark src={LOGO_ZWART} />
+            </a>
           </motion.div>
         )}
 

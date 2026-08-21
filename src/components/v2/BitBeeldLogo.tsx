@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
-import logoWit from "@/assets/KLOPT DEZE WIT.svg";
-import logoZwart from "@/assets/KLOPT DEZE ZWART.svg";
+import logoWit from "@/assets/logo/KLOPT DEZE WIT.svg";
+import logoZwart from "@/assets/logo/KLOPT DEZE ZWART.svg";
 
 export { logoWit as LOGO_WIT, logoZwart as LOGO_ZWART };
 

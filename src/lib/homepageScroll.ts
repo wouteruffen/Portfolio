@@ -29,6 +29,24 @@ export function consumeHomepageScroll(): number | null {
 }
 
 /**
+ * Non-consuming twin of consumeHomepageScroll — reads the saved position
+ * without clearing it. Index's restore effect (via consumeHomepageScroll
+ * above) remains the one place that actually applies and clears it; this
+ * exists purely so a component that renders before that effect runs (e.g.
+ * ScrollLogo, deciding what to paint on its very first frame) can know
+ * ahead of time what position the page is about to be restored to, instead
+ * of guessing or waiting.
+ */
+export function peekHomepageScroll(): number | null {
+  try {
+    const raw = sessionStorage.getItem(SCROLL_KEY);
+    return raw === null ? null : Number(raw);
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Href for a subpage's "Terug" link: if a homepage position was recorded
  * this session, route straight to "/" so Index can restore it. Otherwise
  * (e.g. someone opened the subpage URL directly) fall back to the

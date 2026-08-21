@@ -6,9 +6,9 @@ import FooterV2 from "@/components/v2/FooterV2";
 import SubpageGridBackground from "@/components/v2/SubpageGridBackground";
 import SubpageHeader from "@/components/v2/SubpageHeader";
 import CursorEffects from "@/components/CursorEffects";
-import websiteTimo from "@/assets/website-timo.jpg";
-import websiteTimoTrust from "@/assets/website-timo2-trust.jpg";
-import websiteTimoReview from "@/assets/website-timo2-review.jpg";
+import websiteTimo from "@/assets/web/website-timo.jpg";
+import websiteTimoTrust from "@/assets/web/website-timo2-trust.jpg";
+import websiteTimoReview from "@/assets/web/website-timo2-review.jpg";
 import { SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_GUTTER_CLASS } from "@/lib/sectionTitle";
 import { PILL_CLASS } from "@/lib/pill";
 
