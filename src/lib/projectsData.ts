@@ -1,7 +1,7 @@
-import projectWeb from "@/assets/web/website-timo.jpg";
-import projectIdentity from "@/assets/design-identity/image.jpg";
-import projectPrint from "@/assets/print/a2-screen-1.jpg";
-import projectContentSocial from "@/assets/social-media/TONIGHT WE FLIP BAR FIXY.jpg";
+import projectWeb from "@/assets/Webdesign 1600x1000.png";
+import projectIdentity from "@/assets/Branding 1600x1000.png";
+import projectPrint from "@/assets/MOCKUP BRANDING - DONE.png";
+import projectContentSocial from "@/assets/Social Media 1600x1000.png";
 
 export interface ProjectEntry {
   title: string;
