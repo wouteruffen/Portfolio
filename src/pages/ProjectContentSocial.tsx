@@ -8,6 +8,7 @@ import SubpageHeader from "@/components/v2/SubpageHeader";
 import CursorEffects from "@/components/CursorEffects";
 import { SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_GUTTER_CLASS } from "@/lib/sectionTitle";
 import { PILL_CLASS } from "@/lib/pill";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 // Real client work — native-resolution final artwork (1080x1350 / 1080x1920,
 // Instagram's own post/story dimensions) rather than screenshots of a phone
 // feed. That distinction is deliberate: a screenshot of a feed grid is a
@@ -36,14 +37,6 @@ const KOPJEK_GRID = [
   { src: kopjek3, city: "Zwolle" },
 ];
 
-const DISCIPLINES = [
-  "Campagnebeelden",
-  "Social posts & stories",
-  "Terugkerende sjablonen",
-  "Aankondigingen",
-  "Eventfotografie",
-];
-
 /**
  * Same depth-shadow frame treatment used across the other subpages (see
  * FramedDoc in ProjectDesignIdentity) — recreated locally rather than
@@ -66,6 +59,8 @@ const Shot = ({ src, alt, caption, aspectClass }: { src: string; alt: string; ca
 );
 
 const ProjectContentSocial = () => {
+  const { t } = useLanguage();
+  const cs = t.projectContentSocial;
   return (
     <>
       <CursorEffects />
@@ -74,17 +69,17 @@ const ProjectContentSocial = () => {
 
         <SubpageGridBackground />
 
-        <SubpageHeader title="Content & Social Media" />
+        <SubpageHeader title={cs.pageTitle} />
 
         {/* Content */}
         <section className={`relative z-10 ${SECTION_TITLE_GUTTER_CLASS} py-16 md:py-24`}>
           <div className={SECTION_TITLE_CONTAINER_CLASS}>
             {/* Intro — thesis statement, no image; the real work below carries the page */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="max-w-[640px]">
-              <h2 className="text-3xl font-antonio font-semibold mb-6">Content die een merk laat leven</h2>
+              <h2 className="text-3xl font-antonio font-semibold mb-6">{cs.introHeading}</h2>
               <div className="space-y-4 text-muted-foreground font-body leading-relaxed">
-                <p>Social media vraagt om meer dan losse plaatjes. Het draait om een visuele lijn die zich laat vertalen naar elk formaat — feed, story, aankondiging — zonder de herkenbaarheid te verliezen.</p>
-                <p>Hieronder een selectie van content die ik ontwierp voor merken in de nachtcultuur: van terugkerende campagnesystemen tot content die zich aanpast aan uiteenlopende formaten.</p>
+                <p>{cs.introParagraph1}</p>
+                <p>{cs.introParagraph2}</p>
               </div>
             </motion.div>
 
@@ -99,17 +94,17 @@ const ProjectContentSocial = () => {
                 constraint), which lands each tile around ~90% of its
                 original size while the section itself stays full-width. */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
-              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">Uitgelichte campagne</h2>
-              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">Een terugkerend sjabloon voor een clubtour</h3>
+              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">{cs.kopjekEyebrow}</h2>
+              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">{cs.kopjekHeading}</h3>
               <p className="text-muted-foreground font-body leading-relaxed max-w-[640px] mb-10">
-                Voor de Kopjek Clubtour ontwierp ik één visueel sjabloon — typografie, 3D-vorm, indeling — dat per stad een eigen kleurstelling kreeg. Vier steden, hetzelfde sjabloon, elk met een eigen kleur en line-up.
+                {cs.kopjekParagraph}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 lg:gap-x-40">
                 {KOPJEK_GRID.map((item) => (
                   <Shot
                     key={item.city}
                     src={item.src}
-                    alt={`Kopjek Clubtour aankondiging voor ${item.city}, zelfde sjabloon in eigen kleurstelling`}
+                    alt={cs.kopjekAlt(item.city)}
                     caption={item.city}
                     aspectClass="aspect-[4/5]"
                   />
@@ -122,27 +117,27 @@ const ProjectContentSocial = () => {
                 or margin, so they share the same row-start alignment and top
                 edge exactly — no stagger. */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
-              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">In de praktijk</h2>
-              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">Andere merken, andere sferen</h3>
+              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">{cs.practiceEyebrow}</h2>
+              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">{cs.practiceHeading}</h3>
               <p className="text-muted-foreground font-body leading-relaxed max-w-[640px] mb-10">
-                Niet elk merk vraagt om dezelfde toon. Van een moody editorial aankondiging tot warme releasefotografie en een speelse typografische wending — de aanpak verschuift mee met wat het merk nodig heeft.
+                {cs.practiceParagraph}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
                 <Shot
                   src={gronings}
-                  alt="Gronings Finest — moody editorial eventaankondiging"
+                  alt={cs.groningsAlt}
                   caption="Gronings Finest"
                   aspectClass="aspect-[4/5]"
                 />
                 <Shot
                   src={levi}
-                  alt="Levi — Moovline releasefeest, fotografie-gedreven aankondiging"
+                  alt={cs.leviAlt}
                   caption="Levi — Moovline"
                   aspectClass="aspect-[4/5]"
                 />
                 <Shot
                   src={tonightFlip}
-                  alt="FIXY Bar — 'Tonight we flip', omgedraaide typografie als visuele wending"
+                  alt={cs.tonightFlipAlt}
                   caption="Bar FIXY — Flip"
                   aspectClass="aspect-[4/5]"
                 />
@@ -157,29 +152,29 @@ const ProjectContentSocial = () => {
                 lg — both tracks shrink proportionally (still exactly 3:1),
                 landing around ~85-90% of the original size. */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
-              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">Campagne → formaten</h2>
-              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">Eén verhaal, verteld in drie momenten</h3>
+              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">{cs.formatsEyebrow}</h2>
+              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">{cs.formatsHeading}</h3>
               <p className="text-muted-foreground font-body leading-relaxed max-w-[640px] mb-10">
-                Voor FIXY's DJ Talentroom liep de aankondiging op via stories — "stay tuned", "big news soon" — voordat de feed-post de line-up onthulde. Zelfde visuele systeem, drie momenten, drie formaten.
+                {cs.formatsParagraph}
               </p>
               <div className="grid md:grid-cols-[3fr_1fr] gap-6 md:gap-8 lg:gap-x-36">
                 <Shot
                   src={djTalentroomPost}
-                  alt="FIXY DJ Talentroom — feed post met line-up onthulling"
-                  caption="Feed post — line-up onthuld"
+                  alt={cs.feedPostAlt}
+                  caption={cs.feedPostCaption}
                   aspectClass="aspect-[4/5]"
                 />
                 <div className="grid grid-cols-2 md:grid-cols-1 gap-6 md:gap-8">
                   <Shot
                     src={djTalentroomStay}
-                    alt="FIXY DJ Talentroom — story teaser 'stay tuned'"
-                    caption="Story — teaser"
+                    alt={cs.storyTeaserAlt}
+                    caption={cs.storyTeaserCaption}
                     aspectClass="aspect-[9/16]"
                   />
                   <Shot
                     src={djTalentroomBigNews}
-                    alt="FIXY DJ Talentroom — story aankondiging 'big news soon'"
-                    caption="Story — aankondiging"
+                    alt={cs.storyAnnouncementAlt}
+                    caption={cs.storyAnnouncementCaption}
                     aspectClass="aspect-[9/16]"
                   />
                 </div>
@@ -188,12 +183,12 @@ const ProjectContentSocial = () => {
 
             {/* How I approach this — compact, portfolio-flavored rather than a service menu */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24">
-              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">Hoe ik dit aanpak</h2>
+              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">{cs.approachEyebrow}</h2>
               <p className="text-muted-foreground font-body leading-relaxed max-w-[560px] mb-6">
-                Geen vast contentpakket en geen vaste hoeveelheid posts per maand — ik kijk naar wat een merk, avond of campagne nodig heeft en bouw de content daaromheen op.
+                {cs.approachParagraph}
               </p>
               <div className="flex flex-wrap gap-2">
-                {DISCIPLINES.map((item) => (
+                {cs.disciplines.map((item) => (
                   <span key={item} className={`${PILL_CLASS} px-3.5 py-1.5 text-xs font-body uppercase tracking-[0.1em]`}>
                     {item}
                   </span>
@@ -204,14 +199,14 @@ const ProjectContentSocial = () => {
             {/* CTA */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 text-center">
               <p className="text-2xl md:text-4xl font-antonio font-semibold mb-8">
-                Tijd om <span className="text-secondary">iets te laten zien</span>?
+                {cs.ctaHeading.lead} <span className="text-secondary">{cs.ctaHeading.accent}</span>{cs.ctaHeading.rest}
               </p>
               <Link
                 to="/#contact"
                 className="group inline-flex items-center gap-3 px-8 py-4 font-body font-medium text-base tracking-widest uppercase border border-[hsl(350,58%,36%)] bg-[hsl(350,58%,36%)] hover:bg-transparent transition-all duration-300"
                 style={{ color: "transparent", WebkitTextStroke: "1.5px rgba(255,255,255,0.88)" }}
               >
-                Start Project
+                {cs.startProject}
                 <span
                   className="transition-transform duration-300 group-hover:translate-x-1.5"
                   style={{ color: "hsl(350,58%,36%)" }}

@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { ThemeTransitionProvider } from "@/components/ThemeTransitionProvider";
+import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -19,6 +20,7 @@ import NotFound from "./pages/NotFound.tsx";
 const queryClient = new QueryClient();
 
 const App = () => (
+  <LanguageProvider>
   <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} storageKey="portfolio-theme">
   <ThemeTransitionProvider>
   <QueryClientProvider client={queryClient}>
@@ -44,6 +46,7 @@ const App = () => (
   </QueryClientProvider>
   </ThemeTransitionProvider>
   </ThemeProvider>
+  </LanguageProvider>
 );
 
 export default App;

@@ -3,6 +3,7 @@ import { useState, useRef } from "react";
 import React from "react";
 import FooterV2 from "./FooterV2";
 import { SECTION_TITLE_CLASS, SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_GUTTER_CLASS, SECTION_TITLE_GAP_CLASS, SECTION_TITLE_PADDING_TOP_CLASS } from "@/lib/sectionTitle";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const EASE    = [0.22, 1, 0.36, 1] as const;
 const VP      = { once: true } as const;
@@ -12,6 +13,7 @@ interface ContactV2Props {
 }
 
 const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const outerRef   = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -137,7 +139,7 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                   transition={{ duration: 0.8, ease: EASE }}
                   className={SECTION_TITLE_CLASS}
                 >
-                  Contact
+                  {t.contact.title}
                 </motion.h2>
               </div>
             </div>
@@ -158,22 +160,22 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                     transition={{ duration: 0.9, delay: 0.1, ease: EASE }}
                   >
                     <p className="text-2xl md:text-4xl font-antonio font-semibold text-foreground leading-tight">
-                      Klaar om iets
-                      <span className="text-brand-orange"> moois</span> te bouwen?
+                      {t.contact.heading.lead}
+                      <span className="text-brand-orange"> {t.contact.heading.accent}</span> {t.contact.heading.rest}
                     </p>
                     <div className="mt-6 h-px w-48 bg-brand-orange/35" />
                     <div className="flex flex-col gap-4 text-sm text-foreground/50 font-body mt-6">
                       <div>
-                        <div className="font-body font-medium mb-1 uppercase text-xs tracking-widest text-brand-orange/70">Email</div>
+                        <div className="font-body font-medium mb-1 uppercase text-xs tracking-widest text-brand-orange/70">{t.common.email}</div>
                         hello@studiobitbeeld.nl
                       </div>
                       <div>
-                        <div className="font-body font-medium mb-1 uppercase text-xs tracking-widest text-brand-orange/70">Telefoon</div>
+                        <div className="font-body font-medium mb-1 uppercase text-xs tracking-widest text-brand-orange/70">{t.common.phone}</div>
                         +31 (0)6 1234 5678
                       </div>
                       <div>
-                        <div className="font-body font-medium mb-1 uppercase text-xs tracking-widest text-brand-orange/70">Locatie</div>
-                        Amsterdam, NL
+                        <div className="font-body font-medium mb-1 uppercase text-xs tracking-widest text-brand-orange/70">{t.common.location}</div>
+                        {t.common.locationValue}
                       </div>
                     </div>
                   </motion.div>
@@ -189,7 +191,7 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                   >
                     <div>
                       <label htmlFor="name-v2" className="block text-xs text-foreground/50 font-body uppercase tracking-widest mb-2">
-                        Naam
+                        {t.common.name}
                       </label>
                       <input
                         id="name-v2"
@@ -198,12 +200,12 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         className="w-full bg-transparent border-b-2 border-foreground/20 py-2.5 text-foreground font-body focus:outline-none focus:border-brand-orange transition-colors placeholder:text-foreground/30"
-                        placeholder="Jouw naam"
+                        placeholder={t.common.namePlaceholder}
                       />
                     </div>
                     <div>
                       <label htmlFor="email-v2" className="block text-xs text-foreground/50 font-body uppercase tracking-widest mb-2">
-                        Email
+                        {t.common.email}
                       </label>
                       <input
                         id="email-v2"
@@ -212,12 +214,12 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         className="w-full bg-transparent border-b-2 border-foreground/20 py-2.5 text-foreground font-body focus:outline-none focus:border-brand-orange transition-colors placeholder:text-foreground/30"
-                        placeholder="jouw@email.nl"
+                        placeholder={t.common.emailPlaceholder}
                       />
                     </div>
                     <div>
                       <label htmlFor="message-v2" className="block text-xs text-foreground/50 font-body uppercase tracking-widest mb-2">
-                        Bericht
+                        {t.common.message}
                       </label>
                       <textarea
                         id="message-v2"
@@ -226,14 +228,14 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                         className="w-full bg-transparent border-b-2 border-foreground/20 py-2.5 text-foreground font-body focus:outline-none focus:border-brand-orange transition-colors resize-none placeholder:text-foreground/30"
-                        placeholder="Vertel over je project..."
+                        placeholder={t.common.messagePlaceholder}
                       />
                     </div>
                     <button
                       type="submit"
                       className="bg-brand-orange text-black px-8 py-3.5 font-body font-medium text-sm tracking-widest uppercase hover:opacity-90 transition-opacity mt-2"
                     >
-                      Verstuur Bericht
+                      {t.common.sendMessage}
                     </button>
                   </motion.form>
 

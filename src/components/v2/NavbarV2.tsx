@@ -8,6 +8,7 @@ import { useIsPhoneLayout, useIsTablet, useIsLandscapeMobile } from "@/hooks/use
 import { BRAND_ORANGE_RGB } from "@/lib/brandColor";
 import { LOGO_ZWART, SolidLogoMark } from "@/components/v2/BitBeeldLogo";
 import { saveHomepageScroll } from "@/lib/homepageScroll";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 /*
  * Scroll offsets (in pixels) for each home-page section.
@@ -20,12 +21,14 @@ const SECTION_TARGETS: Record<string, number> = {
   "contact":   8.5 * window.innerHeight,   // 850vh
 };
 
-const NAV_ITEMS = [
-  { label: "Home",      href: "/"          },
-  { label: "Over Mij",  href: "#over-ons"  },
-  { label: "Projecten", href: "#projecten" },
-  { label: "Contact",   href: "#contact"   },
-  { label: "Brandbook", href: "/brandbook" },
+// Hrefs/anchors are stable regardless of language (routing is untouched);
+// only the labels come from the active translation.
+const getNavItems = (t: ReturnType<typeof useLanguage>["t"]) => [
+  { label: t.nav.home,      href: "/"          },
+  { label: t.nav.about,     href: "#over-ons"  },
+  { label: t.nav.projects,  href: "#projecten" },
+  { label: t.nav.contact,   href: "#contact"   },
+  { label: t.nav.brandbook, href: "/brandbook" },
 ];
 
 const SOCIALS = [
@@ -122,6 +125,8 @@ const NavbarV2 = ({
   const navRef = useRef<HTMLElement>(null);
   const { theme } = useTheme();
   const { toggleTheme } = useThemeTransition();
+  const { t } = useLanguage();
+  const navItems = getNavItems(t);
   // Portrait phone OR landscape phone — must match Index.tsx's routing
   // exactly (same hook), since this decides whether the navbar renders its
   // simplified always-solid-orange treatment. If this ever disagreed with
@@ -534,7 +539,7 @@ const NavbarV2 = ({
             <a
               href="/"
               onClick={handleLogoClick}
-              aria-label="Bit & Beeld — naar de homepage"
+              aria-label={t.nav.logoAria}
               className="block"
             >
               <SolidLogoMark src={LOGO_ZWART} />
@@ -578,13 +583,13 @@ const NavbarV2 = ({
                   className={`font-body transition-colors duration-300 text-[15px] ${forceWhite ? forceWhiteText : "text-nearBlack/80 dark:text-cream"}`}
                   style={{ fontWeight: 500, letterSpacing: "0.015em" }}
                 >
-                  Beschikbaar voor project
+                  {t.nav.available}
                 </span>
                 <span
                   className={`font-body uppercase transition-colors duration-300 text-[10px] ${forceWhite ? "text-cream/50" : "text-nearBlack/40 dark:text-cream/50"}`}
                   style={{ letterSpacing: "0.15em" }}
                 >
-                  Medio 2026
+                  {t.nav.availableFrom}
                 </span>
               </div>
             </div>
@@ -598,7 +603,7 @@ const NavbarV2 = ({
             whileTap={{ scale: 0.88 }}
             transition={{ duration: 0.15 }}
             className={`flex items-center justify-center w-10 h-10 md:w-9 md:h-9 lg:w-10 lg:h-10 landscape-mobile:w-7 landscape-mobile:h-7 rounded-full transition-all duration-300 hover:scale-[1.05] ${pillColors}`}
-            aria-label="Toggle light/dark mode"
+            aria-label={t.nav.themeToggleAria}
           >
             <AnimatePresence mode="wait" initial={false}>
               {theme === "light" ? (
@@ -626,7 +631,7 @@ const NavbarV2 = ({
             onClick={(e) => handleNavClick(e, "#contact")}
             className={`hidden md:inline-block landscape-mobile:hidden px-5 py-2.5 lg:px-7 lg:py-3 rounded-full text-sm lg:text-base font-body font-medium tracking-[0.12em] uppercase hover:scale-[1.03] transition-all duration-300 ${pillColors}`}
           >
-            Plan Gesprek
+            {t.common.bookCall}
           </button>
 
           {/* Hamburger */}
@@ -680,7 +685,7 @@ const NavbarV2 = ({
                     className="font-body uppercase text-cream/60"
                     style={{ fontSize: "11px", letterSpacing: "0.22em" }}
                   >
-                    Menu
+                    {t.nav.menu}
                   </span>
                 </div>
                 <button onClick={() => setMenuOpen(false)} className="text-cream/60 hover:text-cream transition-colors">
@@ -690,7 +695,7 @@ const NavbarV2 = ({
 
               {/* Nav links */}
               <div className="flex-1 flex flex-col justify-center px-8">
-                {NAV_ITEMS.map((item, i) => (
+                {navItems.map((item, i) => (
                   <motion.div
                     key={item.label}
                     initial={{ opacity: 0, x: 40 }}
@@ -729,7 +734,7 @@ const NavbarV2 = ({
                     className="font-body uppercase text-cream/30"
                     style={{ fontSize: "10px", letterSpacing: "0.2em" }}
                   >
-                    Email
+                    {t.nav.emailLabel}
                   </span>
                   <a
                     href="mailto:hello@bitbeeld.nl"
@@ -744,7 +749,7 @@ const NavbarV2 = ({
                     className="font-body uppercase text-cream/30"
                     style={{ fontSize: "10px", letterSpacing: "0.2em" }}
                   >
-                    Socials
+                    {t.nav.socialsLabel}
                   </span>
                   <div className="grid grid-cols-2 gap-x-8 gap-y-2 mt-2">
                     {SOCIALS.map((s) => (

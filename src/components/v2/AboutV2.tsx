@@ -6,6 +6,7 @@ import aboutPortrait from "@/assets/about-portrait.jpg";
 import React from "react";
 import { SECTION_TITLE_CLASS, SECTION_TITLE_GAP_CLASS, SECTION_TITLE_PADDING_TOP_CLASS } from "@/lib/sectionTitle";
 import { BRAND_ORANGE_HSL } from "@/lib/brandColor";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 // Single brand orange, shared with NavbarV2/FooterV2/LoadingScreen — no more
 // locally-hardcoded accent hex that can drift from --brand-orange over time.
@@ -30,6 +31,7 @@ const AboutV2 = ({ scrollContainerRef, onSnap, aboutTopRef }: AboutV2Props) => {
   const outerRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const hasSnapped = useRef(false);
+  const { t } = useLanguage();
 
   const { scrollYProgress } = useScroll({
     target: outerRef,
@@ -116,7 +118,7 @@ const AboutV2 = ({ scrollContainerRef, onSnap, aboutTopRef }: AboutV2Props) => {
             transition={{ duration: 0.8 }}
             className={SECTION_TITLE_CLASS}
           >
-            OVER MIJ
+            {t.nav.about.toUpperCase()}
           </motion.h2>
         </div>
       </div>
@@ -141,9 +143,9 @@ const AboutV2 = ({ scrollContainerRef, onSnap, aboutTopRef }: AboutV2Props) => {
               className="font-antonio font-semibold text-foreground leading-[0.9] tracking-tight mb-5"
               style={{ fontSize: "clamp(3rem, 5.5vw, 5rem)" }}
             >
-              Hi, I'm
+              {t.about.greeting}
               <br />
-              <span style={{ color: ACCENT }}>Wouter</span>
+              <span style={{ color: ACCENT }}>{t.about.name}</span>
             </motion.h3>
 
             {/* Body */}
@@ -155,15 +157,10 @@ const AboutV2 = ({ scrollContainerRef, onSnap, aboutTopRef }: AboutV2Props) => {
               className="space-y-3 mb-6"
             >
               <p className="font-body text-lg leading-relaxed text-foreground/60">
-                Ik ontwerp en ontwikkel digitale ervaringen die niet alleen goed ogen, maar ook werken.
-                Van eerste idee tot uitgewerkt concept denk ik mee in structuur, gebruik en uitstraling.
+                {t.about.paragraph1}
               </p>
               <p className="font-body text-lg leading-relaxed text-foreground/60">
-                Geen overbodige complexiteit, maar duidelijke keuzes en een resultaat dat klopt.
-                Of het nu gaat om webdesign, branding of interactie — alles draait om balans tussen vorm en functie.
-              </p>
-              <p className="font-body text-sm leading-relaxed text-foreground/30 italic">
-                Ik werk het liefst aan projecten waar creativiteit en techniek samenkomen.
+                {t.about.paragraph2}
               </p>
             </motion.div>
 
@@ -179,7 +176,7 @@ const AboutV2 = ({ scrollContainerRef, onSnap, aboutTopRef }: AboutV2Props) => {
                 className="group inline-flex items-center gap-3 text-white font-body font-medium text-xs tracking-[0.18em] uppercase px-8 py-4 transition-opacity hover:opacity-80"
                 style={{ backgroundColor: ACCENT }}
               >
-                Meer over mij
+                {t.common.moreAboutMe}
                 <ArrowRight size={14} className="transition-transform group-hover:translate-x-1.5" />
               </Link>
             </motion.div>
@@ -200,7 +197,7 @@ const AboutV2 = ({ scrollContainerRef, onSnap, aboutTopRef }: AboutV2Props) => {
               <div className="h-full overflow-hidden rounded-2xl">
                 <img
                   src={aboutPortrait}
-                  alt="Portret van Wouter"
+                  alt={t.about.portraitAlt}
                   className="w-full h-full object-cover"
                   loading="lazy"
                   width={1000}

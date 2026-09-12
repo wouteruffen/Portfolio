@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useTheme } from "next-themes";
 import { LOGO_WIT, LOGO_ZWART, LOGO_FULL_BOX, LogoCrop } from "@/components/v2/BitBeeldLogo";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -30,6 +31,7 @@ interface MobileHeroProps {
  */
 const MobileHero = ({ onScrollToSection, logoRef }: MobileHeroProps) => {
   const { theme } = useTheme();
+  const { t } = useLanguage();
   const logoSrc = theme === "light" ? LOGO_ZWART : LOGO_WIT;
 
   return (
@@ -62,8 +64,8 @@ const MobileHero = ({ onScrollToSection, logoRef }: MobileHeroProps) => {
           className="w-2 h-2 landscape-mobile:w-1.5 landscape-mobile:h-1.5 rounded-full flex-shrink-0"
           style={{ backgroundColor: "#22c55e", boxShadow: "0 0 6px rgba(34,197,94,0.6)" }}
         />
-        <span className="font-body text-xs landscape-mobile:text-[10px] text-foreground/70">Beschikbaar voor project</span>
-        <span className="font-body text-xs landscape-mobile:text-[10px] text-foreground/40 uppercase tracking-wide">Medio 2026</span>
+        <span className="font-body text-xs landscape-mobile:text-[10px] text-foreground/70">{t.nav.available}</span>
+        <span className="font-body text-xs landscape-mobile:text-[10px] text-foreground/40 uppercase tracking-wide">{t.nav.availableFrom}</span>
       </motion.div>
 
       {/* Studio logo — a modest static mark, not the animated giant used on
@@ -91,7 +93,7 @@ const MobileHero = ({ onScrollToSection, logoRef }: MobileHeroProps) => {
         transition={{ duration: 0.55, delay: 0.16, ease: EASE }}
         className="relative z-10 font-antonio font-semibold text-foreground leading-[1.05] text-[2rem] landscape-mobile:text-xl mb-4 landscape-mobile:mb-1.5 max-w-[15ch] landscape-mobile:max-w-none"
       >
-        Merken en websites die werken.
+        {t.mobileHero.heading}
       </motion.h1>
 
       <motion.p
@@ -100,7 +102,7 @@ const MobileHero = ({ onScrollToSection, logoRef }: MobileHeroProps) => {
         transition={{ duration: 0.55, delay: 0.24, ease: EASE }}
         className="relative z-10 font-body text-foreground/60 text-base landscape-mobile:text-xs leading-relaxed landscape-mobile:leading-snug max-w-[30ch] landscape-mobile:max-w-none mb-10 landscape-mobile:mb-4"
       >
-        Ontworpen en gebouwd met intentie, helderheid en zorg.
+        {t.mobileHero.subtitle}
       </motion.p>
 
       {/* Primary + secondary CTA — landscape-mobile lays these out side by
@@ -117,13 +119,13 @@ const MobileHero = ({ onScrollToSection, logoRef }: MobileHeroProps) => {
           onClick={() => onScrollToSection("contact")}
           className="w-full landscape-mobile:w-auto py-4 landscape-mobile:py-2.5 px-0 landscape-mobile:px-6 rounded-full bg-brand-orange text-white font-body font-medium text-sm landscape-mobile:text-xs tracking-[0.12em] uppercase active:scale-[0.98] transition-transform"
         >
-          Plan Gesprek
+          {t.common.bookCall}
         </button>
         <button
           onClick={() => onScrollToSection("projecten")}
           className="group inline-flex items-center gap-2 py-3 landscape-mobile:py-2 px-4 landscape-mobile:px-2 font-body font-medium text-sm landscape-mobile:text-xs tracking-[0.1em] uppercase text-foreground/70"
         >
-          Bekijk werk
+          {t.common.viewWork}
           <ArrowRight size={14} className="transition-transform group-active:translate-x-1" />
         </button>
       </motion.div>

@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import heroPortrait from "@/assets/hero-portrait.jpg";
 import { useRef } from "react";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 interface HeroV2Props {
   scrollContainerRef?: React.RefObject<HTMLDivElement>;
@@ -9,6 +10,7 @@ interface HeroV2Props {
 
 const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
   const sectionRef = useRef<HTMLElement>(null);
+  const { t } = useLanguage();
 
   const { scrollYProgress: heroScroll } = useScroll({
     target: sectionRef,
@@ -77,8 +79,8 @@ const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
         className="absolute bottom-16 lg:bottom-20 landscape-mobile:bottom-auto left-6 md:left-12 lg:left-24 landscape-mobile:left-[max(1rem,env(safe-area-inset-left))] landscape-mobile:top-32 z-10 max-w-[260px] lg:max-w-sm landscape-mobile:max-w-[170px]"
       >
         <p className="text-cream/80 text-sm leading-snug lg:text-lg lg:leading-relaxed landscape-mobile:text-[10px] landscape-mobile:leading-tight font-body">
-          <span className="text-cream font-semibold">Wij ontwerpen merken, websites en digitale ervaringen</span>{" "}
-          met intentie, helderheid en zorg.
+          <span className="text-cream font-semibold">{t.hero.taglineBold}</span>{" "}
+          {t.hero.taglineRest}
         </p>
       </motion.div>
 
@@ -93,15 +95,15 @@ const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
             crowded to keep alongside a legible CTA at this height, and the
             spec explicitly allows hiding them here. */}
         <div className="flex gap-6 landscape-mobile:hidden">
-          <span>#01 Webdesign</span>
-          <span>#02 Identiteit</span>
+          <span>{t.hero.tags[0]}</span>
+          <span>{t.hero.tags[1]}</span>
           {/* Reserved for desktop (lg+, ≥1024): at tablet widths (md,
               768–1023) the row shares space with the CTA below, and even
               tablet-sized, four tags plus a button crowd that narrower
               band — so tablet shows the same two tags as before, gaining
               the other two back only at lg like on desktop today. */}
-          <span className="hidden lg:inline">#03 Print & Campaign</span>
-          <span className="hidden lg:inline">#04 Social Media</span>
+          <span className="hidden lg:inline">{t.hero.tags[2]}</span>
+          <span className="hidden lg:inline">{t.hero.tags[3]}</span>
         </div>
 
         {/* Start Project CTA — sized per breakpoint instead of scaled

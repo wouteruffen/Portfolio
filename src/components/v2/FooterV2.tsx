@@ -6,14 +6,17 @@ import { Instagram, Linkedin, Github, Mail } from "lucide-react";
 import "@fontsource/anton";
 import { BRAND_ORANGE_HSL } from "@/lib/brandColor";
 import { LOGO_ZWART, LOGO_FULL_BOX, LogoCrop } from "@/components/v2/BitBeeldLogo";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const FOOTER_BG = BRAND_ORANGE_HSL;
 
-const SOCIALS = [
+// Icon/href are language-independent; only the Mail label needs a translation
+// (Instagram/LinkedIn/GitHub are brand names, never translated).
+const getSocials = (mailLabel: string) => [
   { icon: Instagram, label: "Instagram", href: "#" },
   { icon: Linkedin,  label: "LinkedIn",  href: "#" },
   { icon: Github,    label: "GitHub",    href: "#" },
-  { icon: Mail,      label: "Mail",      href: "mailto:hello@studiobitbeeld.nl" },
+  { icon: Mail,      label: mailLabel,   href: "mailto:hello@studiobitbeeld.nl" },
 ];
 
 interface FooterV2Props {
@@ -26,6 +29,8 @@ interface FooterV2Props {
 
 const FooterV2 = ({ scrollContainerRef, revealProgress }: FooterV2Props) => {
   const footerRef = useRef<HTMLElement>(null);
+  const { t } = useLanguage();
+  const socials = getSocials(t.nav.mailSocialLabel);
 
   // Standalone scroll tracking — used only when revealProgress is absent.
   const { scrollYProgress } = useScroll({
@@ -98,12 +103,12 @@ const FooterV2 = ({ scrollContainerRef, revealProgress }: FooterV2Props) => {
               container widths; lg: restores the original text-3xl.
               landscape-mobile shrinks it again, further still. */}
           <p className="text-black font-antonio font-semibold text-xl lg:text-3xl landscape-mobile:text-sm leading-tight text-left md:text-right tracking-[-0.01em]">
-            Design dat werkt.<br />
-            Gebouwd met visie.
+            {t.footer.tagline[0]}<br />
+            {t.footer.tagline[1]}
           </p>
 
           <div className="flex items-center gap-4 landscape-mobile:gap-3 mt-auto">
-            {SOCIALS.map(({ icon: Icon, label, href }) => (
+            {socials.map(({ icon: Icon, label, href }) => (
               <a
                 key={label}
                 href={href}
@@ -120,10 +125,10 @@ const FooterV2 = ({ scrollContainerRef, revealProgress }: FooterV2Props) => {
       {/* ── Bottom bar ───────────────────────────────────────────────────── */}
       <div className="mt-8 md:mt-6 lg:mt-8 landscape-mobile:mt-3 pt-4 md:pt-3 lg:pt-4 landscape-mobile:pt-2 border-t border-black/15 flex items-center justify-between">
         <p className="text-black/40 text-xs landscape-mobile:text-[9px] font-body uppercase tracking-widest">
-          © 2026 Studio Bit & Beeld
+          {t.footer.copyright}
         </p>
         <p className="text-black/40 text-xs landscape-mobile:text-[9px] font-body uppercase tracking-widest">
-          Amsterdam, NL
+          {t.footer.location}
         </p>
       </div>
     </motion.footer>

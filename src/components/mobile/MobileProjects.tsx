@@ -4,7 +4,8 @@ import { ArrowRight } from "lucide-react";
 import { BRAND_ORANGE_HSL } from "@/lib/brandColor";
 import { SECTION_TITLE_CLASS } from "@/lib/sectionTitle";
 import { PILL_CLASS } from "@/lib/pill";
-import { PROJECTS } from "@/lib/projectsData";
+import { getProjects } from "@/lib/projectsData";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const ACCENT = BRAND_ORANGE_HSL;
 const EASE   = [0.22, 1, 0.36, 1] as const;
@@ -20,6 +21,8 @@ const VP     = { once: true, amount: 0.15 } as const;
  * card fading in once via `whileInView` (no continuous scroll-linked work).
  */
 const MobileProjects = () => {
+  const { language, t } = useLanguage();
+  const projects = getProjects(language);
   return (
     <section id="projecten" className="relative scroll-mt-24 px-6 pt-24 landscape-mobile:pt-14 pb-20 landscape-mobile:pb-8 overflow-hidden bg-background">
       <div
@@ -33,10 +36,10 @@ const MobileProjects = () => {
         }}
       />
 
-      <h2 className={`relative z-10 ${SECTION_TITLE_CLASS} mb-10 landscape-mobile:mb-5`}>WAT IK DOE</h2>
+      <h2 className={`relative z-10 ${SECTION_TITLE_CLASS} mb-10 landscape-mobile:mb-5`}>{t.nav.projects.toUpperCase()}</h2>
 
       <div className="relative z-10 flex flex-col gap-12 landscape-mobile:gap-6">
-        {PROJECTS.map((proj, i) => (
+        {projects.map((proj, i) => (
           <motion.div
             key={proj.title}
             initial={{ opacity: 0, y: 24 }}
@@ -84,7 +87,7 @@ const MobileProjects = () => {
                 className="group inline-flex items-center gap-2 font-body font-medium text-xs landscape-mobile:text-[10px] tracking-[0.15em] uppercase px-6 landscape-mobile:px-4 py-3 landscape-mobile:py-1.5 rounded-full"
                 style={{ backgroundColor: ACCENT, color: "white" }}
               >
-                Bekijk werk
+                {t.common.viewWork}
                 <ArrowRight size={13} className="transition-transform group-active:translate-x-1" />
               </Link>
             </div>

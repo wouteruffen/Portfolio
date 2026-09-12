@@ -6,7 +6,8 @@ import React from "react";
 import { SECTION_TITLE_CLASS, SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_GAP_CLASS, SECTION_TITLE_PADDING_TOP_CLASS } from "@/lib/sectionTitle";
 import { BRAND_ORANGE_HSL } from "@/lib/brandColor";
 import { PILL_CLASS } from "@/lib/pill";
-import { PROJECTS as projects } from "@/lib/projectsData";
+import { getProjects } from "@/lib/projectsData";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 // Single brand orange, shared with NavbarV2/FooterV2/LoadingScreen — no more
 // locally-hardcoded accent hex that can drift from --brand-orange over time.
@@ -21,6 +22,8 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
   const outerRef   = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const [progressIndex, setProgressIndex] = useState(0);
+  const { language, t } = useLanguage();
+  const projects = getProjects(language);
 
   // ── Section reveal (unchanged) ────────────────────────────────────────────
   const { scrollYProgress: revealProgress } = useScroll({
@@ -183,7 +186,7 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
         >
           <div className={SECTION_TITLE_CONTAINER_CLASS}>
             <h2 className={SECTION_TITLE_CLASS}>
-              WAT IK DOE
+              {t.nav.projects.toUpperCase()}
             </h2>
           </div>
         </div>
@@ -239,7 +242,7 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
                       color: "white",
                     }}
                   >
-                    Bekijk werk
+                    {t.common.viewWork}
                     <ArrowRight
                       size={12}
                       className="transition-transform duration-300 group-hover:translate-x-1.5"

@@ -11,37 +11,21 @@ import { getHomeReturnHref } from "@/lib/homepageScroll";
 import aboutPortrait from "@/assets/about-portrait.jpg";
 import { SECTION_TITLE_CLASS } from "@/lib/sectionTitle";
 import { PILL_CLASS } from "@/lib/pill";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const VP = { once: true, amount: 0.15 } as const;
 
-const stats = [
-  { num: "50+", label: "Projecten" },
-  { num: "8", label: "Jaar ervaring" },
-  { num: "100%", label: "Maatwerk" },
-];
-
-const timeline = [
-  { year: "2018", title: "Start als freelancer", desc: "Begonnen met kleine webprojecten en lokale bedrijven." },
-  { year: "2019", title: "Eerste grote klant", desc: "Volledige merkidentiteit en website voor een tech-startup." },
-  { year: "2021", title: "Studio Bit & Beeld", desc: "Officieel gestart onder de naam Studio Bit & Beeld." },
-  { year: "2023", title: "Focus op digitale producten", desc: "Uitgebreid naar SaaS-platformen en complexe webapplicaties." },
-  { year: "2026", title: "Vandaag", desc: "50+ projecten afgerond, continue groei en vernieuwing." },
-];
-
+// Not translated — technology/skill names, same list in both languages.
 const skills = [
   "React", "TypeScript", "Figma", "Tailwind CSS", "Branding",
   "UI/UX Design", "Framer Motion", "Next.js", "Node.js", "SEO",
   "Adobe Creative Suite", "Webflow", "Git", "Responsive Design", "Accessibility",
 ];
 
-const values = [
-  { title: "Kwaliteit boven kwantiteit", desc: "Liever één project goed dan drie half. Elk detail telt." },
-  { title: "Transparante communicatie", desc: "Geen verrassingen. Eerlijk, direct en altijd bereikbaar." },
-  { title: "Continu leren", desc: "Technologie evolueert, en ik evolueer mee. Altijd up-to-date." },
-];
-
 const OverMijPage = () => {
+  const { t } = useLanguage();
+  const om = t.overMij;
   const portraitRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: portraitProgress } = useScroll({
     target: portraitRef,
@@ -68,7 +52,7 @@ const OverMijPage = () => {
               to={getHomeReturnHref("over-ons")}
               className="inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase font-body text-foreground/50 hover:text-brand-orange transition-colors mb-10 md:mb-14"
             >
-              <ArrowLeft size={14} /> Terug naar home
+              <ArrowLeft size={14} /> {om.backLink}
             </Link>
           </motion.div>
 
@@ -78,7 +62,7 @@ const OverMijPage = () => {
             transition={{ duration: 0.7, ease: EASE }}
             className={SECTION_TITLE_CLASS}
           >
-            MEER OVER MIJ
+            {om.title}
           </motion.h1>
         </SubpageHeaderSection>
 
@@ -96,8 +80,8 @@ const OverMijPage = () => {
                   className="font-antonio font-semibold text-foreground leading-[0.95] tracking-tight mb-6"
                   style={{ fontSize: "clamp(2.25rem, 4vw, 3.5rem)" }}
                 >
-                  Vorm en functie,<br />
-                  in <span className="text-brand-orange">balans</span>.
+                  {om.heading.line1}<br />
+                  {om.heading.rest} <span className="text-brand-orange">{om.heading.accent}</span>{om.heading.suffix}
                 </motion.h2>
 
                 <motion.div
@@ -108,17 +92,13 @@ const OverMijPage = () => {
                   className="space-y-4 mb-10"
                 >
                   <p className="font-body text-lg leading-relaxed text-foreground/60">
-                    Bij Studio Bit &amp; Beeld combineer ik strategie, design en development tot digitale
-                    ervaringen die impact maken. Mijn passie ligt bij het vertalen van complexe ideeën naar
-                    strakke, functionele oplossingen.
+                    {om.paragraph1}
                   </p>
                   <p className="font-body text-lg leading-relaxed text-foreground/60">
-                    Van merkidentiteit tot volledige webplatformen — ik bouw alles met precisie, passie en
-                    een scherp oog voor detail. Als eenmanszaak werk ik nauw samen met mijn klanten: korte
-                    lijnen, snelle beslissingen, persoonlijke aandacht.
+                    {om.paragraph2}
                   </p>
                   <p className="font-body text-sm leading-relaxed text-foreground/30 italic">
-                    Elk project is een kans om iets unieks te creëren.
+                    {om.paragraph3}
                   </p>
                 </motion.div>
 
@@ -130,7 +110,7 @@ const OverMijPage = () => {
                   transition={{ duration: 0.5, delay: 0.3, ease: EASE }}
                   className="flex items-stretch gap-8 md:gap-10"
                 >
-                  {stats.map((stat, i) => (
+                  {om.stats.map((stat, i) => (
                     <div
                       key={stat.label}
                       className={i > 0 ? "pl-8 md:pl-10 border-l border-foreground/10" : ""}
@@ -164,7 +144,7 @@ const OverMijPage = () => {
                   <div className="relative z-10 w-full h-full overflow-hidden rounded-2xl">
                     <img
                       src={aboutPortrait}
-                      alt="Portret van Wouter"
+                      alt={om.portraitAlt}
                       className="w-full h-full object-cover"
                       loading="lazy"
                       width={1000}
@@ -190,11 +170,11 @@ const OverMijPage = () => {
               className="font-antonio font-semibold text-foreground leading-[0.95] tracking-tight mb-10 md:mb-14"
               style={{ fontSize: "clamp(2rem, 3.5vw, 3rem)" }}
             >
-              De weg tot hier
+              {om.timelineTitle}
             </motion.h2>
 
             <div>
-              {timeline.map((item, i) => (
+              {om.timeline.map((item, i) => (
                 <motion.div
                   key={item.year}
                   initial={{ opacity: 0, y: 16 }}
@@ -232,7 +212,7 @@ const OverMijPage = () => {
               className="font-antonio font-semibold text-foreground leading-[0.95] tracking-tight mb-10 md:mb-14"
               style={{ fontSize: "clamp(2rem, 3.5vw, 3rem)" }}
             >
-              Waarmee ik werk
+              {om.skillsTitle}
             </motion.h2>
 
             <div className="flex flex-wrap gap-2.5 md:gap-3">
@@ -263,11 +243,11 @@ const OverMijPage = () => {
               className="font-antonio font-semibold text-foreground leading-[0.95] tracking-tight mb-10 md:mb-14"
               style={{ fontSize: "clamp(2rem, 3.5vw, 3rem)" }}
             >
-              Waar ik voor sta
+              {om.valuesTitle}
             </motion.h2>
 
             <div>
-              {values.map((value, i) => (
+              {om.values.map((value, i) => (
                 <motion.div
                   key={value.title}
                   initial={{ opacity: 0, y: 16 }}
@@ -305,7 +285,7 @@ const OverMijPage = () => {
               className="font-antonio font-semibold text-foreground leading-tight mb-8"
               style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)" }}
             >
-              Klaar om iets <span className="text-brand-orange">moois</span> te bouwen?
+              {om.ctaHeading.lead} <span className="text-brand-orange">{om.ctaHeading.accent}</span> {om.ctaHeading.rest}
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 12 }}
@@ -317,7 +297,7 @@ const OverMijPage = () => {
                 to="/#contact"
                 className="group inline-flex items-center gap-3 text-white font-body font-medium text-xs tracking-[0.18em] uppercase px-8 py-4 bg-brand-orange transition-opacity hover:opacity-80"
               >
-                Neem Contact Op
+                {om.ctaButton}
                 <ArrowRight size={14} className="transition-transform group-hover:translate-x-1.5" />
               </Link>
             </motion.div>

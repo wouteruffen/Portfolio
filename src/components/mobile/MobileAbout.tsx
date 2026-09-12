@@ -5,6 +5,7 @@ import React from "react";
 import aboutPortrait from "@/assets/about-portrait.jpg";
 import { BRAND_ORANGE_HSL } from "@/lib/brandColor";
 import { SECTION_TITLE_CLASS } from "@/lib/sectionTitle";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const ACCENT = BRAND_ORANGE_HSL;
 const EASE   = [0.22, 1, 0.36, 1] as const;
@@ -25,6 +26,7 @@ interface MobileAboutProps {
  * full-bleed), then intro copy, then one full-width CTA.
  */
 const MobileAbout = ({ aboutTopRef }: MobileAboutProps) => {
+  const { t } = useLanguage();
   return (
     <section
       id="over-ons"
@@ -44,7 +46,7 @@ const MobileAbout = ({ aboutTopRef }: MobileAboutProps) => {
         }}
       />
 
-      <h2 className={`relative z-10 ${SECTION_TITLE_CLASS} mb-8 landscape-mobile:mb-4`}>OVER MIJ</h2>
+      <h2 className={`relative z-10 ${SECTION_TITLE_CLASS} mb-8 landscape-mobile:mb-4`}>{t.nav.about.toUpperCase()}</h2>
 
       {/* landscape-mobile: image + copy sit side by side (this outer div has
           no layout classes outside that variant, so portrait/tablet/desktop
@@ -63,7 +65,7 @@ const MobileAbout = ({ aboutTopRef }: MobileAboutProps) => {
         >
           <img
             src={aboutPortrait}
-            alt="Portret van Wouter"
+            alt={t.about.portraitAlt}
             className="w-full h-full object-cover"
             loading="lazy"
             width={800}
@@ -80,7 +82,7 @@ const MobileAbout = ({ aboutTopRef }: MobileAboutProps) => {
             transition={{ duration: 0.5, delay: 0.05, ease: EASE }}
             className="relative z-10 font-antonio font-semibold text-foreground leading-[0.95] text-4xl landscape-mobile:text-lg mb-4 landscape-mobile:mb-1.5"
           >
-            Hi, I'm <span style={{ color: ACCENT }}>Wouter</span>
+            {t.about.greeting} <span style={{ color: ACCENT }}>{t.about.name}</span>
           </motion.h3>
 
           <motion.div
@@ -90,12 +92,11 @@ const MobileAbout = ({ aboutTopRef }: MobileAboutProps) => {
             transition={{ duration: 0.5, delay: 0.15, ease: EASE }}
             className="relative z-10 space-y-3 landscape-mobile:space-y-1 mb-8 landscape-mobile:mb-3"
           >
-            <p className="font-body text-base landscape-mobile:text-xs leading-relaxed landscape-mobile:leading-snug text-foreground/60">
-              Ik ontwerp en ontwikkel digitale ervaringen die niet alleen goed ogen, maar ook werken.
-              Van eerste idee tot uitgewerkt concept denk ik mee in structuur, gebruik en uitstraling.
+            <p className="font-body text-base landscape-mobile:text-xs leading-relaxed landscape-mobile:leading-snug text-foreground/60 landscape-mobile:line-clamp-3">
+              {t.about.paragraph1}
             </p>
-            <p className="font-body text-base landscape-mobile:text-xs leading-relaxed landscape-mobile:leading-snug text-foreground/60">
-              Geen overbodige complexiteit, maar duidelijke keuzes en een resultaat dat klopt.
+            <p className="font-body text-base landscape-mobile:text-xs leading-relaxed landscape-mobile:leading-snug text-foreground/60 landscape-mobile:hidden">
+              {t.about.paragraph2}
             </p>
           </motion.div>
 
@@ -111,7 +112,7 @@ const MobileAbout = ({ aboutTopRef }: MobileAboutProps) => {
               className="group flex items-center justify-center gap-3 w-full landscape-mobile:w-auto text-white font-body font-medium text-sm landscape-mobile:text-[10px] tracking-[0.12em] uppercase py-4 landscape-mobile:py-2 px-0 landscape-mobile:px-5 rounded-full active:scale-[0.98] transition-transform"
               style={{ backgroundColor: ACCENT }}
             >
-              Meer over mij
+              {t.common.moreAboutMe}
               <ArrowRight size={16} className="transition-transform group-active:translate-x-1" />
             </Link>
           </motion.div>

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import React from "react";
 import FooterV2 from "@/components/v2/FooterV2";
 import { SECTION_TITLE_CLASS } from "@/lib/sectionTitle";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const VP   = { once: true, amount: 0.15 } as const;
@@ -20,6 +21,7 @@ interface MobileContactProps {
  * sitting in normal flow here.
  */
 const MobileContact = ({ scrollContainerRef }: MobileContactProps) => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -41,7 +43,7 @@ const MobileContact = ({ scrollContainerRef }: MobileContactProps) => {
           }}
         />
 
-        <h2 className={`relative z-10 ${SECTION_TITLE_CLASS} mb-8 landscape-mobile:mb-4`}>Contact</h2>
+        <h2 className={`relative z-10 ${SECTION_TITLE_CLASS} mb-8 landscape-mobile:mb-4`}>{t.contact.title}</h2>
 
         {/* landscape-mobile: info column + form side by side (same pairing
             desktop's ContactV2 already uses), so the two don't have to stack
@@ -55,7 +57,7 @@ const MobileContact = ({ scrollContainerRef }: MobileContactProps) => {
               transition={{ duration: 0.5, ease: EASE }}
               className="relative z-10 text-2xl landscape-mobile:text-base font-antonio font-semibold text-foreground leading-tight mb-6 landscape-mobile:mb-3"
             >
-              Klaar om iets <span className="text-brand-orange">moois</span> te bouwen?
+              {t.contact.heading.lead} <span className="text-brand-orange">{t.contact.heading.accent}</span> {t.contact.heading.rest}
             </motion.p>
 
             <motion.div
@@ -66,16 +68,16 @@ const MobileContact = ({ scrollContainerRef }: MobileContactProps) => {
               className="relative z-10 flex flex-col gap-4 landscape-mobile:gap-2 text-sm landscape-mobile:text-[11px] text-foreground/60 font-body mb-10 landscape-mobile:mb-0"
             >
               <div>
-                <div className="font-body font-medium mb-1 landscape-mobile:mb-0.5 uppercase text-xs landscape-mobile:text-[9px] tracking-widest text-brand-orange/70">Email</div>
+                <div className="font-body font-medium mb-1 landscape-mobile:mb-0.5 uppercase text-xs landscape-mobile:text-[9px] tracking-widest text-brand-orange/70">{t.common.email}</div>
                 hello@studiobitbeeld.nl
               </div>
               <div>
-                <div className="font-body font-medium mb-1 landscape-mobile:mb-0.5 uppercase text-xs landscape-mobile:text-[9px] tracking-widest text-brand-orange/70">Telefoon</div>
+                <div className="font-body font-medium mb-1 landscape-mobile:mb-0.5 uppercase text-xs landscape-mobile:text-[9px] tracking-widest text-brand-orange/70">{t.common.phone}</div>
                 +31 (0)6 1234 5678
               </div>
               <div>
-                <div className="font-body font-medium mb-1 landscape-mobile:mb-0.5 uppercase text-xs landscape-mobile:text-[9px] tracking-widest text-brand-orange/70">Locatie</div>
-                Amsterdam, NL
+                <div className="font-body font-medium mb-1 landscape-mobile:mb-0.5 uppercase text-xs landscape-mobile:text-[9px] tracking-widest text-brand-orange/70">{t.common.location}</div>
+                {t.common.locationValue}
               </div>
             </motion.div>
           </div>
@@ -90,7 +92,7 @@ const MobileContact = ({ scrollContainerRef }: MobileContactProps) => {
           >
             <div>
               <label htmlFor="name-mobile" className="block text-xs landscape-mobile:text-[9px] text-foreground/50 font-body uppercase tracking-widest mb-2 landscape-mobile:mb-1">
-                Naam
+                {t.common.name}
               </label>
               <input
                 id="name-mobile"
@@ -99,12 +101,12 @@ const MobileContact = ({ scrollContainerRef }: MobileContactProps) => {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="w-full bg-transparent border-b-2 border-foreground/20 py-3 landscape-mobile:py-1 text-base landscape-mobile:text-xs text-foreground font-body focus:outline-none focus:border-brand-orange transition-colors placeholder:text-foreground/30"
-                placeholder="Jouw naam"
+                placeholder={t.common.namePlaceholder}
               />
             </div>
             <div>
               <label htmlFor="email-mobile" className="block text-xs landscape-mobile:text-[9px] text-foreground/50 font-body uppercase tracking-widest mb-2 landscape-mobile:mb-1">
-                Email
+                {t.common.email}
               </label>
               <input
                 id="email-mobile"
@@ -113,12 +115,12 @@ const MobileContact = ({ scrollContainerRef }: MobileContactProps) => {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full bg-transparent border-b-2 border-foreground/20 py-3 landscape-mobile:py-1 text-base landscape-mobile:text-xs text-foreground font-body focus:outline-none focus:border-brand-orange transition-colors placeholder:text-foreground/30"
-                placeholder="jouw@email.nl"
+                placeholder={t.common.emailPlaceholder}
               />
             </div>
             <div>
               <label htmlFor="message-mobile" className="block text-xs landscape-mobile:text-[9px] text-foreground/50 font-body uppercase tracking-widest mb-2 landscape-mobile:mb-1">
-                Bericht
+                {t.common.message}
               </label>
               <textarea
                 id="message-mobile"
@@ -127,14 +129,14 @@ const MobileContact = ({ scrollContainerRef }: MobileContactProps) => {
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 className="w-full bg-transparent border-b-2 border-foreground/20 py-3 landscape-mobile:py-1 landscape-mobile:h-12 text-base landscape-mobile:text-xs text-foreground font-body focus:outline-none focus:border-brand-orange transition-colors resize-none placeholder:text-foreground/30"
-                placeholder="Vertel over je project..."
+                placeholder={t.common.messagePlaceholder}
               />
             </div>
             <button
               type="submit"
               className="w-full bg-brand-orange text-black px-8 landscape-mobile:px-6 py-4 landscape-mobile:py-2 rounded-full font-body font-medium text-sm landscape-mobile:text-xs tracking-widest uppercase active:scale-[0.98] transition-transform"
             >
-              Verstuur Bericht
+              {t.common.sendMessage}
             </button>
           </motion.form>
         </div>

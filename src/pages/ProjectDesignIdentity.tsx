@@ -8,6 +8,7 @@ import SubpageHeader from "@/components/v2/SubpageHeader";
 import CursorEffects from "@/components/CursorEffects";
 import { SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_GUTTER_CLASS } from "@/lib/sectionTitle";
 import { PILL_CLASS } from "@/lib/pill";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 // Real client work. Kruize's guideline pages are the same identity shown on
 // its website (see ProjectWebdesign) — documented as a system (clearspace
 // grid, letterhead spec) rather than a one-off drawing. FIXY's slides show
@@ -22,18 +23,11 @@ import signatureBoilermaker from "@/assets/design-identity/Handtekening Boilerma
 import signatureFixy from "@/assets/design-identity/Handtekening FIXY placeholder.png";
 import signatureWijck from "@/assets/design-identity/Handtekening Wijck Placeholder.png";
 
-const SIGNATURES = [
-  { src: signatureBoilermaker, alt: "E-mailhandtekening voor The Boilermaker Group (namen en contactgegevens zijn placeholders)", brand: "The Boilermaker Group" },
-  { src: signatureFixy, alt: "E-mailhandtekening voor FIXY (namen en contactgegevens zijn placeholders)", brand: "FIXY" },
-  { src: signatureWijck, alt: "E-mailhandtekening voor WIJCK (namen en contactgegevens zijn placeholders)", brand: "WIJCK" },
-];
-
-const DISCIPLINES = [
-  "Logo & wordmark",
-  "Visuele identiteit",
-  "Typografie & kleursystemen",
-  "Brand guidelines",
-  "Zakelijke drukwerktoepassingen",
+// Brand names never translate; only the alt text does (via signatureAlt()).
+const SIGNATURE_BRANDS = [
+  { src: signatureBoilermaker, brand: "The Boilermaker Group" },
+  { src: signatureFixy, brand: "FIXY" },
+  { src: signatureWijck, brand: "WIJCK" },
 ];
 
 /**
@@ -60,6 +54,8 @@ const FramedDoc = ({ src, alt, caption, aspectClass }: { src: string; alt: strin
 );
 
 const ProjectDesignIdentity = () => {
+  const { t } = useLanguage();
+  const di = t.projectDesignIdentity;
   return (
     <>
       <CursorEffects />
@@ -68,38 +64,38 @@ const ProjectDesignIdentity = () => {
 
         <SubpageGridBackground />
 
-        <SubpageHeader title="Design & Identiteit" />
+        <SubpageHeader title={di.pageTitle} />
 
         {/* Content */}
         <section className={`relative z-10 ${SECTION_TITLE_GUTTER_CLASS} py-16 md:py-24`}>
           <div className={SECTION_TITLE_CONTAINER_CLASS}>
             {/* Intro — thesis statement, no image; the real work below carries the page */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="max-w-[640px]">
-              <h2 className="text-3xl font-antonio font-semibold mb-6">Een merk is meer dan een logo</h2>
+              <h2 className="text-3xl font-antonio font-semibold mb-6">{di.introHeading}</h2>
               <div className="space-y-4 text-muted-foreground font-body leading-relaxed">
-                <p>Een sterke identiteit begint bij een logo, maar eindigt daar niet. Ze groeit uit tot een systeem — grid, witruimte, typografie, kleur — dat vervolgens consistent wordt toegepast op elk raakvlak met een klant.</p>
-                <p>Hieronder een kijkje in hoe dat er in de praktijk uitziet: van een vastgelegd merksysteem tot een identiteit die tot leven komt in fotografie en tone-of-voice.</p>
+                <p>{di.introParagraph1}</p>
+                <p>{di.introParagraph2}</p>
               </div>
             </motion.div>
 
             {/* System — Kruize's identity documented as a repeatable system */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
-              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">Identiteit → systeem</h2>
-              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">Vastgelegd, niet toevallig</h3>
+              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">{di.systemEyebrow}</h2>
+              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">{di.systemHeading}</h3>
               <p className="text-muted-foreground font-body leading-relaxed max-w-[640px] mb-10">
-                Voor Bouwbedrijf Kruize — dezelfde identiteit die je terugziet op de website — is de visuele taal vastgelegd in een navolgbaar systeem: witruimteregels rond het merkteken en exacte specificaties voor briefpapier, zodat de identiteit consistent blijft ongeacht wie 'm toepast.
+                {di.systemParagraph}
               </p>
               <div className="grid md:grid-cols-2 gap-8 md:gap-10">
                 <FramedDoc
                   src={kruizeLogoSpacing}
-                  alt="Huisstijlgids Bouwbedrijf Kruize — clearspace- en witruimteregels rond het logo"
-                  caption="Logo & witruimte"
+                  alt={di.logoSpacingAlt}
+                  caption={di.logoSpacingCaption}
                   aspectClass="aspect-[297/210]"
                 />
                 <FramedDoc
                   src={kruizeLetterhead}
-                  alt="Huisstijlgids Bouwbedrijf Kruize — briefpapierspecificaties en A4-formaat"
-                  caption="Briefpapier — specificaties"
+                  alt={di.letterheadAlt}
+                  caption={di.letterheadCaption}
                   aspectClass="aspect-[297/210]"
                 />
               </div>
@@ -107,22 +103,22 @@ const ProjectDesignIdentity = () => {
 
             {/* Application — FIXY's identity carried into photography and voice */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
-              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">Systeem → toepassing</h2>
-              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">Een identiteit die een gevoel oproept</h3>
+              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">{di.applicationEyebrow}</h2>
+              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">{di.applicationHeading}</h3>
               <p className="text-muted-foreground font-body leading-relaxed max-w-[640px] mb-10">
-                Bij FIXY stopt de identiteit niet bij het logo. Kleur, typografie en toon vertalen zich net zo goed naar fotografie en copy — dezelfde merkwereld, herkenbaar in elke uiting.
+                {di.applicationParagraph}
               </p>
               <div className="flex flex-col gap-8 md:gap-10">
                 <FramedDoc
                   src={fixyCampaign}
-                  alt="FIXY-merkwereld vertaald naar fotografie, kleur en tone-of-voice"
-                  caption="Merkwereld in beeld en tekst"
+                  alt={di.fixyCampaignAlt}
+                  caption={di.fixyCampaignCaption}
                   aspectClass="aspect-[16/9]"
                 />
                 <FramedDoc
                   src={fixySpaces}
-                  alt="FIXY-ruimtes gepresenteerd in dezelfde visuele en tekstuele toon als de rest van het merk"
-                  caption="Toegepast op de ruimtes zelf"
+                  alt={di.fixySpacesAlt}
+                  caption={di.fixySpacesCaption}
                   aspectClass="aspect-[16/9]"
                 />
               </div>
@@ -130,17 +126,17 @@ const ProjectDesignIdentity = () => {
 
             {/* Consistency — the same practical touchpoint, three different identities */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
-              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">Toepassing → consistentie</h2>
-              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">Identiteit in de praktijk</h3>
+              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">{di.consistencyEyebrow}</h2>
+              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">{di.consistencyHeading}</h3>
               <p className="text-muted-foreground font-body leading-relaxed max-w-[640px] mb-10">
-                Een visuele identiteit stopt niet bij een logo. Ook in dagelijkse communicatie moet een merk herkenbaar en consistent blijven. Voor verschillende merken ontwierp ik e-mailhandtekeningen waarin typografie, kleur, logo en digitale contactpunten samenkomen in één herkenbare toepassing.
+                {di.consistencyParagraph}
               </p>
               {/* Single column up through tablet so every signature stays close to
                   its native size and legible — three columns only once the 1240px
                   container has enough room per card (lg, ≥1024) to compare them
                   side by side without shrinking the type into thumbnails. */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-8">
-                {SIGNATURES.map((sig) => (
+                {SIGNATURE_BRANDS.map((sig) => (
                   <div key={sig.brand}>
                     <div className="relative">
                       <div
@@ -149,7 +145,7 @@ const ProjectDesignIdentity = () => {
                         aria-hidden="true"
                       />
                       <div className="relative z-[1] border border-border overflow-hidden bg-white flex items-center justify-center h-[150px] md:h-[170px] px-6 md:px-8">
-                        <img src={sig.src} alt={sig.alt} className="max-w-full max-h-full w-auto h-auto object-contain" loading="lazy" />
+                        <img src={sig.src} alt={di.signatureAlt(sig.brand)} className="max-w-full max-h-full w-auto h-auto object-contain" loading="lazy" />
                       </div>
                     </div>
                     <p className="mt-4 text-xs font-body uppercase tracking-[0.15em] text-muted-foreground">{sig.brand}</p>
@@ -160,12 +156,12 @@ const ProjectDesignIdentity = () => {
 
             {/* What this can cover — compact, portfolio-flavored rather than a service menu */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24">
-              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">Wat dit kan omvatten</h2>
+              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">{di.coversEyebrow}</h2>
               <p className="text-muted-foreground font-body leading-relaxed max-w-[560px] mb-6">
-                Van eerste merkverkenning tot de kleinste toepassing — dit soort werk combineert meerdere disciplines, afhankelijk van wat een merk nodig heeft.
+                {di.coversParagraph}
               </p>
               <div className="flex flex-wrap gap-2">
-                {DISCIPLINES.map((item) => (
+                {di.disciplines.map((item) => (
                   <span key={item} className={`${PILL_CLASS} px-3.5 py-1.5 text-xs font-body uppercase tracking-[0.1em]`}>
                     {item}
                   </span>
@@ -176,14 +172,14 @@ const ProjectDesignIdentity = () => {
             {/* CTA */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 text-center">
               <p className="text-2xl md:text-4xl font-antonio font-semibold mb-8">
-                Tijd voor een <span className="text-accent">sterke identiteit</span>?
+                {di.ctaHeading.lead} <span className="text-accent">{di.ctaHeading.accent}</span>{di.ctaHeading.rest}
               </p>
               <Link
                 to="/#contact"
                 className="group inline-flex items-center gap-3 px-8 py-4 font-body font-medium text-base tracking-widest uppercase border border-accent bg-accent hover:bg-transparent transition-all duration-300"
                 style={{ color: "transparent", WebkitTextStroke: "1.5px rgba(255,255,255,0.88)" }}
               >
-                Start Project
+                {di.startProject}
                 <span
                   className="transition-transform duration-300 group-hover:translate-x-1.5"
                   style={{ color: "hsl(var(--accent))" }}

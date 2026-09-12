@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import SubpageHeaderSection from "./SubpageHeaderSection";
 import { SECTION_TITLE_CLASS } from "@/lib/sectionTitle";
 import { getHomeReturnHref } from "@/lib/homepageScroll";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -26,7 +27,9 @@ interface SubpageHeaderProps {
  * (same SECTION_TITLE_CLASS token for the title) so every subpage title
  * belongs to the same design system as "Meer over mij", the reference page.
  */
-const SubpageHeader = ({ title, fallbackSection = "projecten" }: SubpageHeaderProps) => (
+const SubpageHeader = ({ title, fallbackSection = "projecten" }: SubpageHeaderProps) => {
+  const { t } = useLanguage();
+  return (
   <SubpageHeaderSection>
     <motion.div
       initial={{ opacity: 0, y: 12 }}
@@ -37,7 +40,7 @@ const SubpageHeader = ({ title, fallbackSection = "projecten" }: SubpageHeaderPr
         to={getHomeReturnHref(fallbackSection)}
         className="inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase font-body text-foreground/50 hover:text-brand-orange transition-colors mb-10 md:mb-14"
       >
-        <ArrowLeft size={14} /> Terug naar home
+        <ArrowLeft size={14} /> {t.common.backToHome}
       </Link>
     </motion.div>
 
@@ -50,6 +53,7 @@ const SubpageHeader = ({ title, fallbackSection = "projecten" }: SubpageHeaderPr
       {title}
     </motion.h1>
   </SubpageHeaderSection>
-);
+  );
+};
 
 export default SubpageHeader;
