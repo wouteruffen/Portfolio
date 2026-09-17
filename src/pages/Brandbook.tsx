@@ -266,7 +266,7 @@ const Brandbook = () => {
                 </Link>
                 <span style={{ color: "#444444", fontSize: "12px" }}>·</span>
                 <span className="font-body" style={{ fontSize: "12px", color: "#CCCCCC", letterSpacing: "0.12em" }}>
-                  Vol. 1 — The Brandbook
+                  Vol. 1: The Brandbook
                 </span>
               </div>
 
@@ -400,9 +400,9 @@ const Brandbook = () => {
 
               <div className="mt-4 grid grid-cols-3 gap-3 flex-shrink-0">
                 {[
-                  { label: "PRIMARY",  body: "Light background — default application. Anton, uppercase, full wordmark." },
+                  { label: "PRIMARY",  body: "Light background, default application. Anton, uppercase, full wordmark." },
                   { label: "DARK",     body: "Off-white on near-black. Same weight, same spacing. Use in dark contexts." },
-                  { label: "ACCENT",   body: "Signal Orange (#FF5A36) variant — reserved for special moments only. Never as default." },
+                  { label: "ACCENT",   body: "Signal Orange (#FF5A36) variant, reserved for special moments only. Never as default." },
                 ].map(({ label, body }) => (
                   <div key={label}>
                     <Rule light />
@@ -498,11 +498,11 @@ const Brandbook = () => {
                 {[
                   {
                     label: "FOUNDATION",
-                    body: "Near black and warm paper anchor the monochromatic base — 90% of every composition. Graphite as the elevated surface. No cold white. No pure black.",
+                    body: "Near black and warm paper anchor the monochromatic base: 90% of every composition. Graphite as the elevated surface. No cold white. No pure black.",
                   },
                   {
                     label: "SIGNAL LAYER",
-                    body: "Signal orange is the primary accent. Teal cyan, dusty blue, and muted lavender are compositional tools — metadata, system states, hover accents. Purposeful. Never dominant.",
+                    body: "Signal orange is the primary accent. Teal cyan, dusty blue, and muted lavender are compositional tools: metadata, system states, hover accents. Purposeful. Never dominant.",
                   },
                 ].map(({ label, body }) => (
                   <div key={label}>
@@ -717,7 +717,7 @@ const Brandbook = () => {
                 <div className="flex flex-col justify-between">
                   <p className="font-body leading-relaxed" style={{ fontSize: "13px", color: "#777777" }}>
                     The primary canvas is dark. Strong contrast, intentional. Off-white on near-black
-                    gives character without noise. The accent is the only fixed signal — present in both
+                    gives character without noise. The accent is the only fixed signal, present in both
                     states, always purposeful.
                   </p>
                   <div>
@@ -728,7 +728,7 @@ const Brandbook = () => {
                       START PROJECT
                     </button>
                     <p className="font-body mt-3" style={{ fontSize: "12px", color: "#666666" }}>
-                      Accent on black — maximum contrast, one signal.
+                      Accent on black: maximum contrast, one signal.
                     </p>
                   </div>
                 </div>
@@ -742,7 +742,7 @@ const Brandbook = () => {
                     </div>
                   </div>
                   <div className="flex-1 flex flex-col justify-center">
-                    <p className="font-antonio uppercase mb-2" style={{ fontSize: "11px", fontWeight: 600, color: TEAL, letterSpacing: "0.25em" }}>WEBDESIGN — 2026</p>
+                    <p className="font-antonio uppercase mb-2" style={{ fontSize: "11px", fontWeight: 600, color: TEAL, letterSpacing: "0.25em" }}>WEBDESIGN · 2026</p>
                     <h3 className="font-antonio leading-tight mb-3" style={{ fontSize: "clamp(1rem, 2vw, 2rem)", fontWeight: 600, color: OFF_WHITE }}>
                       Project Naam
                     </h3>
@@ -769,7 +769,7 @@ const Brandbook = () => {
               <div className="grid grid-cols-2 gap-6 flex-shrink-0" style={{ height: "44vh" }}>
                 <div className="flex flex-col justify-between">
                   <p className="font-body leading-relaxed" style={{ fontSize: "13px", color: "#777777" }}>
-                    The light system is the complement — documentation, guidelines, editorial contexts.
+                    The light system is the complement: documentation, guidelines, editorial contexts.
                     Warm off-white, never cold white. The same type hierarchy, the same accent, the same
                     intentional spacing.
                   </p>
@@ -781,7 +781,7 @@ const Brandbook = () => {
                       START PROJECT
                     </button>
                     <p className="font-body mt-3" style={{ fontSize: "12px", color: "#999999" }}>
-                      Dark on warm paper — same hierarchy, inverse state.
+                      Dark on warm paper: same hierarchy, inverse state.
                     </p>
                   </div>
                 </div>
@@ -795,7 +795,7 @@ const Brandbook = () => {
                     </div>
                   </div>
                   <div className="flex-1 flex flex-col justify-center">
-                    <p className="font-antonio uppercase mb-2" style={{ fontSize: "11px", fontWeight: 600, color: TEAL, letterSpacing: "0.25em" }}>BRANDING — 2026</p>
+                    <p className="font-antonio uppercase mb-2" style={{ fontSize: "11px", fontWeight: 600, color: TEAL, letterSpacing: "0.25em" }}>BRANDING · 2026</p>
                     <h3 className="font-antonio leading-tight mb-3" style={{ fontSize: "clamp(1rem, 2vw, 2rem)", fontWeight: 600, color: "#111111" }}>
                       Project Naam
                     </h3>
@@ -863,7 +863,7 @@ const Brandbook = () => {
                   {[
                     "Use Anton exclusively for the wordmark",
                     "Maintain generous whitespace throughout",
-                    "Use Signal Orange (#FF5A36) as the primary accent — teal only for system accents",
+                    "Use Signal Orange (#FF5A36) as the primary accent, reserving teal for system accents only",
                     "Keep type hierarchy consistent and clear",
                     "Apply the 12-column grid at every breakpoint",
                     "Use #F4F1EB (warm off-white) in light mode",
@@ -926,7 +926,7 @@ const Brandbook = () => {
                 <Rule />
                 <div className="flex items-center justify-between mt-4">
                   <p className="font-body" style={{ fontSize: "11px", color: "#555555", letterSpacing: "0.08em" }}>
-                    © 2026 Studio Bit & Beeld — Brand Guidelines v2.0
+                    © 2026 Studio Bit & Beeld: Brand Guidelines v2.0
                   </p>
                   <p className="font-body" style={{ fontSize: "11px", color: "#555555" }}>Nederland</p>
                 </div>

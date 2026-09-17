@@ -89,23 +89,8 @@ const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 1.5 }}
-        className="absolute bottom-6 landscape-mobile:bottom-[max(0.75rem,env(safe-area-inset-bottom))] left-6 md:left-12 lg:left-24 landscape-mobile:left-[max(1rem,env(safe-area-inset-left))] right-6 md:right-12 lg:right-24 landscape-mobile:right-[max(1rem,env(safe-area-inset-right))] flex justify-between landscape-mobile:justify-end items-end text-[10px] text-cream/30 font-body tracking-[0.15em] uppercase z-20"
+        className="absolute bottom-6 landscape-mobile:bottom-[max(0.75rem,env(safe-area-inset-bottom))] left-6 md:left-12 lg:left-24 landscape-mobile:left-[max(1rem,env(safe-area-inset-left))] right-6 md:right-12 lg:right-24 landscape-mobile:right-[max(1rem,env(safe-area-inset-right))] flex justify-end items-end text-[10px] text-cream/30 font-body tracking-[0.15em] uppercase z-20"
       >
-        {/* Category tags — hidden on landscape-mobile: the row is too
-            crowded to keep alongside a legible CTA at this height, and the
-            spec explicitly allows hiding them here. */}
-        <div className="flex gap-6 landscape-mobile:hidden">
-          <span>{t.hero.tags[0]}</span>
-          <span>{t.hero.tags[1]}</span>
-          {/* Reserved for desktop (lg+, ≥1024): at tablet widths (md,
-              768–1023) the row shares space with the CTA below, and even
-              tablet-sized, four tags plus a button crowd that narrower
-              band — so tablet shows the same two tags as before, gaining
-              the other two back only at lg like on desktop today. */}
-          <span className="hidden lg:inline">{t.hero.tags[2]}</span>
-          <span className="hidden lg:inline">{t.hero.tags[3]}</span>
-        </div>
-
         {/* Start Project CTA — sized per breakpoint instead of scaled
             uniformly. The unprefixed values are the tablet (md, 768–1023)
             size, since Hero never renders below md anyway; `lg:` restores
@@ -113,8 +98,7 @@ const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
             border-[3px]/26px icon) untouched. Without this split, the fixed
             desktop sizing — built for lg+ container widths — ate almost the
             full tablet content width. landscape-mobile shrinks it further
-            still, since the tags above are hidden and it has the row to
-            itself. */}
+            still, since it has the row to itself. */}
         <a
           href="#contact"
           className="group inline-flex items-center gap-2 lg:gap-4 landscape-mobile:gap-1.5 px-6 py-3 lg:px-16 lg:py-5 landscape-mobile:px-4 landscape-mobile:py-2 rounded-full border-2 lg:border-[3px] landscape-mobile:border-2 border-brand-orange bg-brand-orange/10 text-brand-orange font-body font-medium text-sm lg:text-2xl landscape-mobile:text-[10px] tracking-[0.1em] uppercase transition-all duration-300 hover:bg-brand-orange hover:text-black hover:border-brand-orange"

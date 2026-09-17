@@ -11,9 +11,9 @@
 
 const nl = {
   meta: {
-    title: "Studio Bit & Beeld — Creatief Bureau",
+    title: "Studio Bit & Beeld | Creativiteit & Techniek",
     description:
-      "Studio Bit & Beeld — Creatief bureau gespecialiseerd in webdesign, ontwikkeling en visuele identiteit.",
+      "Sterke vormgeving gecombineerd met technische kennis, voor web, merk en alles daartussenin.",
   },
 
   // Shared across many pages/components — CTAs, form fields, small recurring labels.
@@ -49,15 +49,14 @@ const nl = {
     menu: "Menu",
     emailLabel: "Email",
     socialsLabel: "Socials",
-    logoAria: "Bit & Beeld — naar de homepage",
+    logoAria: "Bit & Beeld: naar de homepage",
     themeToggleAria: "Schakel tussen licht en donker thema",
     mailSocialLabel: "E-mail",
   },
 
   hero: {
-    taglineBold: "Wij ontwerpen merken, websites en digitale ervaringen",
-    taglineRest: "met intentie, helderheid en zorg.",
-    tags: ["#01 Webdesign", "#02 Identiteit", "#03 Print & Campaign", "#04 Social Media"],
+    taglineBold: "Creativiteit en techniek komen samen in alles wat ik maak.",
+    taglineRest: "Niet alleen om iets goed te laten ogen, maar vooral om iets te maken dat werkt voor jou.",
   },
 
   mobileHero: {
@@ -69,9 +68,9 @@ const nl = {
     greeting: "Hi! Ik ben",
     name: "Wouter",
     paragraph1:
-      "Ik ben technisch ingesteld en heb een grote passie voor digitaal ontwerp — die twee komen in mijn werk het liefst samen. Ik denk het liefst al vanaf het eerste idee mee, niet als uitvoerder van een vooraf vastgestelde vraag, maar als iemand die meedenkt over wat een project nodig heeft.",
+      "Mijn kracht zit in de combinatie van creativiteit en techniek. Ik wil iets niet alleen mooi maken, maar ook begrijpen hoe het werkt en hoe het beter kan.",
     paragraph2:
-      "Geen project, klant of vraagstuk is hetzelfde — dus lever ik ook geen standaardoplossing. Ik wil begrijpen wat iemand voor ogen heeft en dat vertalen naar iets dat écht past, waarin vorm en techniek elkaar versterken in plaats van los van elkaar te staan.",
+      "Daarom denk ik het liefst vanaf het begin met je mee: luisteren, ideeën uitwisselen en samen ontdekken wat het beste bij jou past.",
     portraitAlt: "Portret van Wouter",
   },
 
@@ -87,19 +86,19 @@ const nl = {
     designIdentity: {
       title: "Design & Identiteit",
       description:
-        "Visuele identiteiten die consistent overkomen op elk oppervlak. Van logo en typografie tot kleursystemen en brand guidelines — een merk dat overal hetzelfde verhaal vertelt.",
+        "Visuele identiteiten die consistent overkomen op elk oppervlak. Van logo en typografie tot kleursystemen en brand guidelines: één merk dat overal hetzelfde verhaal vertelt.",
       tools: ["Logo Design", "Huisstijl", "Typografie", "Brand Guidelines"],
     },
     printDesign: {
       title: "Print & Campaign Design",
       description:
-        "Posters, flyers en ander drukwerk dat ook offline overtuigt. Van los grafisch ontwerp tot complete campagnebeelden — vormgeving die staat, op papier en op straat.",
+        "Posters, flyers en ander drukwerk dat ook offline overtuigt. Van los grafisch ontwerp tot complete campagnebeelden: vormgeving die staat, op papier en op straat.",
       tools: ["Illustrator", "Photoshop", "Grafisch Ontwerp", "Drukwerk"],
     },
     contentSocial: {
       title: "Content & Social Media",
       description:
-        "Visueel content die opvalt in de feed. Van social media content en fotografie tot video en reels — content die een merk laat leven op de kanalen waar het publiek al is.",
+        "Visueel content die opvalt in de feed. Van social media content en fotografie tot video en reels: content die een merk laat leven op de kanalen waar het publiek al is.",
       tools: ["Social Media", "Fotografie", "Video", "Content Design"],
     },
   },
@@ -113,6 +112,9 @@ const nl = {
   contact: {
     title: "Contact",
     heading: { lead: "Klaar om iets", accent: "moois", rest: "te bouwen?" },
+    sending: "Versturen...",
+    successMessage: "Bedankt voor je bericht. Ik neem snel contact met je op.",
+    errorMessage: "Er ging iets mis bij het versturen. Probeer het opnieuw.",
   },
 
   overMij: {
@@ -122,7 +124,7 @@ const nl = {
     paragraph1:
       "Bij Studio Bit & Beeld combineer ik strategie, design en development tot digitale ervaringen die impact maken. Mijn passie ligt bij het vertalen van complexe ideeën naar strakke, functionele oplossingen.",
     paragraph2:
-      "Van merkidentiteit tot volledige webplatformen — ik bouw alles met precisie, passie en een scherp oog voor detail. Als eenmanszaak werk ik nauw samen met mijn klanten: korte lijnen, snelle beslissingen, persoonlijke aandacht.",
+      "Ik bouw alles, van merkidentiteit tot volledige webplatformen, met precisie, passie en een scherp oog voor detail. Als eenmanszaak werk ik nauw samen met mijn klanten: korte lijnen, snelle beslissingen, persoonlijke aandacht.",
     paragraph3: "Elk project is een kans om iets unieks te creëren.",
     stats: [
       { num: "50+", label: "Projecten" },
@@ -153,19 +155,19 @@ const nl = {
     pageTitle: "Webdesign, Development & IT",
     featuredEyebrow: "Uitgelicht project",
     featuredSubtitle: { lead: "Website ontwikkeld voor", client: "Bouwbedrijf Kruize" },
-    mockupAlt: "Website van Bouwbedrijf Kruize — webdesign en development door Studio Bit & Beeld",
+    mockupAlt: "Website van Bouwbedrijf Kruize: webdesign en development door Studio Bit & Beeld",
     intro:
       "Voor Bouwbedrijf Kruize ontwierp en bouwde ik een website die het bedrijf en de dienstverlening professioneel en overzichtelijk presenteert. Vanuit gebruiksvriendelijkheid en responsive gedrag op elk scherm werkte ik toe naar een technische uitvoering die de site soepel online bracht en zorgt voor een consistente ervaring op elk device.",
     viewWebsite: "Bekijk website",
     seoTitle: "SEO en Analyse",
     seoImageAlt: "SEO en Analyse",
     seoText:
-      "Een mooie website is pas compleet als hij ook gevonden wordt. Voor Bouwbedrijf Kruize is daarom gelet op een semantische opbouw, correcte metadata en snelle laadtijden — de technische basis die zoekmachines nodig hebben om de site goed te kunnen indexeren.",
+      "Een mooie website is pas compleet als hij ook gevonden wordt. Voor Bouwbedrijf Kruize is daarom gelet op een semantische opbouw, correcte metadata en snelle laadtijden: de technische basis die zoekmachines nodig hebben om de site goed te kunnen indexeren.",
     seoPills: ["Analyse websitebezoekers", "Zoekopdrachten", "Technische SEO", "Snelheid & performance"],
     hostingTitle: "Hosting",
     hostingImageAlt: "Webhosting",
     hostingText:
-      "Een website is pas af als hij ook daadwerkelijk online staat. Voor Bouwbedrijf Kruize heb ik naast het ontwerp en de bouw ook de hosting, domeinkoppeling en SSL-certificering geregeld — zodat de site niet alleen werkt, maar ook veilig en betrouwbaar bereikbaar is.",
+      "Een website is pas af als hij ook daadwerkelijk online staat. Voor Bouwbedrijf Kruize heb ik naast het ontwerp en de bouw ook de hosting, domeinkoppeling en SSL-certificering geregeld, zodat de site niet alleen werkt, maar ook veilig en betrouwbaar bereikbaar is.",
     hostingPills: ["Domein & DNS", "SSL", "Deployment", "Hostingbeheer"],
     reviewsTitle: "Reviews die overtuigen sneller dan tekst",
     reviewsText:
@@ -190,21 +192,21 @@ const nl = {
     pageTitle: "Design & Identiteit",
     introHeading: "Een merk is meer dan een logo",
     introParagraph1:
-      "Een sterke identiteit begint bij een logo, maar eindigt daar niet. Ze groeit uit tot een systeem — grid, witruimte, typografie, kleur — dat vervolgens consistent wordt toegepast op elk raakvlak met een klant.",
+      "Een sterke identiteit begint bij een logo, maar eindigt daar niet. Ze groeit uit tot een systeem van grid, witruimte, typografie en kleur, dat vervolgens consistent wordt toegepast op elk raakvlak met een klant.",
     introParagraph2:
       "Hieronder een kijkje in hoe dat er in de praktijk uitziet: van een vastgelegd merksysteem tot een identiteit die tot leven komt in fotografie en tone-of-voice.",
     systemEyebrow: "Identiteit → systeem",
     systemHeading: "Vastgelegd, niet toevallig",
     systemParagraph:
-      "Voor Bouwbedrijf Kruize — dezelfde identiteit die je terugziet op de website — is de visuele taal vastgelegd in een navolgbaar systeem: witruimteregels rond het merkteken en exacte specificaties voor briefpapier, zodat de identiteit consistent blijft ongeacht wie 'm toepast.",
-    logoSpacingAlt: "Huisstijlgids Bouwbedrijf Kruize — clearspace- en witruimteregels rond het logo",
+      "Voor Bouwbedrijf Kruize, dezelfde identiteit die je terugziet op de website, is de visuele taal vastgelegd in een navolgbaar systeem: witruimteregels rond het merkteken en exacte specificaties voor briefpapier, zodat de identiteit consistent blijft ongeacht wie 'm toepast.",
+    logoSpacingAlt: "Huisstijlgids Bouwbedrijf Kruize: clearspace- en witruimteregels rond het logo",
     logoSpacingCaption: "Logo & witruimte",
-    letterheadAlt: "Huisstijlgids Bouwbedrijf Kruize — briefpapierspecificaties en A4-formaat",
-    letterheadCaption: "Briefpapier — specificaties",
+    letterheadAlt: "Huisstijlgids Bouwbedrijf Kruize: briefpapierspecificaties en A4-formaat",
+    letterheadCaption: "Briefpapier: specificaties",
     applicationEyebrow: "Systeem → toepassing",
     applicationHeading: "Een identiteit die een gevoel oproept",
     applicationParagraph:
-      "Bij FIXY stopt de identiteit niet bij het logo. Kleur, typografie en toon vertalen zich net zo goed naar fotografie en copy — dezelfde merkwereld, herkenbaar in elke uiting.",
+      "Bij FIXY stopt de identiteit niet bij het logo. Kleur, typografie en toon vertalen zich net zo goed naar fotografie en copy: dezelfde merkwereld, herkenbaar in elke uiting.",
     fixyCampaignAlt: "FIXY-merkwereld vertaald naar fotografie, kleur en tone-of-voice",
     fixyCampaignCaption: "Merkwereld in beeld en tekst",
     fixySpacesAlt: "FIXY-ruimtes gepresenteerd in dezelfde visuele en tekstuele toon als de rest van het merk",
@@ -216,7 +218,7 @@ const nl = {
     signatureAlt: (brand: string) => `E-mailhandtekening voor ${brand} (namen en contactgegevens zijn placeholders)`,
     coversEyebrow: "Wat dit kan omvatten",
     coversParagraph:
-      "Van eerste merkverkenning tot de kleinste toepassing — dit soort werk combineert meerdere disciplines, afhankelijk van wat een merk nodig heeft.",
+      "Dit soort werk combineert meerdere disciplines, van eerste merkverkenning tot de kleinste toepassing, afhankelijk van wat een merk nodig heeft.",
     disciplines: ["Logo & wordmark", "Visuele identiteit", "Typografie & kleursystemen", "Brand guidelines", "Zakelijke drukwerktoepassingen"],
     ctaHeading: { lead: "Tijd voor een", accent: "sterke identiteit", rest: "?" },
     startProject: "Start Project",
@@ -227,7 +229,7 @@ const nl = {
     introHeading: "Vormgeving die ook offline werkt",
     introParagraph1: "Niet alles hoeft op een scherm te leven. Posters, flyers en ander drukwerk trekken de aandacht juist doordat ze tastbaar zijn.",
     introParagraph2:
-      "Van los grafisch ontwerp voor een enkele opdracht tot samenhangende campagnebeelden — ik ontwerp print- en promotiemateriaal dat overtuigt, van eerste schets tot drukklaar bestand.",
+      "Ik ontwerp print- en promotiemateriaal dat overtuigt: van los grafisch ontwerp voor een enkele opdracht tot samenhangende campagnebeelden, van eerste schets tot drukklaar bestand.",
     introParagraph3: "Ook hier geldt: consistent, doordacht en afgestemd op waar het materiaal daadwerkelijk gebruikt wordt.",
     postersEyebrow: "Posters in de praktijk",
     postersParagraph: "Een selectie posters, van eerste schets tot drukklaar ontwerp.",
@@ -246,34 +248,34 @@ const nl = {
     pageTitle: "Content & Social Media",
     introHeading: "Content die een merk laat leven",
     introParagraph1:
-      "Social media vraagt om meer dan losse plaatjes. Het draait om een visuele lijn die zich laat vertalen naar elk formaat — feed, story, aankondiging — zonder de herkenbaarheid te verliezen.",
+      "Social media vraagt om meer dan losse plaatjes. Het draait om een visuele lijn die overal even herkenbaar blijft: in de feed, in een story of in een aankondiging.",
     introParagraph2:
       "Hieronder een selectie van content die ik ontwierp voor merken in de nachtcultuur: van terugkerende campagnesystemen tot content die zich aanpast aan uiteenlopende formaten.",
     kopjekEyebrow: "Uitgelichte campagne",
     kopjekHeading: "Een terugkerend sjabloon voor een clubtour",
     kopjekParagraph:
-      "Voor de Kopjek Clubtour ontwierp ik één visueel sjabloon — typografie, 3D-vorm, indeling — dat per stad een eigen kleurstelling kreeg. Vier steden, hetzelfde sjabloon, elk met een eigen kleur en line-up.",
+      "Voor de Kopjek Clubtour ontwierp ik één visueel sjabloon, met typografie, 3D-vorm en indeling, dat per stad een eigen kleurstelling kreeg. Vier steden, hetzelfde sjabloon, elk met een eigen kleur en line-up.",
     kopjekAlt: (city: string) => `Kopjek Clubtour aankondiging voor ${city}, zelfde sjabloon in eigen kleurstelling`,
     practiceEyebrow: "In de praktijk",
     practiceHeading: "Andere merken, andere sferen",
     practiceParagraph:
-      "Niet elk merk vraagt om dezelfde toon. Van een moody editorial aankondiging tot warme releasefotografie en een speelse typografische wending — de aanpak verschuift mee met wat het merk nodig heeft.",
-    groningsAlt: "Gronings Finest — moody editorial eventaankondiging",
-    leviAlt: "Levi — Moovline releasefeest, fotografie-gedreven aankondiging",
-    tonightFlipAlt: "FIXY Bar — 'Tonight we flip', omgedraaide typografie als visuele wending",
+      "Niet elk merk vraagt om dezelfde toon: de aanpak verschuift mee met wat het merk nodig heeft, van een moody editorial aankondiging tot warme releasefotografie en een speelse typografische wending.",
+    groningsAlt: "Gronings Finest: moody editorial eventaankondiging",
+    leviAlt: "Levi: Moovline releasefeest, fotografie-gedreven aankondiging",
+    tonightFlipAlt: "FIXY Bar: 'Tonight we flip', omgedraaide typografie als visuele wending",
     formatsEyebrow: "Campagne → formaten",
     formatsHeading: "Eén verhaal, verteld in drie momenten",
     formatsParagraph:
-      "Voor FIXY's DJ Talentroom liep de aankondiging op via stories — \"stay tuned\", \"big news soon\" — voordat de feed-post de line-up onthulde. Zelfde visuele systeem, drie momenten, drie formaten.",
-    feedPostAlt: "FIXY DJ Talentroom — feed post met line-up onthulling",
-    feedPostCaption: "Feed post — line-up onthuld",
-    storyTeaserAlt: "FIXY DJ Talentroom — story teaser 'stay tuned'",
-    storyTeaserCaption: "Story — teaser",
-    storyAnnouncementAlt: "FIXY DJ Talentroom — story aankondiging 'big news soon'",
-    storyAnnouncementCaption: "Story — aankondiging",
+      "Voor FIXY's DJ Talentroom liep de aankondiging op via stories, met \"stay tuned\" en \"big news soon\", voordat de feed-post de line-up onthulde. Zelfde visuele systeem, drie momenten, drie formaten.",
+    feedPostAlt: "FIXY DJ Talentroom: feed post met line-up onthulling",
+    feedPostCaption: "Feed post: line-up onthuld",
+    storyTeaserAlt: "FIXY DJ Talentroom: story teaser 'stay tuned'",
+    storyTeaserCaption: "Story: teaser",
+    storyAnnouncementAlt: "FIXY DJ Talentroom: story aankondiging 'big news soon'",
+    storyAnnouncementCaption: "Story: aankondiging",
     approachEyebrow: "Hoe ik dit aanpak",
     approachParagraph:
-      "Geen vast contentpakket en geen vaste hoeveelheid posts per maand — ik kijk naar wat een merk, avond of campagne nodig heeft en bouw de content daaromheen op.",
+      "Ik werk niet met een vast contentpakket of een vaste hoeveelheid posts per maand. Ik kijk naar wat een merk, avond of campagne nodig heeft en bouw de content daaromheen op.",
     disciplines: ["Campagnebeelden", "Social posts & stories", "Terugkerende sjablonen", "Aankondigingen", "Eventfotografie"],
     ctaHeading: { lead: "Tijd om", accent: "iets te laten zien", rest: "?" },
     startProject: "Start Project",
@@ -283,12 +285,12 @@ const nl = {
     pageTitle: "Digitale Producten",
     heading: "Complexe problemen, simpele oplossingen",
     paragraph1: "Digitale producten vragen om een andere aanpak. Het draait om gebruikerservaring, schaalbaarheid en slimme architectuur.",
-    paragraph2: "Van SaaS-platformen tot interne tools en mobiele apps — ik ontwerp en bouw producten die gebruikers graag gebruiken.",
+    paragraph2: "Ik ontwerp en bouw producten die gebruikers graag gebruiken, van SaaS-platformen tot interne tools en mobiele apps.",
     paragraph3: "Met een iteratieve aanpak zorgen we samen dat het product precies aansluit op de behoeften van jouw gebruikers.",
     imageAlt: "Product design voorbeeld",
     expertiseTitle: "Expertise",
     expertise: [
-      { title: "Product Strategie", desc: "Van idee tot roadmap — samen bepalen we wat gebouwd moet worden en waarom." },
+      { title: "Product Strategie", desc: "Samen bepalen we wat gebouwd moet worden en waarom, van idee tot roadmap." },
       { title: "UX/UI Design", desc: "Gebruiksvriendelijke interfaces op basis van onderzoek en best practices." },
       { title: "Full-Stack Development", desc: "Robuuste applicaties met moderne frameworks en schaalbare architectuur." },
       { title: "Iteratie & Groei", desc: "Data-gedreven optimalisatie na lancering voor continue verbetering." },
@@ -308,9 +310,9 @@ export type TranslationShape = typeof nl;
 
 const en: TranslationShape = {
   meta: {
-    title: "Studio Bit & Beeld — Creative Studio",
+    title: "Studio Bit & Beeld | Creativity & Technology",
     description:
-      "Studio Bit & Beeld — Creative studio specialized in web design, development and visual identity.",
+      "Strong design combined with technical knowledge, for web, brand and everything in between.",
   },
 
   common: {
@@ -345,15 +347,14 @@ const en: TranslationShape = {
     menu: "Menu",
     emailLabel: "Email",
     socialsLabel: "Socials",
-    logoAria: "Bit & Beeld — back to homepage",
+    logoAria: "Bit & Beeld: back to homepage",
     themeToggleAria: "Toggle light/dark mode",
     mailSocialLabel: "Mail",
   },
 
   hero: {
-    taglineBold: "We design brands, websites and digital experiences",
-    taglineRest: "with intention, clarity and care.",
-    tags: ["#01 Webdesign", "#02 Identity", "#03 Print & Campaign", "#04 Social Media"],
+    taglineBold: "Creativity and technology come together in everything I make.",
+    taglineRest: "I don't just want something to look good. Above all, I want to create something that works for you.",
   },
 
   mobileHero: {
@@ -365,9 +366,9 @@ const en: TranslationShape = {
     greeting: "Hi, I'm",
     name: "Wouter",
     paragraph1:
-      "I'm technically minded with a genuine passion for digital design — the two come together naturally in how I work. I like being involved from the very first idea, not as someone executing a fixed brief, but as someone thinking along with what a project actually needs.",
+      "My strength lies in combining creativity with technical thinking. I don't just want to make something look good. I want to understand how it works, and how it could work better.",
     paragraph2:
-      "No project, client or challenge is quite the same, so I don't believe in one-size-fits-all solutions. I want to understand what someone's after and translate that into something that truly fits — where form and technology support each other instead of standing apart.",
+      "That's why I like to get involved from the very start: listening, exchanging ideas, and figuring out together what truly fits you.",
     portraitAlt: "Portrait of Wouter",
   },
 
@@ -381,19 +382,19 @@ const en: TranslationShape = {
     designIdentity: {
       title: "Design & Identity",
       description:
-        "Visual identities that come across consistently on every surface. From logo and typography to color systems and brand guidelines — a brand that tells the same story everywhere.",
+        "Visual identities that come across consistently on every surface. From logo and typography to color systems and brand guidelines: one brand that tells the same story everywhere.",
       tools: ["Logo Design", "Brand Identity", "Typography", "Brand Guidelines"],
     },
     printDesign: {
       title: "Print & Campaign Design",
       description:
-        "Posters, flyers and other print work that convinces offline too. From standalone graphic design to complete campaign visuals — design that holds up, on paper and in the street.",
+        "Posters, flyers and other print work that convinces offline too. From standalone graphic design to complete campaign visuals: design that holds up, on paper and in the street.",
       tools: ["Illustrator", "Photoshop", "Graphic Design", "Print"],
     },
     contentSocial: {
       title: "Content & Social Media",
       description:
-        "Visual content that stands out in the feed. From social media content and photography to video and reels — content that brings a brand to life on the channels its audience is already on.",
+        "Visual content that stands out in the feed. From social media content and photography to video and reels: content that brings a brand to life on the channels its audience is already on.",
       tools: ["Social Media", "Photography", "Video", "Content Design"],
     },
   },
@@ -407,6 +408,9 @@ const en: TranslationShape = {
   contact: {
     title: "Contact",
     heading: { lead: "Ready to build something", accent: "great", rest: "together?" },
+    sending: "Sending...",
+    successMessage: "Thanks for your message. I'll get back to you soon.",
+    errorMessage: "Something went wrong while sending. Please try again.",
   },
 
   overMij: {
@@ -416,7 +420,7 @@ const en: TranslationShape = {
     paragraph1:
       "At Studio Bit & Beeld I combine strategy, design and development into digital experiences that make an impact. My passion lies in translating complex ideas into clean, functional solutions.",
     paragraph2:
-      "From brand identity to full web platforms — I build everything with precision, passion and a sharp eye for detail. As a one-person studio I work closely with my clients: short lines of communication, fast decisions, personal attention.",
+      "I build everything, from brand identity to full web platforms, with precision, passion and a sharp eye for detail. As a one-person studio I work closely with my clients: short lines of communication, fast decisions, personal attention.",
     paragraph3: "Every project is a chance to create something unique.",
     stats: [
       { num: "50+", label: "Projects" },
@@ -447,19 +451,19 @@ const en: TranslationShape = {
     pageTitle: "Webdesign, Development & IT",
     featuredEyebrow: "Featured project",
     featuredSubtitle: { lead: "Website developed for", client: "Bouwbedrijf Kruize" },
-    mockupAlt: "Website for Bouwbedrijf Kruize — web design and development by Studio Bit & Beeld",
+    mockupAlt: "Website for Bouwbedrijf Kruize: web design and development by Studio Bit & Beeld",
     intro:
       "For Bouwbedrijf Kruize I designed and built a website that presents the company and its services professionally and clearly. Working from usability and responsive behavior on every screen, I built toward a technical execution that got the site smoothly online and keeps the experience consistent on every device.",
     viewWebsite: "View website",
     seoTitle: "SEO & Analytics",
     seoImageAlt: "SEO & Analytics",
     seoText:
-      "A great website isn't finished until it's actually found. For Bouwbedrijf Kruize that meant attention to a semantic structure, correct metadata and fast load times — the technical foundation search engines need to properly index the site.",
+      "A great website isn't finished until it's actually found. For Bouwbedrijf Kruize that meant attention to a semantic structure, correct metadata and fast load times: the technical foundation search engines need to properly index the site.",
     seoPills: ["Visitor analytics", "Search queries", "Technical SEO", "Speed & performance"],
     hostingTitle: "Hosting",
     hostingImageAlt: "Web hosting",
     hostingText:
-      "A website isn't finished until it's actually live. For Bouwbedrijf Kruize I handled the hosting, domain setup and SSL certification alongside the design and build — so the site doesn't just work, but is also securely and reliably reachable.",
+      "A website isn't finished until it's actually live. For Bouwbedrijf Kruize I handled the hosting, domain setup and SSL certification alongside the design and build, so the site doesn't just work, but is also securely and reliably reachable.",
     hostingPills: ["Domain & DNS", "SSL", "Deployment", "Hosting management"],
     reviewsTitle: "Reviews that convince faster than text",
     reviewsText:
@@ -484,21 +488,21 @@ const en: TranslationShape = {
     pageTitle: "Design & Identity",
     introHeading: "A brand is more than a logo",
     introParagraph1:
-      "A strong identity starts with a logo, but doesn't end there. It grows into a system — grid, whitespace, typography, color — that's then applied consistently across every touchpoint with a client.",
+      "A strong identity starts with a logo, but doesn't end there. It grows into a system of grid, whitespace, typography and color, which is then applied consistently across every touchpoint with a client.",
     introParagraph2:
       "Below is a look at what that looks like in practice: from a documented brand system to an identity that comes to life in photography and tone of voice.",
     systemEyebrow: "Identity → system",
     systemHeading: "Documented, not accidental",
     systemParagraph:
-      "For Bouwbedrijf Kruize — the same identity you see on the website — the visual language is captured in a repeatable system: whitespace rules around the mark and exact specifications for letterhead, so the identity stays consistent no matter who applies it.",
-    logoSpacingAlt: "Bouwbedrijf Kruize brand guidelines — clearspace and whitespace rules around the logo",
+      "For Bouwbedrijf Kruize, the same identity you see on the website, the visual language is captured in a repeatable system: whitespace rules around the mark and exact specifications for letterhead, so the identity stays consistent no matter who applies it.",
+    logoSpacingAlt: "Bouwbedrijf Kruize brand guidelines: clearspace and whitespace rules around the logo",
     logoSpacingCaption: "Logo & whitespace",
-    letterheadAlt: "Bouwbedrijf Kruize brand guidelines — letterhead specifications and A4 format",
-    letterheadCaption: "Letterhead — specifications",
+    letterheadAlt: "Bouwbedrijf Kruize brand guidelines: letterhead specifications and A4 format",
+    letterheadCaption: "Letterhead: specifications",
     applicationEyebrow: "System → application",
     applicationHeading: "An identity that evokes a feeling",
     applicationParagraph:
-      "At FIXY the identity doesn't stop at the logo. Color, typography and tone translate just as well into photography and copy — the same brand world, recognizable in every expression.",
+      "At FIXY the identity doesn't stop at the logo. Color, typography and tone translate just as well into photography and copy: the same brand world, recognizable in every expression.",
     fixyCampaignAlt: "FIXY brand world translated into photography, color and tone of voice",
     fixyCampaignCaption: "Brand world in image and text",
     fixySpacesAlt: "FIXY spaces presented in the same visual and textual tone as the rest of the brand",
@@ -510,7 +514,7 @@ const en: TranslationShape = {
     signatureAlt: (brand: string) => `Email signature for ${brand} (names and contact details are placeholders)`,
     coversEyebrow: "What this can cover",
     coversParagraph:
-      "From first brand exploration to the smallest application — this kind of work combines multiple disciplines, depending on what a brand needs.",
+      "This kind of work combines multiple disciplines, from first brand exploration to the smallest application, depending on what a brand needs.",
     disciplines: ["Logo & wordmark", "Visual identity", "Typography & color systems", "Brand guidelines", "Business print applications"],
     ctaHeading: { lead: "Time for a", accent: "strong identity", rest: "?" },
     startProject: "Start Project",
@@ -521,7 +525,7 @@ const en: TranslationShape = {
     introHeading: "Design that works offline too",
     introParagraph1: "Not everything has to live on a screen. Posters, flyers and other print work grab attention precisely because they're tangible.",
     introParagraph2:
-      "From standalone graphic design for a single job to cohesive campaign visuals — I design print and promotional material that convinces, from first sketch to print-ready file.",
+      "I design print and promotional material that convinces: from standalone graphic design for a single job to cohesive campaign visuals, from first sketch to print-ready file.",
     introParagraph3: "The same principle applies here: consistent, considered and tailored to where the material is actually used.",
     postersEyebrow: "Posters in practice",
     postersParagraph: "A selection of posters, from first sketch to print-ready design.",
@@ -540,34 +544,34 @@ const en: TranslationShape = {
     pageTitle: "Content & Social Media",
     introHeading: "Content that brings a brand to life",
     introParagraph1:
-      "Social media needs more than standalone images. It's about a visual thread that translates into every format — feed, story, announcement — without losing recognizability.",
+      "Social media needs more than standalone images. It's about a visual thread that stays recognizable everywhere: in the feed, in a story or in an announcement.",
     introParagraph2:
       "Below is a selection of content I designed for brands in nightlife culture: from recurring campaign systems to content that adapts to a wide range of formats.",
     kopjekEyebrow: "Featured campaign",
     kopjekHeading: "A recurring template for a club tour",
     kopjekParagraph:
-      "For the Kopjek Clubtour I designed a single visual template — typography, 3D shape, layout — that got its own color scheme per city. Four cities, the same template, each with its own color and lineup.",
+      "For the Kopjek Clubtour I designed a single visual template, with typography, 3D shape and layout, that got its own color scheme per city. Four cities, the same template, each with its own color and lineup.",
     kopjekAlt: (city: string) => `Kopjek Clubtour announcement for ${city}, same template in its own color scheme`,
     practiceEyebrow: "In practice",
     practiceHeading: "Different brands, different moods",
     practiceParagraph:
-      "Not every brand calls for the same tone. From a moody editorial announcement to warm release photography and a playful typographic twist — the approach shifts with what the brand needs.",
-    groningsAlt: "Gronings Finest — moody editorial event announcement",
-    leviAlt: "Levi — Moovline release party, photography-driven announcement",
-    tonightFlipAlt: "FIXY Bar — 'Tonight we flip', flipped typography as a visual twist",
+      "Not every brand calls for the same tone: the approach shifts with what the brand needs, from a moody editorial announcement to warm release photography and a playful typographic twist.",
+    groningsAlt: "Gronings Finest: moody editorial event announcement",
+    leviAlt: "Levi: Moovline release party, photography-driven announcement",
+    tonightFlipAlt: "FIXY Bar: 'Tonight we flip', flipped typography as a visual twist",
     formatsEyebrow: "Campaign → formats",
     formatsHeading: "One story, told in three moments",
     formatsParagraph:
-      "For FIXY's DJ Talentroom the announcement built up through stories — \"stay tuned\", \"big news soon\" — before the feed post revealed the lineup. Same visual system, three moments, three formats.",
-    feedPostAlt: "FIXY DJ Talentroom — feed post revealing the lineup",
-    feedPostCaption: "Feed post — lineup revealed",
-    storyTeaserAlt: "FIXY DJ Talentroom — story teaser 'stay tuned'",
-    storyTeaserCaption: "Story — teaser",
-    storyAnnouncementAlt: "FIXY DJ Talentroom — story announcement 'big news soon'",
-    storyAnnouncementCaption: "Story — announcement",
+      "For FIXY's DJ Talentroom the announcement built up through stories, with \"stay tuned\" and \"big news soon\", before the feed post revealed the lineup. Same visual system, three moments, three formats.",
+    feedPostAlt: "FIXY DJ Talentroom: feed post revealing the lineup",
+    feedPostCaption: "Feed post: lineup revealed",
+    storyTeaserAlt: "FIXY DJ Talentroom: story teaser 'stay tuned'",
+    storyTeaserCaption: "Story: teaser",
+    storyAnnouncementAlt: "FIXY DJ Talentroom: story announcement 'big news soon'",
+    storyAnnouncementCaption: "Story: announcement",
     approachEyebrow: "How I approach this",
     approachParagraph:
-      "No fixed content package and no fixed number of posts per month — I look at what a brand, event or campaign needs and build the content around that.",
+      "I don't work with a fixed content package or a fixed number of posts per month. I look at what a brand, event or campaign needs and build the content around that.",
     disciplines: ["Campaign visuals", "Social posts & stories", "Recurring templates", "Announcements", "Event photography"],
     ctaHeading: { lead: "Time to", accent: "show something", rest: "?" },
     startProject: "Start Project",
@@ -577,12 +581,12 @@ const en: TranslationShape = {
     pageTitle: "Digital Products",
     heading: "Complex problems, simple solutions",
     paragraph1: "Digital products call for a different approach. It's about user experience, scalability and smart architecture.",
-    paragraph2: "From SaaS platforms to internal tools and mobile apps — I design and build products people actually enjoy using.",
+    paragraph2: "I design and build products people actually enjoy using, from SaaS platforms to internal tools and mobile apps.",
     paragraph3: "With an iterative approach, we make sure together that the product fits your users' needs exactly.",
     imageAlt: "Product design example",
     expertiseTitle: "Expertise",
     expertise: [
-      { title: "Product Strategy", desc: "From idea to roadmap — together we decide what needs to be built and why." },
+      { title: "Product Strategy", desc: "Together we decide what needs to be built and why, from idea to roadmap." },
       { title: "UX/UI Design", desc: "User-friendly interfaces based on research and best practices." },
       { title: "Full-Stack Development", desc: "Robust applications with modern frameworks and scalable architecture." },
       { title: "Iteration & Growth", desc: "Data-driven optimization after launch for continuous improvement." },

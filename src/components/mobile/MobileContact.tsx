@@ -4,6 +4,7 @@ import React from "react";
 import FooterV2 from "@/components/v2/FooterV2";
 import { SECTION_TITLE_CLASS } from "@/lib/sectionTitle";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
+import { useContactForm } from "@/hooks/useContactForm";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const VP   = { once: true, amount: 0.15 } as const;
@@ -23,10 +24,12 @@ interface MobileContactProps {
 const MobileContact = ({ scrollContainerRef }: MobileContactProps) => {
   const { t } = useLanguage();
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const { status, submit } = useContactForm();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    const ok = await submit(e.currentTarget);
+    if (ok) setFormData({ name: "", email: "", message: "" });
   };
 
   return (
@@ -96,6 +99,7 @@ const MobileContact = ({ scrollContainerRef }: MobileContactProps) => {
               </label>
               <input
                 id="name-mobile"
+                name="name"
                 type="text"
                 required
                 value={formData.name}
@@ -110,6 +114,7 @@ const MobileContact = ({ scrollContainerRef }: MobileContactProps) => {
               </label>
               <input
                 id="email-mobile"
+                name="email"
                 type="email"
                 required
                 value={formData.email}
@@ -124,6 +129,7 @@ const MobileContact = ({ scrollContainerRef }: MobileContactProps) => {
               </label>
               <textarea
                 id="message-mobile"
+                name="message"
                 required
                 rows={4}
                 value={formData.message}
@@ -134,10 +140,21 @@ const MobileContact = ({ scrollContainerRef }: MobileContactProps) => {
             </div>
             <button
               type="submit"
-              className="w-full bg-brand-orange text-black px-8 landscape-mobile:px-6 py-4 landscape-mobile:py-2 rounded-full font-body font-medium text-sm landscape-mobile:text-xs tracking-widest uppercase active:scale-[0.98] transition-transform"
+              disabled={status === "submitting"}
+              className="w-full bg-brand-orange text-black px-8 landscape-mobile:px-6 py-4 landscape-mobile:py-2 rounded-full font-body font-medium text-sm landscape-mobile:text-xs tracking-widest uppercase active:scale-[0.98] transition-transform disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {t.common.sendMessage}
+              {status === "submitting" ? t.contact.sending : t.common.sendMessage}
             </button>
+            {status === "success" && (
+              <p className="text-sm landscape-mobile:text-xs font-body text-brand-orange" role="status">
+                {t.contact.successMessage}
+              </p>
+            )}
+            {status === "error" && (
+              <p className="text-sm landscape-mobile:text-xs font-body text-destructive" role="alert">
+                {t.contact.errorMessage}
+              </p>
+            )}
           </motion.form>
         </div>
       </section>

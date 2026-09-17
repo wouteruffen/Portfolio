@@ -4,6 +4,7 @@ import React from "react";
 import FooterV2 from "./FooterV2";
 import { SECTION_TITLE_CLASS, SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_GUTTER_CLASS, SECTION_TITLE_GAP_CLASS, SECTION_TITLE_PADDING_TOP_CLASS } from "@/lib/sectionTitle";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
+import { useContactForm } from "@/hooks/useContactForm";
 
 const EASE    = [0.22, 1, 0.36, 1] as const;
 const VP      = { once: true } as const;
@@ -15,6 +16,7 @@ interface ContactV2Props {
 const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
   const { t } = useLanguage();
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const { status, submit } = useContactForm();
   const outerRef   = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -65,9 +67,10 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
   // Nudge contact content upward as the footer slides in — title stays fixed.
   const contentCardY = useTransform(contentProgress, [0, 0.45], [0, -60]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    const ok = await submit(e.currentTarget);
+    if (ok) setFormData({ name: "", email: "", message: "" });
   };
 
   return (
@@ -195,6 +198,7 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                       </label>
                       <input
                         id="name-v2"
+                        name="name"
                         type="text"
                         required
                         value={formData.name}
@@ -209,6 +213,7 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                       </label>
                       <input
                         id="email-v2"
+                        name="email"
                         type="email"
                         required
                         value={formData.email}
@@ -223,6 +228,7 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                       </label>
                       <textarea
                         id="message-v2"
+                        name="message"
                         required
                         rows={3}
                         value={formData.message}
@@ -233,10 +239,21 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                     </div>
                     <button
                       type="submit"
-                      className="bg-brand-orange text-black px-8 py-3.5 font-body font-medium text-sm tracking-widest uppercase hover:opacity-90 transition-opacity mt-2"
+                      disabled={status === "submitting"}
+                      className="bg-brand-orange text-black px-8 py-3.5 font-body font-medium text-sm tracking-widest uppercase hover:opacity-90 transition-opacity mt-2 disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      {t.common.sendMessage}
+                      {status === "submitting" ? t.contact.sending : t.common.sendMessage}
                     </button>
+                    {status === "success" && (
+                      <p className="text-sm font-body text-brand-orange" role="status">
+                        {t.contact.successMessage}
+                      </p>
+                    )}
+                    {status === "error" && (
+                      <p className="text-sm font-body text-destructive" role="alert">
+                        {t.contact.errorMessage}
+                      </p>
+                    )}
                   </motion.form>
 
                 </div>

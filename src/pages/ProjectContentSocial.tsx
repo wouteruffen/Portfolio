@@ -132,13 +132,13 @@ const ProjectContentSocial = () => {
                 <Shot
                   src={levi}
                   alt={cs.leviAlt}
-                  caption="Levi — Moovline"
+                  caption="Levi: Moovline"
                   aspectClass="aspect-[4/5]"
                 />
                 <Shot
                   src={tonightFlip}
                   alt={cs.tonightFlipAlt}
-                  caption="Bar FIXY — Flip"
+                  caption="Bar FIXY: Flip"
                   aspectClass="aspect-[4/5]"
                 />
               </div>
