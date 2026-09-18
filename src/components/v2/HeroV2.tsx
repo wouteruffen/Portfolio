@@ -71,12 +71,21 @@ const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
           own md:px-12); `lg:` restores the exact original desktop values.
           Narrower width + tighter line-height (not just a smaller font)
           keeps the block reading as a compact caption at tablet rather
-          than a shrunk copy of the wide desktop paragraph. */}
+          than a shrunk copy of the wide desktop paragraph. `lg:bottom-6`
+          reuses the bottom info bar's own bottom-6 anchor (below) so the
+          two sit on the same baseline at desktop, instead of the text
+          floating higher on its own offset.
+          lg:max-w is derived, not arbitrary: left-24 (96px) + the Start
+          Project button's own measured box (~405px incl. its right-24
+          inset) + a ~46px gap leaves calc(100vw-643px) as the widest the
+          text can go without ever touching the button, so it's clamped to
+          that up to a 32rem (three-line) cap — safe at the narrowest lg
+          viewport (1024px) and reaches three lines from ~1155px up. */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 1 }}
-        className="absolute bottom-16 lg:bottom-20 landscape-mobile:bottom-auto left-6 md:left-12 lg:left-24 landscape-mobile:left-[max(1rem,env(safe-area-inset-left))] landscape-mobile:top-32 z-10 max-w-[260px] lg:max-w-sm landscape-mobile:max-w-[170px]"
+        className="absolute bottom-16 lg:bottom-6 landscape-mobile:bottom-auto left-6 md:left-12 lg:left-24 landscape-mobile:left-[max(1rem,env(safe-area-inset-left))] landscape-mobile:top-32 z-10 max-w-[260px] lg:max-w-[min(32rem,calc(100vw-643px))] landscape-mobile:max-w-[170px]"
       >
         <p className="text-cream/80 text-sm leading-snug lg:text-lg lg:leading-relaxed landscape-mobile:text-[10px] landscape-mobile:leading-tight font-body">
           <span className="text-cream font-semibold">{t.hero.taglineBold}</span>{" "}
