@@ -20,8 +20,9 @@ import kruizeLetterhead from "@/assets/design-identity/Screenshot 2026-08-19 120
  *
  * This page is the canonical reference for Studio Bit & Beeld's identity,
  * both visual and written. Visual identity remains the dominant, primary
- * concern of this page; the writing system (chapters 13-14) is one domain
- * within it, not a second book bolted on the side.
+ * concern of this page; the writing system (chapters 13-15: Tone of Voice,
+ * Contentrollen, Editorial Direction) is one domain within it, not a second
+ * book bolted on the side.
  *
  * Future redesigns may change presentation, chapter grouping, examples and
  * visual composition. They must NOT silently remove established identity
@@ -37,9 +38,9 @@ import kruizeLetterhead from "@/assets/design-identity/Screenshot 2026-08-19 120
  *   - Logo                           - Digital / UI
  *   - Logo usage                     - Motion / interaction (where defined)
  *   - Monogram                       - Tone of Voice (voice + content roles)
- *   - Monogram usage                 - Applications
- *   - Color                          - Colophon
- *   - Color usage
+ *   - Monogram usage                 - Editorial Direction (content structure)
+ *   - Color                          - Applications
+ *   - Color usage                    - Colophon
  *   - Typography
  *   - Typographic hierarchy
  *   - Layout / composition
@@ -73,6 +74,19 @@ import kruizeLetterhead from "@/assets/design-identity/Screenshot 2026-08-19 120
  *      dash or en dash?
  *   5. If no content role gives the text a real reason to exist, don't
  *      add it — that is itself a valid, deliberate outcome.
+ *
+ * Before structuring a page or section (chapter 15, Editorial Direction —
+ * where content appears, how much space it gets, how text and imagery
+ * relate; it does not repeat chapters 13-14, it builds on them):
+ *   1. Determine the most important content on this page or section.
+ *   2. Determine whether it is image-led, text-led or mixed.
+ *   3. Determine which content roles (chapter 14) are actually needed.
+ *   4. Give each element visual weight in proportion to its importance.
+ *   5. Do not fill an eyebrow/heading/paragraph/caption slot a component
+ *      happens to offer just because the slot exists.
+ * Editorial Direction is a decision framework, not a fixed template — it
+ * must never be read as "every block needs eyebrow + heading + paragraph
+ * + image in this order."
  */
 
 /* ─── Tokens ─────────────────────────────────────────────────────────────── */
@@ -698,6 +712,113 @@ const Brandbook = () => {
     },
     {
       n: "15",
+      eyebrow: b.editorialDirection.eyebrow,
+      light: true,
+      body: (
+        <div className="flex-1 flex flex-col justify-center gap-4 md:gap-5 min-h-0">
+          <div className="max-w-[62ch] flex-shrink-0">
+            <h2 className="font-antonio font-semibold leading-[0.95] tracking-tight mb-2" style={{ color: "var(--ink)", fontSize: "clamp(1.4rem, 2.8vw, 2.1rem)" }}>
+              {b.editorialDirection.heading}
+            </h2>
+            <p className="font-body leading-relaxed" style={{ color: "var(--ink-muted)", fontSize: "0.8rem" }}>
+              {b.editorialDirection.paragraph}
+            </p>
+            <p className="font-body italic leading-relaxed mt-2" style={{ color: "var(--ink-muted)", fontSize: "0.78rem" }}>
+              {b.editorialDirection.support}
+            </p>
+          </div>
+
+          <div className="flex-shrink-0">
+            <p className="font-body uppercase tracking-[0.2em] mb-2" style={{ color: "var(--ink-muted)", fontSize: "9px" }}>
+              {b.editorialDirection.modesLabel}
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6">
+              {b.editorialDirection.modes.map((mode) => (
+                <div key={mode.code}>
+                  <Rule />
+                  <p className="font-antonio font-semibold mt-2 mb-0.5" style={{ color: "hsl(var(--brand-orange))", fontSize: "0.72rem", letterSpacing: "0.06em" }}>
+                    {mode.code}
+                  </p>
+                  <p className="font-body uppercase tracking-[0.1em] mb-1.5" style={{ color: "var(--ink)", fontSize: "0.68rem" }}>
+                    {mode.example}
+                  </p>
+                  <p className="font-body leading-snug" style={{ color: "var(--ink-muted)", fontSize: "0.7rem" }}>
+                    {mode.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex-shrink-0">
+            <p className="font-body uppercase tracking-[0.2em] mb-2" style={{ color: "var(--ink-muted)", fontSize: "9px" }}>
+              {b.editorialDirection.principlesLabel}
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
+              {b.editorialDirection.principles.map((principle) => (
+                <div key={principle.code}>
+                  <Rule />
+                  <p className="font-antonio font-semibold mt-1.5 mb-1 leading-snug" style={{ color: "var(--ink)", fontSize: "0.74rem" }}>
+                    {principle.code}. {principle.title}
+                  </p>
+                  <p className="font-body leading-snug" style={{ color: "var(--ink-muted)", fontSize: "0.66rem" }}>
+                    {principle.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4 md:gap-10 flex-shrink-0">
+            <div>
+              <p className="font-body uppercase tracking-[0.2em] mb-1.5" style={{ color: "var(--ink-muted)", fontSize: "9px" }}>
+                {b.editorialDirection.rhythmLabel}
+              </p>
+              <p className="font-body leading-snug mb-3" style={{ color: "var(--ink-muted)", fontSize: "0.7rem" }}>
+                {b.editorialDirection.rhythmNote}
+              </p>
+              <p className="font-body uppercase tracking-[0.2em] mb-1.5" style={{ color: "var(--ink-muted)", fontSize: "9px" }}>
+                {b.editorialDirection.antiPatternsLabel}
+              </p>
+              <ul className="space-y-1">
+                {b.editorialDirection.antiPatterns.map((item) => (
+                  <li key={item} className="font-body leading-snug flex gap-2" style={{ color: "var(--ink-muted)", fontSize: "0.66rem" }}>
+                    <span className="flex-shrink-0" style={{ color: "hsl(var(--brand-orange))" }}>&times;</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="font-body uppercase tracking-[0.2em] mb-1.5" style={{ color: "var(--ink-muted)", fontSize: "9px" }}>
+                {b.editorialDirection.examplesLabel}
+              </p>
+              <div className="space-y-2">
+                {b.editorialDirection.examples.map((example) => (
+                  <div key={example.title} className="flex gap-2.5">
+                    <span
+                      className="font-body uppercase tracking-[0.12em] flex-shrink-0"
+                      style={{ color: example.positive ? "#5DB870" : "hsl(var(--brand-orange))", fontSize: "9px", minWidth: "3.6em" }}
+                    >
+                      {example.verdict}
+                    </span>
+                    <p className="font-body leading-snug" style={{ color: "var(--ink-muted)", fontSize: "0.68rem" }}>
+                      <span style={{ color: "var(--ink)" }}>{example.title}.</span> {example.desc}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <p className="font-body italic leading-snug flex-shrink-0" style={{ color: "var(--ink-muted)", fontSize: "0.7rem" }}>
+            {b.editorialDirection.note}
+          </p>
+        </div>
+      ),
+    },
+    {
+      n: "16",
       eyebrow: b.usage.eyebrow,
       light: false,
       body: (
@@ -890,7 +1011,7 @@ const Brandbook = () => {
                 inkMuted="rgba(250,248,245,0.6)"
                 line="rgba(250,248,245,0.13)"
               >
-                <ChapterTag n="16" label={b.closing.eyebrow} />
+                <ChapterTag n="17" label={b.closing.eyebrow} />
                 {closingBody}
               </Slide>
             </div>
@@ -936,7 +1057,7 @@ const Brandbook = () => {
           style={{ "--ink": "hsl(var(--foreground))", "--ink-muted": "hsl(var(--muted-foreground))", "--line": "hsl(var(--border))", borderColor: "var(--line)" } as CSSProperties}
         >
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={VP} transition={{ duration: 0.6, ease: EASE }} className={SECTION_TITLE_CONTAINER_CLASS}>
-            <ChapterTag n="16" label={b.closing.eyebrow} />
+            <ChapterTag n="17" label={b.closing.eyebrow} />
             {closingBody}
           </motion.div>
         </section>

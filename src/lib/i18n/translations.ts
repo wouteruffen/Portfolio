@@ -298,7 +298,7 @@ const nl = {
         { label: "Studio", value: "Studio Bit & Beeld" },
         { label: "Locatie", value: "Amsterdam, NL" },
         { label: "Jaar", value: "2026" },
-        { label: "Hoofdstukken", value: "16" },
+        { label: "Hoofdstukken", value: "17" },
       ],
     },
     intro: {
@@ -497,6 +497,60 @@ const nl = {
         exampleLabels?: string[];
       }[],
       note: "Niet elke pagina heeft alle vier de rollen nodig. Gebruik een rol alleen als de tekst een echte functie heeft." as string,
+    },
+    editorialDirection: {
+      eyebrow: "Editorial Direction",
+      heading: "De presentatie volgt de inhoud." as string,
+      paragraph:
+        "Toon van stem bepaalt hoe het klinkt. Contentrollen bepalen welke taak een tekst heeft. Dit hoofdstuk bepaalt waar content verschijnt, hoeveel ruimte het krijgt en hoe tekst en beeld zich tot elkaar verhouden." as string,
+      support:
+        "Niet iedere pagina, sectie of project heeft dezelfde hoeveelheid tekst, beeld of uitleg nodig. De structuur volgt wat de bezoeker moet zien, begrijpen of kunnen doen." as string,
+      modesLabel: "Content modes" as string,
+      modes: [
+        {
+          code: "IMAGE-LED",
+          example: "Print & Campagne Design",
+          desc: "Het beeld communiceert de kern al. Tekst treedt terug en een bijschrift komt er alleen bij als er iets te vertellen valt.",
+        },
+        {
+          code: "TEXT-LED",
+          example: "Over Mij",
+          desc: "Het verhaal zelf is de inhoud. Tekst krijgt hier de ruimte; 'werk eerst' is niet de juiste maatstaf.",
+        },
+        {
+          code: "MIXED",
+          example: "Webdesign, Development & IT",
+          desc: "Beeld toont het zichtbare resultaat, tekst legt uit wat het beeld niet kan laten zien.",
+        },
+      ] as { code: string; example: string; desc: string }[],
+      principlesLabel: "Principes" as string,
+      principles: [
+        { code: "A", title: "Belangrijkste inhoud eerst", desc: "De inhoud die het meest telt krijgt de sterkste vroege plek, of dat nu werk, verhaal of een mix van beide is." },
+        { code: "B", title: "Introductie is optioneel", desc: "Een openingsperspectief mag, maar alleen als het iets toevoegt dat verderop nog niet gezegd wordt." },
+        { code: "C", title: "Projectcontext is optioneel", desc: "Projectcontext moet iets veranderen aan hoe je het werk begrijpt. Vaak is geen tekst de sterkste keuze." },
+        { code: "D", title: "Vorm volgt inhoud", desc: "Eenzelfde component herhalen is geen probleem. Dezelfde zin herhalen omdat het component erom vraagt wel." },
+        { code: "E", title: "De hoeveelheid tekst volgt de inhoud", desc: "Afgerond visueel werk heeft vaak weinig uitleg nodig. Onzichtbaar of technisch werk vraagt vaak meer." },
+        { code: "F", title: "Hiërarchie bepaalt nadruk", desc: "Wat belangrijker is krijgt meer ruimte, schaal of aandacht. Een bijschrift blijft ondergeschikt aan het werk." },
+      ] as { code: string; title: string; desc: string }[],
+      rhythmLabel: "Ritme" as string,
+      rhythmNote:
+        "Herhaling helpt alleen als ze het begrip ondersteunt. Beeld mag alleen staan, tekst mag alleen staan wanneer tekst zelf de inhoud is, en witruimte is zelf een vorm van hiërarchie. Visuele variatie heeft altijd een reden nodig." as string,
+      antiPatternsLabel: "Vermijd" as string,
+      antiPatterns: [
+        "Dezelfde retorische opening herhalen in opeenvolgende blokken (\"stopt niet bij...\").",
+        "Een alinea die herhaalt wat het beeld ernaast al laat zien.",
+        "Een eyebrow, kop of bijschrift toevoegen puur omdat het component daar ruimte voor biedt.",
+        "Ontbrekend beeld dat tekst per ongeluk de hoofdrol geeft, in plaats van een bewuste keuze.",
+      ] as string[],
+      examplesLabel: "In de praktijk" as string,
+      examples: [
+        { positive: true, verdict: "Sterk", title: "Print & Campagne", desc: "Eén intro, groot werk getoond op eigen formaat, een bijschrift alleen bij een geverifieerde naam." },
+        { positive: true, verdict: "Sterk", title: "Webdesign: techniek", desc: "Tekst legt uit wat SEO, hosting en IT-werk niet kunnen laten zien." },
+        { positive: true, verdict: "Sterk", title: "Content & Social: FIXY", desc: "Een gedeelde alinea werd geschrapt zodra bijschriften de volgorde al vertelden." },
+        { positive: false, verdict: "Zwakker", title: "Design & Identiteit", desc: "Opeenvolgende blokken herhalen dezelfde opening: 'stopt niet bij het logo'." },
+      ] as { positive: boolean; verdict: string; title: string; desc: string }[],
+      note:
+        "Of Webdesign een openingsintro nodig heeft, of 'Uitgelicht(e)' altijd terugkomt en hoe de ICT-sectie eruitziet zodra er beeld is, staat nog niet vast. Context bepaalt dat, geen vaste regel." as string,
     },
     usage: {
       eyebrow: "Toepassing",
@@ -808,7 +862,7 @@ const en: TranslationShape = {
         { label: "Studio", value: "Studio Bit & Beeld" },
         { label: "Location", value: "Amsterdam, Netherlands" },
         { label: "Year", value: "2026" },
-        { label: "Chapters", value: "16" },
+        { label: "Chapters", value: "17" },
       ],
     },
     intro: {
@@ -1007,6 +1061,60 @@ const en: TranslationShape = {
         exampleLabels?: string[];
       }[],
       note: "Not every page needs all four roles. Use a role only when the text has a real function.",
+    },
+    editorialDirection: {
+      eyebrow: "Editorial Direction",
+      heading: "The presentation follows the content.",
+      paragraph:
+        "Tone of voice covers how it sounds. Content roles cover what job a piece of text does. This chapter covers where content appears, how much space it gets and how text and imagery relate to each other.",
+      support:
+        "Not every page, section or project needs the same amount of text, imagery or explanation. Structure follows what the visitor needs to see, understand or do.",
+      modesLabel: "Content modes",
+      modes: [
+        {
+          code: "IMAGE-LED",
+          example: "Print & Campaign Design",
+          desc: "The image already communicates the core message. Text steps back, and a caption only appears when there's something worth saying.",
+        },
+        {
+          code: "TEXT-LED",
+          example: "About Me",
+          desc: "The story itself is the content. Text gets the room it needs here; 'work first' isn't the right measure.",
+        },
+        {
+          code: "MIXED",
+          example: "Webdesign, Development & IT",
+          desc: "Imagery shows the visible result, text explains what the image can't show.",
+        },
+      ] as { code: string; example: string; desc: string }[],
+      principlesLabel: "Principles",
+      principles: [
+        { code: "A", title: "The most important content comes first", desc: "Whatever matters most on the page gets the strongest early presence, whether that's work, story, or a mix of both." },
+        { code: "B", title: "An introduction is optional", desc: "An opening perspective is allowed, but only when it adds something that isn't said again further down." },
+        { code: "C", title: "Project context is optional", desc: "Project copy should change how you understand the work. Often, no text is the strongest choice." },
+        { code: "D", title: "Form follows content", desc: "Reusing a component is fine. Reusing the same sentence because the component expects copy is not." },
+        { code: "E", title: "The amount of text follows the content", desc: "Finished visual work often needs little explanation. Invisible or technical work often needs more." },
+        { code: "F", title: "Hierarchy decides emphasis", desc: "What matters more gets more space, scale or attention. A caption stays subordinate to the work." },
+      ] as { code: string; title: string; desc: string }[],
+      rhythmLabel: "Rhythm",
+      rhythmNote:
+        "Repetition only helps when it supports understanding. Imagery may stand alone, text may stand alone when text is the content, and whitespace is itself a form of hierarchy. Visual variation always needs a reason.",
+      antiPatternsLabel: "Avoid",
+      antiPatterns: [
+        "Repeating the same rhetorical opener across consecutive blocks (\"it doesn't stop at...\").",
+        "A paragraph that repeats what the image next to it already shows.",
+        "Adding an eyebrow, heading or caption purely because the component has room for one.",
+        "Missing imagery accidentally making text carry a section, rather than a deliberate choice.",
+      ] as string[],
+      examplesLabel: "In practice",
+      examples: [
+        { positive: true, verdict: "Strong", title: "Print & Campaign", desc: "One intro, large work shown at its own size, a caption only where a verified name exists." },
+        { positive: true, verdict: "Strong", title: "Webdesign: technical work", desc: "Text explains what SEO, hosting and IT work can't show on their own." },
+        { positive: true, verdict: "Strong", title: "Content & Social: FIXY", desc: "A shared paragraph was cut once captions already carried the sequence." },
+        { positive: false, verdict: "Weaker", title: "Design & Identity", desc: "Consecutive blocks repeat the same opening: 'doesn't stop at the logo'." },
+      ] as { positive: boolean; verdict: string; title: string; desc: string }[],
+      note:
+        "Whether Webdesign needs an opening intro, whether 'Uitgelicht(e)' always belongs, and how the ICT section should look once real imagery exists are not settled. Context decides that, not a fixed rule.",
     },
     usage: {
       eyebrow: "Application",
