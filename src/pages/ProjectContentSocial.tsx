@@ -74,16 +74,19 @@ const ProjectContentSocial = () => {
         {/* Content */}
         <section className={`relative z-10 ${SECTION_TITLE_GUTTER_CLASS} py-16 md:py-24`}>
           <div className={SECTION_TITLE_CONTAINER_CLASS}>
-            {/* Intro — thesis statement, no image; the real work below carries the page */}
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="max-w-[640px]">
-              <h2 className="text-3xl font-antonio font-semibold mb-6">{cs.introHeading}</h2>
-              <div className="space-y-4 text-muted-foreground font-body leading-relaxed">
-                <p>{cs.introParagraph1}</p>
-                <p>{cs.introParagraph2}</p>
-              </div>
+            {/* Service introduction — a general statement about the approach
+                (recognizability + consistency + room for each piece's own
+                character), not tied to any one campaign. Kopjek below is now
+                project-specific context for the first real piece of work,
+                not the definition of the service itself. */}
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mb-16 md:mb-20">
+              <p className="font-antonio font-medium leading-relaxed max-w-[680px] text-foreground/80" style={{ fontSize: "clamp(1.125rem, 1.6vw, 1.375rem)" }}>
+                {cs.serviceIntro}
+              </p>
             </motion.div>
 
-            {/* Kopjek Clubtour — the opening campaign showcase. A clean 2x2 of
+            {/* Kopjek Clubtour — the first actual project on the page. A
+                clean 2x2 of
                 the four city posters, all the same size: they share the exact
                 same native 1080x1350 aspect ratio, so a plain grid keeps every
                 tile aligned without any cropping trade-off. Plain fr-based
@@ -93,7 +96,7 @@ const ProjectContentSocial = () => {
                 column gap at lg (a native grid property, not a width
                 constraint), which lands each tile around ~90% of its
                 original size while the section itself stays full-width. */}
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
               <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">{cs.kopjekEyebrow}</h2>
               <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">{cs.kopjekHeading}</h3>
               <p className="text-muted-foreground font-body leading-relaxed max-w-[640px] mb-10">
@@ -112,51 +115,58 @@ const ProjectContentSocial = () => {
               </div>
             </motion.div>
 
-            {/* Overview — different brands, different worlds. Plain grid row,
+            {/* Overview — different brands, different worlds. No heading or
+                shared paragraph above this grid: three visibly different
+                pieces already make the point that different brands got
+                different treatments, and the general "consistency with room
+                for character" idea is already covered by the page's own
+                service intro above. The specific approach per brand (moody
+                editorial / warm photography / playful typography) survives
+                as a factual caption on each piece instead. Plain grid row,
                 all three items direct grid children with no per-item wrapper
                 or margin, so they share the same row-start alignment and top
-                edge exactly — no stagger. */}
+                edge exactly — no stagger. Spacing alone (mt-24/32) separates
+                this from Kopjek above. */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
-              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">{cs.practiceEyebrow}</h2>
-              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">{cs.practiceHeading}</h3>
-              <p className="text-muted-foreground font-body leading-relaxed max-w-[640px] mb-10">
-                {cs.practiceParagraph}
-              </p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 md:gap-8">
                 <Shot
                   src={gronings}
                   alt={cs.groningsAlt}
-                  caption="Gronings Finest"
+                  caption={cs.groningsCaption}
                   aspectClass="aspect-[4/5]"
                 />
                 <Shot
                   src={levi}
                   alt={cs.leviAlt}
-                  caption="Levi: Moovline"
+                  caption={cs.leviCaption}
                   aspectClass="aspect-[4/5]"
                 />
                 <Shot
                   src={tonightFlip}
                   alt={cs.tonightFlipAlt}
-                  caption="Bar FIXY: Flip"
+                  caption={cs.tonightFlipCaption}
                   aspectClass="aspect-[4/5]"
                 />
               </div>
             </motion.div>
 
-            {/* Closing case — one story, three formats. Same composition as
-                elsewhere on the page, positioned last as the final strong
-                portfolio piece before the CTA. Back to the original fr-based
-                3fr/1fr grid, full page-container width. The only reduction
-                from the original oversized version is a wider column gap at
-                lg — both tracks shrink proportionally (still exactly 3:1),
+            {/* Closing case — FIXY: DJ Talentroom. Factual project label
+                (client: project) instead of a heading narrating the "one
+                story, three moments" structure — the layout itself (one
+                large feed post + two stacked story images) and their own
+                captions already show that sequence. The genuinely useful
+                fact from the old shared paragraph (the actual quoted story
+                copy, "stay tuned" / "big news soon") now lives directly in
+                those two captions instead. Same composition as elsewhere on
+                the page, positioned last as the final strong portfolio piece
+                before the CTA. Back to the original fr-based 3fr/1fr grid,
+                full page-container width. The only reduction from the
+                original oversized version is a wider column gap at lg —
+                both tracks shrink proportionally (still exactly 3:1),
                 landing around ~85-90% of the original size. */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
               <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">{cs.formatsEyebrow}</h2>
-              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">{cs.formatsHeading}</h3>
-              <p className="text-muted-foreground font-body leading-relaxed max-w-[640px] mb-10">
-                {cs.formatsParagraph}
-              </p>
+              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-10">{cs.formatsHeading}</h3>
               <div className="grid md:grid-cols-[3fr_1fr] gap-6 md:gap-8 lg:gap-x-36">
                 <Shot
                   src={djTalentroomPost}

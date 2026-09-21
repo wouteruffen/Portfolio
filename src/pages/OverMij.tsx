@@ -97,9 +97,6 @@ const OverMijPage = () => {
                   <p className="font-body text-lg leading-relaxed text-foreground/60">
                     {om.paragraph2}
                   </p>
-                  <p className="font-body text-sm leading-relaxed text-foreground/30 italic">
-                    {om.paragraph3}
-                  </p>
                 </motion.div>
 
                 {/* Stats — integrated inline, not a boxed strip */}

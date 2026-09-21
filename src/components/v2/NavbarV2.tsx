@@ -23,12 +23,15 @@ const SECTION_TARGETS: Record<string, number> = {
 
 // Hrefs/anchors are stable regardless of language (routing is untouched);
 // only the labels come from the active translation.
+// Brandbook/Huisstijl (/brandbook) is intentionally not listed here: the
+// page stays live and directly reachable by URL, but is not meant to be
+// discoverable through visitor-facing navigation. Do not re-add it here
+// without an explicit request; see the route in App.tsx.
 const getNavItems = (t: ReturnType<typeof useLanguage>["t"]) => [
   { label: t.nav.home,      href: "/"          },
   { label: t.nav.about,     href: "#over-ons"  },
   { label: t.nav.projects,  href: "#projecten" },
   { label: t.nav.contact,   href: "#contact"   },
-  { label: t.nav.brandbook, href: "/brandbook" },
 ];
 
 const SOCIALS = [

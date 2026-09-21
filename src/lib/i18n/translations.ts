@@ -90,7 +90,7 @@ const nl = {
       tools: ["Logo Design", "Huisstijl", "Typografie", "Brand Guidelines"],
     },
     printDesign: {
-      title: "Print & Campaign Design",
+      title: "Print & Campagne Design",
       description:
         "Posters, flyers en ander drukwerk dat ook offline overtuigt. Van los grafisch ontwerp tot complete campagnebeelden: vormgeving die staat, op papier en op straat.",
       tools: ["Illustrator", "Photoshop", "Grafisch Ontwerp", "Drukwerk"],
@@ -104,7 +104,7 @@ const nl = {
   },
 
   footer: {
-    tagline: ["Design dat werkt.", "Gebouwd met visie."],
+    tagline: "Design dat werkt.",
     copyright: "© 2026 Studio Bit & Beeld",
     location: "Amsterdam, NL",
   },
@@ -122,10 +122,9 @@ const nl = {
     title: "MEER OVER MIJ",
     heading: { line1: "Vorm en functie,", accent: "balans", rest: "in", suffix: "." },
     paragraph1:
-      "Bij Studio Bit & Beeld combineer ik strategie, design en development tot digitale ervaringen die impact maken. Mijn passie ligt bij het vertalen van complexe ideeën naar strakke, functionele oplossingen.",
+      "Bij Studio Bit & Beeld combineer ik strategie, design en development tot digitale ervaringen die daadwerkelijk werken. Mijn passie ligt bij het vertalen van complexe ideeën naar strakke, functionele oplossingen.",
     paragraph2:
       "Ik bouw alles, van merkidentiteit tot volledige webplatformen, met precisie, passie en een scherp oog voor detail. Als eenmanszaak werk ik nauw samen met mijn klanten: korte lijnen, snelle beslissingen, persoonlijke aandacht.",
-    paragraph3: "Elk project is een kans om iets unieks te creëren.",
     stats: [
       { num: "50+", label: "Projecten" },
       { num: "8", label: "Jaar ervaring" },
@@ -190,15 +189,12 @@ const nl = {
 
   projectDesignIdentity: {
     pageTitle: "Design & Identiteit",
-    introHeading: "Een merk is meer dan een logo",
-    introParagraph1:
-      "Een sterke identiteit begint bij een logo, maar eindigt daar niet. Ze groeit uit tot een systeem van grid, witruimte, typografie en kleur, dat vervolgens consistent wordt toegepast op elk raakvlak met een klant.",
-    introParagraph2:
-      "Hieronder een kijkje in hoe dat er in de praktijk uitziet: van een vastgelegd merksysteem tot een identiteit die tot leven komt in fotografie en tone-of-voice.",
+    serviceIntro:
+      "Een identiteit brengt karakter in beeld. Kleur, typografie en vormgeving bepalen samen hoe een merk eruitziet, aanvoelt en zich presenteert.",
     systemEyebrow: "Identiteit → systeem",
-    systemHeading: "Vastgelegd, niet toevallig",
+    systemHeading: "Bouwbedrijf Kruize",
     systemParagraph:
-      "Voor Bouwbedrijf Kruize, dezelfde identiteit die je terugziet op de website, is de visuele taal vastgelegd in een navolgbaar systeem: witruimteregels rond het merkteken en exacte specificaties voor briefpapier, zodat de identiteit consistent blijft ongeacht wie 'm toepast.",
+      "Dezelfde identiteit als op de website: witruimteregels rond het merkteken en exacte specificaties voor briefpapier, zodat de toepassing consistent blijft.",
     logoSpacingAlt: "Huisstijlgids Bouwbedrijf Kruize: clearspace- en witruimteregels rond het logo",
     logoSpacingCaption: "Logo & witruimte",
     letterheadAlt: "Huisstijlgids Bouwbedrijf Kruize: briefpapierspecificaties en A4-formaat",
@@ -225,15 +221,15 @@ const nl = {
   },
 
   projectPrintDesign: {
-    pageTitle: "Print & Campaign Design",
-    introHeading: "Vormgeving die ook offline werkt",
-    introParagraph1: "Niet alles hoeft op een scherm te leven. Posters, flyers en ander drukwerk trekken de aandacht juist doordat ze tastbaar zijn.",
-    introParagraph2:
-      "Ik ontwerp print- en promotiemateriaal dat overtuigt: van los grafisch ontwerp voor een enkele opdracht tot samenhangende campagnebeelden, van eerste schets tot drukklaar bestand.",
-    introParagraph3: "Ook hier geldt: consistent, doordacht en afgestemd op waar het materiaal daadwerkelijk gebruikt wordt.",
-    postersEyebrow: "Posters in de praktijk",
-    postersParagraph: "Een selectie posters, van eerste schets tot drukklaar ontwerp.",
+    pageTitle: "Print & Campagne Design",
+    postersParagraph:
+      "Een selectie van posters voor verschillende evenementen, ieder met een eigen sfeer en uitstraling. Typografie, beeld en compositie vormen daarbij de basis van ieder ontwerp.",
     posterAlt: "Posterontwerp, A2 formaat",
+    // Only this one poster has a verified, source-backed identifier (from
+    // the original asset filename, "B31 - Simplon 1e editie") — the other
+    // three source files carry no client/event name, so they stay
+    // uncaptioned rather than inventing matching metadata for symmetry.
+    simplonCaption: "Simplon, 1e editie",
     canMakeTitle: "Wat ik kan maken",
     canMakeBlocks: [
       { title: "Drukwerk", items: ["Posters & flyers", "Promotiemateriaal", "Drukklare bestanden"] },
@@ -246,36 +242,30 @@ const nl = {
 
   projectContentSocial: {
     pageTitle: "Content & Social Media",
-    introHeading: "Content die een merk laat leven",
-    introParagraph1:
-      "Social media vraagt om meer dan losse plaatjes. Het draait om een visuele lijn die overal even herkenbaar blijft: in de feed, in een story of in een aankondiging.",
-    introParagraph2:
-      "Hieronder een selectie van content die ik ontwierp voor merken in de nachtcultuur: van terugkerende campagnesystemen tot content die zich aanpast aan uiteenlopende formaten.",
+    serviceIntro:
+      "Goede promotie begint met herkenbaarheid. Een sterke visuele stijl zorgt voor samenhang, maar biedt genoeg ruimte om iedere uiting een eigen karakter te geven.",
     kopjekEyebrow: "Uitgelichte campagne",
-    kopjekHeading: "Een terugkerend sjabloon voor een clubtour",
+    kopjekHeading: "Kopjek Clubtour",
     kopjekParagraph:
-      "Voor de Kopjek Clubtour ontwierp ik één visueel sjabloon, met typografie, 3D-vorm en indeling, dat per stad een eigen kleurstelling kreeg. Vier steden, hetzelfde sjabloon, elk met een eigen kleur en line-up.",
+      "Eén visueel sjabloon, met typografie, 3D-vorm en indeling, kreeg per stad een eigen kleurstelling en line-up.",
     kopjekAlt: (city: string) => `Kopjek Clubtour aankondiging voor ${city}, zelfde sjabloon in eigen kleurstelling`,
-    practiceEyebrow: "In de praktijk",
-    practiceHeading: "Andere merken, andere sferen",
-    practiceParagraph:
-      "Niet elk merk vraagt om dezelfde toon: de aanpak verschuift mee met wat het merk nodig heeft, van een moody editorial aankondiging tot warme releasefotografie en een speelse typografische wending.",
     groningsAlt: "Gronings Finest: moody editorial eventaankondiging",
+    groningsCaption: "Gronings Finest, moody editorial",
     leviAlt: "Levi: Moovline releasefeest, fotografie-gedreven aankondiging",
+    leviCaption: "Levi: Moovline, releasefotografie",
     tonightFlipAlt: "FIXY Bar: 'Tonight we flip', omgedraaide typografie als visuele wending",
+    tonightFlipCaption: "Bar FIXY: Flip, speelse typografie",
     formatsEyebrow: "Campagne → formaten",
-    formatsHeading: "Eén verhaal, verteld in drie momenten",
-    formatsParagraph:
-      "Voor FIXY's DJ Talentroom liep de aankondiging op via stories, met \"stay tuned\" en \"big news soon\", voordat de feed-post de line-up onthulde. Zelfde visuele systeem, drie momenten, drie formaten.",
+    formatsHeading: "FIXY: DJ Talentroom",
     feedPostAlt: "FIXY DJ Talentroom: feed post met line-up onthulling",
     feedPostCaption: "Feed post: line-up onthuld",
     storyTeaserAlt: "FIXY DJ Talentroom: story teaser 'stay tuned'",
-    storyTeaserCaption: "Story: teaser",
+    storyTeaserCaption: "Story: 'stay tuned'",
     storyAnnouncementAlt: "FIXY DJ Talentroom: story aankondiging 'big news soon'",
-    storyAnnouncementCaption: "Story: aankondiging",
+    storyAnnouncementCaption: "Story: 'big news soon'",
     approachEyebrow: "Hoe ik dit aanpak",
     approachParagraph:
-      "Ik werk niet met een vast contentpakket of een vaste hoeveelheid posts per maand. Ik kijk naar wat een merk, avond of campagne nodig heeft en bouw de content daaromheen op.",
+      "Ik werk niet met een vast contentpakket of een vaste hoeveelheid posts per maand, maar kijk naar wat een merk, avond of campagne nodig heeft en bouw de content daaromheen op.",
     disciplines: ["Campagnebeelden", "Social posts & stories", "Terugkerende sjablonen", "Aankondigingen", "Eventfotografie"],
     ctaHeading: { lead: "Tijd om", accent: "iets te laten zien", rest: "?" },
     startProject: "Start Project",
@@ -297,6 +287,366 @@ const nl = {
     ],
     ctaHeading: { lead: "Een", accent: "product", rest: "bouwen?" },
     startProject: "Start Project",
+  },
+
+  brandbook: {
+    cover: {
+      tag: "Vol. 1: Het merkboek",
+      scrollHint: "Scroll om te verkennen",
+      backLink: "Terug naar home",
+      facts: [
+        { label: "Studio", value: "Studio Bit & Beeld" },
+        { label: "Locatie", value: "Amsterdam, NL" },
+        { label: "Jaar", value: "2026" },
+        { label: "Hoofdstukken", value: "15" },
+      ],
+    },
+    intro: {
+      eyebrow: "Introductie",
+      heading: "Eén merk, overal hetzelfde verhaal.",
+      paragraph:
+        "Dit merkboek is geen los naslagwerk. Het laat zien hoe logo, kleur, typografie en toon samen het systeem vormen waarmee deze site zelf is gebouwd.",
+      statement:
+        "Sterke vormgeving gecombineerd met technische kennis, voor web, merk en alles daartussenin.",
+    },
+    identity: {
+      eyebrow: "Identiteit",
+      heading: "Wat Studio Bit & Beeld is",
+      paragraph:
+        "Geen groot bureau met een team achter glas. Eén persoon die vormgeving en techniek allebei zelf begrijpt en toepast.",
+      pillars: [
+        { title: "Creativiteit + techniek", desc: "Vorm en functie komen niet na elkaar tot stand, maar tegelijk." },
+        { title: "Eenmanszaak, persoonlijk", desc: "Korte lijnen, snelle beslissingen, persoonlijke aandacht." },
+        { title: "Maatwerk boven sjabloon", desc: "Elk project vertrekt vanuit wat het merk nodig heeft, niet vanuit een vast pakket." },
+      ],
+    },
+    logo: {
+      eyebrow: "Logo",
+      heading: "Het woordmerk",
+      paragraph:
+        "Het beeldmerk bestaat in twee officiële versies: licht voor donkere ondergronden, donker voor lichte ondergronden. Beide bestanden zijn de enige juiste bron.",
+      darkCaption: "Op near-black",
+      lightCaption: "Op warm papier",
+    },
+    logoUsage: {
+      eyebrow: "Logo gebruik",
+      heading: "Hoe het merk wel en niet werkt",
+      doLabel: "Wel",
+      dontLabel: "Niet",
+      dos: [
+        "Gebruik het originele bestand, ongeacht de toepassing.",
+        "Behoud voldoende witruimte rondom het merk.",
+        "Gebruik de lichte versie op een donkere ondergrond en andersom.",
+      ],
+      donts: [
+        "De kleur of verhoudingen aanpassen.",
+        "Het merk namaken met los getypte tekst.",
+        "Het op een drukke of fotografische achtergrond plaatsen.",
+      ],
+      note: "Voor zeer kleine toepassingen, zoals een favicon of app-icoon, wordt niet het volledige woordmerk gebruikt maar het compacte beeldmerk uit het volgende hoofdstuk.",
+    },
+    monogram: {
+      eyebrow: "Monogram",
+      heading: "Het compacte beeldmerk",
+      paragraph:
+        "Naast het volledige woordmerk bestaat er een compact merkteken, gebruikt als favicon en app-icoon: overal waar het volledige logo te klein of te gedetailleerd zou worden.",
+      caption: "Favicon en app-icoon",
+      note: "Dit icoon gebruikt een eigen rode oranje tint die net iets afwijkt van de brand-orange kleur van de website.",
+    },
+    color: {
+      eyebrow: "Kleur",
+      heading: "Warm, donker, en één signaalkleur",
+      paragraph:
+        "De basis is een warm papierwit en een zacht near-black, nooit zuiver wit of zwart. Brand-orange is de vaste signaalkleur: in knoppen, in de balk van navigatie en footer, overal hetzelfde.",
+      swatches: {
+        paper: "Warm Paper",
+        cream: "Cream",
+        nearBlack: "Near Black",
+        orange: "Brand Orange",
+      },
+    },
+    colorUsage: {
+      eyebrow: "Kleur in gebruik",
+      heading: "Combinaties die werken",
+      paragraph: "De kleuren staan nooit op zichzelf. Dit zijn de combinaties die daadwerkelijk voorkomen op de site.",
+      pairs: [
+        { label: "Near-black op Warm Paper", sample: "Standaard leestekst in het lichte thema." },
+        { label: "Cream op Near-black", sample: "Standaard leestekst in het donkere thema." },
+        { label: "Wit op Brand Orange", sample: "Knoppen en call-to-action." },
+        { label: "Near-black op Brand Orange", sample: "Footer en mobiele navigatiebalk." },
+      ],
+      accentNote: "Brand-orange wordt daarnaast gebruikt als accentkleur in tekst, op zowel donkere als lichte ondergrond.",
+    },
+    typography: {
+      eyebrow: "Typografie",
+      heading: "Drie lettertypes, één heldere hiërarchie",
+      display: { name: "Anton", role: "Display, paginatitels" },
+      editorial: { name: "Antonio", role: "Subkoppen, editorial" },
+      body: { name: "Inter", role: "Bodytekst en interface" },
+      specimenDisplay: "IDENTITEIT",
+    },
+    hierarchy: {
+      eyebrow: "Hiërarchie",
+      heading: "Van groot naar functioneel",
+      paragraph: "Dezelfde niveaus keren terug op elke pagina van de site.",
+      levels: [
+        { label: "Display", sample: "BRANDBOOK" },
+        { label: "Koptekst", sample: "Eén merk, overal hetzelfde verhaal." },
+        { label: "Subkop", sample: "Kwaliteit boven kwantiteit" },
+        { label: "Bodytekst", sample: "Niet alleen om iets goed te laten ogen, maar vooral om iets te maken dat werkt." },
+        { label: "Label", sample: "Uitgelicht project" },
+      ],
+    },
+    layout: {
+      eyebrow: "Layout en compositie",
+      heading: "Ruimte, raster en herhaling",
+      paragraph:
+        "Elke pagina deelt dezelfde opbouw: een vast raster op de achtergrond, dezelfde maximale breedte voor tekst, dezelfde adempauze tussen secties.",
+      stats: [
+        { value: "1240px", label: "Maximale inhoudsbreedte" },
+        { value: "60px", label: "Achtergrondraster" },
+        { value: "16 → 24", label: "Verticale sectieruimte" },
+      ],
+      asymmetryLabel: "Asymmetrische verdeling",
+      gridLabel: "Rasterlijnen op de achtergrond",
+    },
+    imagery: {
+      eyebrow: "Beeldgebruik",
+      heading: "Hoe beeld wordt ingezet",
+      paragraph: "Beeld krijgt een lichte dieptelaag: een verschoven schaduwvlak achter het kader in plaats van een platte rand.",
+      portraitCaption: "Portretten: zachte, afgeronde hoeken",
+      workCaption: "Werk en documenten: scherpe hoeken",
+    },
+    digital: {
+      eyebrow: "Digitale toepassing",
+      heading: "Hetzelfde merk, in interface",
+      paragraph:
+        "Knoppen, labels en kaarten volgen dezelfde regels als de rest van het merk: rustige vlakken, één signaalkleur, duidelijke randen.",
+      ctaLabel: "Plan Gesprek",
+      tagsLabel: "Labels en tags",
+      navLabel: "Navigatiebalk",
+    },
+    voice: {
+      eyebrow: "Toon van stem",
+      heading: "Persoonlijk, geen bureau",
+      paragraph: "Studio Bit & Beeld schrijft zoals er gewerkt wordt: direct, duidelijk, zonder overbodige woorden.",
+      doLabel: "Wel",
+      dontLabel: "Niet",
+      doExample:
+        "Als eenmanszaak werk ik nauw samen met mijn klanten: korte lijnen, snelle beslissingen, persoonlijke aandacht.",
+      dontExample:
+        "Wij zijn een full-service creative agency die met een gepassioneerd team cutting-edge digitale ervaringen tot leven brengt.",
+    },
+    usage: {
+      eyebrow: "Toepassing",
+      heading: "Toegepast op echt werk",
+      paragraph: "Deze identiteit is geen theorie. Ze is terug te zien in het werk zelf.",
+      viewLabel: "Bekijk",
+    },
+    closing: {
+      eyebrow: "Colofon",
+      heading: "Design dat werkt.",
+      studio: "Studio Bit & Beeld",
+      location: "Amsterdam, NL",
+      copyright: "© 2026 Studio Bit & Beeld",
+      backHome: "Terug naar home",
+      cta: { lead: "Klaar om iets", accent: "moois", rest: "te bouwen?" },
+    },
+  },
+
+  toneOfVoice: {
+    cover: {
+      tag: "Vol. 2: Tone of Voice",
+      scrollHint: "Scroll om te verkennen",
+      backLink: "Terug naar home",
+      facts: [
+        { label: "Studio", value: "Studio Bit & Beeld" },
+        { label: "Auteur", value: "Wouter" },
+        { label: "Type", value: "Interne referentie" },
+        { label: "Hoofdstukken", value: "12" },
+      ],
+    },
+    basics: {
+      eyebrow: "De basis",
+      heading: "Persoonlijk, direct, duidelijk, bruikbaar.",
+      paragraph:
+        "Studio Bit & Beeld is één persoon, geen bureau. De toon is die van iemand die zijn werk kent en er gewoon over vertelt.",
+      pillars: [
+        { title: "Persoonlijk", desc: "Er zit een persoon achter dit werk. De tekst mag daarnaar klinken." },
+        { title: "Direct", desc: "Zeg wat je bedoelt, in zo min mogelijk woorden." },
+        { title: "Concreet", desc: "Praat over wat er echt gemaakt is, niet over abstracte waarden." },
+        { title: "Bruikbaar", desc: "Tekst die niets toevoegt, mag verdwijnen." },
+      ],
+    },
+    workFirst: {
+      eyebrow: "Laat het werk spreken",
+      heading: "Titel. Korte context. Het werk.",
+      paragraph: "De portfolio heeft geen lagen marketingtaal nodig voordat een bezoeker een project ziet.",
+      preferLabel: "Wel",
+      preferSteps: ["Titel", "Korte, nuttige context", "Het werk", "Extra context waar het waarde toevoegt"],
+      avoidLabel: "Niet",
+      avoidSteps: ["Titel", "Marketingslogan", "Abstracte alinea", "Nog een kop", "Nog een alinea", "Eindelijk het werk"],
+    },
+    addValue: {
+      eyebrow: "Voeg iets toe",
+      heading: "Tekst voegt iets toe, of staat er niet.",
+      paragraph:
+        "Een kop hoeft niet te vertellen wat al zichtbaar is. Tekst is er om iets te zeggen dat het beeld niet kan.",
+      questions: [
+        "Waarom is deze keuze gemaakt?",
+        "Wat was belangrijk in dit project?",
+        "Welk probleem loste het ontwerp op?",
+        "Wat zegt dit over de aanpak?",
+        "Wat mist er zonder deze tekst?",
+      ],
+    },
+    dontFillSpace: {
+      eyebrow: "Schrijf niet om ruimte te vullen",
+      heading: "Niet ieder onderdeel heeft tekst nodig.",
+      paragraph:
+        "Als een beeld of serie voor zichzelf spreekt, hoeft er geen kop of alinea bij te worden bedacht.",
+      distinctionLabel1: "Vertel niet wat ik al zie",
+      distinction1: "De tekst herhaalt wat het beeld al toont. Dat is een redundantieprobleem.",
+      distinctionLabel2: "Schrijf niet om ruimte te vullen",
+      distinction2: "De tekst staat er omdat de layout een eyebrow, kop en alinea heeft, niet omdat er iets te zeggen is.",
+    },
+    dontNarrate: {
+      eyebrow: "Vertel niet wat ik al zie",
+      heading: "Beschrijf niet wat al zichtbaar is.",
+      intro:
+        "Dit zijn geen voorgestelde teksten, maar voorbeelden van het soort informatie dat wel waarde toevoegt.",
+      beforeLabel: "Niet",
+      afterLabel: "Wel dit soort denken",
+      examples: [
+        {
+          before: "Een terugkerend sjabloon voor een clubtour",
+          reason: "De bezoeker ziet al een reeks samenhangende posters.",
+          after: "Bijvoorbeeld: waarom moest één sjabloon vier steden dragen?",
+        },
+        {
+          before: "Andere merken, andere sferen",
+          reason: "De verschillen tussen de ontwerpen zijn al zichtbaar.",
+          after: "Bijvoorbeeld: wat bepaalde de sfeer per merk?",
+        },
+        {
+          before: "Eén verhaal, verteld in drie momenten",
+          reason: "De opbouw in drie delen is al te zien aan de indeling zelf.",
+          after: "Bijvoorbeeld: waarom liep de aankondiging in stappen op?",
+        },
+      ],
+      exceptionNote:
+        "Een korte introductie mag wel vertellen wat je gaat zien: dat oriënteert. De regel is niet 'nooit beschrijven', maar 'oriënteer één keer, blijf niet herhalen wat al zichtbaar is'.",
+    },
+    avoid: {
+      eyebrow: "Vermijd",
+      heading: "Maak een claim alleen als je laat zien waarom die klopt.",
+      paragraph:
+        "Woorden als 'innovatief' of 'uniek' zijn niet automatisch fout. Het probleem ontstaat pas als er niets naast staat dat laat zien wat er innovatief of uniek is.",
+      claimWeakLabel: "Zwak",
+      claimWeak: "Een innovatieve aanpak voor elk merk.",
+      claimStrongLabel: "Sterk",
+      claimStrong: "Voor Kopjek kreeg één sjabloon per stad een eigen kleur en line-up.",
+      jargonNote:
+        "Hetzelfde geldt voor vaktaal: grijp niet naar een groter woord om gewoon werk belangrijker te laten klinken. Zeg plain wat er gemaakt is, en gebruik een vakterm alleen als die echt het duidelijkst is. Patronen om te herkennen:",
+      patterns: [
+        { title: "Grote woorden voor gewoon werk", examples: ["navolgbaar systeem", "vastgelegd, niet toevallig", "holistische merkbeleving"] },
+        { title: "Agency-slogans", examples: ["Design dat impact maakt.", "Van idee naar impact.", "Wij brengen merken tot leven."] },
+      ],
+    },
+    voice: {
+      eyebrow: "Schrijf zoals je praat",
+      heading: "Ik, niet wij. Meestal.",
+      paragraph:
+        "'Ik' voor eigen werk en visie. 'We' alleen als het om echte samenwerking met een klant gaat, nooit om een team dat niet bestaat. Niet elke zin hoeft met 'Ik' te beginnen: het werk, de klant of het resultaat mogen ook het onderwerp zijn.",
+      doLabel: "Wel",
+      dontLabel: "Niet",
+      doExample: "Ik ontwierp de website en dacht vanaf het begin mee over de structuur.",
+      dontExample: "Ons team ontwikkelde een holistische oplossing.",
+    },
+    rules: {
+      eyebrow: "Schrijfregels",
+      heading: "Praktische regels.",
+      items: [
+        "Korte zinnen waar het kan.",
+        "Concreet: wat ik maakte, waarom het telde.",
+        "Eén idee per paragraaf.",
+        "Actief: 'ik ontwierp', niet 'er is ontworpen'.",
+        "Geen verplichte kop bij ieder beeld.",
+        "Herhaal niet wat de kop of het beeld al zegt.",
+        "Let op onnodige herhaling in zinsopbouw.",
+      ],
+    },
+    punctuation: {
+      eyebrow: "Interpunctie",
+      heading: "Geen gedachtestreepjes.",
+      paragraph:
+        "Nooit een em dash of en dash als stijlmiddel, in het Nederlands en in het Engels. Herschrijf met een punt, komma, dubbele punt, puntkomma of een andere zinsbouw. Een gewoon koppelteken in een woord, url of bestandsnaam is geen probleem.",
+      badLabel: "Niet",
+      badExample: "De website moest rustig blijven — zonder informatie te verbergen.",
+      goodLabel: "Wel",
+      goodExample: "De website moest rustig blijven, zonder informatie te verbergen.",
+    },
+    languages: {
+      eyebrow: "Nederlands & Engels",
+      heading: "Dezelfde stem, twee talen.",
+      paragraph:
+        "Het Nederlands is het uitgangspunt. Engels is een natuurlijke vertaling, geen aparte en commerciëlere versie. Als het Nederlands direct en persoonlijk is, moet het Engels dat ook zijn.",
+    },
+    examples: {
+      eyebrow: "Voorbeelden",
+      heading: "Goedgekeurde voorbeelden.",
+      items: [
+        {
+          source: "Hero",
+          quote: "Creativiteit en techniek komen samen in alles wat ik maak. Niet alleen om iets goed te laten ogen, maar vooral om iets te maken dat werkt voor jou.",
+          why: "Concreet en persoonlijk, geen loze belofte.",
+        },
+        {
+          source: "Over mij",
+          quote: "Mijn kracht zit in de combinatie van creativiteit en techniek. Ik wil iets niet alleen mooi maken, maar ook begrijpen hoe het werkt en hoe het beter kan.",
+          why: "Legt uit hoe ik denk, niet alleen wat ik doe.",
+        },
+        {
+          source: "Content & Social Media",
+          quote: "Goede promotie begint met herkenbaarheid. Een sterke visuele stijl zorgt voor samenhang, maar biedt genoeg ruimte om iedere uiting een eigen karakter te geven.",
+          why: "Vertelt de gedachte achter het werk, niet de posters zelf.",
+        },
+        {
+          source: "Design & Identiteit",
+          quote: "Een identiteit brengt karakter in beeld. Kleur, typografie en vormgeving bepalen samen hoe een merk eruitziet, aanvoelt en zich presenteert.",
+          why: "Een perspectief op identiteit, niet één klant of mockup.",
+        },
+        {
+          source: "Print & Campagne Design",
+          quote: "Een selectie van posters voor verschillende evenementen, ieder met een eigen sfeer en uitstraling. Typografie, beeld en compositie vormen daarbij de basis van ieder ontwerp.",
+          why: "Introduceert de collectie kort, en laat daarna het werk overnemen.",
+        },
+      ],
+    },
+    checklist: {
+      eyebrow: "Checklist",
+      heading: "Voor je iets publiceert.",
+      items: [
+        "Kan de bezoeker dit al zien?",
+        "Voegt deze tekst een feit, reden of keuze toe?",
+        "Zou ik dit zelf ook zo zeggen?",
+        "Als ik een claim doe, laat ik ook zien waarom die klopt?",
+        "Kan deze zin korter, of helemaal weg?",
+        "Herhaal ik onnodig dezelfde zinsopbouw?",
+        "Schrijf ik dit omdat het nodig is, of omdat de layout ruimte heeft?",
+        "Staat er een em dash of en dash in de tekst?",
+      ],
+    },
+    closing: {
+      eyebrow: "Colofon",
+      heading: "Schrijf zoals je werkt.",
+      studio: "Studio Bit & Beeld",
+      location: "Amsterdam, NL",
+      copyright: "© 2026 Studio Bit & Beeld",
+      backHome: "Terug naar home",
+      brandbookLink: "Bekijk het Brandbook",
+      note: "Deze pagina is intern: een schrijfreferentie, geen publieke merkbelofte.",
+    },
   },
 
   notFound: {
@@ -400,7 +750,7 @@ const en: TranslationShape = {
   },
 
   footer: {
-    tagline: ["Design that works.", "Built with vision."],
+    tagline: "Design that works.",
     copyright: "© 2026 Studio Bit & Beeld",
     location: "Amsterdam, Netherlands",
   },
@@ -418,10 +768,9 @@ const en: TranslationShape = {
     title: "MORE ABOUT ME",
     heading: { line1: "Form and function,", accent: "balance", rest: "in", suffix: "." },
     paragraph1:
-      "At Studio Bit & Beeld I combine strategy, design and development into digital experiences that make an impact. My passion lies in translating complex ideas into clean, functional solutions.",
+      "At Studio Bit & Beeld I combine strategy, design and development into digital experiences that actually work. My passion lies in translating complex ideas into clean, functional solutions.",
     paragraph2:
       "I build everything, from brand identity to full web platforms, with precision, passion and a sharp eye for detail. As a one-person studio I work closely with my clients: short lines of communication, fast decisions, personal attention.",
-    paragraph3: "Every project is a chance to create something unique.",
     stats: [
       { num: "50+", label: "Projects" },
       { num: "8", label: "Years of experience" },
@@ -486,15 +835,12 @@ const en: TranslationShape = {
 
   projectDesignIdentity: {
     pageTitle: "Design & Identity",
-    introHeading: "A brand is more than a logo",
-    introParagraph1:
-      "A strong identity starts with a logo, but doesn't end there. It grows into a system of grid, whitespace, typography and color, which is then applied consistently across every touchpoint with a client.",
-    introParagraph2:
-      "Below is a look at what that looks like in practice: from a documented brand system to an identity that comes to life in photography and tone of voice.",
+    serviceIntro:
+      "An identity brings character to life. Color, typography and design together determine how a brand looks, feels and presents itself.",
     systemEyebrow: "Identity → system",
-    systemHeading: "Documented, not accidental",
+    systemHeading: "Bouwbedrijf Kruize",
     systemParagraph:
-      "For Bouwbedrijf Kruize, the same identity you see on the website, the visual language is captured in a repeatable system: whitespace rules around the mark and exact specifications for letterhead, so the identity stays consistent no matter who applies it.",
+      "The same identity as the website: whitespace rules around the mark and exact specifications for letterhead, so the application stays consistent.",
     logoSpacingAlt: "Bouwbedrijf Kruize brand guidelines: clearspace and whitespace rules around the logo",
     logoSpacingCaption: "Logo & whitespace",
     letterheadAlt: "Bouwbedrijf Kruize brand guidelines: letterhead specifications and A4 format",
@@ -522,14 +868,12 @@ const en: TranslationShape = {
 
   projectPrintDesign: {
     pageTitle: "Print & Campaign Design",
-    introHeading: "Design that works offline too",
-    introParagraph1: "Not everything has to live on a screen. Posters, flyers and other print work grab attention precisely because they're tangible.",
-    introParagraph2:
-      "I design print and promotional material that convinces: from standalone graphic design for a single job to cohesive campaign visuals, from first sketch to print-ready file.",
-    introParagraph3: "The same principle applies here: consistent, considered and tailored to where the material is actually used.",
-    postersEyebrow: "Posters in practice",
-    postersParagraph: "A selection of posters, from first sketch to print-ready design.",
+    postersParagraph:
+      "A selection of posters for different events, each with its own atmosphere and character. Typography, imagery and composition form the foundation of every design.",
     posterAlt: "Poster design, A2 format",
+    // Only this poster has a verified, source-backed identifier (from the
+    // original asset filename, "B31 - Simplon 1e editie") — see the NL note.
+    simplonCaption: "Simplon, 1st edition",
     canMakeTitle: "What I can make",
     canMakeBlocks: [
       { title: "Print", items: ["Posters & flyers", "Promotional material", "Print-ready files"] },
@@ -542,36 +886,30 @@ const en: TranslationShape = {
 
   projectContentSocial: {
     pageTitle: "Content & Social Media",
-    introHeading: "Content that brings a brand to life",
-    introParagraph1:
-      "Social media needs more than standalone images. It's about a visual thread that stays recognizable everywhere: in the feed, in a story or in an announcement.",
-    introParagraph2:
-      "Below is a selection of content I designed for brands in nightlife culture: from recurring campaign systems to content that adapts to a wide range of formats.",
+    serviceIntro:
+      "Good promotion starts with recognizability. A strong visual style creates consistency, while still leaving enough room for every piece to have its own character.",
     kopjekEyebrow: "Featured campaign",
-    kopjekHeading: "A recurring template for a club tour",
+    kopjekHeading: "Kopjek Clubtour",
     kopjekParagraph:
-      "For the Kopjek Clubtour I designed a single visual template, with typography, 3D shape and layout, that got its own color scheme per city. Four cities, the same template, each with its own color and lineup.",
+      "One visual template, with typography, 3D shape and layout, got its own color scheme and lineup per city.",
     kopjekAlt: (city: string) => `Kopjek Clubtour announcement for ${city}, same template in its own color scheme`,
-    practiceEyebrow: "In practice",
-    practiceHeading: "Different brands, different moods",
-    practiceParagraph:
-      "Not every brand calls for the same tone: the approach shifts with what the brand needs, from a moody editorial announcement to warm release photography and a playful typographic twist.",
     groningsAlt: "Gronings Finest: moody editorial event announcement",
+    groningsCaption: "Gronings Finest, moody editorial",
     leviAlt: "Levi: Moovline release party, photography-driven announcement",
+    leviCaption: "Levi: Moovline, warm release photography",
     tonightFlipAlt: "FIXY Bar: 'Tonight we flip', flipped typography as a visual twist",
+    tonightFlipCaption: "Bar FIXY: Flip, playful typography",
     formatsEyebrow: "Campaign → formats",
-    formatsHeading: "One story, told in three moments",
-    formatsParagraph:
-      "For FIXY's DJ Talentroom the announcement built up through stories, with \"stay tuned\" and \"big news soon\", before the feed post revealed the lineup. Same visual system, three moments, three formats.",
+    formatsHeading: "FIXY: DJ Talentroom",
     feedPostAlt: "FIXY DJ Talentroom: feed post revealing the lineup",
     feedPostCaption: "Feed post: lineup revealed",
     storyTeaserAlt: "FIXY DJ Talentroom: story teaser 'stay tuned'",
-    storyTeaserCaption: "Story: teaser",
+    storyTeaserCaption: "Story: 'stay tuned'",
     storyAnnouncementAlt: "FIXY DJ Talentroom: story announcement 'big news soon'",
-    storyAnnouncementCaption: "Story: announcement",
+    storyAnnouncementCaption: "Story: 'big news soon'",
     approachEyebrow: "How I approach this",
     approachParagraph:
-      "I don't work with a fixed content package or a fixed number of posts per month. I look at what a brand, event or campaign needs and build the content around that.",
+      "I don't work with a fixed content package or a fixed number of posts per month, but look at what a brand, event or campaign needs and build the content around that.",
     disciplines: ["Campaign visuals", "Social posts & stories", "Recurring templates", "Announcements", "Event photography"],
     ctaHeading: { lead: "Time to", accent: "show something", rest: "?" },
     startProject: "Start Project",
@@ -593,6 +931,366 @@ const en: TranslationShape = {
     ],
     ctaHeading: { lead: "Build a", accent: "product", rest: "?" },
     startProject: "Start Project",
+  },
+
+  brandbook: {
+    cover: {
+      tag: "Vol. 1: The Brand Manual",
+      scrollHint: "Scroll to explore",
+      backLink: "Back to home",
+      facts: [
+        { label: "Studio", value: "Studio Bit & Beeld" },
+        { label: "Location", value: "Amsterdam, Netherlands" },
+        { label: "Year", value: "2026" },
+        { label: "Chapters", value: "15" },
+      ],
+    },
+    intro: {
+      eyebrow: "Introduction",
+      heading: "One brand, the same story everywhere.",
+      paragraph:
+        "This brand manual isn't a separate reference document. It shows how logo, color, typography and tone come together as the system this site itself is built with.",
+      statement:
+        "Strong design combined with technical knowledge, for web, brand and everything in between.",
+    },
+    identity: {
+      eyebrow: "Identity",
+      heading: "What Studio Bit & Beeld is",
+      paragraph:
+        "Not a large agency with a team behind glass. One person who understands and applies both design and technology.",
+      pillars: [
+        { title: "Creativity + technology", desc: "Form and function don't happen one after the other. They happen together." },
+        { title: "One person, personal", desc: "Short lines of communication, fast decisions, personal attention." },
+        { title: "Custom work over templates", desc: "Every project starts from what the brand needs, not from a fixed package." },
+      ],
+    },
+    logo: {
+      eyebrow: "Logo",
+      heading: "The wordmark",
+      paragraph:
+        "The mark exists in two official versions: light for dark backgrounds, dark for light backgrounds. Both files are the only correct source.",
+      darkCaption: "On near-black",
+      lightCaption: "On warm paper",
+    },
+    logoUsage: {
+      eyebrow: "Logo usage",
+      heading: "How the mark works, and doesn't",
+      doLabel: "Do",
+      dontLabel: "Don't",
+      dos: [
+        "Use the original file, whatever the application.",
+        "Keep enough clear space around the mark.",
+        "Use the light version on a dark background and the other way round.",
+      ],
+      donts: [
+        "Change its color or proportions.",
+        "Recreate the mark with typed text.",
+        "Place it on a busy or photographic background.",
+      ],
+      note: "For very small applications, like a favicon or app icon, the full wordmark is replaced by the compact mark in the next chapter.",
+    },
+    monogram: {
+      eyebrow: "Monogram",
+      heading: "The compact mark",
+      paragraph:
+        "Alongside the full wordmark there's a compact mark, used as the favicon and app icon: anywhere the full logo would turn too small or too detailed.",
+      caption: "Favicon and app icon",
+      note: "This icon uses its own red orange shade, slightly different from the website's brand orange.",
+    },
+    color: {
+      eyebrow: "Color",
+      heading: "Warm, dark, and one signal color",
+      paragraph:
+        "The foundation is a warm paper white and a soft near-black, never pure white or black. Brand orange is the fixed signal color: in buttons, in the navigation and footer bar, the same everywhere.",
+      swatches: {
+        paper: "Warm Paper",
+        cream: "Cream",
+        nearBlack: "Near Black",
+        orange: "Brand Orange",
+      },
+    },
+    colorUsage: {
+      eyebrow: "Color in use",
+      heading: "Combinations that work",
+      paragraph: "The colors never stand alone. These are the combinations that actually occur on the site.",
+      pairs: [
+        { label: "Near-black on Warm Paper", sample: "Default body copy in light mode." },
+        { label: "Cream on Near-black", sample: "Default body copy in dark mode." },
+        { label: "White on Brand Orange", sample: "Buttons and calls to action." },
+        { label: "Near-black on Brand Orange", sample: "Footer and mobile navigation bar." },
+      ],
+      accentNote: "Brand orange is also used as an accent color within text, on both dark and light backgrounds.",
+    },
+    typography: {
+      eyebrow: "Typography",
+      heading: "Three typefaces, one clear hierarchy",
+      display: { name: "Anton", role: "Display, page titles" },
+      editorial: { name: "Antonio", role: "Subheadings, editorial" },
+      body: { name: "Inter", role: "Body copy and interface" },
+      specimenDisplay: "IDENTITY",
+    },
+    hierarchy: {
+      eyebrow: "Hierarchy",
+      heading: "From large to functional",
+      paragraph: "The same levels return on every page of the site.",
+      levels: [
+        { label: "Display", sample: "BRANDBOOK" },
+        { label: "Heading", sample: "One brand, the same story everywhere." },
+        { label: "Subheading", sample: "Quality over quantity" },
+        { label: "Body copy", sample: "Not just to make something look good, but above all to make something that works." },
+        { label: "Label", sample: "Featured project" },
+      ],
+    },
+    layout: {
+      eyebrow: "Layout & composition",
+      heading: "Space, grid and repetition",
+      paragraph:
+        "Every page shares the same structure: a fixed background grid, the same maximum width for text, the same breathing room between sections.",
+      stats: [
+        { value: "1240px", label: "Maximum content width" },
+        { value: "60px", label: "Background grid" },
+        { value: "16 → 24", label: "Vertical section spacing" },
+      ],
+      asymmetryLabel: "Asymmetric division",
+      gridLabel: "Grid lines in the background",
+    },
+    imagery: {
+      eyebrow: "Imagery",
+      heading: "How images are used",
+      paragraph: "Images get a light depth layer: an offset shadow plane behind the frame instead of a flat edge.",
+      portraitCaption: "Portraits: soft, rounded corners",
+      workCaption: "Work and documents: sharp corners",
+    },
+    digital: {
+      eyebrow: "Digital application",
+      heading: "The same brand, in interface",
+      paragraph:
+        "Buttons, labels and cards follow the same rules as the rest of the brand: calm surfaces, one signal color, clear borders.",
+      ctaLabel: "Book a Call",
+      tagsLabel: "Labels and tags",
+      navLabel: "Navigation bar",
+    },
+    voice: {
+      eyebrow: "Tone of voice",
+      heading: "Personal, not an agency",
+      paragraph: "Studio Bit & Beeld writes the way it works: direct, clear, without unnecessary words.",
+      doLabel: "Do",
+      dontLabel: "Don't",
+      doExample:
+        "As a one-person studio I work closely with my clients: short lines of communication, fast decisions, personal attention.",
+      dontExample:
+        "We are a full-service creative agency bringing cutting-edge digital experiences to life with a passionate team.",
+    },
+    usage: {
+      eyebrow: "Application",
+      heading: "Applied to real work",
+      paragraph: "This identity isn't theory. It shows up in the work itself.",
+      viewLabel: "View",
+    },
+    closing: {
+      eyebrow: "Colophon",
+      heading: "Design that works.",
+      studio: "Studio Bit & Beeld",
+      location: "Amsterdam, Netherlands",
+      copyright: "© 2026 Studio Bit & Beeld",
+      backHome: "Back to home",
+      cta: { lead: "Ready to build something", accent: "great", rest: "together?" },
+    },
+  },
+
+  toneOfVoice: {
+    cover: {
+      tag: "Vol. 2: Tone of Voice",
+      scrollHint: "Scroll to explore",
+      backLink: "Back to home",
+      facts: [
+        { label: "Studio", value: "Studio Bit & Beeld" },
+        { label: "Author", value: "Wouter" },
+        { label: "Type", value: "Internal reference" },
+        { label: "Chapters", value: "12" },
+      ],
+    },
+    basics: {
+      eyebrow: "The basics",
+      heading: "Personal, direct, clear, useful.",
+      paragraph:
+        "Studio Bit & Beeld is one person, not an agency. The tone is that of someone who knows their own work and just talks about it.",
+      pillars: [
+        { title: "Personal", desc: "There is a person behind this work. The writing can sound like it." },
+        { title: "Direct", desc: "Say what you mean, in as few words as possible." },
+        { title: "Concrete", desc: "Talk about what was actually made, not abstract values." },
+        { title: "Useful", desc: "Text that adds nothing is free to go." },
+      ],
+    },
+    workFirst: {
+      eyebrow: "Let the work speak",
+      heading: "Title. Short context. The work.",
+      paragraph: "The portfolio does not need layers of marketing language before a visitor sees a project.",
+      preferLabel: "Prefer",
+      preferSteps: ["Title", "Short, useful context", "The work", "Extra context where it adds value"],
+      avoidLabel: "Avoid",
+      avoidSteps: ["Title", "Marketing slogan", "Abstract paragraph", "Another heading", "Another paragraph", "Finally, the work"],
+    },
+    addValue: {
+      eyebrow: "Add something",
+      heading: "Text adds something, or it stays out.",
+      paragraph:
+        "A heading does not need to state what is already visible. Text exists to say something the image cannot.",
+      questions: [
+        "Why was this choice made?",
+        "What mattered in this project?",
+        "What problem did the design solve?",
+        "What does this say about the approach?",
+        "What would be missing without this text?",
+      ],
+    },
+    dontFillSpace: {
+      eyebrow: "Don't write to fill space",
+      heading: "Not every section needs text.",
+      paragraph:
+        "If an image or series speaks for itself, there's no need to invent a heading or paragraph to go with it.",
+      distinctionLabel1: "Do not narrate the screen",
+      distinction1: "The text repeats what the image already shows. That's a redundancy problem.",
+      distinctionLabel2: "Don't write to fill space",
+      distinction2: "The text exists because the layout has an eyebrow, heading and paragraph slot, not because there's something to say.",
+    },
+    dontNarrate: {
+      eyebrow: "Do not narrate the screen",
+      heading: "Do not describe what is already visible.",
+      intro:
+        "These are not proposed replacement texts, but examples of the kind of information that does add value.",
+      beforeLabel: "Avoid",
+      afterLabel: "Think like this instead",
+      examples: [
+        {
+          before: "A recurring template for a club tour",
+          reason: "The visitor already sees a series of related posters.",
+          after: "For example: why did one template need to carry four cities?",
+        },
+        {
+          before: "Different brands, different moods",
+          reason: "The differences between the designs are already visible.",
+          after: "For example: what determined the mood for each brand?",
+        },
+        {
+          before: "One story, told in three moments",
+          reason: "The three part structure is already visible in the layout itself.",
+          after: "For example: why did the announcement build up in stages?",
+        },
+      ],
+      exceptionNote:
+        "A short introduction is allowed to say what someone is about to see: that orients. The rule isn't 'never describe', it's 'orient once, don't keep repeating what's already visible'.",
+    },
+    avoid: {
+      eyebrow: "Avoid",
+      heading: "Only make a claim if you show why it's true.",
+      paragraph:
+        "Words like 'innovative' or 'unique' aren't automatically wrong. The problem starts when nothing next to them shows what's actually innovative or unique.",
+      claimWeakLabel: "Weak",
+      claimWeak: "An innovative approach for every brand.",
+      claimStrongLabel: "Strong",
+      claimStrong: "For Kopjek, one template got its own color and lineup per city.",
+      jargonNote:
+        "The same goes for jargon: don't reach for a bigger word to make ordinary work sound more important. Say plainly what was made, and use a specialist term only when it's actually the clearest one. Patterns to notice:",
+      patterns: [
+        { title: "Big words for ordinary work", examples: ["repeatable system", "documented, not accidental", "holistic brand experience"] },
+        { title: "Agency slogans", examples: ["Design that makes an impact.", "From idea to impact.", "We bring brands to life."] },
+      ],
+    },
+    voice: {
+      eyebrow: "Write the way you talk",
+      heading: "I, not we. Usually.",
+      paragraph:
+        "'I' for my own work and perspective. 'We' only for genuine collaboration with a client, never to imply a team that does not exist. Not every sentence needs to start with 'I': the work, the client or the result can just as easily be the subject.",
+      doLabel: "Do",
+      dontLabel: "Don't",
+      doExample: "I designed the website and thought about the structure from the very start.",
+      dontExample: "Our team developed a holistic solution.",
+    },
+    rules: {
+      eyebrow: "Writing rules",
+      heading: "Practical rules.",
+      items: [
+        "Short sentences where possible.",
+        "Concrete: what I made, why it mattered.",
+        "One idea per paragraph.",
+        "Active: 'I designed', not 'it was designed'.",
+        "No mandatory heading for every image.",
+        "Do not repeat what the heading or image already says.",
+        "Watch for unnecessary repetition in sentence structure.",
+      ],
+    },
+    punctuation: {
+      eyebrow: "Punctuation",
+      heading: "No em dashes.",
+      paragraph:
+        "Never an em dash or en dash as stylistic punctuation, in Dutch or in English. Rewrite with a period, comma, colon, semicolon or a different sentence structure. A plain hyphen inside a word, url or filename is not a problem.",
+      badLabel: "Avoid",
+      badExample: "The website needed to stay calm — without hiding information.",
+      goodLabel: "Prefer",
+      goodExample: "The website needed to stay calm, without hiding information.",
+    },
+    languages: {
+      eyebrow: "Dutch & English",
+      heading: "The same voice, two languages.",
+      paragraph:
+        "Dutch is the starting point. English is a natural translation, not a separate, more commercial version. If the Dutch is direct and personal, the English should be too.",
+    },
+    examples: {
+      eyebrow: "Examples",
+      heading: "Approved examples.",
+      items: [
+        {
+          source: "Hero",
+          quote: "Creativity and technology come together in everything I make. I don't just want something to look good. Above all, I want to create something that works for you.",
+          why: "Concrete and personal, no empty promise.",
+        },
+        {
+          source: "About",
+          quote: "My strength lies in combining creativity with technical thinking. I don't just want to make something look good. I want to understand how it works, and how it could work better.",
+          why: "Explains how I think, not just what I do.",
+        },
+        {
+          source: "Content & Social Media",
+          quote: "Good promotion starts with recognizability. A strong visual style creates consistency, while still leaving enough room for every piece to have its own character.",
+          why: "States the thinking behind the work, not the posters themselves.",
+        },
+        {
+          source: "Design & Identity",
+          quote: "An identity brings character to life. Color, typography and design together determine how a brand looks, feels and presents itself.",
+          why: "A perspective on identity, not one client or mockup.",
+        },
+        {
+          source: "Print & Campaign Design",
+          quote: "A selection of posters for different events, each with its own atmosphere and character. Typography, imagery and composition form the foundation of every design.",
+          why: "Introduces the collection briefly, then lets the work take over.",
+        },
+      ],
+    },
+    checklist: {
+      eyebrow: "Checklist",
+      heading: "Before you publish.",
+      items: [
+        "Can the visitor already see this?",
+        "Does this text add a fact, reason or decision?",
+        "Would I actually say this myself?",
+        "If I make a claim, do I show why it's true?",
+        "Can this sentence be shorter, or cut entirely?",
+        "Am I repeating the same sentence structure unnecessarily?",
+        "Am I writing this because it's needed, or because the layout has room?",
+        "Is there an em dash or en dash in the text?",
+      ],
+    },
+    closing: {
+      eyebrow: "Colophon",
+      heading: "Write the way you work.",
+      studio: "Studio Bit & Beeld",
+      location: "Amsterdam, Netherlands",
+      copyright: "© 2026 Studio Bit & Beeld",
+      backHome: "Back to home",
+      brandbookLink: "View the Brandbook",
+      note: "This page is internal: a writing reference, not a public brand promise.",
+    },
   },
 
   notFound: {

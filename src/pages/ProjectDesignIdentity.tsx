@@ -69,17 +69,19 @@ const ProjectDesignIdentity = () => {
         {/* Content */}
         <section className={`relative z-10 ${SECTION_TITLE_GUTTER_CLASS} py-16 md:py-24`}>
           <div className={SECTION_TITLE_CONTAINER_CLASS}>
-            {/* Intro — thesis statement, no image; the real work below carries the page */}
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="max-w-[640px]">
-              <h2 className="text-3xl font-antonio font-semibold mb-6">{di.introHeading}</h2>
-              <div className="space-y-4 text-muted-foreground font-body leading-relaxed">
-                <p>{di.introParagraph1}</p>
-                <p>{di.introParagraph2}</p>
-              </div>
+            {/* Service introduction — short, general statement about what
+                Design & Identiteit means, not tied to any one client. Kept
+                brief on purpose so the work below (starting with Kruize)
+                carries the page, rather than the intro itself. */}
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mb-16 md:mb-20">
+              <p className="font-antonio font-medium leading-relaxed max-w-[680px] text-foreground/80" style={{ fontSize: "clamp(1.125rem, 1.6vw, 1.375rem)" }}>
+                {di.serviceIntro}
+              </p>
             </motion.div>
 
-            {/* System — Kruize's identity documented as a repeatable system */}
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
+            {/* System — Kruize's identity documented as a repeatable system,
+                the first actual project on the page. */}
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
               <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">{di.systemEyebrow}</h2>
               <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">{di.systemHeading}</h3>
               <p className="text-muted-foreground font-body leading-relaxed max-w-[640px] mb-10">

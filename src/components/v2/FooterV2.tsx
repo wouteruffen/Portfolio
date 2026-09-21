@@ -103,8 +103,7 @@ const FooterV2 = ({ scrollContainerRef, revealProgress }: FooterV2Props) => {
               container widths; lg: restores the original text-3xl.
               landscape-mobile shrinks it again, further still. */}
           <p className="text-black font-antonio font-semibold text-xl lg:text-3xl landscape-mobile:text-sm leading-tight text-left md:text-right tracking-[-0.01em]">
-            {t.footer.tagline[0]}<br />
-            {t.footer.tagline[1]}
+            {t.footer.tagline}
           </p>
 
           <div className="flex items-center gap-4 landscape-mobile:gap-3 mt-auto">

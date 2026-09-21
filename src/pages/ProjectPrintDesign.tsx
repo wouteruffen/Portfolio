@@ -17,22 +17,44 @@ import posterSimplon from "@/assets/print/b31-simplon.jpg";
  * Same depth-shadow frame treatment used for real work elsewhere on the site
  * (see FramedShot in ProjectWebdesign) — recreated locally rather than
  * imported so this page doesn't reach into another subpage's file. Every
- * poster sits in an identical A-series aspect-ratio box (210/297, same as
- * the source A2 artwork) with object-cover, so all four render at exactly
- * the same size regardless of their native pixel dimensions.
+ * poster sits in an A-series aspect-ratio box (210/297, close to the real
+ * source artwork's own ratio) with object-cover, so cropping is negligible.
  */
-const PosterFrame = ({ src, alt }: { src: string; alt: string }) => (
-  <div className="relative">
-    <div
-      className="absolute inset-0"
-      style={{ transform: "translate(8px, 8px)", zIndex: 0, backgroundColor: "var(--card-depth-shadow)" }}
-      aria-hidden="true"
-    />
-    <div className="relative z-[1] aspect-[210/297] border border-border overflow-hidden">
-      <img src={src} alt={alt} className="w-full h-full object-cover block" loading="lazy" />
+const PosterFrame = ({ src, alt, caption }: { src: string; alt: string; caption?: string }) => (
+  <div>
+    <div className="relative">
+      <div
+        className="absolute inset-0"
+        style={{ transform: "translate(8px, 8px)", zIndex: 0, backgroundColor: "var(--card-depth-shadow)" }}
+        aria-hidden="true"
+      />
+      <div className="relative z-[1] aspect-[210/297] border border-border overflow-hidden">
+        <img src={src} alt={alt} className="w-full h-full object-cover block" loading="lazy" />
+      </div>
     </div>
+    {/* Subordinate to the artwork: small, muted, only rendered when a
+        verified identifier actually exists for this poster (see POSTERS) —
+        not invented for visual symmetry across all four. */}
+    {caption && <p className="mt-3 text-xs font-body uppercase tracking-[0.15em] text-muted-foreground">{caption}</p>}
   </div>
 );
+
+/**
+ * Each poster's own native pixel width (see asset inspection notes) used as
+ * a hard display cap, so no poster is ever upscaled past its real source
+ * resolution — a2-screen-1/2 are native ~605-608px, artboard-1/b31-simplon
+ * are native 994px. Presented one at a time, full-bleed up to that cap,
+ * rather than forced into equal-sized grid cells: an exhibition-style single
+ * column lets the two higher-resolution posters actually read larger than
+ * the two lower-resolution ones, honestly, instead of averaging every piece
+ * down to whatever the smallest source supports.
+ */
+const POSTERS = [
+  { src: posterDominant, key: "dominant", maxWidth: 605, hasCaption: false },
+  { src: posterTeal, key: "teal", maxWidth: 608, hasCaption: false },
+  { src: posterArtboard, key: "artboard", maxWidth: 994, hasCaption: false },
+  { src: posterSimplon, key: "simplon", maxWidth: 994, hasCaption: true },
+];
 
 const ProjectPrintDesign = () => {
   const { t } = useLanguage();
@@ -50,35 +72,37 @@ const ProjectPrintDesign = () => {
         {/* Content */}
         <section className={`relative z-10 ${SECTION_TITLE_GUTTER_CLASS} py-16 md:py-24`}>
           <div className={SECTION_TITLE_CONTAINER_CLASS}>
-            {/* Intro */}
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="max-w-[640px]">
-              <h2 className="text-3xl font-antonio font-semibold mb-6">{pd.introHeading}</h2>
-              <div className="space-y-4 text-muted-foreground font-body leading-relaxed">
-                <p>{pd.introParagraph1}</p>
-                <p>{pd.introParagraph2}</p>
-                <p>{pd.introParagraph3}</p>
-              </div>
-            </motion.div>
-
-            {/* Real work — poster showcase */}
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
-              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">{pd.postersEyebrow}</h2>
-              <p className="text-muted-foreground font-body leading-relaxed max-w-[560px] mb-10">
+            {/* Service introduction — short, general statement about the
+                poster work, not explaining print design in the abstract. */}
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mb-16 md:mb-20">
+              <p className="font-antonio font-medium leading-relaxed max-w-[680px] text-foreground/80" style={{ fontSize: "clamp(1.125rem, 1.6vw, 1.375rem)" }}>
                 {pd.postersParagraph}
               </p>
-
-              {/* Uniform poster grid — one poster per column on mobile, two
-                  on tablet, all four in a single row on desktop. Every
-                  poster sits in an identical aspect-ratio box (see
-                  PosterFrame), so the collection reads as one set rather
-                  than four independently sized images. */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-10">
-                <PosterFrame src={posterDominant} alt={pd.posterAlt} />
-                <PosterFrame src={posterTeal} alt={pd.posterAlt} />
-                <PosterFrame src={posterArtboard} alt={pd.posterAlt} />
-                <PosterFrame src={posterSimplon} alt={pd.posterAlt} />
-              </div>
             </motion.div>
+
+            {/* Real work — poster showcase, presented one at a time rather
+                than in equal grid cells, each capped at its own native pixel
+                width (see POSTERS) so nothing is upscaled. This lets the
+                higher-resolution posters (artboard-1, b31-simplon: native
+                994px) read noticeably larger than the lower-resolution ones
+                (a2-screen-1/2: native ~605-608px) — an exhibition-style
+                single column, one poster in full view at a time, rather than
+                a uniform thumbnail grid. */}
+            <div className="flex flex-col items-center gap-16 md:gap-24">
+              {POSTERS.map((poster, i) => (
+                <motion.div
+                  key={poster.key}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: i * 0.05 }}
+                  className="w-full"
+                  style={{ maxWidth: poster.maxWidth }}
+                >
+                  <PosterFrame src={poster.src} alt={pd.posterAlt} caption={poster.hasCaption ? pd.simplonCaption : undefined} />
+                </motion.div>
+              ))}
+            </div>
 
             {/* What can be made */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24">
