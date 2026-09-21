@@ -15,6 +15,66 @@ import monogramAsset from "@/assets/MONOGRAM.svg";
 import aboutPortrait from "@/assets/about-portrait.jpg";
 import kruizeLetterhead from "@/assets/design-identity/Screenshot 2026-08-19 120801.png";
 
+/**
+ * STUDIO BIT & BEELD BRAND BOOK
+ *
+ * This page is the canonical reference for Studio Bit & Beeld's identity,
+ * both visual and written. Visual identity remains the dominant, primary
+ * concern of this page; the writing system (chapters 13-14) is one domain
+ * within it, not a second book bolted on the side.
+ *
+ * Future redesigns may change presentation, chapter grouping, examples and
+ * visual composition. They must NOT silently remove established identity
+ * or writing information. See BRAND_GUIDELINES.md at the repo root for the
+ * full authority model (CORE / GUIDELINE / EXAMPLE / UNDEFINED) — that file
+ * sits above this page in the hierarchy (BRAND_GUIDELINES.md → /brandbook
+ * → the website), and /brandbook is now the only identity/writing
+ * reference; there is no separate /tone-of-voice page anymore.
+ *
+ * Permanent subjects that must remain represented somewhere on this page,
+ * however the chapters end up grouped:
+ *   - Brand                          - Imagery
+ *   - Logo                           - Digital / UI
+ *   - Logo usage                     - Motion / interaction (where defined)
+ *   - Monogram                       - Tone of Voice (voice + content roles)
+ *   - Monogram usage                 - Applications
+ *   - Color                          - Colophon
+ *   - Color usage
+ *   - Typography
+ *   - Typographic hierarchy
+ *   - Layout / composition
+ *
+ * Before redesigning:
+ *   1. Inventory the existing information (read every chapter below first).
+ *   2. Preserve CORE rules and verified assets (the actual logo/monogram
+ *      SVGs — never recreate or approximate them with text or new artwork).
+ *   3. Keep CORE, GUIDELINE, EXAMPLE and UNDEFINED distinct: a CORE rule
+ *      (e.g. the official logo files, the primary palette, the no-em-dash
+ *      rule) does not change without an explicit instruction to change it;
+ *      a GUIDELINE (how a CORE decision is currently applied) may evolve;
+ *      an EXAMPLE is replaceable without invalidating the rule it shows;
+ *      an UNDEFINED area (no established rule yet, e.g. logo clearspace or
+ *      minimum size) stays visibly absent rather than being filled with an
+ *      invented rule.
+ *   4. Never delete a subject purely to simplify the layout. Content is
+ *      authoritative over layout: the layout adapts to the identity
+ *      information, not the other way round.
+ *
+ * Before adding or rewriting any visitor-facing copy anywhere on the site
+ * (not just this page), the writing system in chapters 13-14 asks:
+ *   1. Does this text have a real purpose? ("Tekst moet een reden hebben
+ *      om er te staan" — if not, the correct answer may be no text at all.)
+ *   2. Which content role is it playing: Visie/Introductie, Persoonlijk,
+ *      Projectcontext, or Functioneel? (chapter 14)
+ *   3. Does it sound like the Studio Bit & Beeld voice: personal, direct,
+ *      concrete? (chapter 13)
+ *   4. Does it hold up against the CORE writing principles (chapter 13):
+ *      claims need support, no narrating what's already visible, no em
+ *      dash or en dash?
+ *   5. If no content role gives the text a real reason to exist, don't
+ *      add it — that is itself a valid, deliberate outcome.
+ */
+
 /* ─── Tokens ─────────────────────────────────────────────────────────────── */
 // Fixed reference swatches for the two base tones — deliberately not the
 // theme-dependent --background/--foreground pair (those flip meaning between
@@ -378,6 +438,9 @@ const Brandbook = () => {
           <p className="font-body italic max-w-[56ch]" style={{ color: "var(--ink-muted)", fontSize: "0.85rem" }}>
             {b.colorUsage.accentNote}
           </p>
+          <p className="font-body italic max-w-[56ch]" style={{ color: "var(--ink-muted)", fontSize: "0.85rem" }}>
+            {b.colorUsage.themeNote}
+          </p>
         </div>
       ),
     },
@@ -538,6 +601,9 @@ const Brandbook = () => {
               </div>
             </div>
           </div>
+          <p className="font-body italic max-w-[56ch]" style={{ color: "var(--ink-muted)", fontSize: "0.85rem" }}>
+            {b.digital.motionNote}
+          </p>
         </div>
       ),
     },
@@ -546,7 +612,7 @@ const Brandbook = () => {
       eyebrow: b.voice.eyebrow,
       light: true,
       body: (
-        <div className="flex-1 flex flex-col justify-center gap-6 min-h-0">
+        <div className="flex-1 flex flex-col justify-center gap-5 min-h-0">
           <div className="max-w-[56ch]">
             <h2 className="font-antonio font-semibold leading-[0.95] tracking-tight mb-3" style={{ color: "var(--ink)", fontSize: "clamp(1.5rem, 3vw, 2.25rem)" }}>
               {b.voice.heading}
@@ -555,14 +621,27 @@ const Brandbook = () => {
               {b.voice.paragraph}
             </p>
           </div>
-          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-            <div className="border-l-2 pl-5" style={{ borderColor: "#5DB870" }}>
-              <p className="font-antonio uppercase font-semibold mb-2" style={{ color: "#5DB870", fontSize: "11px", letterSpacing: "0.25em" }}>{b.voice.doLabel}</p>
-              <p className="font-body leading-relaxed" style={{ color: "var(--ink)", fontSize: "0.95rem" }}>{b.voice.doExample}</p>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+            {b.voice.principles.map((principle) => (
+              <div key={principle.title}>
+                <Rule />
+                <p className="font-antonio font-semibold mt-2 mb-1 leading-snug" style={{ color: "var(--ink)", fontSize: "0.82rem" }}>
+                  {principle.title}
+                </p>
+                <p className="font-body leading-snug" style={{ color: "var(--ink-muted)", fontSize: "0.75rem" }}>
+                  {principle.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+          <div className="grid md:grid-cols-2 gap-4 md:gap-6">
+            <div className="border-l-2 pl-4" style={{ borderColor: "#5DB870" }}>
+              <p className="font-antonio uppercase font-semibold mb-1.5" style={{ color: "#5DB870", fontSize: "10px", letterSpacing: "0.2em" }}>{b.voice.doLabel}</p>
+              <p className="font-body leading-snug" style={{ color: "var(--ink)", fontSize: "0.8rem" }}>{b.voice.doExample}</p>
             </div>
-            <div className="border-l-2 pl-5" style={{ borderColor: "var(--line)" }}>
-              <p className="font-antonio uppercase font-semibold mb-2 text-brand-orange" style={{ fontSize: "11px", letterSpacing: "0.25em" }}>{b.voice.dontLabel}</p>
-              <p className="font-body leading-relaxed line-through decoration-1" style={{ color: "var(--ink-muted)", fontSize: "0.95rem" }}>{b.voice.dontExample}</p>
+            <div className="border-l-2 pl-4" style={{ borderColor: "var(--line)" }}>
+              <p className="font-antonio uppercase font-semibold mb-1.5 text-brand-orange" style={{ fontSize: "10px", letterSpacing: "0.2em" }}>{b.voice.dontLabel}</p>
+              <p className="font-body leading-snug line-through decoration-1" style={{ color: "var(--ink-muted)", fontSize: "0.8rem" }}>{b.voice.dontExample}</p>
             </div>
           </div>
         </div>
@@ -570,6 +649,55 @@ const Brandbook = () => {
     },
     {
       n: "14",
+      eyebrow: b.roles.eyebrow,
+      light: false,
+      body: (
+        <div className="flex-1 flex flex-col justify-center gap-6 min-h-0">
+          <p className="font-body leading-relaxed max-w-[56ch]" style={{ color: "var(--ink-muted)", fontSize: "0.9rem" }}>
+            {b.roles.paragraph}
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {b.roles.items.map((role) => (
+              <div key={role.code}>
+                <Rule />
+                <p className="font-body uppercase tracking-[0.2em] mt-2" style={{ color: "var(--ink-muted)", fontSize: "9px" }}>
+                  {role.code}
+                </p>
+                <p className="font-antonio font-semibold mt-1 mb-1.5 leading-snug" style={{ color: "var(--ink)", fontSize: "0.9rem" }}>
+                  {role.title}
+                </p>
+                <p className="font-body italic leading-snug mb-2" style={{ color: "var(--ink-muted)", fontSize: "0.72rem" }}>
+                  {role.question}
+                </p>
+                <p className="font-body leading-snug" style={{ color: "var(--ink-muted)", fontSize: "0.75rem" }}>
+                  {role.purpose}
+                </p>
+                {role.exampleQuote && (
+                  <p className="font-body leading-snug mt-2" style={{ color: "var(--ink)", fontSize: "0.72rem" }}>
+                    <span className="block uppercase tracking-[0.15em] mb-1" style={{ color: "hsl(var(--brand-orange))", fontSize: "9px" }}>
+                      {role.exampleSource}
+                    </span>
+                    &ldquo;{role.exampleQuote}&rdquo;
+                  </p>
+                )}
+                {role.exampleLabels && (
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    {role.exampleLabels.map((label) => (
+                      <span key={label} className={`${PILL_CLASS} font-body text-[9px] uppercase tracking-[0.1em] px-2 py-1`}>{label}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          <p className="font-body italic max-w-[56ch]" style={{ color: "var(--ink-muted)", fontSize: "0.85rem" }}>
+            {b.roles.note}
+          </p>
+        </div>
+      ),
+    },
+    {
+      n: "15",
       eyebrow: b.usage.eyebrow,
       light: false,
       body: (
@@ -762,7 +890,7 @@ const Brandbook = () => {
                 inkMuted="rgba(250,248,245,0.6)"
                 line="rgba(250,248,245,0.13)"
               >
-                <ChapterTag n="15" label={b.closing.eyebrow} />
+                <ChapterTag n="16" label={b.closing.eyebrow} />
                 {closingBody}
               </Slide>
             </div>
@@ -808,7 +936,7 @@ const Brandbook = () => {
           style={{ "--ink": "hsl(var(--foreground))", "--ink-muted": "hsl(var(--muted-foreground))", "--line": "hsl(var(--border))", borderColor: "var(--line)" } as CSSProperties}
         >
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={VP} transition={{ duration: 0.6, ease: EASE }} className={SECTION_TITLE_CONTAINER_CLASS}>
-            <ChapterTag n="15" label={b.closing.eyebrow} />
+            <ChapterTag n="16" label={b.closing.eyebrow} />
             {closingBody}
           </motion.div>
         </section>

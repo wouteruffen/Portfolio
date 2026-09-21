@@ -298,7 +298,7 @@ const nl = {
         { label: "Studio", value: "Studio Bit & Beeld" },
         { label: "Locatie", value: "Amsterdam, NL" },
         { label: "Jaar", value: "2026" },
-        { label: "Hoofdstukken", value: "15" },
+        { label: "Hoofdstukken", value: "16" },
       ],
     },
     intro: {
@@ -376,6 +376,7 @@ const nl = {
         { label: "Near-black op Brand Orange", sample: "Footer en mobiele navigatiebalk." },
       ],
       accentNote: "Brand-orange wordt daarnaast gebruikt als accentkleur in tekst, op zowel donkere als lichte ondergrond.",
+      themeNote: "De site kent een licht en donker thema: near-black en warm papier wisselen van rol, brand-orange blijft in beide hetzelfde." as string,
     },
     typography: {
       eyebrow: "Typografie",
@@ -425,17 +426,77 @@ const nl = {
       ctaLabel: "Plan Gesprek",
       tagsLabel: "Labels en tags",
       navLabel: "Navigatiebalk",
+      motionNote:
+        "Overgangen zijn terughoudend: secties verschijnen met een korte fade en beweging omhoog, nooit met verspringende of afleidende effecten. Dit merkboek gebruikt zijn eigen hoofdstuk-voor-hoofdstuk scrollmechaniek als voorbeeld daarvan." as string,
     },
     voice: {
       eyebrow: "Toon van stem",
       heading: "Persoonlijk, geen bureau",
-      paragraph: "Studio Bit & Beeld schrijft zoals er gewerkt wordt: direct, duidelijk, zonder overbodige woorden.",
+      paragraph:
+        "Studio Bit & Beeld schrijft zoals er gewerkt wordt: persoonlijk, direct en concreet. Zelfverzekerd zonder overdrijving, creatief zonder vaag te worden." as string,
+      principles: [
+        { title: "Tekst heeft een reden nodig", desc: "Copy staat er niet omdat de layout ruimte heeft, maar omdat er iets te zeggen is." },
+        { title: "Laat het werk spreken", desc: "Toon het werk snel, zonder lagen algemene uitleg ervoor." },
+        { title: "Vertel niet wat al zichtbaar is", desc: "Laat het beeld het al zien, dan voegt de tekst iets anders toe of verdwijnt." },
+        { title: "Ik, niet een bureau", desc: "Studio Bit & Beeld is Wouter. Ik voor eigen werk, we alleen bij echte samenwerking." },
+        { title: "Onderbouw een claim", desc: "Een woord als 'uniek' mag, zolang de tekst eromheen laat zien waarom het klopt." },
+        { title: "Geen gedachtestreepjes", desc: "Nooit een em dash of en dash als stijlmiddel, in het Nederlands en het Engels." },
+      ] as { title: string; desc: string }[],
       doLabel: "Wel",
       dontLabel: "Niet",
       doExample:
         "Als eenmanszaak werk ik nauw samen met mijn klanten: korte lijnen, snelle beslissingen, persoonlijke aandacht.",
       dontExample:
         "Wij zijn een full-service creative agency die met een gepassioneerd team cutting-edge digitale ervaringen tot leven brengt.",
+    },
+    roles: {
+      eyebrow: "Contentrollen" as string,
+      paragraph:
+        "Tekst op de site doet niet overal hetzelfde werk. Deze vier rollen bepalen de functie van een tekst, niet de stem erachter." as string,
+      items: [
+        {
+          code: "A",
+          title: "Visie / Introductie",
+          question: "Hoe kijk ik naar dit vakgebied of onderwerp?",
+          purpose: "Zet een perspectief neer op een dienst of thema. Geen agencyslogan, geen projectbeschrijving.",
+          exampleSource: "Content & Social Media",
+          exampleQuote: "Goede promotie begint met herkenbaarheid.",
+        },
+        {
+          code: "B",
+          title: "Persoonlijk",
+          question: "Wie zit erachter en hoe denk of werk ik?",
+          purpose: "Wouters eigen stem: hoe hij denkt of werkt. Geen bureauprofiel, geen founder-verhaal in de derde persoon.",
+          exampleSource: "Over mij",
+          exampleQuote: "Mijn kracht zit in de combinatie van creativiteit en techniek.",
+        },
+        {
+          code: "C",
+          title: "Projectcontext",
+          question: "Wat is relevant om over dit project te weten?",
+          purpose: "Optioneel, en alleen als het beeld het nog niet vertelt. Vaak is de juiste hoeveelheid tekst: geen.",
+          exampleSource: null,
+          exampleQuote: null,
+        },
+        {
+          code: "D",
+          title: "Functioneel",
+          question: "Waar ben ik, wat volgt er, wat kan ik doen?",
+          purpose: "Labels, knoppen en navigatie. Helderheid boven creativiteit.",
+          exampleSource: null,
+          exampleQuote: null,
+          exampleLabels: ["Projecten", "Bekijk website", "Plan Gesprek"],
+        },
+      ] as {
+        code: string;
+        title: string;
+        question: string;
+        purpose: string;
+        exampleSource: string | null;
+        exampleQuote: string | null;
+        exampleLabels?: string[];
+      }[],
+      note: "Niet elke pagina heeft alle vier de rollen nodig. Gebruik een rol alleen als de tekst een echte functie heeft." as string,
     },
     usage: {
       eyebrow: "Toepassing",
@@ -451,201 +512,6 @@ const nl = {
       copyright: "© 2026 Studio Bit & Beeld",
       backHome: "Terug naar home",
       cta: { lead: "Klaar om iets", accent: "moois", rest: "te bouwen?" },
-    },
-  },
-
-  toneOfVoice: {
-    cover: {
-      tag: "Vol. 2: Tone of Voice",
-      scrollHint: "Scroll om te verkennen",
-      backLink: "Terug naar home",
-      facts: [
-        { label: "Studio", value: "Studio Bit & Beeld" },
-        { label: "Auteur", value: "Wouter" },
-        { label: "Type", value: "Interne referentie" },
-        { label: "Hoofdstukken", value: "12" },
-      ],
-    },
-    basics: {
-      eyebrow: "De basis",
-      heading: "Persoonlijk, direct, duidelijk, bruikbaar.",
-      paragraph:
-        "Studio Bit & Beeld is één persoon, geen bureau. De toon is die van iemand die zijn werk kent en er gewoon over vertelt.",
-      pillars: [
-        { title: "Persoonlijk", desc: "Er zit een persoon achter dit werk. De tekst mag daarnaar klinken." },
-        { title: "Direct", desc: "Zeg wat je bedoelt, in zo min mogelijk woorden." },
-        { title: "Concreet", desc: "Praat over wat er echt gemaakt is, niet over abstracte waarden." },
-        { title: "Bruikbaar", desc: "Tekst die niets toevoegt, mag verdwijnen." },
-      ],
-    },
-    workFirst: {
-      eyebrow: "Laat het werk spreken",
-      heading: "Titel. Korte context. Het werk.",
-      paragraph: "De portfolio heeft geen lagen marketingtaal nodig voordat een bezoeker een project ziet.",
-      preferLabel: "Wel",
-      preferSteps: ["Titel", "Korte, nuttige context", "Het werk", "Extra context waar het waarde toevoegt"],
-      avoidLabel: "Niet",
-      avoidSteps: ["Titel", "Marketingslogan", "Abstracte alinea", "Nog een kop", "Nog een alinea", "Eindelijk het werk"],
-    },
-    addValue: {
-      eyebrow: "Voeg iets toe",
-      heading: "Tekst voegt iets toe, of staat er niet.",
-      paragraph:
-        "Een kop hoeft niet te vertellen wat al zichtbaar is. Tekst is er om iets te zeggen dat het beeld niet kan.",
-      questions: [
-        "Waarom is deze keuze gemaakt?",
-        "Wat was belangrijk in dit project?",
-        "Welk probleem loste het ontwerp op?",
-        "Wat zegt dit over de aanpak?",
-        "Wat mist er zonder deze tekst?",
-      ],
-    },
-    dontFillSpace: {
-      eyebrow: "Schrijf niet om ruimte te vullen",
-      heading: "Niet ieder onderdeel heeft tekst nodig.",
-      paragraph:
-        "Als een beeld of serie voor zichzelf spreekt, hoeft er geen kop of alinea bij te worden bedacht.",
-      distinctionLabel1: "Vertel niet wat ik al zie",
-      distinction1: "De tekst herhaalt wat het beeld al toont. Dat is een redundantieprobleem.",
-      distinctionLabel2: "Schrijf niet om ruimte te vullen",
-      distinction2: "De tekst staat er omdat de layout een eyebrow, kop en alinea heeft, niet omdat er iets te zeggen is.",
-    },
-    dontNarrate: {
-      eyebrow: "Vertel niet wat ik al zie",
-      heading: "Beschrijf niet wat al zichtbaar is.",
-      intro:
-        "Dit zijn geen voorgestelde teksten, maar voorbeelden van het soort informatie dat wel waarde toevoegt.",
-      beforeLabel: "Niet",
-      afterLabel: "Wel dit soort denken",
-      examples: [
-        {
-          before: "Een terugkerend sjabloon voor een clubtour",
-          reason: "De bezoeker ziet al een reeks samenhangende posters.",
-          after: "Bijvoorbeeld: waarom moest één sjabloon vier steden dragen?",
-        },
-        {
-          before: "Andere merken, andere sferen",
-          reason: "De verschillen tussen de ontwerpen zijn al zichtbaar.",
-          after: "Bijvoorbeeld: wat bepaalde de sfeer per merk?",
-        },
-        {
-          before: "Eén verhaal, verteld in drie momenten",
-          reason: "De opbouw in drie delen is al te zien aan de indeling zelf.",
-          after: "Bijvoorbeeld: waarom liep de aankondiging in stappen op?",
-        },
-      ],
-      exceptionNote:
-        "Een korte introductie mag wel vertellen wat je gaat zien: dat oriënteert. De regel is niet 'nooit beschrijven', maar 'oriënteer één keer, blijf niet herhalen wat al zichtbaar is'.",
-    },
-    avoid: {
-      eyebrow: "Vermijd",
-      heading: "Maak een claim alleen als je laat zien waarom die klopt.",
-      paragraph:
-        "Woorden als 'innovatief' of 'uniek' zijn niet automatisch fout. Het probleem ontstaat pas als er niets naast staat dat laat zien wat er innovatief of uniek is.",
-      claimWeakLabel: "Zwak",
-      claimWeak: "Een innovatieve aanpak voor elk merk.",
-      claimStrongLabel: "Sterk",
-      claimStrong: "Voor Kopjek kreeg één sjabloon per stad een eigen kleur en line-up.",
-      jargonNote:
-        "Hetzelfde geldt voor vaktaal: grijp niet naar een groter woord om gewoon werk belangrijker te laten klinken. Zeg plain wat er gemaakt is, en gebruik een vakterm alleen als die echt het duidelijkst is. Patronen om te herkennen:",
-      patterns: [
-        { title: "Grote woorden voor gewoon werk", examples: ["navolgbaar systeem", "vastgelegd, niet toevallig", "holistische merkbeleving"] },
-        { title: "Agency-slogans", examples: ["Design dat impact maakt.", "Van idee naar impact.", "Wij brengen merken tot leven."] },
-      ],
-    },
-    voice: {
-      eyebrow: "Schrijf zoals je praat",
-      heading: "Ik, niet wij. Meestal.",
-      paragraph:
-        "'Ik' voor eigen werk en visie. 'We' alleen als het om echte samenwerking met een klant gaat, nooit om een team dat niet bestaat. Niet elke zin hoeft met 'Ik' te beginnen: het werk, de klant of het resultaat mogen ook het onderwerp zijn.",
-      doLabel: "Wel",
-      dontLabel: "Niet",
-      doExample: "Ik ontwierp de website en dacht vanaf het begin mee over de structuur.",
-      dontExample: "Ons team ontwikkelde een holistische oplossing.",
-    },
-    rules: {
-      eyebrow: "Schrijfregels",
-      heading: "Praktische regels.",
-      items: [
-        "Korte zinnen waar het kan.",
-        "Concreet: wat ik maakte, waarom het telde.",
-        "Eén idee per paragraaf.",
-        "Actief: 'ik ontwierp', niet 'er is ontworpen'.",
-        "Geen verplichte kop bij ieder beeld.",
-        "Herhaal niet wat de kop of het beeld al zegt.",
-        "Let op onnodige herhaling in zinsopbouw.",
-      ],
-    },
-    punctuation: {
-      eyebrow: "Interpunctie",
-      heading: "Geen gedachtestreepjes.",
-      paragraph:
-        "Nooit een em dash of en dash als stijlmiddel, in het Nederlands en in het Engels. Herschrijf met een punt, komma, dubbele punt, puntkomma of een andere zinsbouw. Een gewoon koppelteken in een woord, url of bestandsnaam is geen probleem.",
-      badLabel: "Niet",
-      badExample: "De website moest rustig blijven — zonder informatie te verbergen.",
-      goodLabel: "Wel",
-      goodExample: "De website moest rustig blijven, zonder informatie te verbergen.",
-    },
-    languages: {
-      eyebrow: "Nederlands & Engels",
-      heading: "Dezelfde stem, twee talen.",
-      paragraph:
-        "Het Nederlands is het uitgangspunt. Engels is een natuurlijke vertaling, geen aparte en commerciëlere versie. Als het Nederlands direct en persoonlijk is, moet het Engels dat ook zijn.",
-    },
-    examples: {
-      eyebrow: "Voorbeelden",
-      heading: "Goedgekeurde voorbeelden.",
-      items: [
-        {
-          source: "Hero",
-          quote: "Creativiteit en techniek komen samen in alles wat ik maak. Niet alleen om iets goed te laten ogen, maar vooral om iets te maken dat werkt voor jou.",
-          why: "Concreet en persoonlijk, geen loze belofte.",
-        },
-        {
-          source: "Over mij",
-          quote: "Mijn kracht zit in de combinatie van creativiteit en techniek. Ik wil iets niet alleen mooi maken, maar ook begrijpen hoe het werkt en hoe het beter kan.",
-          why: "Legt uit hoe ik denk, niet alleen wat ik doe.",
-        },
-        {
-          source: "Content & Social Media",
-          quote: "Goede promotie begint met herkenbaarheid. Een sterke visuele stijl zorgt voor samenhang, maar biedt genoeg ruimte om iedere uiting een eigen karakter te geven.",
-          why: "Vertelt de gedachte achter het werk, niet de posters zelf.",
-        },
-        {
-          source: "Design & Identiteit",
-          quote: "Een identiteit brengt karakter in beeld. Kleur, typografie en vormgeving bepalen samen hoe een merk eruitziet, aanvoelt en zich presenteert.",
-          why: "Een perspectief op identiteit, niet één klant of mockup.",
-        },
-        {
-          source: "Print & Campagne Design",
-          quote: "Een selectie van posters voor verschillende evenementen, ieder met een eigen sfeer en uitstraling. Typografie, beeld en compositie vormen daarbij de basis van ieder ontwerp.",
-          why: "Introduceert de collectie kort, en laat daarna het werk overnemen.",
-        },
-      ],
-    },
-    checklist: {
-      eyebrow: "Checklist",
-      heading: "Voor je iets publiceert.",
-      items: [
-        "Kan de bezoeker dit al zien?",
-        "Voegt deze tekst een feit, reden of keuze toe?",
-        "Zou ik dit zelf ook zo zeggen?",
-        "Als ik een claim doe, laat ik ook zien waarom die klopt?",
-        "Kan deze zin korter, of helemaal weg?",
-        "Herhaal ik onnodig dezelfde zinsopbouw?",
-        "Schrijf ik dit omdat het nodig is, of omdat de layout ruimte heeft?",
-        "Staat er een em dash of en dash in de tekst?",
-      ],
-    },
-    closing: {
-      eyebrow: "Colofon",
-      heading: "Schrijf zoals je werkt.",
-      studio: "Studio Bit & Beeld",
-      location: "Amsterdam, NL",
-      copyright: "© 2026 Studio Bit & Beeld",
-      backHome: "Terug naar home",
-      brandbookLink: "Bekijk het Brandbook",
-      note: "Deze pagina is intern: een schrijfreferentie, geen publieke merkbelofte.",
     },
   },
 
@@ -942,7 +808,7 @@ const en: TranslationShape = {
         { label: "Studio", value: "Studio Bit & Beeld" },
         { label: "Location", value: "Amsterdam, Netherlands" },
         { label: "Year", value: "2026" },
-        { label: "Chapters", value: "15" },
+        { label: "Chapters", value: "16" },
       ],
     },
     intro: {
@@ -1020,6 +886,7 @@ const en: TranslationShape = {
         { label: "Near-black on Brand Orange", sample: "Footer and mobile navigation bar." },
       ],
       accentNote: "Brand orange is also used as an accent color within text, on both dark and light backgrounds.",
+      themeNote: "The site has a light and a dark theme: near-black and warm paper swap roles, brand orange stays the same in both.",
     },
     typography: {
       eyebrow: "Typography",
@@ -1069,17 +936,77 @@ const en: TranslationShape = {
       ctaLabel: "Book a Call",
       tagsLabel: "Labels and tags",
       navLabel: "Navigation bar",
+      motionNote:
+        "Transitions stay restrained: sections fade and rise in gently, never with jarring or distracting effects. This brand book's own chapter-by-chapter scroll mechanic is itself an example of that restraint.",
     },
     voice: {
       eyebrow: "Tone of voice",
       heading: "Personal, not an agency",
-      paragraph: "Studio Bit & Beeld writes the way it works: direct, clear, without unnecessary words.",
+      paragraph:
+        "Studio Bit & Beeld writes the way it works: personal, direct and concrete. Confident without exaggeration, creative without turning vague.",
+      principles: [
+        { title: "Text needs a reason to exist", desc: "Copy isn't there because the layout has room. It's there because there's something to say." },
+        { title: "Let the work speak", desc: "Show the work quickly, without layers of generic explanation first." },
+        { title: "Don't narrate what's already visible", desc: "If the image already shows it, the text adds something else or disappears." },
+        { title: "Personal, not an agency", desc: "Studio Bit & Beeld is Wouter. I for my own work, we only for genuine collaboration." },
+        { title: "Support a claim", desc: "A word like 'unique' is fine, as long as the surrounding text shows why it's true." },
+        { title: "No em dash or en dash", desc: "Never a stylistic em dash or en dash, in Dutch or English." },
+      ] as { title: string; desc: string }[],
       doLabel: "Do",
       dontLabel: "Don't",
       doExample:
         "As a one-person studio I work closely with my clients: short lines of communication, fast decisions, personal attention.",
       dontExample:
         "We are a full-service creative agency bringing cutting-edge digital experiences to life with a passionate team.",
+    },
+    roles: {
+      eyebrow: "Content roles",
+      paragraph:
+        "Text on the site doesn't do the same job everywhere. These four roles define a text's function, not the voice behind it.",
+      items: [
+        {
+          code: "A",
+          title: "Vision / Introduction",
+          question: "How do I see this discipline or subject?",
+          purpose: "Sets out a perspective on a service or theme. Not an agency slogan, not a project description.",
+          exampleSource: "Content & Social Media",
+          exampleQuote: "Good promotion starts with recognizability.",
+        },
+        {
+          code: "B",
+          title: "Personal",
+          question: "Who's behind this, and how do I think or work?",
+          purpose: "Wouter's own voice: how he thinks or works. Not a company profile, not a founder story in the third person.",
+          exampleSource: "About",
+          exampleQuote: "My strength lies in combining creativity with technical thinking.",
+        },
+        {
+          code: "C",
+          title: "Project context",
+          question: "What's relevant to know about this project?",
+          purpose: "Optional, and only when the image doesn't already say it. Often the right amount of text is none.",
+          exampleSource: null,
+          exampleQuote: null,
+        },
+        {
+          code: "D",
+          title: "Functional",
+          question: "Where am I, what comes next, what can I do?",
+          purpose: "Labels, buttons and navigation. Clarity over cleverness.",
+          exampleSource: null,
+          exampleQuote: null,
+          exampleLabels: ["Projects", "View website", "Book a Call"],
+        },
+      ] as {
+        code: string;
+        title: string;
+        question: string;
+        purpose: string;
+        exampleSource: string | null;
+        exampleQuote: string | null;
+        exampleLabels?: string[];
+      }[],
+      note: "Not every page needs all four roles. Use a role only when the text has a real function.",
     },
     usage: {
       eyebrow: "Application",
@@ -1097,202 +1024,6 @@ const en: TranslationShape = {
       cta: { lead: "Ready to build something", accent: "great", rest: "together?" },
     },
   },
-
-  toneOfVoice: {
-    cover: {
-      tag: "Vol. 2: Tone of Voice",
-      scrollHint: "Scroll to explore",
-      backLink: "Back to home",
-      facts: [
-        { label: "Studio", value: "Studio Bit & Beeld" },
-        { label: "Author", value: "Wouter" },
-        { label: "Type", value: "Internal reference" },
-        { label: "Chapters", value: "12" },
-      ],
-    },
-    basics: {
-      eyebrow: "The basics",
-      heading: "Personal, direct, clear, useful.",
-      paragraph:
-        "Studio Bit & Beeld is one person, not an agency. The tone is that of someone who knows their own work and just talks about it.",
-      pillars: [
-        { title: "Personal", desc: "There is a person behind this work. The writing can sound like it." },
-        { title: "Direct", desc: "Say what you mean, in as few words as possible." },
-        { title: "Concrete", desc: "Talk about what was actually made, not abstract values." },
-        { title: "Useful", desc: "Text that adds nothing is free to go." },
-      ],
-    },
-    workFirst: {
-      eyebrow: "Let the work speak",
-      heading: "Title. Short context. The work.",
-      paragraph: "The portfolio does not need layers of marketing language before a visitor sees a project.",
-      preferLabel: "Prefer",
-      preferSteps: ["Title", "Short, useful context", "The work", "Extra context where it adds value"],
-      avoidLabel: "Avoid",
-      avoidSteps: ["Title", "Marketing slogan", "Abstract paragraph", "Another heading", "Another paragraph", "Finally, the work"],
-    },
-    addValue: {
-      eyebrow: "Add something",
-      heading: "Text adds something, or it stays out.",
-      paragraph:
-        "A heading does not need to state what is already visible. Text exists to say something the image cannot.",
-      questions: [
-        "Why was this choice made?",
-        "What mattered in this project?",
-        "What problem did the design solve?",
-        "What does this say about the approach?",
-        "What would be missing without this text?",
-      ],
-    },
-    dontFillSpace: {
-      eyebrow: "Don't write to fill space",
-      heading: "Not every section needs text.",
-      paragraph:
-        "If an image or series speaks for itself, there's no need to invent a heading or paragraph to go with it.",
-      distinctionLabel1: "Do not narrate the screen",
-      distinction1: "The text repeats what the image already shows. That's a redundancy problem.",
-      distinctionLabel2: "Don't write to fill space",
-      distinction2: "The text exists because the layout has an eyebrow, heading and paragraph slot, not because there's something to say.",
-    },
-    dontNarrate: {
-      eyebrow: "Do not narrate the screen",
-      heading: "Do not describe what is already visible.",
-      intro:
-        "These are not proposed replacement texts, but examples of the kind of information that does add value.",
-      beforeLabel: "Avoid",
-      afterLabel: "Think like this instead",
-      examples: [
-        {
-          before: "A recurring template for a club tour",
-          reason: "The visitor already sees a series of related posters.",
-          after: "For example: why did one template need to carry four cities?",
-        },
-        {
-          before: "Different brands, different moods",
-          reason: "The differences between the designs are already visible.",
-          after: "For example: what determined the mood for each brand?",
-        },
-        {
-          before: "One story, told in three moments",
-          reason: "The three part structure is already visible in the layout itself.",
-          after: "For example: why did the announcement build up in stages?",
-        },
-      ],
-      exceptionNote:
-        "A short introduction is allowed to say what someone is about to see: that orients. The rule isn't 'never describe', it's 'orient once, don't keep repeating what's already visible'.",
-    },
-    avoid: {
-      eyebrow: "Avoid",
-      heading: "Only make a claim if you show why it's true.",
-      paragraph:
-        "Words like 'innovative' or 'unique' aren't automatically wrong. The problem starts when nothing next to them shows what's actually innovative or unique.",
-      claimWeakLabel: "Weak",
-      claimWeak: "An innovative approach for every brand.",
-      claimStrongLabel: "Strong",
-      claimStrong: "For Kopjek, one template got its own color and lineup per city.",
-      jargonNote:
-        "The same goes for jargon: don't reach for a bigger word to make ordinary work sound more important. Say plainly what was made, and use a specialist term only when it's actually the clearest one. Patterns to notice:",
-      patterns: [
-        { title: "Big words for ordinary work", examples: ["repeatable system", "documented, not accidental", "holistic brand experience"] },
-        { title: "Agency slogans", examples: ["Design that makes an impact.", "From idea to impact.", "We bring brands to life."] },
-      ],
-    },
-    voice: {
-      eyebrow: "Write the way you talk",
-      heading: "I, not we. Usually.",
-      paragraph:
-        "'I' for my own work and perspective. 'We' only for genuine collaboration with a client, never to imply a team that does not exist. Not every sentence needs to start with 'I': the work, the client or the result can just as easily be the subject.",
-      doLabel: "Do",
-      dontLabel: "Don't",
-      doExample: "I designed the website and thought about the structure from the very start.",
-      dontExample: "Our team developed a holistic solution.",
-    },
-    rules: {
-      eyebrow: "Writing rules",
-      heading: "Practical rules.",
-      items: [
-        "Short sentences where possible.",
-        "Concrete: what I made, why it mattered.",
-        "One idea per paragraph.",
-        "Active: 'I designed', not 'it was designed'.",
-        "No mandatory heading for every image.",
-        "Do not repeat what the heading or image already says.",
-        "Watch for unnecessary repetition in sentence structure.",
-      ],
-    },
-    punctuation: {
-      eyebrow: "Punctuation",
-      heading: "No em dashes.",
-      paragraph:
-        "Never an em dash or en dash as stylistic punctuation, in Dutch or in English. Rewrite with a period, comma, colon, semicolon or a different sentence structure. A plain hyphen inside a word, url or filename is not a problem.",
-      badLabel: "Avoid",
-      badExample: "The website needed to stay calm — without hiding information.",
-      goodLabel: "Prefer",
-      goodExample: "The website needed to stay calm, without hiding information.",
-    },
-    languages: {
-      eyebrow: "Dutch & English",
-      heading: "The same voice, two languages.",
-      paragraph:
-        "Dutch is the starting point. English is a natural translation, not a separate, more commercial version. If the Dutch is direct and personal, the English should be too.",
-    },
-    examples: {
-      eyebrow: "Examples",
-      heading: "Approved examples.",
-      items: [
-        {
-          source: "Hero",
-          quote: "Creativity and technology come together in everything I make. I don't just want something to look good. Above all, I want to create something that works for you.",
-          why: "Concrete and personal, no empty promise.",
-        },
-        {
-          source: "About",
-          quote: "My strength lies in combining creativity with technical thinking. I don't just want to make something look good. I want to understand how it works, and how it could work better.",
-          why: "Explains how I think, not just what I do.",
-        },
-        {
-          source: "Content & Social Media",
-          quote: "Good promotion starts with recognizability. A strong visual style creates consistency, while still leaving enough room for every piece to have its own character.",
-          why: "States the thinking behind the work, not the posters themselves.",
-        },
-        {
-          source: "Design & Identity",
-          quote: "An identity brings character to life. Color, typography and design together determine how a brand looks, feels and presents itself.",
-          why: "A perspective on identity, not one client or mockup.",
-        },
-        {
-          source: "Print & Campaign Design",
-          quote: "A selection of posters for different events, each with its own atmosphere and character. Typography, imagery and composition form the foundation of every design.",
-          why: "Introduces the collection briefly, then lets the work take over.",
-        },
-      ],
-    },
-    checklist: {
-      eyebrow: "Checklist",
-      heading: "Before you publish.",
-      items: [
-        "Can the visitor already see this?",
-        "Does this text add a fact, reason or decision?",
-        "Would I actually say this myself?",
-        "If I make a claim, do I show why it's true?",
-        "Can this sentence be shorter, or cut entirely?",
-        "Am I repeating the same sentence structure unnecessarily?",
-        "Am I writing this because it's needed, or because the layout has room?",
-        "Is there an em dash or en dash in the text?",
-      ],
-    },
-    closing: {
-      eyebrow: "Colophon",
-      heading: "Write the way you work.",
-      studio: "Studio Bit & Beeld",
-      location: "Amsterdam, Netherlands",
-      copyright: "© 2026 Studio Bit & Beeld",
-      backHome: "Back to home",
-      brandbookLink: "View the Brandbook",
-      note: "This page is internal: a writing reference, not a public brand promise.",
-    },
-  },
-
   notFound: {
     title: "404",
     message: "Oops! Page not found",

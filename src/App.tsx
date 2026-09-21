@@ -14,7 +14,6 @@ import ProjectPrintDesign from "./pages/ProjectPrintDesign.tsx";
 import ProjectProduct from "./pages/ProjectProduct.tsx";
 import OverMij from "./pages/OverMij.tsx";
 import Brandbook from "./pages/Brandbook.tsx";
-import ToneOfVoice from "./pages/ToneOfVoice.tsx";
 import TypoLab from "./pages/TypoLab.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
@@ -38,7 +37,6 @@ const App = () => (
           <Route path="/digitale-producten" element={<ProjectProduct />} />
           <Route path="/over-mij" element={<OverMij />} />
           <Route path="/brandbook" element={<Brandbook />} />
-          <Route path="/tone-of-voice" element={<ToneOfVoice />} />
           <Route path="/typo-lab" element={<TypoLab />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
