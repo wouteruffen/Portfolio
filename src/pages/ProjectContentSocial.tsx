@@ -69,22 +69,11 @@ const ProjectContentSocial = () => {
 
         <SubpageGridBackground />
 
-        <SubpageHeader title={cs.pageTitle} />
+        <SubpageHeader title={cs.pageTitle} intro={cs.serviceIntro} />
 
         {/* Content */}
         <section className={`relative z-10 ${SECTION_TITLE_GUTTER_CLASS} py-16 md:py-24`}>
           <div className={SECTION_TITLE_CONTAINER_CLASS}>
-            {/* Service introduction — a general statement about the approach
-                (recognizability + consistency + room for each piece's own
-                character), not tied to any one campaign. Kopjek below is now
-                project-specific context for the first real piece of work,
-                not the definition of the service itself. */}
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mb-16 md:mb-20">
-              <p className="font-antonio font-medium leading-relaxed max-w-[680px] text-foreground/80" style={{ fontSize: "clamp(1.125rem, 1.6vw, 1.375rem)" }}>
-                {cs.serviceIntro}
-              </p>
-            </motion.div>
-
             {/* Kopjek Clubtour — the first actual project on the page. A
                 clean 2x2 of
                 the four city posters, all the same size: they share the exact
@@ -209,7 +198,7 @@ const ProjectContentSocial = () => {
             {/* CTA */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 text-center">
               <p className="text-2xl md:text-4xl font-antonio font-semibold mb-8">
-                {cs.ctaHeading.lead} <span className="text-secondary">{cs.ctaHeading.accent}</span>{cs.ctaHeading.rest}
+                {cs.ctaHeading.lead} <span className="text-brand-orange">{cs.ctaHeading.accent}</span>{cs.ctaHeading.rest}
               </p>
               <Link
                 to="/#contact"

@@ -62,7 +62,7 @@ const ProjectProduct = () => {
             {/* CTA */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 text-center">
               <p className="text-2xl md:text-4xl font-antonio font-semibold mb-8">
-                {pp.ctaHeading.lead} <span className="text-accent">{pp.ctaHeading.accent}</span> {pp.ctaHeading.rest}
+                {pp.ctaHeading.lead} <span className="text-brand-orange">{pp.ctaHeading.accent}</span> {pp.ctaHeading.rest}
               </p>
               <Link
                 to="/#contact"

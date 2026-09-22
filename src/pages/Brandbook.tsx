@@ -22,7 +22,11 @@ import kruizeLetterhead from "@/assets/design-identity/Screenshot 2026-08-19 120
  * both visual and written. Visual identity remains the dominant, primary
  * concern of this page; the writing system (chapters 13-15: Tone of Voice,
  * Contentrollen, Editorial Direction) is one domain within it, not a second
- * book bolted on the side.
+ * book bolted on the side. Chapter 15 spans six panels (landing + 15.1
+ * Inhoudsvormen, 15.2 Redactionele principes, 15.3 Ritme & opbouw, 15.4 In
+ * de praktijk, 15.5 Wat we vermijden) — subpages of one chapter, not new
+ * top-level chapters; the right-hand chapter indicator stays on "15" for
+ * all six via each entry's `railN`.
  *
  * Future redesigns may change presentation, chapter grouping, examples and
  * visual composition. They must NOT silently remove established identity
@@ -248,7 +252,12 @@ const Brandbook = () => {
   }, [scrollTo, vh]);
 
   /* ─── Chapter content — authored once, rendered by either layout ───────── */
-  const chapters: { n: string; eyebrow: string; light: boolean; body: ReactNode }[] = [
+  // `railN` overrides the number shown in the right-hand rail / live label
+  // for entries where it must differ from `n` — used by chapter 15's six
+  // panels (landing + 15.1-15.5), which all report railN "15" so the
+  // indicator stays on chapter 15 while each panel's own ChapterTag still
+  // shows its sub-number (15, 15.1, 15.2, ...).
+  const chapters: { n: string; eyebrow: string; light: boolean; body: ReactNode; railN?: string }[] = [
     {
       n: "01",
       eyebrow: b.intro.eyebrow,
@@ -711,109 +720,207 @@ const Brandbook = () => {
       ),
     },
     {
+      // 15 — landing: minimal, just the chapter's core idea.
       n: "15",
       eyebrow: b.editorialDirection.eyebrow,
       light: true,
+      railN: "15",
       body: (
-        <div className="flex-1 flex flex-col justify-center gap-4 md:gap-5 min-h-0">
-          <div className="max-w-[62ch] flex-shrink-0">
-            <h2 className="font-antonio font-semibold leading-[0.95] tracking-tight mb-2" style={{ color: "var(--ink)", fontSize: "clamp(1.4rem, 2.8vw, 2.1rem)" }}>
-              {b.editorialDirection.heading}
-            </h2>
-            <p className="font-body leading-relaxed" style={{ color: "var(--ink-muted)", fontSize: "0.8rem" }}>
-              {b.editorialDirection.paragraph}
-            </p>
-            <p className="font-body italic leading-relaxed mt-2" style={{ color: "var(--ink-muted)", fontSize: "0.78rem" }}>
-              {b.editorialDirection.support}
-            </p>
-          </div>
-
-          <div className="flex-shrink-0">
-            <p className="font-body uppercase tracking-[0.2em] mb-2" style={{ color: "var(--ink-muted)", fontSize: "9px" }}>
-              {b.editorialDirection.modesLabel}
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6">
-              {b.editorialDirection.modes.map((mode) => (
-                <div key={mode.code}>
-                  <Rule />
-                  <p className="font-antonio font-semibold mt-2 mb-0.5" style={{ color: "hsl(var(--brand-orange))", fontSize: "0.72rem", letterSpacing: "0.06em" }}>
-                    {mode.code}
-                  </p>
-                  <p className="font-body uppercase tracking-[0.1em] mb-1.5" style={{ color: "var(--ink)", fontSize: "0.68rem" }}>
-                    {mode.example}
-                  </p>
-                  <p className="font-body leading-snug" style={{ color: "var(--ink-muted)", fontSize: "0.7rem" }}>
-                    {mode.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex-shrink-0">
-            <p className="font-body uppercase tracking-[0.2em] mb-2" style={{ color: "var(--ink-muted)", fontSize: "9px" }}>
-              {b.editorialDirection.principlesLabel}
-            </p>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
-              {b.editorialDirection.principles.map((principle) => (
-                <div key={principle.code}>
-                  <Rule />
-                  <p className="font-antonio font-semibold mt-1.5 mb-1 leading-snug" style={{ color: "var(--ink)", fontSize: "0.74rem" }}>
-                    {principle.code}. {principle.title}
-                  </p>
-                  <p className="font-body leading-snug" style={{ color: "var(--ink-muted)", fontSize: "0.66rem" }}>
-                    {principle.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-4 md:gap-10 flex-shrink-0">
+        <div className="flex-1 flex flex-col justify-center gap-6 md:gap-8 min-h-0">
+          <h2 className="font-antonio font-semibold leading-[0.95] tracking-tight max-w-[20ch]" style={{ color: "var(--ink)", fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
+            {b.editorialDirection.landing.heading}
+          </h2>
+          <p className="font-body leading-relaxed max-w-[48ch]" style={{ color: "var(--ink-muted)", fontSize: "clamp(0.95rem, 1.1vw, 1.1rem)" }}>
+            {b.editorialDirection.landing.support}
+          </p>
+          <Rule />
+          <p className="font-body uppercase tracking-[0.25em]" style={{ color: "var(--ink-muted)", fontSize: "10px" }}>
+            {b.editorialDirection.landing.forms.join(" / ")}
+          </p>
+        </div>
+      ),
+    },
+    {
+      // 15.1 — Inhoudsvormen
+      n: "15.1",
+      eyebrow: b.editorialDirection.contentForms.label,
+      light: false,
+      railN: "15",
+      body: (
+        <div className="flex-1 flex flex-col justify-center gap-5 md:gap-6 min-h-0">
+          {/* Beeldgedreven */}
+          <div className="grid md:grid-cols-[200px_1fr] gap-2 md:gap-10 border-t pt-4 md:pt-5" style={{ borderColor: "var(--line)" }}>
             <div>
-              <p className="font-body uppercase tracking-[0.2em] mb-1.5" style={{ color: "var(--ink-muted)", fontSize: "9px" }}>
-                {b.editorialDirection.rhythmLabel}
+              <p className="font-antonio font-semibold" style={{ color: "hsl(var(--brand-orange))", fontSize: "1.05rem" }}>
+                {b.editorialDirection.contentForms.imageLed.code}
               </p>
-              <p className="font-body leading-snug mb-3" style={{ color: "var(--ink-muted)", fontSize: "0.7rem" }}>
-                {b.editorialDirection.rhythmNote}
+              <p className="font-body uppercase tracking-[0.12em] mt-1" style={{ color: "var(--ink-muted)", fontSize: "0.66rem" }}>
+                {b.editorialDirection.contentForms.imageLed.example}
               </p>
-              <p className="font-body uppercase tracking-[0.2em] mb-1.5" style={{ color: "var(--ink-muted)", fontSize: "9px" }}>
-                {b.editorialDirection.antiPatternsLabel}
+            </div>
+            <div>
+              <p className="font-body leading-relaxed mb-2.5" style={{ color: "var(--ink-muted)", fontSize: "0.85rem" }}>
+                {b.editorialDirection.contentForms.imageLed.desc}
               </p>
-              <ul className="space-y-1">
-                {b.editorialDirection.antiPatterns.map((item) => (
-                  <li key={item} className="font-body leading-snug flex gap-2" style={{ color: "var(--ink-muted)", fontSize: "0.66rem" }}>
-                    <span className="flex-shrink-0" style={{ color: "hsl(var(--brand-orange))" }}>&times;</span>
-                    <span>{item}</span>
+              <ul className="flex flex-wrap gap-x-5 gap-y-1">
+                {b.editorialDirection.contentForms.imageLed.points.map((point) => (
+                  <li key={point} className="font-body leading-snug flex items-start gap-1.5" style={{ color: "var(--ink-muted)", fontSize: "0.74rem" }}>
+                    <span style={{ color: "hsl(var(--brand-orange))" }}>&bull;</span>
+                    <span>{point}</span>
                   </li>
                 ))}
               </ul>
             </div>
+          </div>
+
+          {/* Tekstgedreven */}
+          <div className="grid md:grid-cols-[200px_1fr] gap-2 md:gap-10 border-t pt-4 md:pt-5" style={{ borderColor: "var(--line)" }}>
             <div>
-              <p className="font-body uppercase tracking-[0.2em] mb-1.5" style={{ color: "var(--ink-muted)", fontSize: "9px" }}>
-                {b.editorialDirection.examplesLabel}
+              <p className="font-antonio font-semibold" style={{ color: "hsl(var(--brand-orange))", fontSize: "1.05rem" }}>
+                {b.editorialDirection.contentForms.textLed.code}
               </p>
-              <div className="space-y-2">
-                {b.editorialDirection.examples.map((example) => (
-                  <div key={example.title} className="flex gap-2.5">
-                    <span
-                      className="font-body uppercase tracking-[0.12em] flex-shrink-0"
-                      style={{ color: example.positive ? "#5DB870" : "hsl(var(--brand-orange))", fontSize: "9px", minWidth: "3.6em" }}
-                    >
-                      {example.verdict}
-                    </span>
-                    <p className="font-body leading-snug" style={{ color: "var(--ink-muted)", fontSize: "0.68rem" }}>
-                      <span style={{ color: "var(--ink)" }}>{example.title}.</span> {example.desc}
-                    </p>
-                  </div>
+              <p className="font-body uppercase tracking-[0.12em] mt-1" style={{ color: "var(--ink-muted)", fontSize: "0.66rem" }}>
+                {b.editorialDirection.contentForms.textLed.example}
+              </p>
+            </div>
+            <div>
+              <p className="font-body leading-relaxed mb-2.5" style={{ color: "var(--ink-muted)", fontSize: "0.85rem" }}>
+                {b.editorialDirection.contentForms.textLed.desc}
+              </p>
+              <ul className="flex flex-wrap gap-x-5 gap-y-1">
+                {b.editorialDirection.contentForms.textLed.points.map((point) => (
+                  <li key={point} className="font-body leading-snug flex items-start gap-1.5" style={{ color: "var(--ink-muted)", fontSize: "0.74rem" }}>
+                    <span style={{ color: "hsl(var(--brand-orange))" }}>&bull;</span>
+                    <span>{point}</span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           </div>
 
-          <p className="font-body italic leading-snug flex-shrink-0" style={{ color: "var(--ink-muted)", fontSize: "0.7rem" }}>
-            {b.editorialDirection.note}
+          {/* Gemengd */}
+          <div className="grid md:grid-cols-[200px_1fr] gap-2 md:gap-10 border-t pt-4 md:pt-5" style={{ borderColor: "var(--line)" }}>
+            <div>
+              <p className="font-antonio font-semibold" style={{ color: "hsl(var(--brand-orange))", fontSize: "1.05rem" }}>
+                {b.editorialDirection.contentForms.mixed.code}
+              </p>
+            </div>
+            <div className="flex flex-col gap-2.5">
+              <p className="font-body leading-relaxed" style={{ color: "var(--ink-muted)", fontSize: "0.85rem" }}>
+                {b.editorialDirection.contentForms.mixed.desc}
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {b.editorialDirection.contentForms.mixed.pages.map((page) => (
+                  <span key={page} className={`${PILL_CLASS} font-body text-[9px] uppercase tracking-[0.1em] px-2.5 py-1`}>{page}</span>
+                ))}
+              </div>
+              <div>
+                <p className="font-body uppercase tracking-[0.18em] mb-1" style={{ color: "var(--ink-muted)", fontSize: "9px" }}>
+                  {b.editorialDirection.contentForms.mixed.variationLabel}
+                </p>
+                <div className="flex flex-col gap-0.5">
+                  {b.editorialDirection.contentForms.mixed.variation.map((v) => (
+                    <p key={v.title} className="font-body leading-snug" style={{ color: "var(--ink-muted)", fontSize: "0.74rem" }}>
+                      <span style={{ color: "var(--ink)" }}>{v.title}.</span> {v.note}
+                    </p>
+                  ))}
+                </div>
+              </div>
+              <p className="font-antonio font-semibold leading-snug border-l-2 pl-3" style={{ color: "var(--ink)", borderColor: "hsl(var(--brand-orange))", fontSize: "0.82rem" }}>
+                {b.editorialDirection.contentForms.mixed.principle}
+              </p>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    {
+      // 15.2 — Redactionele principes
+      n: "15.2",
+      eyebrow: b.editorialDirection.principles.label,
+      light: true,
+      railN: "15",
+      body: (
+        <div className="flex-1 flex flex-col justify-center min-h-0">
+          <div className="grid md:grid-cols-2 gap-x-10 gap-y-6 md:gap-y-8">
+            {b.editorialDirection.principles.items.map((principle) => (
+              <div key={principle.code} className="border-t pt-3" style={{ borderColor: "var(--line)" }}>
+                <p className="font-antonio font-semibold leading-snug mb-1.5" style={{ color: "var(--ink)", fontSize: "clamp(0.95rem, 1.4vw, 1.15rem)" }}>
+                  {principle.code}. {principle.title}
+                </p>
+                <p className="font-body leading-relaxed" style={{ color: "var(--ink-muted)", fontSize: "0.85rem" }}>
+                  {principle.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      ),
+    },
+    {
+      // 15.3 — Ritme & opbouw
+      n: "15.3",
+      eyebrow: b.editorialDirection.rhythm.label,
+      light: false,
+      railN: "15",
+      body: (
+        <div className="flex-1 flex flex-col justify-center min-h-0">
+          <ul className="flex flex-col gap-3 md:gap-3.5 max-w-[62ch]">
+            {b.editorialDirection.rhythm.points.map((point) => (
+              <li key={point} className="flex items-start gap-3 border-t pt-3" style={{ borderColor: "var(--line)" }}>
+                <span className="flex-shrink-0" style={{ color: "hsl(var(--brand-orange))" }}>&bull;</span>
+                <span className="font-body leading-relaxed" style={{ color: "var(--ink-muted)", fontSize: "0.9rem" }}>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ),
+    },
+    {
+      // 15.4 — In de praktijk
+      n: "15.4",
+      eyebrow: b.editorialDirection.practice.label,
+      light: true,
+      railN: "15",
+      body: (
+        <div className="flex-1 flex flex-col justify-center gap-6 min-h-0">
+          <div className="flex flex-col gap-4 md:gap-5">
+            {b.editorialDirection.practice.examples.map((example) => (
+              <div key={example.title} className="flex gap-4 border-t pt-3" style={{ borderColor: "var(--line)" }}>
+                <span
+                  className="font-body uppercase tracking-[0.14em] flex-shrink-0"
+                  style={{ color: example.positive ? "#5DB870" : "hsl(var(--brand-orange))", fontSize: "10px", minWidth: "4.2em" }}
+                >
+                  {example.verdict}
+                </span>
+                <p className="font-body leading-relaxed" style={{ color: "var(--ink-muted)", fontSize: "0.88rem" }}>
+                  <span style={{ color: "var(--ink)" }}>{example.title}.</span> {example.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+          <p className="font-body italic leading-relaxed max-w-[58ch]" style={{ color: "var(--ink-muted)", fontSize: "0.8rem" }}>
+            {b.editorialDirection.practice.note}
           </p>
+        </div>
+      ),
+    },
+    {
+      // 15.5 — Wat we vermijden
+      n: "15.5",
+      eyebrow: b.editorialDirection.avoid.label,
+      light: false,
+      railN: "15",
+      body: (
+        <div className="flex-1 flex flex-col justify-center min-h-0">
+          <ul className="flex flex-col gap-3 md:gap-3.5 max-w-[62ch]">
+            {b.editorialDirection.avoid.items.map((item) => (
+              <li key={item} className="flex items-start gap-3 border-t pt-3" style={{ borderColor: "var(--line)" }}>
+                <span className="flex-shrink-0" style={{ color: "hsl(var(--brand-orange))" }}>&times;</span>
+                <span className="font-body leading-relaxed" style={{ color: "var(--ink-muted)", fontSize: "0.9rem" }}>{item}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       ),
     },
@@ -848,6 +955,20 @@ const Brandbook = () => {
               </Link>
             ))}
           </div>
+
+          <div className="flex-shrink-0 mt-2">
+            <p className="font-body uppercase tracking-[0.2em] mb-2" style={{ color: "var(--ink-muted)", fontSize: "9px" }}>
+              {b.usage.rulesLabel}
+            </p>
+            <ul className="grid md:grid-cols-2 gap-x-8 gap-y-1.5">
+              {b.usage.rules.map((rule) => (
+                <li key={rule} className="font-body leading-snug flex items-start gap-2" style={{ color: "var(--ink-muted)", fontSize: "0.74rem" }}>
+                  <span className="flex-shrink-0" style={{ color: "hsl(var(--brand-orange))" }}>&bull;</span>
+                  <span>{rule}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       ),
     },
@@ -859,6 +980,10 @@ const Brandbook = () => {
   // the shared "eyebrow + body" chapter shape.
   const TOTAL_SECTIONS = chapters.length + 2;
   const allTags = [b.cover.tag, ...chapters.map((c) => c.eyebrow), b.closing.eyebrow];
+  // Rail/live-label numbers: distinct from raw slide position so chapter
+  // 15's six panels (landing + 15.1-15.5) can all report "15" via railN,
+  // keeping the chapter indicator on 15 across all of them.
+  const allNumbers = ["00", ...chapters.map((c) => c.railN ?? c.n), "17"];
 
   /* ─── Cover content ──────────────────────────────────────────────────── */
   const coverBody = (immersive: boolean) => (
@@ -962,7 +1087,7 @@ const Brandbook = () => {
                 className="font-body tabular-nums transition-colors"
                 style={{ fontSize: "9px", color: activeIndex === i ? "hsl(var(--brand-orange))" : "rgba(250,248,245,0.35)", fontWeight: activeIndex === i ? 700 : 400 }}
               >
-                {String(i).padStart(2, "0")}
+                {allNumbers[i]}
               </span>
             </button>
           ))}
@@ -971,7 +1096,7 @@ const Brandbook = () => {
         {/* Live chapter label */}
         <div className="hidden lg:block fixed left-6 xl:left-10 bottom-6 z-[55] bg-nearBlack/60 backdrop-blur-sm px-4 py-2 rounded-full">
           <span className="font-body uppercase text-cream/70" style={{ fontSize: "10px", letterSpacing: "0.2em" }}>
-            {String(activeIndex).padStart(2, "0")} / {allTags[activeIndex]}
+            {allNumbers[activeIndex]} / {allTags[activeIndex]}
           </span>
         </div>
 

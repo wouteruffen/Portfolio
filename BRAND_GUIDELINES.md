@@ -64,7 +64,7 @@ Never recreate, redraw, or approximate these with text or new artwork. The wordm
 
 ## The writing system
 
-Studio Bit & Beeld's writing system (`/brandbook`, "Toon van stem" and "Contentrollen" chapters) separates three things. Conflating them is the most common way a redesign accidentally over-prescribes copy.
+Studio Bit & Beeld's writing system (`/brandbook`, "Tone of Voice" and "Contentrollen" chapters) separates three things. Conflating them is the most common way a redesign accidentally over-prescribes copy.
 
 1. **Voice** — how everything sounds, regardless of what it's for: personal, direct, clear, concrete, confident without exaggeration, creative without turning vague, professional without sounding corporate. Studio Bit & Beeld is Wouter, not a fictional agency or team; "ik" for personal work, "we/wij" only for genuine collaboration, never to sound larger than it is.
 2. **Content role** — the same voice, four different jobs. A page doesn't need all four; use a role only when the text has a real function.
@@ -89,6 +89,10 @@ A third, distinct concern sits alongside Voice and Content role (`/brandbook`, "
 The core rule: content structure follows the importance and function of the content. Do not force every section into the same editorial pattern (eyebrow + heading + paragraph + image, always in that order) — a page's presentation adapts to what it actually contains, not the other way round. This is a decision framework (image-led / text-led / mixed, project context only when it changes understanding, text length matched to what the subject needs), not a layout template, and it is a GUIDELINE, not CORE: it explains how to make structural decisions, and does not itself fix a page's structure permanently.
 
 Do not duplicate the Editorial Direction chapter's full content here; cross-reference it instead.
+
+### Service pages
+
+The four current service subpages (Webdesign & Development, Design & Identiteit, Print & Campagne Design, Content & Social Media) are CORE-adjacent in their shared system, not their content: each has a short service introduction directly under its title, title and introduction share one consistent spacing rule, the back link and closing CTAs use brand orange, and they share hierarchy/rhythm — but their internal content structure (number of sections, image sizes, amount of technical explanation) may differ per page. Full list in `/brandbook` (chapter 16, Toepassing/Applications); do not duplicate it here.
 
 ## Editing rules
 

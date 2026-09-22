@@ -39,7 +39,7 @@ const ProjectWebdesign = () => {
 
         <SubpageGridBackground />
 
-        <SubpageHeader title={pw.pageTitle} />
+        <SubpageHeader title={pw.pageTitle} intro={pw.serviceIntro} />
 
         {/* Content */}
         <section className={`relative z-10 ${SECTION_TITLE_GUTTER_CLASS} py-16 md:py-24`}>

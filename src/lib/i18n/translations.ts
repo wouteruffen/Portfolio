@@ -78,7 +78,7 @@ const nl = {
     // The four homepage service cards — desktop stack (ProjectsV2) and
     // mobile list (MobileProjects) both read from here via getProjects().
     webdesign: {
-      title: "Webdesign, Development & IT",
+      title: "Webdesign & Development",
       description:
         "Moderne, snelle websites die niet alleen mooi zijn maar ook converteren en resultaat opleveren. Van strategie, design en front-end development tot de technische kennis om alles daarna soepel te laten draaien.",
       tools: ["React", "TypeScript", "Figma", "IT & Systemen"],
@@ -151,7 +151,9 @@ const nl = {
   },
 
   projectWebdesign: {
-    pageTitle: "Webdesign, Development & IT",
+    pageTitle: "Webdesign & Development",
+    serviceIntro:
+      "Een website staat nooit op zichzelf. Ontwerp en ontwikkeling bepalen hoe hij aanvoelt, techniek en beheer bepalen of hij blijft werken.",
     featuredEyebrow: "Uitgelicht project",
     featuredSubtitle: { lead: "Website ontwikkeld voor", client: "Bouwbedrijf Kruize" },
     mockupAlt: "Website van Bouwbedrijf Kruize: webdesign en development door Studio Bit & Beeld",
@@ -200,7 +202,6 @@ const nl = {
     letterheadAlt: "Huisstijlgids Bouwbedrijf Kruize: briefpapierspecificaties en A4-formaat",
     letterheadCaption: "Briefpapier: specificaties",
     applicationEyebrow: "Systeem → toepassing",
-    applicationHeading: "Een identiteit die een gevoel oproept",
     applicationParagraph:
       "Bij FIXY stopt de identiteit niet bij het logo. Kleur, typografie en toon vertalen zich net zo goed naar fotografie en copy: dezelfde merkwereld, herkenbaar in elke uiting.",
     fixyCampaignAlt: "FIXY-merkwereld vertaald naar fotografie, kleur en tone-of-voice",
@@ -208,7 +209,6 @@ const nl = {
     fixySpacesAlt: "FIXY-ruimtes gepresenteerd in dezelfde visuele en tekstuele toon als de rest van het merk",
     fixySpacesCaption: "Toegepast op de ruimtes zelf",
     consistencyEyebrow: "Toepassing → consistentie",
-    consistencyHeading: "Identiteit in de praktijk",
     consistencyParagraph:
       "Een visuele identiteit stopt niet bij een logo. Ook in dagelijkse communicatie moet een merk herkenbaar en consistent blijven. Voor verschillende merken ontwierp ik e-mailhandtekeningen waarin typografie, kleur, logo en digitale contactpunten samenkomen in één herkenbare toepassing.",
     signatureAlt: (brand: string) => `E-mailhandtekening voor ${brand} (namen en contactgegevens zijn placeholders)`,
@@ -430,7 +430,7 @@ const nl = {
         "Overgangen zijn terughoudend: secties verschijnen met een korte fade en beweging omhoog, nooit met verspringende of afleidende effecten. Dit merkboek gebruikt zijn eigen hoofdstuk-voor-hoofdstuk scrollmechaniek als voorbeeld daarvan." as string,
     },
     voice: {
-      eyebrow: "Toon van stem",
+      eyebrow: "Tone of Voice",
       heading: "Persoonlijk, geen bureau",
       paragraph:
         "Studio Bit & Beeld schrijft zoals er gewerkt wordt: persoonlijk, direct en concreet. Zelfverzekerd zonder overdrijving, creatief zonder vaag te worden." as string,
@@ -500,63 +500,109 @@ const nl = {
     },
     editorialDirection: {
       eyebrow: "Editorial Direction",
-      heading: "De presentatie volgt de inhoud." as string,
-      paragraph:
-        "Toon van stem bepaalt hoe het klinkt. Contentrollen bepalen welke taak een tekst heeft. Dit hoofdstuk bepaalt waar content verschijnt, hoeveel ruimte het krijgt en hoe tekst en beeld zich tot elkaar verhouden." as string,
-      support:
-        "Niet iedere pagina, sectie of project heeft dezelfde hoeveelheid tekst, beeld of uitleg nodig. De structuur volgt wat de bezoeker moet zien, begrijpen of kunnen doen." as string,
-      modesLabel: "Content modes" as string,
-      modes: [
-        {
-          code: "IMAGE-LED",
-          example: "Print & Campagne Design",
-          desc: "Het beeld communiceert de kern al. Tekst treedt terug en een bijschrift komt er alleen bij als er iets te vertellen valt.",
+      landing: {
+        heading: "De presentatie volgt de inhoud." as string,
+        support:
+          "Niet iedere pagina, sectie of project heeft dezelfde hoeveelheid tekst, beeld of uitleg nodig." as string,
+        forms: ["Beeldgedreven", "Tekstgedreven", "Gemengd"] as string[],
+      },
+      contentForms: {
+        label: "Inhoudsvormen" as string,
+        imageLed: {
+          code: "Beeldgedreven" as string,
+          example: "Print & Campagne Design" as string,
+          desc:
+            "Het beeld draagt het grootste deel van de communicatie. Tekst ondersteunt waar nodig, maar neemt de hoofdrol niet over." as string,
+          points: [
+            "Beeld krijgt de hoofdnadruk.",
+            "Ondersteunende tekst blijft beperkt, niet afwezig.",
+            "Projectcontext is optioneel.",
+            "Het werk mag op zichzelf staan.",
+          ] as string[],
         },
-        {
-          code: "TEXT-LED",
-          example: "Over Mij",
-          desc: "Het verhaal zelf is de inhoud. Tekst krijgt hier de ruimte; 'werk eerst' is niet de juiste maatstaf.",
+        textLed: {
+          code: "Tekstgedreven" as string,
+          example: "Over Mij" as string,
+          desc:
+            "Het verhaal, de persoon of de uitleg zelf is de primaire inhoud. Beeld ondersteunt, maar draagt niet de kern." as string,
+          points: [
+            "Tekst draagt de hoofdinhoud.",
+            "Beeld ondersteunt het verhaal.",
+            "Tekst mag terecht meer ruimte krijgen.",
+          ] as string[],
         },
-        {
-          code: "MIXED",
-          example: "Webdesign, Development & IT",
-          desc: "Beeld toont het zichtbare resultaat, tekst legt uit wat het beeld niet kan laten zien.",
+        mixed: {
+          code: "Gemengd" as string,
+          desc:
+            "De bredere, standaard richting voor de servicepagina's van Studio Bit & Beeld: tekst en beeld hebben allebei een functie. Dit is geen vaste componentvolgorde." as string,
+          pages: ["Webdesign & Development", "Content & Social Media", "Design & Identiteit"] as string[],
+          variationLabel: "Verschil per discipline" as string,
+          variation: [
+            { title: "Webdesign & Development", note: "Vraagt vaak meer tekst, omdat technisch werk niet altijd zichtbaar is." },
+            { title: "Content & Social Media", note: "Leunt sterker op visueel werk." },
+            { title: "Design & Identiteit", note: "Is overwegend visueel, met gerichte toelichting waar nodig." },
+          ] as { title: string; note: string }[],
+          principle:
+            "De servicepagina's mogen in opbouw en ritme familie van elkaar zijn, zonder inhoudelijk hetzelfde te worden." as string,
         },
-      ] as { code: string; example: string; desc: string }[],
-      principlesLabel: "Principes" as string,
-      principles: [
-        { code: "A", title: "Belangrijkste inhoud eerst", desc: "De inhoud die het meest telt krijgt de sterkste vroege plek, of dat nu werk, verhaal of een mix van beide is." },
-        { code: "B", title: "Introductie is optioneel", desc: "Een openingsperspectief mag, maar alleen als het iets toevoegt dat verderop nog niet gezegd wordt." },
-        { code: "C", title: "Projectcontext is optioneel", desc: "Projectcontext moet iets veranderen aan hoe je het werk begrijpt. Vaak is geen tekst de sterkste keuze." },
-        { code: "D", title: "Vorm volgt inhoud", desc: "Eenzelfde component herhalen is geen probleem. Dezelfde zin herhalen omdat het component erom vraagt wel." },
-        { code: "E", title: "De hoeveelheid tekst volgt de inhoud", desc: "Afgerond visueel werk heeft vaak weinig uitleg nodig. Onzichtbaar of technisch werk vraagt vaak meer." },
-        { code: "F", title: "Hiërarchie bepaalt nadruk", desc: "Wat belangrijker is krijgt meer ruimte, schaal of aandacht. Een bijschrift blijft ondergeschikt aan het werk." },
-      ] as { code: string; title: string; desc: string }[],
-      rhythmLabel: "Ritme" as string,
-      rhythmNote:
-        "Herhaling helpt alleen als ze het begrip ondersteunt. Beeld mag alleen staan, tekst mag alleen staan wanneer tekst zelf de inhoud is, en witruimte is zelf een vorm van hiërarchie. Visuele variatie heeft altijd een reden nodig." as string,
-      antiPatternsLabel: "Vermijd" as string,
-      antiPatterns: [
-        "Dezelfde retorische opening herhalen in opeenvolgende blokken (\"stopt niet bij...\").",
-        "Een alinea die herhaalt wat het beeld ernaast al laat zien.",
-        "Een eyebrow, kop of bijschrift toevoegen puur omdat het component daar ruimte voor biedt.",
-        "Ontbrekend beeld dat tekst per ongeluk de hoofdrol geeft, in plaats van een bewuste keuze.",
-      ] as string[],
-      examplesLabel: "In de praktijk" as string,
-      examples: [
-        { positive: true, verdict: "Sterk", title: "Print & Campagne", desc: "Eén intro, groot werk getoond op eigen formaat, een bijschrift alleen bij een geverifieerde naam." },
-        { positive: true, verdict: "Sterk", title: "Webdesign: techniek", desc: "Tekst legt uit wat SEO, hosting en IT-werk niet kunnen laten zien." },
-        { positive: true, verdict: "Sterk", title: "Content & Social: FIXY", desc: "Een gedeelde alinea werd geschrapt zodra bijschriften de volgorde al vertelden." },
-        { positive: false, verdict: "Zwakker", title: "Design & Identiteit", desc: "Opeenvolgende blokken herhalen dezelfde opening: 'stopt niet bij het logo'." },
-      ] as { positive: boolean; verdict: string; title: string; desc: string }[],
-      note:
-        "Of Webdesign een openingsintro nodig heeft, of 'Uitgelicht(e)' altijd terugkomt en hoe de ICT-sectie eruitziet zodra er beeld is, staat nog niet vast. Context bepaalt dat, geen vaste regel." as string,
+      },
+      principles: {
+        label: "Redactionele principes" as string,
+        items: [
+          { code: "1", title: "Belangrijkste inhoud eerst", desc: "De inhoud die het meest telt krijgt de sterkste vroege plek, of dat nu werk, verhaal of een mix van beide is." },
+          { code: "2", title: "Introductie is optioneel", desc: "Een openingsperspectief mag, maar alleen als het iets toevoegt dat verderop nog niet gezegd wordt." },
+          { code: "3", title: "Projectcontext is optioneel", desc: "Projectcontext moet iets veranderen aan hoe je het werk begrijpt. Vaak is geen tekst de sterkste keuze." },
+          { code: "4", title: "Vorm volgt inhoud", desc: "Eenzelfde component herhalen is geen probleem. Dezelfde zin herhalen omdat het component erom vraagt wel." },
+          { code: "5", title: "De hoeveelheid tekst volgt de inhoud", desc: "Afgerond visueel werk heeft vaak weinig uitleg nodig. Onzichtbaar of technisch werk vraagt vaak meer." },
+          { code: "6", title: "Hiërarchie bepaalt nadruk", desc: "Wat belangrijker is krijgt meer ruimte, schaal of aandacht. Een bijschrift blijft ondergeschikt aan het werk." },
+        ] as { code: string; title: string; desc: string }[],
+      },
+      rhythm: {
+        label: "Ritme & opbouw" as string,
+        points: [
+          "Niet ieder project gebruikt dezelfde structuur.",
+          "Beeld mag zelfstandig staan.",
+          "Tekst mag zelfstandig staan wanneer dat de inhoud is.",
+          "Witruimte is onderdeel van hiërarchie.",
+          "Herhaling helpt alleen wanneer het begrip ondersteunt.",
+          "Visuele variatie heeft een reden.",
+          "Voorkom dat pagina's als herhaalde CMS-blokken voelen.",
+        ] as string[],
+      },
+      practice: {
+        label: "In de praktijk" as string,
+        examples: [
+          { positive: true, verdict: "Sterk", title: "Print & Campagne", desc: "Eén intro, groot werk getoond op eigen formaat, een bijschrift alleen bij een geverifieerde naam." },
+          { positive: true, verdict: "Sterk", title: "Webdesign", desc: "Tekst legt uit wat SEO, hosting en IT-werk niet kunnen laten zien: onzichtbaar technisch werk." },
+          { positive: true, verdict: "Sterk", title: "Content & Social: FIXY", desc: "Een gedeelde alinea werd geschrapt zodra bijschriften de volgorde al vertelden." },
+          { positive: false, verdict: "Zwakker", title: "Design & Identiteit", desc: "Herhaalde blokstructuur moedigde herhaalde retorische zinnen aan: opeenvolgende blokken openen met 'stopt niet bij het logo'." },
+        ] as { positive: boolean; verdict: string; title: string; desc: string }[],
+        note:
+          "Of Webdesign een openingsintro nodig heeft, of 'Uitgelicht(e)' altijd terugkomt en hoe de ICT-sectie eruitziet zodra er beeld is, staat nog niet vast. Context bepaalt dat, geen vaste regel." as string,
+      },
+      avoid: {
+        label: "Wat we vermijden" as string,
+        items: [
+          "Tekst die het beeld navertelt.",
+          "Dezelfde retorische opening herhalen in opeenvolgende blokken.",
+          "Een eyebrow, kop, paragraaf of bijschrift toevoegen puur omdat het component daar ruimte voor biedt.",
+          "Ontbrekend beeld dat per ongeluk laat bepalen dat tekst dominant wordt.",
+        ] as string[],
+      },
     },
     usage: {
       eyebrow: "Toepassing",
       heading: "Toegepast op echt werk",
       paragraph: "Deze identiteit is geen theorie. Ze is terug te zien in het werk zelf.",
       viewLabel: "Bekijk",
+      rulesLabel: "Vaste regels voor servicepagina's" as string,
+      rules: [
+        "Elke servicepagina heeft een korte service-introductie direct onder de titel.",
+        "Titel en introductie horen visueel bij elkaar, met één vaste, kleine tussenruimte.",
+        "'Terug naar home' gebruikt brand orange als functionele navigatie, geen stille grijstint.",
+        "Afsluitende CTA's op servicepagina's gebruiken brand orange, geen losstaande accentkleur.",
+        "Servicepagina's delen hiërarchie en ritme; de inhoudelijke opbouw mag per pagina verschillen.",
+      ] as string[],
     },
     closing: {
       eyebrow: "Colofon",
@@ -644,7 +690,7 @@ const en: TranslationShape = {
 
   projects: {
     webdesign: {
-      title: "Webdesign, Development & IT",
+      title: "Webdesign & Development",
       description:
         "Modern, fast websites that don't just look good but convert and deliver results. From strategy, design and front-end development to the technical knowledge to keep everything running smoothly afterwards.",
       tools: ["React", "TypeScript", "Figma", "IT & Systems"],
@@ -717,7 +763,9 @@ const en: TranslationShape = {
   },
 
   projectWebdesign: {
-    pageTitle: "Webdesign, Development & IT",
+    pageTitle: "Webdesign & Development",
+    serviceIntro:
+      "A website never stands on its own. Design and development shape how it feels, technical work and upkeep decide whether it keeps working.",
     featuredEyebrow: "Featured project",
     featuredSubtitle: { lead: "Website developed for", client: "Bouwbedrijf Kruize" },
     mockupAlt: "Website for Bouwbedrijf Kruize: web design and development by Studio Bit & Beeld",
@@ -766,7 +814,6 @@ const en: TranslationShape = {
     letterheadAlt: "Bouwbedrijf Kruize brand guidelines: letterhead specifications and A4 format",
     letterheadCaption: "Letterhead: specifications",
     applicationEyebrow: "System → application",
-    applicationHeading: "An identity that evokes a feeling",
     applicationParagraph:
       "At FIXY the identity doesn't stop at the logo. Color, typography and tone translate just as well into photography and copy: the same brand world, recognizable in every expression.",
     fixyCampaignAlt: "FIXY brand world translated into photography, color and tone of voice",
@@ -774,7 +821,6 @@ const en: TranslationShape = {
     fixySpacesAlt: "FIXY spaces presented in the same visual and textual tone as the rest of the brand",
     fixySpacesCaption: "Applied to the spaces themselves",
     consistencyEyebrow: "Application → consistency",
-    consistencyHeading: "Identity in practice",
     consistencyParagraph:
       "A visual identity doesn't stop at a logo. A brand also needs to stay recognizable and consistent in everyday communication. For various brands I designed email signatures where typography, color, logo and digital contact points come together in one recognizable application.",
     signatureAlt: (brand: string) => `Email signature for ${brand} (names and contact details are placeholders)`,
@@ -994,7 +1040,7 @@ const en: TranslationShape = {
         "Transitions stay restrained: sections fade and rise in gently, never with jarring or distracting effects. This brand book's own chapter-by-chapter scroll mechanic is itself an example of that restraint.",
     },
     voice: {
-      eyebrow: "Tone of voice",
+      eyebrow: "Tone of Voice",
       heading: "Personal, not an agency",
       paragraph:
         "Studio Bit & Beeld writes the way it works: personal, direct and concrete. Confident without exaggeration, creative without turning vague.",
@@ -1064,63 +1110,105 @@ const en: TranslationShape = {
     },
     editorialDirection: {
       eyebrow: "Editorial Direction",
-      heading: "The presentation follows the content.",
-      paragraph:
-        "Tone of voice covers how it sounds. Content roles cover what job a piece of text does. This chapter covers where content appears, how much space it gets and how text and imagery relate to each other.",
-      support:
-        "Not every page, section or project needs the same amount of text, imagery or explanation. Structure follows what the visitor needs to see, understand or do.",
-      modesLabel: "Content modes",
-      modes: [
-        {
-          code: "IMAGE-LED",
+      landing: {
+        heading: "The presentation follows the content.",
+        support:
+          "Not every page, section or project needs the same amount of text, imagery or explanation.",
+        forms: ["Image-led", "Text-led", "Mixed"],
+      },
+      contentForms: {
+        label: "Content Forms",
+        imageLed: {
+          code: "Image-led",
           example: "Print & Campaign Design",
-          desc: "The image already communicates the core message. Text steps back, and a caption only appears when there's something worth saying.",
+          desc: "The image carries most of the communication. Text supports where needed, without taking over the lead role.",
+          points: [
+            "Imagery gets the main emphasis.",
+            "Supporting text stays limited, not absent.",
+            "Project context is optional.",
+            "The work may stand on its own.",
+          ],
         },
-        {
-          code: "TEXT-LED",
+        textLed: {
+          code: "Text-led",
           example: "About Me",
-          desc: "The story itself is the content. Text gets the room it needs here; 'work first' isn't the right measure.",
+          desc: "The story, person or explanation itself is the primary content. Imagery supports it, but doesn't carry the core.",
+          points: [
+            "Text carries the main content.",
+            "Imagery supports the story.",
+            "Text may legitimately receive more space.",
+          ],
         },
-        {
-          code: "MIXED",
-          example: "Webdesign, Development & IT",
-          desc: "Imagery shows the visible result, text explains what the image can't show.",
+        mixed: {
+          code: "Mixed",
+          desc: "The broader, default direction for Studio Bit & Beeld's service pages: text and imagery both have a function. This is not a fixed component sequence.",
+          pages: ["Webdesign & Development", "Content & Social Media", "Design & Identity"],
+          variationLabel: "Variation by discipline",
+          variation: [
+            { title: "Webdesign & Development", note: "Often needs more text, because technical work isn't always visible." },
+            { title: "Content & Social Media", note: "Leans more heavily on visual work." },
+            { title: "Design & Identity", note: "Is mostly visual, with targeted explanation where needed." },
+          ],
+          principle: "Service pages may be family in structure and rhythm, without becoming identical in content.",
         },
-      ] as { code: string; example: string; desc: string }[],
-      principlesLabel: "Principles",
-      principles: [
-        { code: "A", title: "The most important content comes first", desc: "Whatever matters most on the page gets the strongest early presence, whether that's work, story, or a mix of both." },
-        { code: "B", title: "An introduction is optional", desc: "An opening perspective is allowed, but only when it adds something that isn't said again further down." },
-        { code: "C", title: "Project context is optional", desc: "Project copy should change how you understand the work. Often, no text is the strongest choice." },
-        { code: "D", title: "Form follows content", desc: "Reusing a component is fine. Reusing the same sentence because the component expects copy is not." },
-        { code: "E", title: "The amount of text follows the content", desc: "Finished visual work often needs little explanation. Invisible or technical work often needs more." },
-        { code: "F", title: "Hierarchy decides emphasis", desc: "What matters more gets more space, scale or attention. A caption stays subordinate to the work." },
-      ] as { code: string; title: string; desc: string }[],
-      rhythmLabel: "Rhythm",
-      rhythmNote:
-        "Repetition only helps when it supports understanding. Imagery may stand alone, text may stand alone when text is the content, and whitespace is itself a form of hierarchy. Visual variation always needs a reason.",
-      antiPatternsLabel: "Avoid",
-      antiPatterns: [
-        "Repeating the same rhetorical opener across consecutive blocks (\"it doesn't stop at...\").",
-        "A paragraph that repeats what the image next to it already shows.",
-        "Adding an eyebrow, heading or caption purely because the component has room for one.",
-        "Missing imagery accidentally making text carry a section, rather than a deliberate choice.",
-      ] as string[],
-      examplesLabel: "In practice",
-      examples: [
-        { positive: true, verdict: "Strong", title: "Print & Campaign", desc: "One intro, large work shown at its own size, a caption only where a verified name exists." },
-        { positive: true, verdict: "Strong", title: "Webdesign: technical work", desc: "Text explains what SEO, hosting and IT work can't show on their own." },
-        { positive: true, verdict: "Strong", title: "Content & Social: FIXY", desc: "A shared paragraph was cut once captions already carried the sequence." },
-        { positive: false, verdict: "Weaker", title: "Design & Identity", desc: "Consecutive blocks repeat the same opening: 'doesn't stop at the logo'." },
-      ] as { positive: boolean; verdict: string; title: string; desc: string }[],
-      note:
-        "Whether Webdesign needs an opening intro, whether 'Uitgelicht(e)' always belongs, and how the ICT section should look once real imagery exists are not settled. Context decides that, not a fixed rule.",
+      },
+      principles: {
+        label: "Editorial Principles",
+        items: [
+          { code: "1", title: "The most important content comes first", desc: "Whatever matters most on the page gets the strongest early presence, whether that's work, story, or a mix of both." },
+          { code: "2", title: "An introduction is optional", desc: "An opening perspective is allowed, but only when it adds something that isn't said again further down." },
+          { code: "3", title: "Project context is optional", desc: "Project copy should change how you understand the work. Often, no text is the strongest choice." },
+          { code: "4", title: "Form follows content", desc: "Reusing a component is fine. Reusing the same sentence because the component expects copy is not." },
+          { code: "5", title: "The amount of text follows the content", desc: "Finished visual work often needs little explanation. Invisible or technical work often needs more." },
+          { code: "6", title: "Hierarchy decides emphasis", desc: "What matters more gets more space, scale or attention. A caption stays subordinate to the work." },
+        ],
+      },
+      rhythm: {
+        label: "Rhythm & Structure",
+        points: [
+          "Not every project follows the same structure.",
+          "Imagery may stand on its own.",
+          "Text may stand on its own when text is the content.",
+          "Whitespace is part of hierarchy.",
+          "Repetition only helps when it supports understanding.",
+          "Visual variation needs a reason.",
+          "Avoid pages feeling like repeated CMS blocks.",
+        ],
+      },
+      practice: {
+        label: "In Practice",
+        examples: [
+          { positive: true, verdict: "Strong", title: "Print & Campaign", desc: "One intro, large work shown at its own size, a caption only where a verified name exists." },
+          { positive: true, verdict: "Strong", title: "Webdesign", desc: "Text explains invisible technical work: what SEO, hosting and IT work can't show on their own." },
+          { positive: true, verdict: "Strong", title: "Content & Social: FIXY", desc: "A shared paragraph was cut once captions already carried the sequence." },
+          { positive: false, verdict: "Weaker", title: "Design & Identity", desc: "Repeated block structure encouraged repeated rhetorical phrasing: consecutive blocks open with 'doesn't stop at the logo'." },
+        ],
+        note:
+          "Whether Webdesign needs an opening intro, whether 'Uitgelicht(e)' always belongs, and how the ICT section should look once real imagery exists are not settled. Context decides that, not a fixed rule.",
+      },
+      avoid: {
+        label: "What We Avoid",
+        items: [
+          "Text that just repeats what the image shows.",
+          "Repeating the same rhetorical opener across consecutive blocks.",
+          "Adding an eyebrow, heading, paragraph or caption purely because the component has room for one.",
+          "Missing imagery accidentally making text carry the section.",
+        ],
+      },
     },
     usage: {
       eyebrow: "Application",
       heading: "Applied to real work",
       paragraph: "This identity isn't theory. It shows up in the work itself.",
       viewLabel: "View",
+      rulesLabel: "Standing rules for service pages",
+      rules: [
+        "Every service page has a short service introduction directly under the title.",
+        "Title and introduction belong visually together, with one fixed, small gap between them.",
+        "\"Back to home\" uses brand orange as functional navigation, not a muted grey.",
+        "Closing CTAs on service pages use brand orange, not an unrelated accent color.",
+        "Service pages share hierarchy and rhythm; their internal content structure may vary per page.",
+      ],
     },
     closing: {
       eyebrow: "Colophon",

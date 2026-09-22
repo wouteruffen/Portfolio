@@ -16,9 +16,14 @@ import posterSimplon from "@/assets/print/b31-simplon.jpg";
 /**
  * Same depth-shadow frame treatment used for real work elsewhere on the site
  * (see FramedShot in ProjectWebdesign) — recreated locally rather than
- * imported so this page doesn't reach into another subpage's file. Every
- * poster sits in an A-series aspect-ratio box (210/297, close to the real
- * source artwork's own ratio) with object-cover, so cropping is negligible.
+ * imported so this page doesn't reach into another subpage's file.
+ *
+ * No fixed aspect-ratio box and no object-cover: the image sizes itself
+ * (w-full, h-auto) at its own native ratio, so every poster is shown
+ * completely, uncropped, regardless of its source dimensions. Previously
+ * this used a hard-cropped aspect-[210/297] box — negligible cropping given
+ * how close these posters' native ratios already are to A-series, but this
+ * removes even that.
  */
 const PosterFrame = ({ src, alt, caption }: { src: string; alt: string; caption?: string }) => (
   <div>
@@ -28,8 +33,8 @@ const PosterFrame = ({ src, alt, caption }: { src: string; alt: string; caption?
         style={{ transform: "translate(8px, 8px)", zIndex: 0, backgroundColor: "var(--card-depth-shadow)" }}
         aria-hidden="true"
       />
-      <div className="relative z-[1] aspect-[210/297] border border-border overflow-hidden">
-        <img src={src} alt={alt} className="w-full h-full object-cover block" loading="lazy" />
+      <div className="relative z-[1] border border-border overflow-hidden">
+        <img src={src} alt={alt} className="w-full h-auto block" loading="lazy" />
       </div>
     </div>
     {/* Subordinate to the artwork: small, muted, only rendered when a
@@ -40,20 +45,27 @@ const PosterFrame = ({ src, alt, caption }: { src: string; alt: string; caption?
 );
 
 /**
- * Each poster's own native pixel width (see asset inspection notes) used as
- * a hard display cap, so no poster is ever upscaled past its real source
- * resolution — a2-screen-1/2 are native ~605-608px, artboard-1/b31-simplon
- * are native 994px. Presented one at a time, full-bleed up to that cap,
- * rather than forced into equal-sized grid cells: an exhibition-style single
- * column lets the two higher-resolution posters actually read larger than
- * the two lower-resolution ones, honestly, instead of averaging every piece
- * down to whatever the smallest source supports.
+ * Shared display width for every poster in the sequence — capped at the
+ * smallest source poster's native pixel width (a2-screen-1/2, ~605-608px)
+ * so none of the four is ever upscaled past its own real resolution, while
+ * every poster in the sequence sits in the same frame size. The previous
+ * version capped each poster individually at its own native width
+ * (605/608/994/994px): technically honest, but it meant the two
+ * higher-resolution posters displayed noticeably larger than the other two,
+ * which read as an inconsistent sequence rather than one designed set. A
+ * single shared width fixes that without upscaling, distorting, cropping or
+ * touching the source files — artboard-1 and b31-simplon (native 994px)
+ * simply render sharp and slightly smaller than their maximum size, the
+ * same trade a print spread makes when it holds several source sizes to one
+ * page grid.
  */
+const POSTER_FRAME_WIDTH = 605;
+
 const POSTERS = [
-  { src: posterDominant, key: "dominant", maxWidth: 605, hasCaption: false },
-  { src: posterTeal, key: "teal", maxWidth: 608, hasCaption: false },
-  { src: posterArtboard, key: "artboard", maxWidth: 994, hasCaption: false },
-  { src: posterSimplon, key: "simplon", maxWidth: 994, hasCaption: true },
+  { src: posterDominant, key: "dominant", hasCaption: false },
+  { src: posterTeal, key: "teal", hasCaption: false },
+  { src: posterArtboard, key: "artboard", hasCaption: false },
+  { src: posterSimplon, key: "simplon", hasCaption: true },
 ];
 
 const ProjectPrintDesign = () => {
@@ -67,27 +79,18 @@ const ProjectPrintDesign = () => {
 
         <SubpageGridBackground />
 
-        <SubpageHeader title={pd.pageTitle} />
+        <SubpageHeader title={pd.pageTitle} intro={pd.postersParagraph} />
 
         {/* Content */}
         <section className={`relative z-10 ${SECTION_TITLE_GUTTER_CLASS} py-16 md:py-24`}>
           <div className={SECTION_TITLE_CONTAINER_CLASS}>
-            {/* Service introduction — short, general statement about the
-                poster work, not explaining print design in the abstract. */}
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mb-16 md:mb-20">
-              <p className="font-antonio font-medium leading-relaxed max-w-[680px] text-foreground/80" style={{ fontSize: "clamp(1.125rem, 1.6vw, 1.375rem)" }}>
-                {pd.postersParagraph}
-              </p>
-            </motion.div>
-
-            {/* Real work — poster showcase, presented one at a time rather
-                than in equal grid cells, each capped at its own native pixel
-                width (see POSTERS) so nothing is upscaled. This lets the
-                higher-resolution posters (artboard-1, b31-simplon: native
-                994px) read noticeably larger than the lower-resolution ones
-                (a2-screen-1/2: native ~605-608px) — an exhibition-style
-                single column, one poster in full view at a time, rather than
-                a uniform thumbnail grid. */}
+            {/* Real work — poster showcase, presented one at a time in a
+                single exhibition-style column rather than a uniform
+                thumbnail grid. Every poster shares the same frame width
+                (POSTER_FRAME_WIDTH) so the sequence reads as one designed
+                set despite the source files having different native
+                resolutions; see PosterFrame/POSTER_FRAME_WIDTH above for how
+                that stays uncropped and unupscaled. */}
             <div className="flex flex-col items-center gap-16 md:gap-24">
               {POSTERS.map((poster, i) => (
                 <motion.div
@@ -97,7 +100,7 @@ const ProjectPrintDesign = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: i * 0.05 }}
                   className="w-full"
-                  style={{ maxWidth: poster.maxWidth }}
+                  style={{ maxWidth: POSTER_FRAME_WIDTH }}
                 >
                   <PosterFrame src={poster.src} alt={pd.posterAlt} caption={poster.hasCaption ? pd.simplonCaption : undefined} />
                 </motion.div>
@@ -127,7 +130,7 @@ const ProjectPrintDesign = () => {
             {/* CTA */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 text-center">
               <p className="text-2xl md:text-4xl font-antonio font-semibold mb-8">
-                {pd.ctaHeading.lead} <span className="text-secondary">{pd.ctaHeading.accent}</span>{pd.ctaHeading.rest}
+                {pd.ctaHeading.lead} <span className="text-brand-orange">{pd.ctaHeading.accent}</span>{pd.ctaHeading.rest}
               </p>
               <Link
                 to="/#contact"

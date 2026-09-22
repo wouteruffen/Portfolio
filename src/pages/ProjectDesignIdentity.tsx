@@ -64,21 +64,11 @@ const ProjectDesignIdentity = () => {
 
         <SubpageGridBackground />
 
-        <SubpageHeader title={di.pageTitle} />
+        <SubpageHeader title={di.pageTitle} intro={di.serviceIntro} />
 
         {/* Content */}
         <section className={`relative z-10 ${SECTION_TITLE_GUTTER_CLASS} py-16 md:py-24`}>
           <div className={SECTION_TITLE_CONTAINER_CLASS}>
-            {/* Service introduction — short, general statement about what
-                Design & Identiteit means, not tied to any one client. Kept
-                brief on purpose so the work below (starting with Kruize)
-                carries the page, rather than the intro itself. */}
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mb-16 md:mb-20">
-              <p className="font-antonio font-medium leading-relaxed max-w-[680px] text-foreground/80" style={{ fontSize: "clamp(1.125rem, 1.6vw, 1.375rem)" }}>
-                {di.serviceIntro}
-              </p>
-            </motion.div>
-
             {/* System — Kruize's identity documented as a repeatable system,
                 the first actual project on the page. */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
@@ -103,33 +93,36 @@ const ProjectDesignIdentity = () => {
               </div>
             </motion.div>
 
-            {/* Application — FIXY's identity carried into photography and voice */}
+            {/* Application — FIXY's identity carried into photography and voice.
+                Image-led on purpose, unlike System above: the work itself
+                (color/typography/tone translated into photography) is the
+                point being made, so it leads; the eyebrow + paragraph sit
+                between the two images as context, not as a heading the
+                images illustrate. Varying this shape between blocks is
+                deliberate — see Brandbook chapter 15 (Editorial Direction):
+                form follows content, not one repeated component formula. */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
-              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">{di.applicationEyebrow}</h2>
-              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">{di.applicationHeading}</h3>
-              <p className="text-muted-foreground font-body leading-relaxed max-w-[640px] mb-10">
+              <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-6 font-body uppercase">{di.applicationEyebrow}</h2>
+              <FramedDoc
+                src={fixyCampaign}
+                alt={di.fixyCampaignAlt}
+                caption={di.fixyCampaignCaption}
+                aspectClass="aspect-[16/9]"
+              />
+              <p className="text-muted-foreground font-body leading-relaxed max-w-[640px] mt-8 mb-8 md:mb-10">
                 {di.applicationParagraph}
               </p>
-              <div className="flex flex-col gap-8 md:gap-10">
-                <FramedDoc
-                  src={fixyCampaign}
-                  alt={di.fixyCampaignAlt}
-                  caption={di.fixyCampaignCaption}
-                  aspectClass="aspect-[16/9]"
-                />
-                <FramedDoc
-                  src={fixySpaces}
-                  alt={di.fixySpacesAlt}
-                  caption={di.fixySpacesCaption}
-                  aspectClass="aspect-[16/9]"
-                />
-              </div>
+              <FramedDoc
+                src={fixySpaces}
+                alt={di.fixySpacesAlt}
+                caption={di.fixySpacesCaption}
+                aspectClass="aspect-[16/9]"
+              />
             </motion.div>
 
             {/* Consistency — the same practical touchpoint, three different identities */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 md:mt-32">
               <h2 className="text-xs tracking-[0.3em] text-muted-foreground mb-4 font-body uppercase">{di.consistencyEyebrow}</h2>
-              <h3 className="text-2xl md:text-3xl font-antonio font-semibold mb-4">{di.consistencyHeading}</h3>
               <p className="text-muted-foreground font-body leading-relaxed max-w-[640px] mb-10">
                 {di.consistencyParagraph}
               </p>
@@ -174,17 +167,17 @@ const ProjectDesignIdentity = () => {
             {/* CTA */}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="mt-24 text-center">
               <p className="text-2xl md:text-4xl font-antonio font-semibold mb-8">
-                {di.ctaHeading.lead} <span className="text-accent">{di.ctaHeading.accent}</span>{di.ctaHeading.rest}
+                {di.ctaHeading.lead} <span className="text-brand-orange">{di.ctaHeading.accent}</span>{di.ctaHeading.rest}
               </p>
               <Link
                 to="/#contact"
-                className="group inline-flex items-center gap-3 px-8 py-4 font-body font-medium text-base tracking-widest uppercase border border-accent bg-accent hover:bg-transparent transition-all duration-300"
+                className="group inline-flex items-center gap-3 px-8 py-4 font-body font-medium text-base tracking-widest uppercase border border-brand-orange bg-brand-orange hover:bg-transparent transition-all duration-300"
                 style={{ color: "transparent", WebkitTextStroke: "1.5px rgba(255,255,255,0.88)" }}
               >
                 {di.startProject}
                 <span
                   className="transition-transform duration-300 group-hover:translate-x-1.5"
-                  style={{ color: "hsl(var(--accent))" }}
+                  style={{ color: "hsl(var(--brand-orange))" }}
                 >
                   <ArrowRight size={14} />
                 </span>
