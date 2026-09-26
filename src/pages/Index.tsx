@@ -235,7 +235,7 @@ const Index = () => {
           <>
             <HeroV2 scrollContainerRef={scrollRef} />
             <AboutV2 scrollContainerRef={scrollRef} aboutTopRef={aboutTopRef} />
-            <ProjectsV2 scrollContainerRef={scrollRef} />
+            <ProjectsV2 scrollContainerRef={scrollRef} snapScrollTo={scrollTo} />
             <ContactV2 scrollContainerRef={scrollRef} />
           </>
         )}

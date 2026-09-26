@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform, useMotionValueEvent, useReducedMotion, easeInOut } from "framer-motion";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import React from "react";
@@ -14,11 +14,20 @@ import { useLanguage } from "@/lib/i18n/LanguageProvider";
 const ACCENT    = BRAND_ORANGE_HSL;
 const CARD_H_VH = 42;
 
+// contentProgress values where exactly one card is fully in place (derived from
+// the enter/exit windows below). The section only ever comes to rest on these.
+const REST = [0, 0.25, 0.44, 0.64];
+// Fraction of the way to the next/previous rest point that commits the move —
+// crossing it mid-scroll immediately glides the rest of the way.
+const SNAP_THRESHOLD = 0.25;
+
 interface ProjectsV2Props {
   scrollContainerRef?: React.RefObject<HTMLDivElement>;
+  /** Smooth-scroll the container (shares the wheel handler's RAF loop). */
+  snapScrollTo?: (y: number) => void;
 }
 
-const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
+const ProjectsV2 = ({ scrollContainerRef, snapScrollTo }: ProjectsV2Props) => {
   const outerRef   = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const [progressIndex, setProgressIndex] = useState(0);
@@ -54,6 +63,102 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
     const idx = v < 0.2 ? 0 : v < 0.4 ? 1 : v < 0.6 ? 2 : 3;
     setProgressIndex(prev => (prev === idx ? prev : idx));
   });
+
+  // ── Threshold-commit snapping ─────────────────────────────────────────────
+  // The card motion stays scroll-linked; only the resting positions are
+  // constrained. `activeRef` is the committed card. On every scroll frame,
+  // once the position is SNAP_THRESHOLD of the way toward a neighbour we
+  // commit to it right away and glide the rest of the way there. While that
+  // glide runs, threshold checks are paused (otherwise the new card's
+  // backward threshold would fire instantly); scrolling against the glide
+  // releases it, so reversing mid-transition commits straight back.
+  // A nudge that never reaches the threshold is returned to the committed
+  // card on the first frame the scroll comes to rest. Above the first card
+  // (p <= 0) or past the last (p >= REST[last]) nothing snaps, so the page
+  // scrolls in and out of the section naturally.
+  const activeRef = useRef(0);
+  useEffect(() => {
+    const container = scrollContainerRef?.current;
+    const outer = outerRef.current;
+    if (!container || !outer) return;
+
+    const last = REST.length - 1;
+    let lastTop = container.scrollTop;
+    // Active glide: its target scrollTop and direction (+1 forward, -1 back).
+    let snap: { y: number; dir: number } | null = null;
+    let idleRaf: number | undefined;
+    let idleTop = 0;
+
+    const geometry = () => {
+      const start =
+        outer.getBoundingClientRect().top - container.getBoundingClientRect().top + container.scrollTop;
+      const range = outer.offsetHeight - container.clientHeight;
+      return { start, range };
+    };
+
+    const glideTo = (index: number, start: number, range: number) => {
+      const y = start + REST[index] * range;
+      const top = container.scrollTop;
+      activeRef.current = index;
+      if (Math.abs(y - top) < 1) { snap = null; return; }
+      snap = { y, dir: y > top ? 1 : -1 };
+      if (snapScrollTo) snapScrollTo(y);
+      else container.scrollTo({ top: y, behavior: "smooth" });
+    };
+
+    const evaluate = (idle: boolean) => {
+      const { start, range } = geometry();
+      if (range <= 0) return;
+      const top = container.scrollTop;
+      const p = (top - start) / range;
+      if (p <= 0) { activeRef.current = 0; snap = null; return; }
+      if (p >= REST[last]) { activeRef.current = last; snap = null; return; }
+
+      if (snap) {
+        // Glide finished (or overshot by continued input in the same
+        // direction) → release; otherwise let it complete untouched.
+        if ((top - snap.y) * snap.dir >= -1 || idle) snap = null;
+        else return;
+      }
+
+      // Fractional card index between rest points.
+      let k = 0;
+      while (k < last - 1 && p >= REST[k + 1]) k++;
+      const f = k + (p - REST[k]) / (REST[k + 1] - REST[k]);
+
+      const a = activeRef.current;
+      if (f >= a + SNAP_THRESHOLD && a < last) glideTo(Math.min(last, Math.floor(f - SNAP_THRESHOLD) + 1), start, range);
+      else if (f <= a - SNAP_THRESHOLD && a > 0) glideTo(Math.max(0, Math.ceil(f + SNAP_THRESHOLD) - 1), start, range);
+      else if (idle) glideTo(a, start, range);
+    };
+
+    // Rest detection: the first animation frame on which scrollTop no longer
+    // changes (the smooth-scroll loop has converged) — no timer delay.
+    const checkIdle = () => {
+      const top = container.scrollTop;
+      if (top === idleTop) { idleRaf = undefined; evaluate(true); return; }
+      idleTop = top;
+      idleRaf = requestAnimationFrame(checkIdle);
+    };
+
+    const onScroll = () => {
+      const top = container.scrollTop;
+      // Scrolling against an in-progress glide hands control back to the user.
+      if (snap && (top - lastTop) * snap.dir < -0.5) snap = null;
+      lastTop = top;
+      evaluate(false);
+      if (idleRaf === undefined) {
+        idleTop = top;
+        idleRaf = requestAnimationFrame(checkIdle);
+      }
+    };
+
+    container.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      container.removeEventListener("scroll", onScroll);
+      if (idleRaf !== undefined) cancelAnimationFrame(idleRaf);
+    };
+  }, [scrollContainerRef, snapScrollTo]);
 
   // No reduced-motion branch needed for the section reveal above (a single
   // one-time slide-and-round-off as the panel arrives, not a "prolonged"
@@ -288,21 +393,25 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
                     ))}
                   </div>
 
-                  {/* CTA button */}
-                  <Link
-                    to={proj.href}
-                    className="group inline-flex items-center gap-3 font-body font-medium text-xs tracking-[0.18em] uppercase px-6 py-3 transition-opacity duration-300 hover:opacity-80 mt-auto"
-                    style={{
-                      backgroundColor: ACCENT,
-                      color: "white",
-                    }}
-                  >
-                    {t.common.viewWork}
-                    <ArrowRight
-                      size={12}
-                      className="transition-transform duration-300 group-hover:translate-x-1.5"
-                    />
-                  </Link>
+                  {/* CTA button — the wrapper takes the mt-auto bottom anchor
+                      (and the column's stretch), so the link itself is never
+                      a flex item of the column and stays content-width. */}
+                  <div className="mt-auto">
+                    <Link
+                      to={proj.href}
+                      className="group inline-flex w-fit self-start items-center gap-3 font-body font-medium text-xs tracking-[0.18em] uppercase px-6 py-3 transition-opacity duration-300 hover:opacity-80"
+                      style={{
+                        backgroundColor: ACCENT,
+                        color: "white",
+                      }}
+                    >
+                      {t.common.viewWork}
+                      <ArrowRight
+                        size={12}
+                        className="transition-transform duration-300 group-hover:translate-x-1.5"
+                      />
+                    </Link>
+                  </div>
                 </div>
 
                 {/* ── Image block ─────────────────────────────────────── */}
