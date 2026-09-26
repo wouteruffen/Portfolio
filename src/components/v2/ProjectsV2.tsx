@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, useMotionValueEvent, useSpring, easeInOut } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent, useReducedMotion, easeInOut } from "framer-motion";
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
@@ -48,38 +48,56 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
     offset: ["start start", "end start"],
   });
 
-  // Raw progress drives the UI counter only — stays pixel-accurate, no lag.
+  // Drives the dots AND the z-index — a single discrete "which project is
+  // current" value, always in sync with whatever contentProgress is doing.
   useMotionValueEvent(contentProgress, "change", (v) => {
     const idx = v < 0.2 ? 0 : v < 0.4 ? 1 : v < 0.6 ? 2 : 3;
     setProgressIndex(prev => (prev === idx ? prev : idx));
   });
 
-  // Spring-smoothed progress for all card motion.
-  const smoothProgress = useSpring(contentProgress, {
-    stiffness: 200,
-    damping: 45,
-    mass: 0.8,
-  });
+  // No reduced-motion branch needed for the section reveal above (a single
+  // one-time slide-and-round-off as the panel arrives, not a "prolonged"
+  // effect) — see below for the actual card-stack simplification.
+  const prefersReducedMotion = useReducedMotion();
 
   // ── Y positions — entrance from below, locks at 0 ────────────────────────
   //
   // Card i enters while the previous card is still settling.
   // The "staircase" motion: all cards behind the active one shift up
   // one slot each time a new card enters.
+  //
+  // Driven directly by contentProgress (not a spring on top of it) — this
+  // page's own wheel handler (useSmoothScroll.ts) already smooths the raw
+  // scroll input into `container.scrollTop` before Framer Motion ever sees
+  // it, so contentProgress is itself already a smoothed value. A second,
+  // independent spring stacked on top of that had its own decay curve
+  // chasing an already-moving target, which produced a "settles late" /
+  // "still creeping after I stopped scrolling" feel — removing it makes the
+  // cards track the (already-smooth) scroll position directly.
+  //
+  // A later attempt replaced this continuous scrub with a discrete,
+  // wheel-intercepting state machine that also nudged the real page scroll
+  // position to stay in step with the active index. That introduced a sign
+  // error (scrolled the page backward on every forward commit) which made
+  // the section's own "am I currently pinned" check flicker, handing control
+  // to native scroll unpredictably — the reported "tripping"/jumping. That
+  // whole mechanism has been reverted; this file is back to the simpler,
+  // single-source-of-truth continuous version below, which has no separate
+  // system fighting the page's own scroll position at all.
   const c1YRaw = useTransform(
-    smoothProgress,
+    contentProgress,
     [0,    0.20, 1],
     [CARD_H_VH,       0, 0],
     { ease: easeInOut },
   );
   const c2YRaw = useTransform(
-    smoothProgress,
+    contentProgress,
     [0, 0.20, 0.40, 1],
     [2*CARD_H_VH, CARD_H_VH, 0, 0],
     { ease: easeInOut },
   );
   const c3YRaw = useTransform(
-    smoothProgress,
+    contentProgress,
     [0, 0.20, 0.40, 0.60, 1],
     [3*CARD_H_VH, 2*CARD_H_VH, CARD_H_VH, 0, 0],
     { ease: easeInOut },
@@ -91,9 +109,9 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
   // ── X exits — numeric first so opacity can couple to position ───────────
   //
   // Pattern: card i exits [i*0.20 + 0.06, i*0.20 + 0.25]. Card 3 never exits.
-  const c0XNum = useTransform(smoothProgress, [0.06, 0.25], [0, -110], { ease: easeInOut });
-  const c1XNum = useTransform(smoothProgress, [0.26, 0.44], [0, -110], { ease: easeInOut });
-  const c2XNum = useTransform(smoothProgress, [0.46, 0.64], [0, -110], { ease: easeInOut });
+  const c0XNum = useTransform(contentProgress, [0.06, 0.25], [0, -110], { ease: easeInOut });
+  const c1XNum = useTransform(contentProgress, [0.26, 0.44], [0, -110], { ease: easeInOut });
+  const c2XNum = useTransform(contentProgress, [0.46, 0.64], [0, -110], { ease: easeInOut });
   const c0X = useTransform(c0XNum, v => `${v}%`);
   const c1X = useTransform(c1XNum, v => `${v}%`);
   const c2X = useTransform(c2XNum, v => `${v}%`);
@@ -110,7 +128,7 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
   // preserves the stack depth effect as each card rises to the active slot.
   const c0Opacity = useTransform(c0XNum, [0, -110], [1, 0]);
   const c1Opacity = useTransform(
-    [smoothProgress, c1XNum] as const,
+    [contentProgress, c1XNum] as const,
     ([p, x]: number[]) => {
       if (p < 0.20) return 0.62 + (p / 0.20) * 0.38; // stack ramp  0.62 → 1
       if (p < 0.26) return 1;                           // active, before exit
@@ -118,7 +136,7 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
     },
   );
   const c2Opacity = useTransform(
-    [smoothProgress, c2XNum] as const,
+    [contentProgress, c2XNum] as const,
     ([p, x]: number[]) => {
       if (p < 0.20) return 0.45 + (p / 0.20) * 0.17;           // 0.45 → 0.62
       if (p < 0.40) return 0.62 + ((p - 0.20) / 0.20) * 0.38;  // 0.62 → 1
@@ -126,24 +144,41 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
       return Math.max(0, 1 + x / 110);                           // position-linked fade
     },
   );
-  const c3Opacity = useTransform(smoothProgress, [0, 0.20, 0.40, 0.60, 1], [0.30, 0.45, 0.62, 1, 1]);
+  const c3Opacity = useTransform(contentProgress, [0, 0.20, 0.40, 0.60, 1], [0.30, 0.45, 0.62, 1, 1]);
 
   // ── Image focus — scale + blur ease as each card arrives ─────────────────
-  const c1ImgScale = useTransform(smoothProgress, [0,    0.20], [0.96, 1], { ease: easeInOut });
-  const c2ImgScale = useTransform(smoothProgress, [0.20, 0.40], [0.96, 1], { ease: easeInOut });
-  const c3ImgScale = useTransform(smoothProgress, [0.40, 0.60], [0.96, 1], { ease: easeInOut });
-  const c1BlurRaw  = useTransform(smoothProgress, [0,    0.20], [3,    0], { ease: easeInOut });
-  const c2BlurRaw  = useTransform(smoothProgress, [0.20, 0.40], [3,    0], { ease: easeInOut });
-  const c3BlurRaw  = useTransform(smoothProgress, [0.40, 0.60], [3,    0], { ease: easeInOut });
+  const c1ImgScale = useTransform(contentProgress, [0,    0.20], [0.96, 1], { ease: easeInOut });
+  const c2ImgScale = useTransform(contentProgress, [0.20, 0.40], [0.96, 1], { ease: easeInOut });
+  const c3ImgScale = useTransform(contentProgress, [0.40, 0.60], [0.96, 1], { ease: easeInOut });
+  const c1BlurRaw  = useTransform(contentProgress, [0,    0.20], [3,    0], { ease: easeInOut });
+  const c2BlurRaw  = useTransform(contentProgress, [0.20, 0.40], [3,    0], { ease: easeInOut });
+  const c3BlurRaw  = useTransform(contentProgress, [0.40, 0.60], [3,    0], { ease: easeInOut });
   const c1Filter   = useTransform(c1BlurRaw, v => `blur(${v}px)`);
   const c2Filter   = useTransform(c2BlurRaw, v => `blur(${v}px)`);
   const c3Filter   = useTransform(c3BlurRaw, v => `blur(${v}px)`);
 
-  const yFor      = (i: number) => [undefined, c1Y, c2Y, c3Y][i] ?? "0px";
-  const xFor      = (i: number) => [c0X, c1X, c2X, undefined][i] ?? "0%";
-  const opFor     = (i: number) => [c0Opacity, c1Opacity, c2Opacity, c3Opacity][i];
-  const scaleFor  = (i: number) => [1, c1ImgScale, c2ImgScale, c3ImgScale][i];
-  const filterFor = (i: number) => ["blur(0px)", c1Filter, c2Filter, c3Filter][i];
+  // prefers-reduced-motion: no translateY/X staircase, no scale/blur focus
+  // ease — every card sits stationary in the same spot, distinguished by an
+  // instant opacity swap tied to the same discrete progressIndex the dots
+  // already use. Every project stays reachable (still in the DOM, still
+  // linked) — only the transform/blur/scale motion is removed.
+  const yFor      = (i: number) => (prefersReducedMotion ? "0px" : [undefined, c1Y, c2Y, c3Y][i] ?? "0px");
+  const xFor      = (i: number) => (prefersReducedMotion ? "0%"  : [c0X, c1X, c2X, undefined][i] ?? "0%");
+  const opFor     = (i: number) => (prefersReducedMotion ? (i === progressIndex ? 1 : 0) : [c0Opacity, c1Opacity, c2Opacity, c3Opacity][i]);
+  const scaleFor  = (i: number) => (prefersReducedMotion ? 1 : [1, c1ImgScale, c2ImgScale, c3ImgScale][i]);
+  const filterFor = (i: number) => (prefersReducedMotion ? "blur(0px)" : ["blur(0px)", c1Filter, c2Filter, c3Filter][i]);
+  // Deterministic stacking, independent of scroll direction: without this,
+  // 4 same-position absolutely-positioned cards fall back to plain DOM
+  // order for paint order, which only happens to look right while scrolling
+  // forward (each new card is later in the .map() than the one it covers).
+  // Scrolling BACKWARD, the card re-entering as active is an EARLIER sibling
+  // than the one it's replacing, so default DOM order kept the outgoing
+  // (higher-index) card on top — the wrong card visibly in front during
+  // reverse. progressIndex already names which card is current in both
+  // directions, so ranking every card at-or-before it (highest = current)
+  // keeps the right one on top regardless of which way the user is
+  // scrolling.
+  const zFor = (i: number) => (i <= progressIndex ? i + 1 : 0);
 
   return (
     // 4 cards: 650 vh gives each card ~130 vh of action + generous dwell on last card.
@@ -211,12 +246,23 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
                 y:       yFor(i),
                 x:       xFor(i),
                 opacity: opFor(i),
+                zIndex:  zFor(i),
+                // Only the active card should ever be interactive — an
+                // inactive card (queued below, or already exited off-screen)
+                // must never be able to catch a click meant for the one
+                // that's actually visible and in place.
+                pointerEvents: i === progressIndex ? "auto" : "none",
               }}
             >
-              <div className="grid md:grid-cols-2 gap-8 md:gap-10 items-start w-full max-w-[1240px] mx-auto">
+              <div className="grid md:grid-cols-2 gap-8 md:gap-10 items-stretch w-full max-w-[1240px] mx-auto">
 
-                {/* ── Text block ──────────────────────────────────────── */}
-                <div>
+                {/* ── Text block — flex column so the CTA can anchor to the
+                    bottom (mt-auto below), matching the image's bottom edge
+                    now that the grid row stretches both columns to the same
+                    height. Title/description/pills keep their own existing
+                    spacing untouched; only the leftover space above the CTA
+                    is what's absorbed. ─────────────────────────────────── */}
+                <div className="flex flex-col">
                   {/* Title */}
                   <h3
                     className="font-antonio font-semibold text-foreground uppercase leading-[0.88] tracking-tight mb-3"
@@ -245,7 +291,7 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
                   {/* CTA button */}
                   <Link
                     to={proj.href}
-                    className="group inline-flex items-center gap-3 font-body font-medium text-xs tracking-[0.18em] uppercase px-6 py-3 transition-opacity duration-300 hover:opacity-80"
+                    className="group inline-flex items-center gap-3 font-body font-medium text-xs tracking-[0.18em] uppercase px-6 py-3 transition-opacity duration-300 hover:opacity-80 mt-auto"
                     style={{
                       backgroundColor: ACCENT,
                       color: "white",
@@ -331,12 +377,6 @@ const ProjectsV2 = ({ scrollContainerRef }: ProjectsV2Props) => {
                 />
               ))}
             </div>
-            <span
-              className="text-[9px] tracking-[0.35em] font-body uppercase"
-              style={{ color: "hsl(var(--foreground) / 0.35)" }}
-            >
-              0{progressIndex + 1} / 0{projects.length}
-            </span>
             <div className="flex-1" />
             <span
               className="text-[9px] tracking-[0.25em] font-body uppercase hidden md:block"

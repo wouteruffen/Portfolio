@@ -1,36 +1,121 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
 import { useHasFinePointer } from "@/hooks/use-fine-pointer";
-import cursorBlack from "@/assets/cursors/black.svg";
-import cursorWhite from "@/assets/cursors/white.svg";
+import cursorBlack from "@/assets/cursors/black2.svg";
+import cursorWhite from "@/assets/cursors/white2.svg";
+import cursorPointBlack from "@/assets/cursors/pointblack2.svg";
+import cursorPointWhite from "@/assets/cursors/pointwhite2.svg";
+import cursorTextBlack from "@/assets/cursors/verticalblack2.svg";
+import cursorTextWhite from "@/assets/cursors/verticalwhite2.svg";
+
+type CursorKind = "default" | "interactive" | "text";
+
+// Semantic, native-first matching: real interactive/text-entry elements are
+// detected generically by tag/role/attribute, not by hand-listing selectors
+// per page or component. Anything current or future built from a real <a>,
+// <button>, form control, or a proper ARIA role/tabindex is picked up
+// automatically — nothing here is specific to any one page or component.
+// `:not(:disabled)` / `:not([aria-disabled="true"])` keep disabled controls
+// out, so they fall through to the plain default mark instead.
+const INTERACTIVE_SELECTOR = [
+  "a[href]",
+  "button:not(:disabled)",
+  "select:not(:disabled)",
+  "summary",
+  "label[for]",
+  "input[type='button']:not(:disabled)",
+  "input[type='submit']:not(:disabled)",
+  "input[type='reset']:not(:disabled)",
+  "input[type='checkbox']:not(:disabled)",
+  "input[type='radio']:not(:disabled)",
+  "[role='button']:not([aria-disabled='true'])",
+  "[role='link']",
+  "[role='tab']",
+  "[role='menuitem']",
+  "[role='switch']",
+  "[tabindex]:not([tabindex='-1'])",
+].join(", ");
+
+const TEXT_SELECTOR = [
+  "input:not([type]):not(:disabled)",
+  "input[type='text']:not(:disabled)",
+  "input[type='email']:not(:disabled)",
+  "input[type='tel']:not(:disabled)",
+  "input[type='number']:not(:disabled)",
+  "input[type='password']:not(:disabled)",
+  "input[type='search']:not(:disabled)",
+  "input[type='url']:not(:disabled)",
+  "textarea:not(:disabled)",
+  "[contenteditable='true']",
+  "[contenteditable='']",
+].join(", ");
+
+const ASSETS: Record<CursorKind, { light: string; dark: string }> = {
+  default:     { light: cursorBlack,      dark: cursorWhite },
+  interactive: { light: cursorPointBlack, dark: cursorPointWhite },
+  text:        { light: cursorTextBlack,  dark: cursorTextWhite },
+};
 
 /**
  * The visual cursor mark — deliberately isolated from CursorTracker's
- * tracking logic below: swapping this asset again only ever means editing
- * this component, never how position is tracked.
+ * tracking logic below: swapping assets or adding another state only ever
+ * means editing this component, never how position is tracked.
  *
  * Black/white asset choice reuses the site's existing light/dark theme
  * (`next-themes`, same source NavbarV2/MobileHero already read) rather than
- * a new per-section background-detection system: black on the light theme,
- * white on the dark theme (the site's default). Rendered as an <img> at a
- * fixed square size so the SVG's own 64x64 proportions are never distorted,
- * and offset by its scaled hotspot (see HOTSPOT_NATIVE below) rather than by
- * its bounding-box center, so the SVG's actual drawn tip sits under the real
- * pointer position.
+ * a new per-section background-detection system: black variants on the
+ * light theme, white variants on the dark theme (the site's default).
+ * Rendered as an <img> at a fixed square size so each SVG's own 64x64
+ * proportions are never distorted, and offset by its scaled hotspot (see
+ * HOTSPOT_NATIVE below) rather than by its bounding-box center, so each
+ * asset's actual drawn tip sits under the real pointer position.
+ *
+ * Which of the three states is active is tracked separately from position:
+ * a `mouseover` listener (bubbles natively, fires only when the hovered
+ * element actually changes — not on every pointer pixel) classifies
+ * `e.target` against TEXT_SELECTOR / INTERACTIVE_SELECTOR via `closest()`
+ * and stores the result in ordinary React state. That's deliberately
+ * decoupled from the mousemove/rAF position loop below: state changes here
+ * are rare (once per element boundary crossing) and only ever swap which
+ * <img> is rendered, never the position-tracking transform, so this can't
+ * reintroduce per-pixel re-renders or add any lag to tracking.
  */
-// The SVG's own canvas is 64x64, with its drawn hotspot (the point that
-// should sit exactly under the real pointer) at (11, 11) in that native
-// space — not the canvas center. Since the mark renders at `size` rather
-// than the native 64px, the offset below is scaled by the same ratio so the
-// hotspot still lands under the pointer at whatever size it's drawn at.
+// Every asset in this set (default/interactive/text, black or white) was
+// inspected — not assumed — by measuring each SVG's actual path geometry:
+// all six share the same drawn hotspot at (11, 11) in their native 64x64
+// canvas (confirmed via getBBox()/getPointAtLength(), not eyeballed), the
+// pointing-hand's fingertip and the text-bar's caret included. So one shared
+// offset is correct for every state, and swapping the <img> src on a state
+// change never requires repositioning it — no jump between states.
 const NATIVE_SIZE = 64;
 const HOTSPOT_NATIVE = 11;
 
 const CursorMark = () => {
   const { theme } = useTheme();
-  const size = 28;
+  const [kind, setKind] = useState<CursorKind>("default");
+
+  useEffect(() => {
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target;
+      if (!(target instanceof Element)) return;
+      const next: CursorKind = target.closest(TEXT_SELECTOR)
+        ? "text"
+        : target.closest(INTERACTIVE_SELECTOR)
+        ? "interactive"
+        : "default";
+      setKind(prev => (prev === next ? prev : next));
+    };
+    window.addEventListener("mouseover", handleMouseOver, { passive: true });
+    return () => window.removeEventListener("mouseover", handleMouseOver);
+  }, []);
+
+  // 28 -> 32: a slightly larger mark. hotspotOffset below is derived from
+  // `size` (not a fixed pixel value), so every state's proportions and its
+  // shared (11, 11) native hotspot stay correctly aligned at any size.
+  const size = 32;
   const hotspotOffset = (HOTSPOT_NATIVE / NATIVE_SIZE) * size;
-  const src = theme === "dark" ? cursorWhite : cursorBlack;
+  const asset = ASSETS[kind];
+  const src = theme === "dark" ? asset.dark : asset.light;
   return (
     <img
       src={src}

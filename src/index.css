@@ -186,13 +186,19 @@ html {
   width: 0px;
 }
 
-/* Hide the native cursor only where the custom cursor (CursorEffects.tsx)
+/* Hide the native cursor wherever the custom cursor (CursorEffects.tsx)
    actually renders — same (pointer: fine) and (hover: hover) condition, so
-   the two can never disagree — and never on elements whose native cursor
-   affordance is genuinely useful: text inputs/textareas/selects/editable
-   regions (I-beam) and disabled controls (not-allowed). */
+   the two can never disagree. CursorEffects now has a matching custom mark
+   for every state it detects (default/interactive/text — see its
+   INTERACTIVE_SELECTOR/TEXT_SELECTOR, which cover text inputs, textareas,
+   contenteditable regions and selects), so none of those need a native
+   fallback anymore; leaving any of them exempted just showed the native
+   cursor doubled up behind the custom one. Disabled controls are the one
+   exception left: CursorEffects deliberately excludes them from every state
+   (falls through to the plain default mark) so their native not-allowed/
+   default affordance stays the only real signal there. */
 @media (pointer: fine) and (hover: hover) {
-  *:not(input, textarea, select, [contenteditable="true"], :disabled) {
+  *:not(:disabled) {
     cursor: none !important;
   }
 }

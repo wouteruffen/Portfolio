@@ -181,11 +181,15 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
                     <div className="flex flex-col gap-4 text-sm text-foreground/50 font-body mt-6">
                       <div>
                         <div className="font-body font-medium mb-1 uppercase text-xs tracking-widest text-brand-orange/70">{t.common.email}</div>
-                        hello@studiobitbeeld.nl
+                        <a href="mailto:wouteruffenmobiel@gmail.com" className="hover:text-brand-orange transition-colors">
+                          wouteruffenmobiel@gmail.com
+                        </a>
                       </div>
                       <div>
                         <div className="font-body font-medium mb-1 uppercase text-xs tracking-widest text-brand-orange/70">{t.common.phone}</div>
-                        +31 (0)6 1234 5678
+                        <a href="tel:+31637469136" className="hover:text-brand-orange transition-colors">
+                          +31 6 374 69 136
+                        </a>
                       </div>
                       <div>
                         <div className="font-body font-medium mb-1 uppercase text-xs tracking-widest text-brand-orange/70">{t.common.location}</div>

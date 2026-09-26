@@ -72,11 +72,15 @@ const MobileContact = ({ scrollContainerRef }: MobileContactProps) => {
             >
               <div>
                 <div className="font-body font-medium mb-1 landscape-mobile:mb-0.5 uppercase text-xs landscape-mobile:text-[9px] tracking-widest text-brand-orange/70">{t.common.email}</div>
-                hello@studiobitbeeld.nl
+                <a href="mailto:wouteruffenmobiel@gmail.com" className="hover:text-brand-orange transition-colors">
+                  wouteruffenmobiel@gmail.com
+                </a>
               </div>
               <div>
                 <div className="font-body font-medium mb-1 landscape-mobile:mb-0.5 uppercase text-xs landscape-mobile:text-[9px] tracking-widest text-brand-orange/70">{t.common.phone}</div>
-                +31 (0)6 1234 5678
+                <a href="tel:+31637469136" className="hover:text-brand-orange transition-colors">
+                  +31 6 374 69 136
+                </a>
               </div>
               <div>
                 <div className="font-body font-medium mb-1 landscape-mobile:mb-0.5 uppercase text-xs landscape-mobile:text-[9px] tracking-widest text-brand-orange/70">{t.common.location}</div>

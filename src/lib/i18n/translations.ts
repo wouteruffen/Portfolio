@@ -35,7 +35,7 @@ const nl = {
     namePlaceholder: "Jouw naam",
     emailPlaceholder: "jouw@email.nl",
     messagePlaceholder: "Vertel over je project...",
-    locationValue: "Amsterdam, NL",
+    locationValue: "Groningen, NL",
   },
 
   nav: {
@@ -49,6 +49,7 @@ const nl = {
     menu: "Menu",
     emailLabel: "Email",
     socialsLabel: "Socials",
+    opensNewTab: "opent in nieuw tabblad",
     logoAria: "Bit & Beeld: naar de homepage",
     themeToggleAria: "Schakel tussen licht en donker thema",
     mailSocialLabel: "E-mail",
@@ -106,7 +107,7 @@ const nl = {
   footer: {
     tagline: "Design dat werkt.",
     copyright: "© 2026 Studio Bit & Beeld",
-    location: "Amsterdam, NL",
+    location: "Groningen, NL",
   },
 
   contact: {
@@ -649,7 +650,7 @@ const en: TranslationShape = {
     namePlaceholder: "Your name",
     emailPlaceholder: "you@email.com",
     messagePlaceholder: "Tell us about your project...",
-    locationValue: "Amsterdam, Netherlands",
+    locationValue: "Groningen, NL",
   },
 
   nav: {
@@ -663,6 +664,7 @@ const en: TranslationShape = {
     menu: "Menu",
     emailLabel: "Email",
     socialsLabel: "Socials",
+    opensNewTab: "opens in new tab",
     logoAria: "Bit & Beeld: back to homepage",
     themeToggleAria: "Toggle light/dark mode",
     mailSocialLabel: "Mail",
@@ -718,7 +720,7 @@ const en: TranslationShape = {
   footer: {
     tagline: "Design that works.",
     copyright: "© 2026 Studio Bit & Beeld",
-    location: "Amsterdam, Netherlands",
+    location: "Groningen, NL",
   },
 
   contact: {

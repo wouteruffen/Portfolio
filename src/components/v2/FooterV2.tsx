@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { useRef } from "react";
 import React from "react";
-import { Instagram, Linkedin, Github, Mail } from "lucide-react";
+import { Instagram, Linkedin, Mail } from "lucide-react";
 // @ts-ignore
 import "@fontsource/anton";
 import { BRAND_ORANGE_HSL } from "@/lib/brandColor";
@@ -11,12 +11,16 @@ import { useLanguage } from "@/lib/i18n/LanguageProvider";
 const FOOTER_BG = BRAND_ORANGE_HSL;
 
 // Icon/href are language-independent; only the Mail label needs a translation
-// (Instagram/LinkedIn/GitHub are brand names, never translated).
+// (Instagram/LinkedIn are brand names, never translated). `external` marks
+// the real off-site links so only those get target="_blank" + rel below —
+// mailto: isn't a site to "open in a new tab". GitHub is intentionally not
+// listed here (no profile to link yet) — removing its entry rather than
+// disabling it in place means the flex row's own `gap` naturally closes the
+// space, no placeholder/divider left behind.
 const getSocials = (mailLabel: string) => [
-  { icon: Instagram, label: "Instagram", href: "#" },
-  { icon: Linkedin,  label: "LinkedIn",  href: "#" },
-  { icon: Github,    label: "GitHub",    href: "#" },
-  { icon: Mail,      label: mailLabel,   href: "mailto:hello@studiobitbeeld.nl" },
+  { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/wouteruffen", external: true },
+  { icon: Linkedin,  label: "LinkedIn",  href: "https://www.linkedin.com/in/wouter-uffen-ab2b0322b/", external: true },
+  { icon: Mail,      label: mailLabel,   href: "mailto:wouteruffenmobiel@gmail.com", external: false },
 ];
 
 interface FooterV2Props {
@@ -107,11 +111,12 @@ const FooterV2 = ({ scrollContainerRef, revealProgress }: FooterV2Props) => {
           </p>
 
           <div className="flex items-center gap-4 landscape-mobile:gap-3 mt-auto">
-            {socials.map(({ icon: Icon, label, href }) => (
+            {socials.map(({ icon: Icon, label, href, external }) => (
               <a
                 key={label}
                 href={href}
                 aria-label={label}
+                {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 className="text-black/60 hover:text-black transition-colors duration-150"
               >
                 <Icon className="w-5 h-5 md:w-[18px] md:h-[18px] lg:w-5 lg:h-5 landscape-mobile:w-4 landscape-mobile:h-4" strokeWidth={1.75} />

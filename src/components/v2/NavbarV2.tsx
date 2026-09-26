@@ -34,10 +34,14 @@ const getNavItems = (t: ReturnType<typeof useLanguage>["t"]) => [
   { label: t.nav.contact,   href: "#contact"   },
 ];
 
+// Behance intentionally left out (was a "#" placeholder with no real
+// profile) — same reasoning as FooterV2 dropping its own GitHub placeholder:
+// remove the entry rather than link it, so there's nothing dead to click and
+// this grid's 2 real links fill it evenly instead of leaving an orphaned
+// third cell.
 const SOCIALS = [
-  { label: "Instagram", href: "#" },
-  { label: "LinkedIn",  href: "#" },
-  { label: "Behance",   href: "#" },
+  { label: "Instagram", href: "https://www.instagram.com/wouteruffen" },
+  { label: "LinkedIn",  href: "https://www.linkedin.com/in/wouter-uffen-ab2b0322b/" },
 ];
 
 interface NavbarV2Props {
@@ -740,10 +744,10 @@ const NavbarV2 = ({
                     {t.nav.emailLabel}
                   </span>
                   <a
-                    href="mailto:hello@bitbeeld.nl"
+                    href="mailto:wouteruffenmobiel@gmail.com"
                     className="font-body block text-[hsl(10,85%,50%)] text-lg font-medium mt-1 hover:underline"
                   >
-                    hello@bitbeeld.nl
+                    wouteruffenmobiel@gmail.com
                   </a>
                 </div>
 
@@ -759,6 +763,9 @@ const NavbarV2 = ({
                       <a
                         key={s.label}
                         href={s.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${s.label} (${t.nav.opensNewTab})`}
                         className="font-body text-cream/70 text-sm hover:text-cream transition-colors flex items-center gap-1"
                         style={{ letterSpacing: "0.04em" }}
                       >
