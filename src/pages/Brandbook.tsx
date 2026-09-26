@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import NavbarV2 from "@/components/v2/NavbarV2";
-import CursorEffects from "@/components/CursorEffects";
+import ScrollProgressIndicator from "@/components/ScrollProgressIndicator";
 import { useSmoothScroll } from "@/lib/useSmoothScroll";
 import { useIsPhoneLayout, useIsTablet } from "@/hooks/use-mobile";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
@@ -1070,7 +1070,7 @@ const Brandbook = () => {
   if (isImmersive) {
     return (
       <>
-        <CursorEffects />
+        <ScrollProgressIndicator />
         <NavbarV2 forceSolid />
 
         {/* Chapter rail — subtle, numbers only, no labels: a progress marker
@@ -1151,7 +1151,7 @@ const Brandbook = () => {
    * ═══════════════════════════════════════════════════════════════════════ */
   return (
     <>
-      <CursorEffects />
+      <ScrollProgressIndicator />
       <div className="min-h-screen bg-background text-foreground">
         <NavbarV2 forceSolid />
 

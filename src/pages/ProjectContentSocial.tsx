@@ -5,7 +5,7 @@ import NavbarV2 from "@/components/v2/NavbarV2";
 import FooterV2 from "@/components/v2/FooterV2";
 import SubpageGridBackground from "@/components/v2/SubpageGridBackground";
 import SubpageHeader from "@/components/v2/SubpageHeader";
-import CursorEffects from "@/components/CursorEffects";
+import ScrollProgressIndicator from "@/components/ScrollProgressIndicator";
 import { SECTION_TITLE_CONTAINER_CLASS, SECTION_TITLE_GUTTER_CLASS } from "@/lib/sectionTitle";
 import { PILL_CLASS } from "@/lib/pill";
 import { useLanguage } from "@/lib/i18n/LanguageProvider";
@@ -63,7 +63,7 @@ const ProjectContentSocial = () => {
   const cs = t.projectContentSocial;
   return (
     <>
-      <CursorEffects />
+      <ScrollProgressIndicator />
       <div className="min-h-screen bg-background text-foreground">
         <NavbarV2 forceSolid />
 

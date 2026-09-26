@@ -5,7 +5,7 @@ import NavbarV2 from "@/components/v2/NavbarV2";
 import FooterV2 from "@/components/v2/FooterV2";
 import SubpageGridBackground from "@/components/v2/SubpageGridBackground";
 import SubpageHeader from "@/components/v2/SubpageHeader";
-import CursorEffects from "@/components/CursorEffects";
+import ScrollProgressIndicator from "@/components/ScrollProgressIndicator";
 import kruizeMockup from "@/assets/Webdesign 1600x1000.png";
 import seoImage from "@/assets/SEO optimalisation .jpeg";
 import webhostingImage from "@/assets/Webhosting.jpeg";
@@ -33,7 +33,7 @@ const ProjectWebdesign = () => {
   const pw = t.projectWebdesign;
   return (
     <>
-      <CursorEffects />
+      <ScrollProgressIndicator />
       <div className="min-h-screen bg-background text-foreground">
         <NavbarV2 forceSolid />
 

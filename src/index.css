@@ -186,8 +186,15 @@ html {
   width: 0px;
 }
 
-* {
-  cursor: none !important;
+/* Hide the native cursor only where the custom cursor (CursorEffects.tsx)
+   actually renders — same (pointer: fine) and (hover: hover) condition, so
+   the two can never disagree — and never on elements whose native cursor
+   affordance is genuinely useful: text inputs/textareas/selects/editable
+   regions (I-beam) and disabled controls (not-allowed). */
+@media (pointer: fine) and (hover: hover) {
+  *:not(input, textarea, select, [contenteditable="true"], :disabled) {
+    cursor: none !important;
+  }
 }
 
 @keyframes statusPulse {

@@ -5,7 +5,7 @@ import NavbarV2 from "@/components/v2/NavbarV2";
 import FooterV2 from "@/components/v2/FooterV2";
 import SubpageGridBackground from "@/components/v2/SubpageGridBackground";
 import SubpageHeader from "@/components/v2/SubpageHeader";
-import CursorEffects from "@/components/CursorEffects";
+import ScrollProgressIndicator from "@/components/ScrollProgressIndicator";
 // TEMPORARY placeholder — the original project-product.jpg was lost in an
 // asset reorg with no replacement yet decided. Reusing the Kruize website
 // screenshot only to unblock the build; swap for the real Digitale
@@ -19,7 +19,7 @@ const ProjectProduct = () => {
   const pp = t.projectProduct;
   return (
     <>
-      <CursorEffects />
+      <ScrollProgressIndicator />
       <div className="min-h-screen bg-background text-foreground">
         <NavbarV2 forceSolid />
 

@@ -68,9 +68,17 @@ const AboutV2 = ({ scrollContainerRef, onSnap, aboutTopRef }: AboutV2Props) => {
   });
 
   return (
+    // This wrapper is 200vh tall so the sticky panel below can stay pinned
+    // for the whole scroll-jack duration, but only that inner 100vh panel is
+    // ever actually visible — the rest of this box is empty space sitting in
+    // front (in DOM order / z-index) of the previous section during the
+    // -100vh overlap. Without pointer-events:none here, that empty space
+    // would hit-test as this wrapper and swallow clicks meant for the still-
+    // visible content behind it. The sticky panel opts back into
+    // pointer-events since it's the part genuinely on screen.
     <div
       ref={outerRef}
-      style={{ height: "200vh", marginTop: "-100vh", position: "relative", zIndex: 42 }}
+      style={{ height: "200vh", marginTop: "-100vh", position: "relative", zIndex: 42, pointerEvents: "none" }}
     >
       {/* Sentinel at the very top of this wrapper — the point at which the
           sticky panel below stops tracking scroll and starts covering the
@@ -88,6 +96,7 @@ const AboutV2 = ({ scrollContainerRef, onSnap, aboutTopRef }: AboutV2Props) => {
           position: "sticky",
           top: 0,
           boxShadow: "var(--section-shadow)",
+          pointerEvents: "auto",
         }}
       >
       {/* Grid texture — same opacity in both themes (0.06): Light Mode's

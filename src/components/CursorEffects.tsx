@@ -1,161 +1,125 @@
-import { useEffect, useState, useCallback, useRef } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { useTheme } from "next-themes";
+import { useHasFinePointer } from "@/hooks/use-fine-pointer";
+import cursorBlack from "@/assets/cursors/black.svg";
+import cursorWhite from "@/assets/cursors/white.svg";
 
-interface TrailDot {
-  id: number;
-  x: number;
-  y: number;
-}
+/**
+ * The visual cursor mark — deliberately isolated from CursorTracker's
+ * tracking logic below: swapping this asset again only ever means editing
+ * this component, never how position is tracked.
+ *
+ * Black/white asset choice reuses the site's existing light/dark theme
+ * (`next-themes`, same source NavbarV2/MobileHero already read) rather than
+ * a new per-section background-detection system: black on the light theme,
+ * white on the dark theme (the site's default). Rendered as an <img> at a
+ * fixed square size so the SVG's own 64x64 proportions are never distorted,
+ * and offset by its scaled hotspot (see HOTSPOT_NATIVE below) rather than by
+ * its bounding-box center, so the SVG's actual drawn tip sits under the real
+ * pointer position.
+ */
+// The SVG's own canvas is 64x64, with its drawn hotspot (the point that
+// should sit exactly under the real pointer) at (11, 11) in that native
+// space — not the canvas center. Since the mark renders at `size` rather
+// than the native 64px, the offset below is scaled by the same ratio so the
+// hotspot still lands under the pointer at whatever size it's drawn at.
+const NATIVE_SIZE = 64;
+const HOTSPOT_NATIVE = 11;
 
-let dotId = 0;
+const CursorMark = () => {
+  const { theme } = useTheme();
+  const size = 28;
+  const hotspotOffset = (HOTSPOT_NATIVE / NATIVE_SIZE) * size;
+  const src = theme === "dark" ? cursorWhite : cursorBlack;
+  return (
+    <img
+      src={src}
+      alt=""
+      aria-hidden="true"
+      draggable={false}
+      className="absolute select-none"
+      style={{
+        left: -hotspotOffset,
+        top: -hotspotOffset,
+        width: size,
+        height: size,
+        // markerRef (this element's positioned ancestor) has no in-flow
+        // content of its own — its only child is this absolutely positioned
+        // <img> — so it shrink-to-fits to a 0px-wide containing block.
+        // Tailwind preflight's `img { max-width: 100% }` then resolves
+        // against that 0px, clamping the image to invisible regardless of
+        // the fixed width above. Pin max-width in px to opt this element
+        // out of that percentage clamp.
+        maxWidth: size,
+      }}
+    />
+  );
+};
 
+/**
+ * Custom cursor — mounted once at application level (see App.tsx), active
+ * only on devices with a genuine fine pointer + hover capability (real mice
+ * and trackpads). Touch phones and touch-first tablets get plain native
+ * touch interaction; useHasFinePointer checks actual input capability, not
+ * viewport width, so this can't be fooled by a touch device that happens to
+ * be tablet/desktop-sized.
+ *
+ * Position tracking writes `transform` straight to a ref'd DOM node instead
+ * of React state, so a mousemove never triggers a re-render. The pending
+ * write is batched to at most one `requestAnimationFrame` per movement burst
+ * purely to collapse redundant writes when a high-polling-rate mouse fires
+ * faster than the display paints — it always applies the latest known
+ * pointer position, so this adds no delay versus writing on every event.
+ * There is no spring/lerp/easing anywhere in this path: the mark jumps
+ * directly to the pointer's real position, exactly like a native cursor.
+ *
+ * No prefers-reduced-motion branch is needed: the mark has no transition or
+ * animation of any kind (see CursorMark above and the lack of a `transition`
+ * on the wrapper below) — an instant 1:1 echo of the pointer is the same
+ * "motion" a native OS cursor already produces, which reduced-motion has
+ * never applied to.
+ */
 const CursorEffects = () => {
-  const [pos, setPos] = useState({ x: -100, y: -100 });
-  const [trail, setTrail] = useState<TrailDot[]>([]);
-  const [scrollPercent, setScrollPercent] = useState(0);
-  const lastPos = useRef({ x: -100, y: -100 });
-
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    const { clientX: x, clientY: y } = e;
-    setPos({ x, y });
-
-    const last = lastPos.current;
-    const dist = Math.hypot(x - last.x, y - last.y);
-    if (dist > 12) {
-      lastPos.current = { x, y };
-      setTrail((prev) => [...prev.slice(-14), { id: dotId++, x, y }]);
-    }
-  }, []);
-
-  // Subpages scroll the document itself, but the homepage's real content
-  // lives inside Index.tsx's own `overflow-y-auto h-screen` container —
-  // the document there never grows taller than the viewport, so
-  // window.scrollY stays 0 no matter how far the user scrolls. CursorEffects
-  // is a global component mounted on every page and has no ref into that
-  // container, so rather than hardcoding a selector for it, a capture-phase
-  // "scroll" listener on window sees scroll events from ANY descendant
-  // (scroll doesn't bubble, but the capture phase still reaches window) and
-  // e.target tells us which element actually scrolled.
-  const scrollSourceRef = useRef<Element | null>(null);
-
-  const computeProgress = useCallback((el: Element) => {
-    const scrollable = el.scrollHeight - el.clientHeight;
-    const pct = scrollable > 0 ? (el.scrollTop / scrollable) * 100 : 0;
-    setScrollPercent(Math.min(100, Math.max(0, pct)));
-  }, []);
-
-  const handleScroll = useCallback((e?: Event) => {
-    const doc = document.documentElement;
-    if (doc.scrollHeight - doc.clientHeight > 1) {
-      // The document itself scrolls (every subpage) — always prefer this,
-      // so it can never be confused by some unrelated nested scroll box.
-      scrollSourceRef.current = doc;
-      computeProgress(doc);
-      return;
-    }
-    // Document isn't the scroller. Accept the event's target only if it's
-    // plausibly the full-page shell — a large, viewport-height-ish
-    // scrollable region — not an incidental widget (a dropdown, a
-    // horizontally-scrolling code block, …) that also happens to scroll.
-    const target = e?.target instanceof Element ? e.target : scrollSourceRef.current;
-    if (
-      target &&
-      target.scrollHeight - target.clientHeight > 1 &&
-      target.clientHeight >= window.innerHeight * 0.9
-    ) {
-      scrollSourceRef.current = target;
-      computeProgress(target);
-    }
-  }, [computeProgress]);
+  const hasFinePointer = useHasFinePointer();
+  const markerRef = useRef<HTMLDivElement>(null);
+  const posRef = useRef({ x: -100, y: -100 });
+  const frameRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const handleResize = () => handleScroll();
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("scroll", handleScroll, { passive: true, capture: true });
-    window.addEventListener("resize", handleResize, { passive: true });
-    handleScroll();
+    if (!hasFinePointer) return;
+
+    const applyPosition = () => {
+      frameRef.current = null;
+      const el = markerRef.current;
+      if (el) el.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0)`;
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      posRef.current = { x: e.clientX, y: e.clientY };
+      if (frameRef.current === null) {
+        frameRef.current = requestAnimationFrame(applyPosition);
+      }
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("scroll", handleScroll, { capture: true });
-      window.removeEventListener("resize", handleResize);
+      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
     };
-  }, [handleMouseMove, handleScroll]);
+  }, [hasFinePointer]);
 
-  const size = 28;
-  const thickness = 1.5;
+  if (!hasFinePointer) return null;
 
   return (
-    <>
-      <div className="fixed inset-0 z-[9999] pointer-events-none">
-        {/* Trail dots */}
-        {trail.map((dot, i) => {
-          const opacity = ((i + 1) / trail.length) * 0.4;
-          const dotSize = 2 + ((i + 1) / trail.length) * 2;
-          return (
-            <div
-              key={dot.id}
-              className="absolute rounded-full bg-brand-orange"
-              style={{
-                left: dot.x - dotSize / 2,
-                top: dot.y - dotSize / 2,
-                width: dotSize,
-                height: dotSize,
-                opacity,
-                transition: "opacity 0.3s ease-out",
-              }}
-            />
-          );
-        })}
-
-        {/* Crosshair - horizontal */}
-        <div
-          className="absolute bg-brand-orange"
-          style={{
-            left: pos.x - size / 2,
-            top: pos.y - thickness / 2,
-            width: size,
-            height: thickness,
-          }}
-        />
-        {/* Crosshair - vertical */}
-        <div
-          className="absolute bg-brand-orange"
-          style={{
-            left: pos.x - thickness / 2,
-            top: pos.y - size / 2,
-            width: thickness,
-            height: size,
-          }}
-        />
-        {/* Center dot */}
-        <div
-          className="absolute rounded-full bg-brand-orange"
-          style={{
-            left: pos.x - 2,
-            top: pos.y - 2,
-            width: 4,
-            height: 4,
-          }}
-        />
+    <div className="fixed inset-0 z-[9999] pointer-events-none">
+      <div
+        ref={markerRef}
+        className="absolute top-0 left-0"
+        style={{ transform: "translate3d(-100px, -100px, 0)", willChange: "transform" }}
+      >
+        <CursorMark />
       </div>
-
-      {/* Custom scrollbar — a compact, top-anchored progress meter rather
-          than a near-full-height bar. top-32 clears the navbar (~20px
-          padding + content, desktop rest state); a fixed h-48 (instead of
-          a bottom offset) keeps its bottom edge at a constant ~320px from
-          the top of the viewport, comfortably above the Footer's own
-          reveal band (it slides up to cover ~32vh, i.e. ~245-350px on
-          common desktop heights) — so it can stay visible and reach 100%
-          while scrolling through the Footer without ever sitting on top
-          of it, no fade needed. */}
-      <div className="fixed top-32 right-4 h-48 w-2 z-50 rounded-full overflow-hidden bg-muted/80">
-        <motion.div
-          className="w-full rounded-full bg-brand-orange"
-          style={{ height: `${scrollPercent}%` }}
-          transition={{ duration: 0.1 }}
-        />
-      </div>
-    </>
+    </div>
   );
 };
 

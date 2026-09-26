@@ -6,6 +6,7 @@ import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import CursorEffects from "@/components/CursorEffects";
 import Index from "./pages/Index.tsx";
 import ProjectWebdesign from "./pages/ProjectWebdesign.tsx";
 import ProjectDesignIdentity from "./pages/ProjectDesignIdentity.tsx";
@@ -27,6 +28,9 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      {/* Single, route-independent mount — self-gates on real pointer/hover
+          capability (see CursorEffects.tsx), so no page needs its own copy. */}
+      <CursorEffects />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />

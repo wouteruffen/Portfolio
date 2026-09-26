@@ -6,7 +6,7 @@ import NavbarV2 from "@/components/v2/NavbarV2";
 import FooterV2 from "@/components/v2/FooterV2";
 import SubpageGridBackground from "@/components/v2/SubpageGridBackground";
 import SubpageHeaderSection from "@/components/v2/SubpageHeaderSection";
-import CursorEffects from "@/components/CursorEffects";
+import ScrollProgressIndicator from "@/components/ScrollProgressIndicator";
 import { getHomeReturnHref } from "@/lib/homepageScroll";
 import aboutPortrait from "@/assets/about-portrait.jpg";
 import { SECTION_TITLE_CLASS } from "@/lib/sectionTitle";
@@ -35,7 +35,7 @@ const OverMijPage = () => {
 
   return (
     <>
-      <CursorEffects />
+      <ScrollProgressIndicator />
       <div className="min-h-screen bg-background text-foreground">
         <NavbarV2 forceSolid />
 

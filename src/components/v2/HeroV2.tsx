@@ -24,8 +24,16 @@ const HeroV2 = ({ scrollContainerRef }: HeroV2Props) => {
   const contentOpacity = useTransform(heroScroll, [0, 0.35], [1, 0]);
 
   return (
-    <section ref={sectionRef} style={{ minHeight: "300vh", zIndex: 1 }} className="relative">
-      <div className="sticky top-0 h-screen overflow-hidden">
+    // The outer section is 300vh tall so the sticky panel below can stay
+    // pinned for the whole scroll-jack duration, but only that inner 100vh
+    // panel is ever actually visible — the rest of this box is empty space
+    // sitting in front (in scroll order / z-index) of whatever comes next.
+    // Without pointer-events:none here, that empty space would still
+    // hit-test as this section and swallow clicks meant for content behind
+    // it. The inner sticky panel opts back into pointer-events since it's
+    // the part that's genuinely on screen.
+    <section ref={sectionRef} style={{ minHeight: "300vh", zIndex: 1 }} className="relative pointer-events-none">
+      <div className="sticky top-0 h-screen overflow-hidden pointer-events-auto">
 
       <motion.div
         initial={{ scale: 1.1 }}

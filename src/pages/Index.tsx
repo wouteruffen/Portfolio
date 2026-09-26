@@ -9,7 +9,7 @@ import { useSmoothScroll } from "@/lib/useSmoothScroll";
 import { consumeHomepageScroll, saveHomepageScroll, peekHomepageScroll } from "@/lib/homepageScroll";
 import { useIsPhoneLayout } from "@/hooks/use-mobile";
 import NavbarV2 from "@/components/v2/NavbarV2";
-import CursorEffects from "@/components/CursorEffects";
+import ScrollProgressIndicator from "@/components/ScrollProgressIndicator";
 import HeroV2 from "@/components/v2/HeroV2";
 import AboutV2 from "@/components/v2/AboutV2";
 import ProjectsV2 from "@/components/v2/ProjectsV2";
@@ -174,9 +174,11 @@ const Index = () => {
   return (
     <>
       <LoadingScreen isLoading={isLoading} />
-      {/* Cursor trail + custom scrollbar are mouse/desktop-only decoration —
-          invisible (and pointless) on a touchscreen, so skip mounting them. */}
-      {!isPhoneLayout && <CursorEffects />}
+      {/* The custom scrollbar is desktop/tablet-only decoration — invisible
+          (and pointless) on a touchscreen, so skip mounting it. The custom
+          cursor itself is mounted once globally in App.tsx and gates on
+          real pointer/hover capability instead. */}
+      {!isPhoneLayout && <ScrollProgressIndicator />}
       {/* The giant scroll-shrinking wordmark is desktop-Hero-specific;
           both phone layouts get their own small static logo inside
           MobileHero instead. */}

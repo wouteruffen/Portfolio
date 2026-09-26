@@ -80,6 +80,15 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
         snap. After that, the pin gradually exits (another 100vh). The footer
         is NOT inside either — it lives as position:fixed below, so the sticky
         pin's exit cannot pull it away.
+
+        Only that inner 100vh pin is ever actually visible — the rest of this
+        200vh box is empty space sitting in front (in DOM order / z-index) of
+        the previous section during the -100vh overlap. Without
+        pointer-events:none here, that empty space would hit-test as this box
+        and swallow clicks meant for the still-visible content behind it. The
+        sticky pin opts back into pointer-events since it's the part
+        genuinely on screen (its descendants, including the transformed
+        section below, inherit that back).
       */}
       <div
         ref={outerRef}
@@ -88,6 +97,7 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
           marginTop: "-100vh",
           position: "relative",
           zIndex: 46,
+          pointerEvents: "none",
         }}
       >
         {/*
@@ -102,6 +112,7 @@ const ContactV2 = ({ scrollContainerRef }: ContactV2Props) => {
             top: 0,
             height: "100vh",
             zIndex: 46,
+            pointerEvents: "auto",
           }}
         >
           <motion.section
