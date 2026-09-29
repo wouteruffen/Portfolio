@@ -93,5 +93,12 @@ export function useSmoothScroll(containerRef: RefObject<HTMLDivElement>, enabled
     container.scrollTop = clamped;
   }, [containerRef]);
 
-  return { scrollTo, jumpTo };
+  // targetYRef/rafRef are exposed read-only for consumers (ProjectsV2) that
+  // need to tell fresh wheel input apart from the LERP still coasting
+  // toward an earlier target — rafRef.current is non-null for exactly as
+  // long as that coasting is in progress, and targetYRef.current only
+  // changes when a real wheel event (or scrollTo/jumpTo) sets a new target.
+  // No behavior of this hook changes; these are the same refs it already
+  // maintains internally.
+  return { scrollTo, jumpTo, targetYRef, rafRef };
 }

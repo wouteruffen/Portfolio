@@ -81,7 +81,7 @@ const Index = () => {
   // (portrait or landscape) use native touch scrolling — wheel events never
   // fire from touch input anyway — so the listener is skipped entirely
   // rather than registered as dead weight.
-  const { scrollTo, jumpTo } = useSmoothScroll(scrollRef, !isPhoneLayout);
+  const { scrollTo, jumpTo, targetYRef, rafRef } = useSmoothScroll(scrollRef, !isPhoneLayout);
 
   useEffect(() => {
     let cancelled = false;
@@ -235,7 +235,7 @@ const Index = () => {
           <>
             <HeroV2 scrollContainerRef={scrollRef} />
             <AboutV2 scrollContainerRef={scrollRef} aboutTopRef={aboutTopRef} />
-            <ProjectsV2 scrollContainerRef={scrollRef} snapScrollTo={scrollTo} />
+            <ProjectsV2 scrollContainerRef={scrollRef} scrollTargetRef={targetYRef} scrollAnimatingRef={rafRef} />
             <ContactV2 scrollContainerRef={scrollRef} />
           </>
         )}
