@@ -16,19 +16,22 @@ const CARD_H_VH = 42;
 
 // Scroll-range mapping for the section's threshold logic (see the outer
 // wrapper below for how these become the actual section height). Expressed
-// as absolute vh distances rather than raw fractions so the two can be
-// tuned independently: PROJECT_GAP_VH is exactly how much scroll it takes
-// to trigger each project-to-project transition (unchanged from before),
-// while FINAL_DWELL_VH is purely extra resting room on the last project
-// before the section releases into Contact — growing it never touches the
-// former. Thresholds are derived from these, not hardcoded, so they can
-// never drift out of sync with the wrapper height.
-const PROJECT_GAP_VH  = 90;  // same physical distance as before this change
-const FINAL_DWELL_VH  = 300; // was ~180vh; now noticeably more breathing room
-const WRAPPER_HEIGHT_VH = PROJECT_GAP_VH * 3 + FINAL_DWELL_VH;
-const THRESHOLD_1 = PROJECT_GAP_VH / WRAPPER_HEIGHT_VH;
-const THRESHOLD_2 = (PROJECT_GAP_VH * 2) / WRAPPER_HEIGHT_VH;
-const THRESHOLD_3 = (PROJECT_GAP_VH * 3) / WRAPPER_HEIGHT_VH;
+// as absolute vh distances rather than raw fractions so all three can be
+// tuned independently: INITIAL_DWELL_VH is extra resting room on the FIRST
+// project before it can start its own exit; PROJECT_GAP_VH is exactly how
+// much scroll it takes to trigger each project-to-project transition
+// (2→3→4, unaffected by either dwell); FINAL_DWELL_VH is extra resting room
+// on the LAST project before the section releases into Contact. Thresholds
+// are derived from these, not hardcoded, so they can never drift out of
+// sync with the wrapper height — growing one dwell shifts where the
+// thresholds SIT but never changes the 90vh gap BETWEEN them.
+const INITIAL_DWELL_VH = 45;  // was 0 — Project 1 now gets 45vh more runway before it can exit
+const PROJECT_GAP_VH   = 90;  // same physical distance as before this change
+const FINAL_DWELL_VH   = 345; // was 300 — 45vh more breathing room on the last project
+const WRAPPER_HEIGHT_VH = INITIAL_DWELL_VH + PROJECT_GAP_VH * 3 + FINAL_DWELL_VH;
+const THRESHOLD_1 = (INITIAL_DWELL_VH + PROJECT_GAP_VH)     / WRAPPER_HEIGHT_VH;
+const THRESHOLD_2 = (INITIAL_DWELL_VH + PROJECT_GAP_VH * 2) / WRAPPER_HEIGHT_VH;
+const THRESHOLD_3 = (INITIAL_DWELL_VH + PROJECT_GAP_VH * 3) / WRAPPER_HEIGHT_VH;
 
 // Discrete-transition tuning. At most two cards are ever mounted at rest —
 // the active one and a dimmed preview of the next one sitting below it in
@@ -265,19 +268,19 @@ const ProjectsV2 = ({ scrollContainerRef, scrollTargetRef, scrollAnimatingRef }:
       ref={outerRef}
       // This wrapper's own box is how long the sticky panel below stays
       // pinned, and its height is now WRAPPER_HEIGHT_VH — derived from
-      // PROJECT_GAP_VH (90vh, unchanged) and FINAL_DWELL_VH (300vh, was
-      // ~180vh) above, rather than a single hardcoded number with separate
-      // threshold fractions. That's what makes it possible to grow only the
-      // tail: PROJECT_GAP_VH stays fixed, so THRESHOLD_1/2/3 (fractions of
-      // the new, larger total) still land at exactly the same absolute vh
-      // distance apart — only the leftover space after THRESHOLD_3 grows.
-      // See the report for this change's one known side effect (carried
-      // over from the previous height change, and now partially reduced by
-      // this one): NavbarV2.tsx's own hardcoded nav-click scroll target for
-      // Contact assumes a fixed contribution from this section's height and
-      // is off by the current difference from its original 650vh baseline —
-      // left alone since NavbarV2 is out of scope here, but flagged rather
-      // than silently leaving it.
+      // INITIAL_DWELL_VH (45vh), PROJECT_GAP_VH (90vh, unchanged) and
+      // FINAL_DWELL_VH (345vh) above, rather than a single hardcoded number
+      // with separate threshold fractions. That's what makes it possible to
+      // grow only the head/tail: PROJECT_GAP_VH stays fixed, so the absolute
+      // vh distance BETWEEN THRESHOLD_1/2/3 never changes — only Project 1's
+      // own runway before its first exit, and the resting room after
+      // THRESHOLD_3, grow independently of that gap.
+      // Known side effect (carried over from earlier height changes):
+      // NavbarV2.tsx's own hardcoded nav-click scroll target for Contact
+      // assumes a fixed contribution from this section's height and is off
+      // by the current difference from its original 650vh baseline — left
+      // alone since NavbarV2 is out of scope here, but flagged rather than
+      // silently leaving it.
       style={{ height: `${WRAPPER_HEIGHT_VH}vh`, marginTop: "-100vh", position: "relative", zIndex: 44, pointerEvents: "none" }}
     >
       <motion.section

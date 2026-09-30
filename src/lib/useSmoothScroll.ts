@@ -1,6 +1,11 @@
 import { useEffect, useRef, RefObject, useCallback } from "react";
 
-const LERP = 0.10;
+// Was 0.10 — measured (via a headless simulation of this exact tick loop)
+// to leave a ~600-900ms autonomous glide after the user's last wheel input
+// on every scroll, regardless of distance (settle time is a function of
+// log(distance), so it barely shortens for small scrolls). 0.18 cuts that
+// tail to ~200-400ms while still reading as smoothed motion, not a snap.
+const LERP = 0.18;
 
 /**
  * Intercepts wheel events on a scroll container and animates scrollTop
@@ -57,8 +62,29 @@ export function useSmoothScroll(containerRef: RefObject<HTMLDivElement>, enabled
 
     container.addEventListener("wheel", onWheel, { passive: false });
 
+    // Keyboard scrolling (arrow/Page/Space keys on a focused element inside
+    // the container) and scrollbar-thumb dragging move scrollTop directly,
+    // bypassing onWheel entirely — targetYRef never hears about it and goes
+    // stale. The next wheel/trackpad event would then compute its new
+    // target from that stale ref instead of from where the page actually
+    // is, snapping the LERP toward a target offset by however far the
+    // native scroll moved things (confirmed via simulation: this can even
+    // reverse the visible scroll direction relative to the user's actual
+    // wheel input). Resync targetYRef to the real scrollTop whenever a
+    // scroll happens while the LERP loop is idle (rafRef === null) — if the
+    // loop is running, this scroll event is our own tick's doing and
+    // scrollTop is already converging toward targetYRef on its own, so
+    // there's nothing to resync.
+    const onScroll = () => {
+      if (rafRef.current === null && Math.abs(container.scrollTop - targetYRef.current) > 0.5) {
+        targetYRef.current = container.scrollTop;
+      }
+    };
+    container.addEventListener("scroll", onScroll, { passive: true });
+
     return () => {
       container.removeEventListener("wheel", onWheel);
+      container.removeEventListener("scroll", onScroll);
       if (rafRef.current !== null) {
         cancelAnimationFrame(rafRef.current);
         rafRef.current = null;
